@@ -50,6 +50,9 @@ LOGGER = logging.getLogger(__name__)
 
 FINAL_COLUMNS = [
     'event_id', 'dedup_cluster_id', 'event_date_ad', 'district', 'province', 'municipality',
+    # Operator decisions, recorded per event so the methods section can state
+    # them. See unify/event_typing.py.
+    'event_type', 'extraction_basis',
     'cluster_size', 'sources_json', 'representative_url', 'representative_source',
     'representative_title', 'trigger', 'deaths', 'missing', 'injured',
     'conf_date', 'conf_class', 'specificity_reason', 'in_nepal', 'scope_reason',
@@ -104,7 +107,20 @@ def build_final_rows(connection) -> list[dict[str, Any]]:
     is part of how that file was confirmed reproducible.
     """
 
-    query = """
+    # event_type / extraction_basis are added by the event_typing stage. Export
+    # must still work on a database where that stage has not run yet, rather
+    # than failing with "no such column".
+    typed = {row[1] for row in connection.execute('PRAGMA table_info(canonical_events)')}
+    type_select = (
+        "COALESCE(ce.event_type, 'landslide') AS event_type,"
+        if 'event_type' in typed else "'landslide' AS event_type,"
+    )
+    basis_select = (
+        "COALESCE(ce.extraction_basis, 'full_text') AS extraction_basis,"
+        if 'extraction_basis' in typed else "'full_text' AS extraction_basis,"
+    )
+
+    query = f"""
         SELECT ce.event_id                     AS event_id,
                ce.dedup_cluster_id             AS dedup_cluster_id,
                ce.event_date_ad                AS event_date_ad,
@@ -115,6 +131,8 @@ def build_final_rows(connection) -> list[dict[str, Any]]:
                ce.ward_candidates_json         AS ward_candidates_json,
                ce.place_name_candidates_json   AS place_name_candidates_json,
                ce.event_payload                AS event_payload,
+               {type_select}
+               {basis_select}
                cs.size                         AS cluster_size,
                cs.sources                      AS sources_json,
                ae.url                          AS representative_url,

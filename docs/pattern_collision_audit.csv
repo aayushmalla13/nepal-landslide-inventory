@@ -1,88 +1,85 @@
 pattern_list,pattern,pattern_len,matched,dropped_via_reason,suspect_false_negatives,collision_rate,severity,example_suspect_title
-METAPHOR_PATTERNS,by landslide,12,195,175,128,0.7314,critical,"1,500 houses damaged due to landslide and floods in Kalikot - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-FOLLOWUP_PATTERNS,सञ्चालनमा,9,243,179,93,0.5196,critical,"मुग्लिन-नारायणगढ खण्डमा पहिरो झर्न रोकिएन, सडक अवरूद्ध – Online Khabar"
-FOLLOWUP_PATTERNS,खुल्यो,6,171,63,37,0.5873,high,चार दिनपछि खुल्यो बेनी–जोमसोम सडक – Online Khabar
-FOLLOWUP_PATTERNS,खुलेको,6,111,79,35,0.443,high,नारायणगढ–मुग्लिन सडक अझै अवरुद्ध – Online Khabar
-ROUNDUP_PATTERNS,अहिलेसम्म,9,202,103,21,0.2039,high,बीस वर्षदेखिको जुगेपानी पहिरोको सास्ती हट्यो – Online Khabar
+FOLLOWUP_PATTERNS,सञ्चालनमा,9,243,182,95,0.522,critical,"नारायणगढ-मुग्लिन सडकखण्ड तत्काल नखुल्ने, बिहान अवस्था हेरेर पहिरो पन्छाइने – Online Khabar"
+RISK_PATTERNS,high risk,9,139,86,41,0.4767,high,"16 VDCs of Bajura at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+FOLLOWUP_PATTERNS,खुल्यो,6,171,64,37,0.5781,high,चार दिनपछि खुल्यो बेनी–जोमसोम सडक – Online Khabar
+FOLLOWUP_PATTERNS,खुलेको,6,111,78,36,0.4615,high,नारायणगढ–मुग्लिन सडक अझै अवरुद्ध – Online Khabar
+RISK_PATTERNS,risk of landslides,18,90,61,33,0.541,high,"16 VDCs of Bajura at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,across the country,18,59,52,22,0.4231,high,"131 deaths from landslides, floods in one and half month - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,अहिलेसम्म,9,202,130,21,0.1615,high,बीस वर्षदेखिको जुगेपानी पहिरोको सास्ती हट्यो – Online Khabar
 FOLLOWUP_PATTERNS,पन्छाएपछि,9,45,36,20,0.5556,high,नारायणगढ–मुग्लिन सडकखण्ड एकतर्फी सञ्चालनमा – Online Khabar
-RISK_PATTERNS,high risk,9,139,62,19,0.3065,medium,"16 VDCs of Bajura at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-RISK_PATTERNS,risk of landslides,18,90,44,18,0.4091,medium,"16 VDCs of Bajura at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-RISK_PATTERNS,पहिरोको जोखिम,13,121,60,17,0.2833,medium,बेनी–दरबाङ सडकको फापरखेतमा सधैँ पहिरो – Online Khabar
-ROUNDUP_PATTERNS,कुल,3,236,88,17,0.1932,medium,रामेछापको फर्पुमा पहिरोमा परी ३ जनाको मृत्यु – Online Khabar
-FOLLOWUP_PATTERNS,अपडेट,5,208,58,16,0.2759,medium,अपडेट : ११ घण्टा लगाएर कालीखोलाको पहिरो हटाएपछि दुईतर्फी सडक खुल्‍यो – Online Khabar
-ROUNDUP_PATTERNS,death toll reaches,18,19,17,14,0.8235,medium,"Achham Landslides: Death toll reaches 22 - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-RISK_PATTERNS,उच्च जोखिम,10,105,57,14,0.2456,medium,संखुवासभामा पहिरोले तीन घर बगायो – Online Khabar
-RISK_PATTERNS,भारी वर्षा,10,93,35,13,0.3714,medium,"पहिरोले कर्णाली राजमार्गको ६ ठाउँ अवरुद्ध, यात्रु अलपत्र – Online Khabar"
-ROUNDUP_PATTERNS,across the country,18,59,36,13,0.3611,medium,"20 killed in floods, landslides in past nine days, 3,258 people displaced - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-RISK_PATTERNS,at high risk of landslide,25,56,33,11,0.3333,medium,"16 VDCs of Bajura at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-CONTEXT_ONLY_PATTERNS,affected people,15,21,13,9,0.6923,medium,"50 houses facing high risk of landslide - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+RISK_PATTERNS,at high risk of landslide,25,56,43,20,0.4651,high,"16 VDCs of Bajura at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,कुल,3,236,143,19,0.1329,medium,रामेछापको फर्पुमा पहिरोमा परी ३ जनाको मृत्यु – Online Khabar
+FOLLOWUP_PATTERNS,अपडेट,5,208,65,18,0.2769,medium,अपडेट : ११ घण्टा लगाएर कालीखोलाको पहिरो हटाएपछि दुईतर्फी सडक खुल्‍यो – Online Khabar
+RISK_PATTERNS,पहिरोको जोखिम,13,121,62,17,0.2742,medium,बेनी–दरबाङ सडकको फापरखेतमा सधैँ पहिरो – Online Khabar
+ROUNDUP_PATTERNS,death toll reaches,18,19,18,15,0.8333,medium,"Achham Landslides: Death toll reaches 22 - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+RISK_PATTERNS,भारी वर्षा,10,93,33,12,0.3636,medium,"पहिरोले कर्णाली राजमार्गको ६ ठाउँ अवरुद्ध, यात्रु अलपत्र – Online Khabar"
+RISK_PATTERNS,उच्च जोखिम,10,105,56,12,0.2143,medium,संखुवासभामा पहिरोले तीन घर बगायो – Online Khabar
+CONTEXT_ONLY_PATTERNS,affected people,15,21,16,11,0.6875,medium,"50 houses facing high risk of landslide - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,हटाएपछि,7,23,21,9,0.4286,medium,अपडेट : ११ घण्टा लगाएर कालीखोलाको पहिरो हटाएपछि दुईतर्फी सडक खुल्‍यो – Online Khabar
-METAPHOR_PATTERNS,विजय,4,57,28,9,0.3214,medium,"नारायणगढ-मुग्लिन सडकखण्ड तत्काल नखुल्ने, बिहान अवस्था हेरेर पहिरो पन्छाइने – Online Khabar"
-ROUNDUP_PATTERNS,हालसम्म,7,107,47,8,0.1702,medium,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
+ROUNDUP_PATTERNS,हालसम्म,7,107,68,9,0.1324,medium,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
+CONTEXT_ONLY_PATTERNS,पहिरो नियन्त्रण,15,48,27,8,0.2963,medium,बीस वर्षदेखिको जुगेपानी पहिरोको सास्ती हट्यो – Online Khabar
 FOREIGN_TERMS,india,5,1078,103,8,0.0777,medium,"4,000 landslides in Sindhupalchowk: Report - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,पुनः सञ्चालन,12,16,14,7,0.5,medium,अपडेट: पहिरो पन्छाइएपछि पृथ्वी राजमार्ग सञ्चालनमा | Nepal's first 24-hour updated news portal - Ratopati
-RISK_PATTERNS,सतर्कता,7,42,16,7,0.4375,medium,"नुवाकोटमा पहिरोले एक विद्यालय र तीन घरमा क्षति, पाँच घर जोखिममा – Online Khabar"
-CONTEXT_ONLY_PATTERNS,पहिरो नियन्त्रण,15,48,23,7,0.3043,medium,बीस वर्षदेखिको जुगेपानी पहिरोको सास्ती हट्यो – Online Khabar
-FOLLOWUP_PATTERNS,शव फेला,7,143,128,7,0.0547,medium,बाढीपहिरोमा परी बेपत्ता भएकाहरूको खोजी र राहतमा जुट्न प्रधानमन्त्री प्रचण्डको निर्देशन
+ROUNDUP_PATTERNS,देशभर,5,104,68,7,0.1029,medium,"राजमार्गमा व्यापक क्षति, राजधानी–मोफसलको सम्पर्क टुट्यो – Online Khabar"
+FOLLOWUP_PATTERNS,शव फेला,7,143,130,7,0.0538,medium,बाढीपहिरोमा परी बेपत्ता भएकाहरूको खोजी र राहतमा जुट्न प्रधानमन्त्री प्रचण्डको निर्देशन
+ROUNDUP_PATTERNS,various districts,17,10,8,6,0.75,medium,"30 dead, thousands displaced - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,सञ्चालनमा आउने,14,16,13,6,0.4615,medium,अब असोजसम्म गुड्दैनन् बागलुङका ग्रामीण सडकमा गाडी – Online Khabar
-CONTEXT_ONLY_PATTERNS,बजेट,4,76,25,6,0.24,medium,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
-FOLLOWUP_PATTERNS,खुलेन,5,10,7,5,0.7143,medium,"पहिरो नरोकिएपछि भीमदत्त राजमार्ग अझै खुलेन, सुदूरपश्चिमका ७ जिल्ला प्रभावित – Online Khabar"
-CONTEXT_ONLY_PATTERNS,पुनर्निर्माण,12,35,16,5,0.3125,medium,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
-ROUNDUP_PATTERNS,toll rises to,13,12,6,4,0.6667,ok,"Baglung landslide death toll rises to eight - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-ROUNDUP_PATTERNS,various districts,17,10,6,4,0.6667,ok,"90 thousand families affected due to flood, landslide and inundation: NRCS - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-RISK_PATTERNS,warning,7,35,13,4,0.3077,review_short_pattern,"Devastating Floods and Landslides in Nepal: Costly Lessons for Future - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-METAPHOR_PATTERNS,निर्वाचन,8,217,16,4,0.25,review_short_pattern,"चल्यो अरनिको राजमार्ग, प्राविधिक र उपकरण परिचालन निरन्तर – Online Khabar"
-ROUNDUP_PATTERNS,मृत्यु हुनेको संख्या,20,45,25,4,0.16,ok,लमजुङ पहिरो : मृत्यु हुनेको संख्या चार पुग्यो
-ROUNDUP_PATTERNS,देशभर,5,104,44,4,0.0909,review_short_pattern,"राजमार्गमा व्यापक क्षति, राजधानी–मोफसलको सम्पर्क टुट्यो – Online Khabar"
-METAPHOR_PATTERNS,constituency,12,11,5,3,0.6,ok,"Landslide blocks Tamor River - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-ROUNDUP_PATTERNS,death toll rises to,19,11,5,3,0.6,ok,"Baglung landslide death toll rises to eight - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-CONTEXT_ONLY_PATTERNS,चुनौती,6,65,16,3,0.1875,review_short_pattern,"नागढुंगा सुरुङ : सकियो पूर्वाधारको काम, प्रवेशद्वारमै पहिरोको चुनौती – Online Khabar"
+CONTEXT_ONLY_PATTERNS,बजेट,4,76,48,6,0.125,medium,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
+FOLLOWUP_PATTERNS,खुलेन,5,10,8,5,0.625,medium,"पहिरो नरोकिएपछि भीमदत्त राजमार्ग अझै खुलेन, सुदूरपश्चिमका ७ जिल्ला प्रभावित – Online Khabar"
+RISK_PATTERNS,सतर्कता,7,42,13,5,0.3846,medium,"नुवाकोटमा पहिरोले एक विद्यालय र तीन घरमा क्षति, पाँच घर जोखिममा – Online Khabar"
+CONTEXT_ONLY_PATTERNS,पुनर्निर्माण,12,35,19,5,0.2632,medium,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
+ROUNDUP_PATTERNS,मृत्यु हुनेको संख्या,20,45,27,5,0.1852,medium,"पहिरो खस्या खस्यै, अनुसन्धान गर्ने निकाय खारेज"
+CONTEXT_ONLY_PATTERNS,चुनौती,6,65,46,5,0.1087,medium,"१९ घण्टादेखि नारायणगढ-मुग्लिन सडकखण्ड अवरुद्ध, पहिरो पन्छाउनै मुस्किल – Online Khabar"
+ROUNDUP_PATTERNS,toll rises to,13,12,7,4,0.5714,ok,"Baglung landslide death toll rises to eight - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,overall,7,13,8,4,0.5,review_short_pattern,"16 succumb to floods and landslides across the country, 23 still missing - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,reconstruction,14,17,12,4,0.3333,ok,"Doyal and Payau villages of Gorkha at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+RISK_PATTERNS,warning,7,35,12,4,0.3333,review_short_pattern,"Devastating Floods and Landslides in Nepal: Costly Lessons for Future - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,permanent solution,18,5,3,3,1.0,ok,"Lawmakers for permanent solution to floods, landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,control landslide,17,9,6,3,0.5,ok,"Fear of landslide grips villagers in Beni ahead of monsoon - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,control landslides,18,8,6,3,0.5,ok,"Fear of landslide grips villagers in Beni ahead of monsoon - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,death toll rises to,19,11,6,3,0.5,ok,"Baglung landslide death toll rises to eight - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,सनाखत,5,35,32,3,0.0938,review_short_pattern,"बाग्लुङ पहिरो : बेपत्ताको पहिचान भयो, शव चिन्नै मुश्किल"
-FOREIGN_TERMS,भारत,4,143,39,3,0.0769,review_short_pattern,चालक-सहचालक मिलेर पन्छाए पहिरो – Online Khabar
-CONTEXT_ONLY_PATTERNS,permanent solution,18,5,2,2,1.0,ok,"Lawmakers for permanent solution to floods, landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+FOREIGN_TERMS,भारत,4,143,40,3,0.075,review_short_pattern,चालक-सहचालक मिलेर पन्छाए पहिरो – Online Khabar
 FOLLOWUP_PATTERNS,highway reopens,15,2,2,2,1.0,ok,"Landslide-obstructed Tribhuvan Highway reopens - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 ROUNDUP_PATTERNS,over the last,13,8,3,2,0.6667,ok,"Landslide disrupts Maldhunga-Beni road - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-CONTEXT_ONLY_PATTERNS,mitigation,10,14,4,2,0.5,review_short_pattern,"Landslide victims seek long-term solution - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-CONTEXT_ONLY_PATTERNS,control landslide,17,9,5,2,0.4,ok,"Fear of landslide grips villagers in Beni ahead of monsoon - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-CONTEXT_ONLY_PATTERNS,control landslides,18,8,5,2,0.4,ok,"Fear of landslide grips villagers in Beni ahead of monsoon - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,mitigation,10,14,5,2,0.4,review_short_pattern,"Landslide victims seek long-term solution - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,पन्छाइएपछि,10,5,5,2,0.4,review_short_pattern,अपडेट: पहिरो पन्छाइएपछि पृथ्वी राजमार्ग सञ्चालनमा | Nepal's first 24-hour updated news portal - Ratopati
-ROUNDUP_PATTERNS,overall,7,13,5,2,0.4,review_short_pattern,"PM Dahal inspects landslide hit areas in Pyuthan - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 ROUNDUP_PATTERNS,toll climbs to,14,5,5,2,0.4,ok,"Death toll climbs to 18 in Lidi landslide as seven more bodies recovered on Saturday - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,हटाइयो,6,7,6,2,0.3333,review_short_pattern,"दाउन्नेमा पहिरो, पूर्वपश्चिम राजमार्ग एकतर्फी सञ्‍चालन – Online Khabar"
-CONTEXT_ONLY_PATTERNS,reconstruction,14,17,8,2,0.25,ok,"Doyal and Payau villages of Gorkha at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOREIGN_TERMS,tibet,5,14,8,2,0.25,review_short_pattern,"Fear of flash flood downstream as massive landslide blocks Tamakoshi River on the Chinese side of the border - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Ar"
-RISK_PATTERNS,पूर्वानुमान,11,32,12,2,0.1667,review_short_pattern,"बाढी पहिरोबाट देशभर १७ जनाको मृत्यु, आइतबारसम्म लगातार पानी पर्ने"
+ROUNDUP_PATTERNS,देशभरि,6,12,9,2,0.2222,review_short_pattern,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
+CONTEXT_ONLY_PATTERNS,affects road transport,22,1,1,1,1.0,ok,"Vegetables rot on the farmland as landslide triggered by monsoon rainfall affects road transport - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Rep"
 CONTEXT_ONLY_PATTERNS,call for prompt relief,22,1,1,1,1.0,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 CONTEXT_ONLY_PATTERNS,drawn the attention of the government,37,1,1,1,1.0,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 CONTEXT_ONLY_PATTERNS,expresses sorrow,16,1,1,1,1.0,ok,"NC expresses sorrow over loss of life and property due to floods, landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 CONTEXT_ONLY_PATTERNS,lawmakers speaking in the meeting,33,1,1,1,1.0,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,vegetables rot,14,1,1,1,1.0,ok,"Vegetables rot on the farmland as landslide triggered by monsoon rainfall affects road transport - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Rep"
 CONTEXT_ONLY_PATTERNS,सञ्चालन अनिश्चित,16,1,1,1,1.0,ok,बीपी राजमार्ग सञ्चालन अनिश्चित | Nepal's first 24-hour updated news portal - Ratopati
 FOLLOWUP_PATTERNS,debris cleared,14,1,1,1,1.0,ok,"Prithvi Highway reopens after landslide debris cleared - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,landslide debris cleared,24,1,1,1,1.0,ok,"Prithvi Highway reopens after landslide debris cleared - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,victims get relief,18,1,1,1,1.0,ok,"Jure landslide victims get relief three yrs after disaster - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-METAPHOR_PATTERNS,vote count,10,9,1,1,1.0,review_short_pattern,Bagmati Province - The Kathmandu Post
-RISK_PATTERNS,experts warn,12,3,1,1,1.0,ok,"30 dead, thousands displaced - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 RISK_PATTERNS,houses at risk of being washed away,35,1,1,1,1.0,ok,"Over 150 houses in Bajura at risk of dry landslide - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-RISK_PATTERNS,पहिरो जान सक्ने,15,4,1,1,1.0,ok,"बाढी पहिरोबाट देशभर १७ जनाको मृत्यु, आइतबारसम्म लगातार पानी पर्ने"
 ROUNDUP_PATTERNS,in 10 years,11,1,1,1,1.0,review_short_pattern,"21 dead, 38 missing in floods and landslides in Sankhuwasabha in 10 years - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 ROUNDUP_PATTERNS,कहाँ कस्तो छ क्षति,18,1,1,1,1.0,ok,"बाढी पहिरोको कारण कोशी, मधेस र बागमती प्रदेशमा कहाँ कस्तो छ क्षति?"
 ROUNDUP_PATTERNS,प्रदेशमा कहाँ कस्तो,19,1,1,1,1.0,ok,"बाढी पहिरोको कारण कोशी, मधेस र बागमती प्रदेशमा कहाँ कस्तो छ क्षति?"
-ROUNDUP_PATTERNS,disaster incidents,18,4,2,1,0.5,ok,"Floods and landslides inflict damages worth Rs 16.5 billion - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,देशैभरि,7,3,2,1,0.5,review_short_pattern,"अविरल वर्षाले तराईमा डुबान, पहाडमा पहिरो"
 CONTEXT_ONLY_PATTERNS,expressed sorrow,16,3,3,1,0.3333,ok,"NC expresses sorrow over loss of life and property due to floods, landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 CONTEXT_ONLY_PATTERNS,meeting of the house of representatives,39,3,3,1,0.3333,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+METAPHOR_PATTERNS,vote count,10,9,3,1,0.3333,review_short_pattern,Bagmati Province - The Kathmandu Post
+ROUNDUP_PATTERNS,disaster incidents,18,4,3,1,0.3333,ok,"Floods and landslides inflict damages worth Rs 16.5 billion - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 ROUNDUP_PATTERNS,बाढीपहिरोमा परी मृत्यु हुनेको संख्या,36,3,3,1,0.3333,ok,बाढीपहिरोमा परी मृत्यु हुनेको संख्या २४४ पुग्यो
+CONTEXT_ONLY_PATTERNS,दुःख व्यक्त,11,12,4,1,0.25,review_short_pattern,प्रतिकुल मौसमले राजमार्ग प्रभावित–आन्तरिक उडान पनि ठप्प | Nepal's first 24-hour updated news portal - Ratopati
 FOLLOWUP_PATTERNS,सञ्चालनमा आयो,13,7,4,1,0.25,ok,मुग्लिन–नारायणगढ सडक विस्तारपछि सुरू भएको पहिरोको सास्ती – Online Khabar
 ROUNDUP_PATTERNS,this monsoon,12,13,5,1,0.2,ok,"18 killed, 20 missing and 11 injured due to floods, landslides in Sindhupalchowk in past three weeks - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles |"
-ROUNDUP_PATTERNS,देशभरि,6,12,5,1,0.2,review_short_pattern,"मनसुन लागिसक्यो, कहिले सकिन्छ क्षतिग्रस्त भीमदत्त राजमार्ग पुनर्निर्माण ? – Online Khabar"
-RISK_PATTERNS,चेतावनी,7,31,6,1,0.1667,review_short_pattern,"बाढी पहिरोबाट देशभर १७ जनाको मृत्यु, आइतबारसम्म लगातार पानी पर्ने"
+RISK_PATTERNS,risk of a landslide,19,9,6,1,0.1667,ok,"45 families at high risk of landslide - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOREIGN_TERMS,japan,5,14,8,1,0.125,review_short_pattern,"4,000 landslides in Sindhupalchowk: Report - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOLLOWUP_PATTERNS,पुन: सञ्चालन,12,11,9,1,0.1111,ok,पहिरो हटाएपछि नारायणगढ–मुग्लिन सडक पुन: सञ्चालन
 FOREIGN_TERMS,चीन,3,61,9,1,0.1111,review_short_pattern,बाढी-पहिरोका कारण काभ्रेमा अरनिको र बीपी राजमार्ग अवरुद्ध – Online Khabar
+RISK_PATTERNS,पूर्वानुमान,11,32,10,1,0.1,review_short_pattern,पहिरोले अवरुद्ध महाकाली र दशरथचन्द राजमार्ग सञ्चालनमा
 FOLLOWUP_PATTERNS,मृतकका परिवारलाई,16,14,11,1,0.0909,ok,जाजरकोटमा पहिरोको जोखिम : हालसम्म १४ जनाको ज्यान गयो
 RISK_PATTERNS,forecast,8,26,12,1,0.0833,review_short_pattern,"Landslide blocks Narayangadh-Mugling road stretch - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
 FOREIGN_TERMS,beijing,7,30,28,1,0.0357,review_short_pattern,"It was landslide dam outburst flood: ICIMOD expert - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
-DAMAGE_ONLY_PATTERNS,क्षति,5,588,45,1,0.0222,review_short_pattern,त्रासै त्रासमा दशैं यात्रा – Online Khabar
-CONTEXT_ONLY_PATTERNS,affects road transport,22,1,0,0,0.0,ok,
+DAMAGE_ONLY_PATTERNS,क्षति,5,588,44,1,0.0227,review_short_pattern,त्रासै त्रासमा दशैं यात्रा – Online Khabar
 CONTEXT_ONLY_PATTERNS,bio-engineering,15,2,1,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,blamed for poor,15,1,1,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,budget for flood,16,1,1,0,0.0,ok,
@@ -97,20 +94,18 @@ CONTEXT_ONLY_PATTERNS,poor slc results,16,1,1,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,"provide food, shelter and other relief materials",48,1,1,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,relief and rescue efforts effective,35,1,1,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,"those affected by floods, landslides and inundation",51,1,1,0,0.0,ok,
-CONTEXT_ONLY_PATTERNS,vegetables rot,14,1,0,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,क्षतिबारे जानकारी,17,6,2,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,खोजी र राहतमा जुट्न,19,1,0,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,गृहले भन्यो,11,2,1,0,0.0,review_short_pattern,
-CONTEXT_ONLY_PATTERNS,जोगिने,6,7,2,0,0.0,review_short_pattern,
-CONTEXT_ONLY_PATTERNS,दुःख व्यक्त,11,12,3,0,0.0,review_short_pattern,
+CONTEXT_ONLY_PATTERNS,जोगिने,6,7,6,0,0.0,review_short_pattern,
 CONTEXT_ONLY_PATTERNS,नियन्त्रण आयोजना,16,2,0,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,बायो-इन्जिनियरिङ,16,0,0,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,बायो–इन्जिनियरिङ,16,3,1,0,0.0,ok,
 CONTEXT_ONLY_PATTERNS,हेलिकोप्टरबाट उद्धार गर्न,25,1,0,0,0.0,ok,
 DAMAGE_ONLY_PATTERNS,damaged houses,14,5,0,0,0.0,ok,
 DAMAGE_ONLY_PATTERNS,houses damaged,14,4,0,0,0.0,ok,
-DAMAGE_ONLY_PATTERNS,loss,4,104,6,0,0.0,review_short_pattern,
-DAMAGE_ONLY_PATTERNS,property damage,15,3,1,0,0.0,ok,
+DAMAGE_ONLY_PATTERNS,loss,4,104,5,0,0.0,review_short_pattern,
+DAMAGE_ONLY_PATTERNS,property damage,15,3,0,0,0.0,ok,
 DAMAGE_ONLY_PATTERNS,road damage,11,2,0,0,0.0,ok,
 DAMAGE_ONLY_PATTERNS,road section damaged,20,1,0,0,0.0,ok,
 DAMAGE_ONLY_PATTERNS,घर क्षति,8,9,0,0,0.0,ok,
@@ -156,18 +151,17 @@ FOREIGN_TERMS,अफगानिस्तान,11,3,2,0,0.0,review_short_patter
 FOREIGN_TERMS,इन्डोनेसिया,11,4,3,0,0.0,review_short_pattern,
 FOREIGN_TERMS,उत्तराखंड,9,0,0,0,0.0,ok,
 FOREIGN_TERMS,उत्तराखण्ड,10,10,9,0,0.0,review_short_pattern,
-FOREIGN_TERMS,जापान,5,10,3,0,0.0,review_short_pattern,
-FOREIGN_TERMS,टर्की,5,2,0,0,0.0,ok,
+FOREIGN_TERMS,जापान,5,10,4,0,0.0,review_short_pattern,
+FOREIGN_TERMS,टर्की,5,2,1,0,0.0,review_short_pattern,
 FOREIGN_TERMS,न्युजिल्यान्ड,13,5,3,0,0.0,ok,
 FOREIGN_TERMS,न्युजील्यान्ड,13,0,0,0,0.0,ok,
 FOREIGN_TERMS,न्यूजिल्यान्ड,13,1,0,0,0.0,ok,
 FOREIGN_TERMS,न्यूजील्यान्ड,13,0,0,0,0.0,ok,
-FOREIGN_TERMS,पाकिस्तान,9,11,3,0,0.0,review_short_pattern,
+FOREIGN_TERMS,पाकिस्तान,9,11,4,0,0.0,review_short_pattern,
 FOREIGN_TERMS,बंगलादेश,8,5,0,0,0.0,ok,
 FOREIGN_TERMS,म्यानमार,8,2,2,0,0.0,review_short_pattern,
 FOREIGN_TERMS,हिमाचल,6,5,5,0,0.0,review_short_pattern,
 METAPHOR_PATTERNS,commanding lead,15,1,0,0,0.0,ok,
-METAPHOR_PATTERNS,constituencies,14,13,5,0,0.0,ok,
 METAPHOR_PATTERNS,double lead,11,0,0,0,0.0,ok,
 METAPHOR_PATTERNS,election lead,13,0,0,0,0.0,ok,
 METAPHOR_PATTERNS,historic landslide,18,1,1,0,0.0,ok,
@@ -181,13 +175,13 @@ METAPHOR_PATTERNS,prime ministerial candidate,27,2,0,0,0.0,ok,
 METAPHOR_PATTERNS,takes commanding lead,21,0,0,0,0.0,ok,
 METAPHOR_PATTERNS,wins by landslide,17,0,0,0,0.0,ok,
 METAPHOR_PATTERNS,won by landslide,16,0,0,0,0.0,ok,
-METAPHOR_PATTERNS,अग्रता,6,1,0,0,0.0,ok,
-METAPHOR_PATTERNS,बहुमत,5,19,0,0,0.0,ok,
 METAPHOR_PATTERNS,मतगणना,6,0,0,0,0.0,ok,
 RISK_PATTERNS,could trigger landslides,24,0,0,0,0.0,ok,
+RISK_PATTERNS,experts warn,12,3,0,0,0.0,ok,
 RISK_PATTERNS,growing incidents of landslide,30,1,0,0,0.0,ok,
 RISK_PATTERNS,heavy rainfall likely,21,0,0,0,0.0,ok,
-RISK_PATTERNS,risk of a landslide,19,9,5,0,0.0,ok,
+RISK_PATTERNS,चेतावनी,7,31,6,0,0.0,review_short_pattern,
+RISK_PATTERNS,पहिरो जान सक्ने,15,4,0,0,0.0,ok,
 ROUNDUP_PATTERNS,across various districts,24,0,0,0,0.0,ok,
 ROUNDUP_PATTERNS,cumulative,10,3,1,0,0.0,review_short_pattern,
 ROUNDUP_PATTERNS,death toll climbed to,21,0,0,0,0.0,ok,
@@ -198,14 +192,13 @@ ROUNDUP_PATTERNS,in 20 years,11,1,1,0,0.0,review_short_pattern,
 ROUNDUP_PATTERNS,in 5 years,10,1,1,0,0.0,review_short_pattern,
 ROUNDUP_PATTERNS,nationwide total,16,0,0,0,0.0,ok,
 ROUNDUP_PATTERNS,number of fatalities due to,27,1,1,0,0.0,ok,
-ROUNDUP_PATTERNS,over the years,14,3,1,0,0.0,ok,
+ROUNDUP_PATTERNS,over the years,14,3,2,0,0.0,ok,
 ROUNDUP_PATTERNS,province-wide total,19,0,0,0,0.0,ok,
 ROUNDUP_PATTERNS,recent landslides and floods,28,2,0,0,0.0,ok,
 ROUNDUP_PATTERNS,so far this monsoon,19,0,0,0,0.0,ok,
 ROUNDUP_PATTERNS,this year alone,15,1,0,0,0.0,ok,
 ROUNDUP_PATTERNS,जिल्लामा बाढीपहिरोबाट,21,3,3,0,0.0,ok,
 ROUNDUP_PATTERNS,देशभर १३ जनाको मृत्यु,21,1,1,0,0.0,ok,
-ROUNDUP_PATTERNS,देशैभरि,7,3,1,0,0.0,review_short_pattern,
 ROUNDUP_PATTERNS,बाढी पहिरोको वितण्डा,20,2,2,0,0.0,ok,
 ROUNDUP_PATTERNS,बाढी पहिरोपीडित,15,3,2,0,0.0,ok,
 ROUNDUP_PATTERNS,बाढी-पहिरोले देशभर,18,1,1,0,0.0,ok,
@@ -214,4 +207,4 @@ ROUNDUP_PATTERNS,बाढीपहिरोले देशभर,17,2,1,0,0.0,
 ROUNDUP_PATTERNS,मृतकको संख्या,13,16,4,0,0.0,ok,
 ROUNDUP_PATTERNS,यति वर्षमा,10,0,0,0,0.0,ok,
 ROUNDUP_PATTERNS,यो मनसुन,8,1,1,0,0.0,review_short_pattern,
-ROUNDUP_PATTERNS,समग्र,5,43,3,0,0.0,review_short_pattern,
+ROUNDUP_PATTERNS,समग्र,5,43,31,0,0.0,review_short_pattern,

@@ -1,4 +1,4 @@
-# Automated Bilingual Landslide Inventory for Nepal (2015-2024)
+# Automated Bilingual Landslide Inventory for Nepal (2015-2026)
 
 This repository contains the reproducible Python scaffold for Paper-1, with a config-driven CLI, SQLite bootstrap, environment diagnostics, hybrid collection scaffolding, committed district gazetteers, and smoke tests for the first runnable stages.
 
@@ -57,11 +57,20 @@ The smoke harness uses environment overrides instead of editing config files:
 
 ## Collection
 
-`python -m landslide_inventory.run --stage collect --config config.yaml` runs the hybrid discovery subsystem. It uses config-driven tag/trend pagination where available, supplements discovery with Google News query seeds, stores raw fetch and parse results idempotently in SQLite, and writes `coverage_report.csv` without changing the fixed 2015-2024 study window.
+`python -m landslide_inventory.run --stage collect --config config.yaml` runs the hybrid discovery subsystem. It uses config-driven tag/trend pagination where available, supplements discovery with Google News query seeds, stores raw fetch and parse results idempotently in SQLite, and writes `coverage_report.csv` without changing the fixed 2015-2026 study window.
 
 ## Notes
 
-- The config must preserve coverage for the full 2015-01-01 through 2024-12-31 study window.
+- The config must preserve coverage for the full 2015-01-01 through 2026-12-31 study window.
+  This was previously stated as 2015-2024 here and in `paper_metadata` while `config.yaml`
+  and `config.py` used 2015-2026 — three documents, three answers. `config.yaml` is
+  authoritative; the other two now follow it.
+
+  **Temporal-coverage caveat.** Article volume is strongly skewed toward recent years
+  (2024 is roughly 5x 2016) and 2025-26 are partial. That is Google News RSS recency bias
+  and site archive depth, not landslide activity. Any inter-annual trend claim needs a
+  reporting-effort model (articles-per-source-year as an exposure offset) first — see
+  `docs/TECHNICAL_REVIEW.md` section 4.4.
 - Exactly eight sources are required in config validation.
 - `make lint_shadow` fails if `src/` contains top-level modules that could shadow third-party dependencies.
 - All scaffold stages are idempotent and use deterministic hashing helpers for reproducibility.

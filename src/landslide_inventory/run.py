@@ -24,6 +24,7 @@ from .validation import (
 )
 from .preprocess import normalize_dates_in_sqlite
 from .unify.dedup_stage import run_dedup_stage
+from .unify.event_typing_stage import run_event_typing_stage
 from .unify.extract_stage import run_extract_stage
 from .unify.event_specificity import run_event_specificity_stage
 from .unify.location_consistency import run_location_consistency_stage
@@ -102,6 +103,7 @@ STAGE_HANDLERS: dict[str, Callable[[AppConfig], None]] = {
     'unify': _not_implemented,
     'dedup': run_dedup_stage,
     'article_quality': run_article_quality_stage,
+    'event_typing': run_event_typing_stage,
     'export_final': run_export_final_stage,
     'audit_canonical': run_audit_canonical_stage,
     'inventory_audit': run_inventory_audit_stage,
