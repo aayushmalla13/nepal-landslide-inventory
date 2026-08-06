@@ -10,9 +10,10 @@ Newest entries at the bottom of each session. Session headers are dated.
 ## Standing context (read first)
 
 **The problem, in one paragraph.** The pipeline turns 4,453 scraped Nepali/English news
-articles into canonical landslide events (1,071 at review time; **1,010 now**, of which
-**862 are headline landslide events** — the rest are 122 `road_obstruction` and 26
-non-landslide hazards, both retained but excluded from headline counts).
+articles into canonical landslide events (1,071 at review time; **1,002 now**, of which
+**758 are headline landslide events** — the rest are 114 `road_obstruction`, 105
+`aggregate_report` and 25 non-landslide hazards, all retained but excluded from
+headline counts).
 
 The engineering is sound; the science layer is improving but not yet publishable.
 Class-1 precision was 0.516 and **has not been re-measured** — every metric in the repo
@@ -322,6 +323,78 @@ nationwide roundups should not be class-1 events at all.
 succeed. They had actually crashed on an `IntegrityError` and rolled back; the
 unchanged counts were stale data. The crash was invisible because the run output
 was piped through `grep`. Read full output when verifying a write.
+
+### Fifth pass: the casualty field, and a dataset assessment
+
+**The casualty field was unusable and is now credible.** It is the primary
+scientific variable of a fatal-landslide inventory, and it read 6,242 deaths
+across 862 events — 25.6 per fatal event, against a real Nepali toll of roughly
+100–150 deaths a year. Three independent causes, found by inspecting the
+high-death tail rather than by reading code:
+
+1. **Both extractors kept the largest number in the article**
+   (`if best_value is None or value > best_value`). News bodies carry this
+   event's toll in the lead and the season-to-date national total further down;
+   the maximum returns the second. A one-woman death in Morang became 90; "at
+   least three killed" in Sindhupalchok became 249. Now: lead first, first match
+   not largest, body only as a per-field fallback, running-total context vetoed.
+2. **Aggregate reports were entering as events.** "Floods, landslides claim 1000
+   plus lives in five years" contributed **480 deaths to Bardiya**, a Terai
+   district. New `event_type = 'aggregate_report'` (105 events), checked *before*
+   the casualty branch because an aggregate always has a casualty count.
+3. **The foreign filter was blind in Nepali.** `सुडानमा पहिरोले... १००० जनाको
+   मृत्यु` — a Sudan landslide killing ~1,000 — was an event in **Parbat
+   district**. Nepali outlets report foreign disasters in Nepali, so an
+   English-only foreign list is structurally blind to the articles most likely to
+   leak. ~90 bilingual country terms added.
+
+| | before | after |
+|---|---:|---:|
+| total deaths | 6,242 | **1,363** (~124/yr) |
+| mean per fatal event | 25.6 | **6.5** |
+| foreign events in inventory | 1 | 0 |
+
+The district table is now geomorphologically sensible: Chitwan 48, then a flat
+mid-hill tail (Kathmandu 33, Palpa 33, Baglung 32, Dhading 32, Gulmi 31).
+Terai share excluding Chitwan is **3.0%** — the physiographic sanity check the
+review asked for (§4.5) now passes.
+
+### Dataset assessment — what this data can and cannot support
+
+**Credible now:** 758 headline events, 71 of 77 districts, ~124 deaths/yr
+matching the national figure, 3% Terai share.
+
+**The binding constraint is spatial resolution.**
+
+| | coverage |
+|---|---:|
+| district | 758 (100%) |
+| municipality | 302 (40%) |
+| ward | 1 (0.1%) |
+| **coordinates** | **0 (0%)** |
+
+`geocode/` is an empty stub. Nepal's median district is ~1,800 km²; a landslide
+scar is 10²–10⁴ m². District-level location is roughly **seven orders of
+magnitude coarser than the object being inventoried**.
+
+This is decisive for scope. The dataset **cannot** support landslide
+susceptibility mapping, slope/terrain analysis, rainfall-threshold work
+(CHIRPS), or comparison with mapped inventories such as Roback et al. (2018) —
+all of which need point locations. It **can** support district–year fatal-event
+counts, cross-inventory comparison with BIPAD (including capture–recapture), and
+reporting-bias analysis.
+
+**Terminology recommendation.** In the geomorphology literature "landslide
+inventory" implies mapped polygons or points. Calling this one that will draw a
+reviewer's first objection. It is a *news-derived fatal landslide event
+database* at district resolution. Naming it accurately costs nothing and removes
+the objection.
+
+**Two other coverage facts for the methods section:** 79% of events come from
+just two outlets (setopati 45%, myrepublica 34%) while ekantipur contributes 1
+and kathmandu-post 0 — the "eight bilingual sources" claim is not supported by
+the data. And 2024 (152) is still 4.5× 2016 (34), so the temporal distribution
+remains a coverage artifact, not a landslide signal.
 
 ### Open decisions for the operator
 
