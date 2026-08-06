@@ -11,14 +11,15 @@ Newest entries at the bottom of each session. Session headers are dated.
 
 **The problem, in one paragraph.** The pipeline turns 4,453 scraped Nepali/English news
 articles into canonical landslide events (1,071 at review time; **1,010 now**, of which
-**862 are headline landslide events** — the rest are 124 `road_obstruction` and 26
+**862 are headline landslide events** — the rest are 122 `road_obstruction` and 26
 non-landslide hazards, both retained but excluded from headline counts).
 
 The engineering is sound; the science layer is improving but not yet publishable.
 Class-1 precision was 0.516 and **has not been re-measured** — every metric in the repo
 is still in-sample, because the 200-row evaluation set was re-scored after the rules were
-tuned on it. Kathmandu's rank was fixed on 2026-08-06 (now #2 at 49, behind Chitwan at
-58), but by removing two construction errors, not by validation.
+tuned on it. Kathmandu's rank was fixed on 2026-08-06 — the headline table now reads
+Chitwan 51, Kathmandu 46, Sindhupalchok 38 — but by removing construction
+errors, not by validation.
 See `docs/TECHNICAL_REVIEW.md` §0.
 
 **Nothing here is validated yet.** The locked test set exists and is unlabelled. Until
