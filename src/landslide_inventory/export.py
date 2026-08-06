@@ -52,7 +52,7 @@ FINAL_COLUMNS = [
     'event_id', 'dedup_cluster_id', 'event_date_ad', 'district', 'province', 'municipality',
     # Operator decisions, recorded per event so the methods section can state
     # them. See unify/event_typing.py.
-    'event_type', 'extraction_basis',
+    'event_type', 'hazard_type', 'extraction_basis',
     'cluster_size', 'sources_json', 'representative_url', 'representative_source',
     'representative_title', 'trigger', 'deaths', 'missing', 'injured',
     'conf_date', 'conf_class', 'specificity_reason', 'in_nepal', 'scope_reason',
@@ -115,6 +115,10 @@ def build_final_rows(connection) -> list[dict[str, Any]]:
         "COALESCE(ce.event_type, 'landslide') AS event_type,"
         if 'event_type' in typed else "'landslide' AS event_type,"
     )
+    hazard_select = (
+        "COALESCE(ce.hazard_type, 'landslide') AS hazard_type,"
+        if 'hazard_type' in typed else "'landslide' AS hazard_type,"
+    )
     basis_select = (
         "COALESCE(ce.extraction_basis, 'full_text') AS extraction_basis,"
         if 'extraction_basis' in typed else "'full_text' AS extraction_basis,"
@@ -132,6 +136,7 @@ def build_final_rows(connection) -> list[dict[str, Any]]:
                ce.place_name_candidates_json   AS place_name_candidates_json,
                ce.event_payload                AS event_payload,
                {type_select}
+               {hazard_select}
                {basis_select}
                cs.size                         AS cluster_size,
                cs.sources                      AS sources_json,

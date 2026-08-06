@@ -22,12 +22,13 @@ from .event_typing import classify_event_type, confidence_penalty, summarize_typ
 LOGGER = logging.getLogger(__name__)
 
 REPORT_COLUMNS = [
-    'event_id', 'event_date_ad', 'district', 'event_type', 'extraction_basis',
+    'event_id', 'event_date_ad', 'district', 'event_type', 'hazard_type', 'extraction_basis',
     'reason', 'deaths', 'missing', 'injured', 'representative_source', 'representative_title',
 ]
 
 MIGRATIONS = (
     'ALTER TABLE canonical_events ADD COLUMN event_type TEXT',
+    'ALTER TABLE canonical_events ADD COLUMN hazard_type TEXT',
     'ALTER TABLE canonical_events ADD COLUMN extraction_basis TEXT',
     'ALTER TABLE canonical_events ADD COLUMN typing_reason TEXT',
     'ALTER TABLE canonical_events ADD COLUMN typed_at TEXT',
@@ -86,16 +87,19 @@ def run_event_typing_stage(config: AppConfig) -> dict[str, Any]:
             connection.execute(
                 """
                 UPDATE canonical_events
-                SET event_type = ?, extraction_basis = ?, typing_reason = ?, typed_at = ?
+                SET event_type = ?, hazard_type = ?, extraction_basis = ?,
+                    typing_reason = ?, typed_at = ?
                 WHERE event_id = ?
                 """,
-                (typing.event_type, typing.extraction_basis, typing.reason, typed_at, item['event_id']),
+                (typing.event_type, typing.hazard_type, typing.extraction_basis,
+                 typing.reason, typed_at, item['event_id']),
             )
             records.append({
                 'event_id': item['event_id'],
                 'event_date_ad': item['event_date_ad'],
                 'district': item['district'],
                 'event_type': typing.event_type,
+                'hazard_type': typing.hazard_type,
                 'extraction_basis': typing.extraction_basis,
                 'reason': typing.reason,
                 'deaths': item.get('deaths'),
@@ -113,10 +117,14 @@ def run_event_typing_stage(config: AppConfig) -> dict[str, Any]:
     summary['title_only_confidence_multiplier'] = confidence_penalty('title_only')
 
     LOGGER.info(
-        'Event typing: %d canonical events -> %d headline landslide events, '
-        '%d road_obstruction (excluded from headline counts and BIPAD)',
-        summary['total'], summary['headline_events'], summary['road_obstruction'],
+        'Event typing: %d canonical events -> %d headline landslide events; '
+        '%d road_obstruction, %d non-landslide hazard (both excluded from '
+        'headline counts and BIPAD)',
+        summary['total'], summary['headline_events'],
+        summary['road_obstruction'], summary['non_landslide_hazard'],
     )
+    for hazard, count in summary['by_hazard_type'].items():
+        LOGGER.info('  hazard_type=%-14s %d', hazard, count)
     for basis, count in summary['by_extraction_basis'].items():
         LOGGER.info('  extraction_basis=%-12s %d', basis, count)
     return summary

@@ -130,3 +130,92 @@ def test_summarize_separates_headline_from_road() -> None:
     assert summary['headline_events'] == 2
     assert summary['road_obstruction'] == 1
     assert summary['by_extraction_basis'][EXTRACTION_BASIS_TITLE_ONLY] == 1
+
+
+# --- hazard typing -----------------------------------------------------------
+# Avalanche is हिमपहिरो / हिउँपहिरो in Nepali -- literally "snow-landslide". It
+# CONTAINS पहिरो, the collection keyword, so avalanches are collected as
+# landslides by construction and any landslide-first check misclassifies all of
+# them. 25 headline events were avalanches, Everest and Manaslu included.
+
+from landslide_inventory.unify.event_typing import (  # noqa: E402
+    HAZARD_AVALANCHE,
+    HAZARD_DEBRIS_FLOW,
+    HAZARD_FLOOD,
+    HAZARD_LANDSLIDE,
+    HAZARD_ROCKFALL,
+    classify_hazard_type,
+)
+
+
+@pytest.mark.parametrize('title', [
+    'सगरमाथाको हिमपहिरो',
+    'डोल्पामा हिउँपहिरोमा परी तीन बेपत्ता',
+    'मनास्लुमा हिउँ पहिरो, १० जनाभन्दा बढी घाइते',
+    'बझाङमा हिम पहिरोमा परी एक महिलाको मृत्यु',
+    'दार्चुलामा हिमपहिरो: यार्सा टिप्न गएका कम्तीमा ८ जना पुरिएको आशंका',
+    'Avalanches disrupt efforts to rescue bodies from landslide-hit Langtang',
+])
+def test_avalanches_are_not_landslides(title: str) -> None:
+    assert classify_hazard_type(title, '') == HAZARD_AVALANCHE, (
+        f'{title!r} is an avalanche. Nepali हिमपहिरो contains पहिरो, so a '
+        'landslide-first check silently swallows every avalanche in the corpus.'
+    )
+
+
+@pytest.mark.parametrize('title,expected', [
+    ('Landslide kills three in Sindhupalchok', HAZARD_LANDSLIDE),
+    ('सिन्धुपाल्चोकमा पहिरो खस्दा दुईको मृत्यु', HAZARD_LANDSLIDE),
+    ('भूस्खलनका कारण घर पुरियो', HAZARD_LANDSLIDE),
+    ('Mudslide buries houses in Kaski', HAZARD_DEBRIS_FLOW),
+    ('Rockfall blocks Prithvi Highway', HAZARD_ROCKFALL),
+    ('Floods displace 200 families in Saptari', HAZARD_FLOOD),
+])
+def test_other_hazards_are_separated(title: str, expected: str) -> None:
+    assert classify_hazard_type(title, '') == expected
+
+
+def test_avalanche_is_excluded_from_headline_counts() -> None:
+    typing = classify_event_type(
+        title='सगरमाथाको हिमपहिरोमा परी तीन जनाको मृत्यु',
+        text='हिमपहिरोमा परी तीन जनाको मृत्यु भयो। ' * 20, deaths=3,
+    )
+    assert typing.hazard_type == HAZARD_AVALANCHE
+    assert typing.in_headline_counts is False
+    assert typing.eligible_for_bipad is False
+    assert typing.event_type == EVENT_TYPE_LANDSLIDE, 'still retained, just not headline'
+
+
+def test_ordinary_landslide_stays_in_headline_counts() -> None:
+    typing = classify_event_type(
+        title='Landslide kills three in Sindhupalchok',
+        text='A landslide buried two houses. ' * 20, deaths=3,
+    )
+    assert typing.hazard_type == HAZARD_LANDSLIDE
+    assert typing.in_headline_counts is True
+
+
+def test_title_hazard_beats_body_background_mentions() -> None:
+    """Bodies routinely mention several hazards in background paragraphs."""
+
+    typing = classify_event_type(
+        title='Landslide kills two in Myagdi',
+        text='Officials warned of avalanche risk in the high Himalaya. ' * 10,
+        deaths=2,
+    )
+    assert typing.hazard_type == HAZARD_LANDSLIDE
+
+
+def test_summarize_counts_non_landslide_hazards() -> None:
+    records = [
+        {'event_type': EVENT_TYPE_LANDSLIDE, 'extraction_basis': EXTRACTION_BASIS_FULL,
+         'hazard_type': HAZARD_LANDSLIDE},
+        {'event_type': EVENT_TYPE_LANDSLIDE, 'extraction_basis': EXTRACTION_BASIS_FULL,
+         'hazard_type': HAZARD_AVALANCHE},
+        {'event_type': EVENT_TYPE_ROAD_OBSTRUCTION, 'extraction_basis': EXTRACTION_BASIS_FULL,
+         'hazard_type': HAZARD_LANDSLIDE},
+    ]
+    summary = summarize_typing(records)
+    assert summary['headline_events'] == 1
+    assert summary['non_landslide_hazard'] == 1
+    assert summary['by_hazard_type'][HAZARD_AVALANCHE] == 1

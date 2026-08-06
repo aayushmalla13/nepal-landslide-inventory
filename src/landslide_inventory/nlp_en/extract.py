@@ -364,7 +364,53 @@ def _find_explicit_district(text: str, district_normalizer: GazetteerFunc) -> st
             if normalized == 'Kathmandu' and dateline_fallback is not None:
                 continue
             return normalized
-    return dateline_fallback
+    # Deliberately NOT `return dateline_fallback`.
+    #
+    # The Kathmandu veto above is conditional: a Kathmandu dateline is skipped
+    # so a real district can win, but if no other district is found anywhere the
+    # dateline was returned as the event district anyway. That made the veto
+    # cosmetic -- the dateline still decided the answer whenever the article had
+    # no other place, which is exactly the case where it is least trustworthy.
+    #
+    # Measured on the corpus: 27 class-1 English rows had a district *only*
+    # because of this line, and all 27 were Kathmandu. They are overwhelmingly
+    # nationwide roundups ("134 dead in floods and landslides since onset of
+    # monsoon"), government/policy pieces ("Govt decides to provide Rs 200,000")
+    # and share-market metaphors ("Nepse goes through a landslide of 108.26
+    # points") -- articles that should carry no district because they describe
+    # no located event.
+    #
+    # Per docs/TECHNICAL_REVIEW.md section 8.1: "if none, leave NULL rather than
+    # falling back. A null district is honest and measurable; a wrong district
+    # is invisible and fatal." A row that loses its district here is demoted by
+    # the class ladder, which is the correct outcome for all 27.
+    #
+    # The dateline is still available via find_dateline_district() for
+    # provenance and auditing; it is simply no longer allowed to *be* the
+    # answer.
+    return None
+
+
+def find_dateline_district(text: str, district_normalizer: GazetteerFunc) -> str | None:
+    """Return the district named in the article's dateline, if any.
+
+    Exposed for provenance and auditing only. A dateline records where the
+    story was filed, not where the event happened, so this must never be used
+    as the event district -- see the note in _find_explicit_district.
+    """
+
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    for line in lines[:4]:
+        matches = list(DATELINE_DISTRICT_PATTERN.finditer(line))
+        matches += list(DATELINE_DISTRICT_INLINE_PATTERN.finditer(line))
+        for dateline_match in matches:
+            for group in ('district_paren', 'primary'):
+                normalized = _normalize_dateline_district_candidate(
+                    dateline_match.group(group), district_normalizer
+                )
+                if normalized is not None:
+                    return normalized
+    return None
 
 
 def _normalize_dateline_district_candidate(candidate: str | None, district_normalizer: GazetteerFunc) -> str | None:

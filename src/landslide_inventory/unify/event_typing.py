@@ -55,6 +55,66 @@ LOGGER = logging.getLogger(__name__)
 EVENT_TYPE_LANDSLIDE = 'landslide'
 EVENT_TYPE_ROAD_OBSTRUCTION = 'road_obstruction'
 
+# Hazard vocabulary, matching validation/locked_test_set.TRUTH_VOCABULARIES so
+# annotator labels and pipeline output are directly comparable.
+HAZARD_LANDSLIDE = 'landslide'
+HAZARD_DEBRIS_FLOW = 'debris_flow'
+HAZARD_ROCKFALL = 'rockfall'
+HAZARD_AVALANCHE = 'avalanche'
+HAZARD_FLOOD = 'flood'
+HAZARD_OTHER = 'other_hazard'
+
+# Only these count as a landslide inventory event. Avalanche and flood are
+# different hazards with different physics, different triggers and different
+# terrain, and pooling them makes the inventory unusable for susceptibility
+# modelling.
+HEADLINE_HAZARDS = frozenset({HAZARD_LANDSLIDE, HAZARD_DEBRIS_FLOW, HAZARD_ROCKFALL})
+
+# AVALANCHE, and why it must be tested before anything else.
+#
+# In Nepali an avalanche is हिमपहिरो / हिउँपहिरो -- literally "snow-landslide".
+# It *contains* पहिरो, the collection keyword. So every avalanche report is
+# collected as a landslide by construction, and 'हिमपहिरो' was additionally
+# listed in the title-event-signal tuple in event_specificity.py, which
+# confirmed it as a landslide event rather than excluding it.
+#
+# Result: 25 of 1,003 headline events were avalanches, including Everest
+# ("सगरमाथाको हिमपहिरो") and Manaslu. Review section 4.1 noted this in passing;
+# the data says it is a systematic hazard-type error, not a footnote.
+#
+# Written with optional whitespace and both हिम/हिउँ stems because the compound
+# is spelled हिमपहिरो, हिम पहिरो, हिउँपहिरो and हिउँ पहिरो interchangeably.
+AVALANCHE_PATTERN = re.compile(
+    r'\bavalanche(?:s)?\b|\bsnow\s*slide\b|\bsnowslide\b'
+    r'|हिम\s*पहिरो|हिउँ\s*पहिरो|हिउ\s*पहिरो|हिमपात\s*पहिरो',
+    re.IGNORECASE,
+)
+
+ROCKFALL_PATTERN = re.compile(
+    r'\brock\s*fall(?:s)?\b|\brockslide\b|\bboulder\b'
+    r'|चट्टान|ढुंगा\s*खस|पहरा\s*खस',
+    re.IGNORECASE,
+)
+
+DEBRIS_FLOW_PATTERN = re.compile(
+    r'\bdebris\s*flow\b|\bmudflow\b|\bmudslide(?:s)?\b'
+    r'|बाढी\s*पहिरो|थेग्रो|डेब्रिज',
+    re.IGNORECASE,
+)
+
+LANDSLIDE_PATTERN = re.compile(
+    r'\blandslide(?:s)?\b|\bslope\s*failure\b|\bslip\b'
+    r'|पहिरो|भूस्खलन|ढिस्को',
+    re.IGNORECASE,
+)
+
+# Flood-only reports that carry no landslide term at all.
+FLOOD_PATTERN = re.compile(
+    r'\bflood(?:s|ing)?\b|\binundation\b|\bdeluge\b'
+    r'|बाढी|डुबान|जलमग्न',
+    re.IGNORECASE,
+)
+
 EXTRACTION_BASIS_FULL = 'full_text'
 EXTRACTION_BASIS_TITLE_ONLY = 'title_only'
 
@@ -107,18 +167,62 @@ class EventTyping:
     event_type: str
     extraction_basis: str
     reason: str
+    hazard_type: str = HAZARD_LANDSLIDE
 
     @property
     def in_headline_counts(self) -> bool:
-        """Whether this row belongs in the paper's headline event count."""
+        """Whether this row belongs in the paper's headline event count.
 
-        return self.event_type == EVENT_TYPE_LANDSLIDE
+        Both conditions: it must be a landslide-family hazard (not an avalanche
+        or a pure flood) AND not a road-obstruction-only report.
+        """
+
+        return (
+            self.hazard_type in HEADLINE_HAZARDS
+            and self.event_type == EVENT_TYPE_LANDSLIDE
+        )
 
     @property
     def eligible_for_bipad(self) -> bool:
-        """Road obstructions have no counterpart unit in BIPAD."""
+        """Road obstructions have no counterpart unit in BIPAD.
 
-        return self.event_type == EVENT_TYPE_LANDSLIDE
+        Avalanches do exist in BIPAD but under a different hazard code, so
+        comparing them against a landslide inventory would inflate both sides.
+        """
+
+        return self.in_headline_counts
+
+
+def classify_hazard_type(title: str | None, text: str | None) -> str:
+    """Identify which hazard an article actually describes.
+
+    Order is not arbitrary. Avalanche is tested first because the Nepali word
+    for it (हिमपहिरो, "snow-landslide") *contains* the word for landslide, so
+    any landslide-first check classifies every avalanche as a landslide.
+    Debris flow and rockfall are tested before the generic landslide term for
+    the same containment reason.
+    """
+
+    combined = f'{(title or "").strip()}\n{(text or "").strip()}'
+    if not combined.strip():
+        return HAZARD_LANDSLIDE
+
+    # Title carries the hazard far more reliably than the body, which often
+    # mentions several hazards in background paragraphs.
+    for scope in ((title or '').strip(), combined):
+        if not scope:
+            continue
+        if AVALANCHE_PATTERN.search(scope):
+            return HAZARD_AVALANCHE
+        if DEBRIS_FLOW_PATTERN.search(scope):
+            return HAZARD_DEBRIS_FLOW
+        if ROCKFALL_PATTERN.search(scope):
+            return HAZARD_ROCKFALL
+        if LANDSLIDE_PATTERN.search(scope):
+            return HAZARD_LANDSLIDE
+        if FLOOD_PATTERN.search(scope):
+            return HAZARD_FLOOD
+    return HAZARD_OTHER
 
 
 def classify_event_type(
@@ -138,6 +242,7 @@ def classify_event_type(
     heading = (title or '').strip()
     body = (text or '').strip()
     combined = f'{heading}\n{body}'
+    hazard = classify_hazard_type(title, text)
 
     basis = (
         EXTRACTION_BASIS_TITLE_ONLY
@@ -146,21 +251,21 @@ def classify_event_type(
     )
 
     if any(value for value in (deaths, missing, injured) if value):
-        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'casualties_recorded')
+        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'casualties_recorded', hazard)
     if HUMAN_IMPACT_PATTERN.search(combined):
-        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'human_impact_language')
+        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'human_impact_language', hazard)
     if SETTLEMENT_IMPACT_PATTERN.search(combined):
-        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'settlement_impact_language')
+        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'settlement_impact_language', hazard)
 
     # No human or settlement impact anywhere. Is the road the whole story?
     # Require both signals in the TITLE: a body that merely mentions a highway
     # in passing is not a road-obstruction report.
     if ROAD_TERMS_PATTERN.search(heading) and OBSTRUCTION_TERMS_PATTERN.search(heading):
-        return EventTyping(EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_title')
+        return EventTyping(EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_title', hazard)
     if ROAD_TERMS_PATTERN.search(combined) and OBSTRUCTION_TERMS_PATTERN.search(combined):
-        return EventTyping(EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_body')
+        return EventTyping(EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_body', hazard)
 
-    return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'default_landslide')
+    return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'default_landslide', hazard)
 
 
 def confidence_penalty(basis: str) -> float:
@@ -180,15 +285,21 @@ def summarize_typing(records: list[dict[str, Any]]) -> dict[str, Any]:
 
     types: dict[str, int] = {}
     bases: dict[str, int] = {}
+    hazards: dict[str, int] = {}
+    headline = 0
     for record in records:
         types[record['event_type']] = types.get(record['event_type'], 0) + 1
         bases[record['extraction_basis']] = bases.get(record['extraction_basis'], 0) + 1
-    total = len(records)
-    headline = types.get(EVENT_TYPE_LANDSLIDE, 0)
+        hazard = record.get('hazard_type', HAZARD_LANDSLIDE)
+        hazards[hazard] = hazards.get(hazard, 0) + 1
+        if hazard in HEADLINE_HAZARDS and record['event_type'] == EVENT_TYPE_LANDSLIDE:
+            headline += 1
     return {
-        'total': total,
+        'total': len(records),
         'headline_events': headline,
         'road_obstruction': types.get(EVENT_TYPE_ROAD_OBSTRUCTION, 0),
+        'non_landslide_hazard': sum(n for h, n in hazards.items() if h not in HEADLINE_HAZARDS),
         'by_event_type': dict(sorted(types.items(), key=lambda kv: -kv[1])),
+        'by_hazard_type': dict(sorted(hazards.items(), key=lambda kv: -kv[1])),
         'by_extraction_basis': dict(sorted(bases.items(), key=lambda kv: -kv[1])),
     }
