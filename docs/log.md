@@ -150,7 +150,7 @@ the pre-fix snapshot; the code is committed and ready to run.
 --stage locked_test_set   draw/verify the held-out test set (refuses to redraw)
 --stage pattern_audit     rank exclusion patterns by suspected false negatives
 --stage article_quality   report non-articles in raw_articles (flags, never deletes)
---stage event_typing      label road_obstruction / title_only on canonical_events
+--stage event_typing      label event_type / hazard_type / extraction_basis
 --stage export_final      regenerate canonical_events_final.csv from the DB
 ```
 
@@ -201,6 +201,59 @@ deliberate rather than accidental.
 
 Tests: 355 passing.
 
+### Third pass: the Kathmandu diagnosis, and why §8.1 was the wrong next step
+
+Before starting §8.1 (event-site role classification, the review's stated
+priority) I checked what was actually driving Kathmandu's 73 headline events.
+**Zero of them came from an English dateline** — because `nlp_en/extract.py`
+already implements dateline detection and a Kathmandu veto. Part of §8.1 was
+quietly already done, which is why the review's diagnosis appeared not to
+reproduce.
+
+The 73 turned out to be five different problems needing five different fixes,
+and §8.1 addressed only ~8 of them. Two cheaper, unambiguous bugs outranked it.
+
+**Bug 1 — the dateline veto was cosmetic.** `_find_explicit_district` ended with
+`return dateline_fallback`. A Kathmandu dateline was skipped so a real district
+could win, but if no other district was found *anywhere*, the dateline was
+returned as the event district — exactly the case where it is least
+trustworthy. 27 class-1 English rows had a district only because of that line,
+**all 27 Kathmandu**, and they were nationwide roundups, government relief
+notices and Nepse share-market metaphors. Now returns `None`; the dateline
+survives in `find_dateline_district()` for provenance.
+
+**Bug 2 — avalanches were landslides by construction.** Nepali for avalanche is
+हिमपहिरो / हिउँपहिरो, literally *snow-landslide*. It **contains** पहिरो, the
+collection keyword, so every avalanche was collected as a landslide — and
+`हिमपहिरो` was additionally listed in the title-event-signal tuple in
+`event_specificity.py`, which *confirmed* them as events. 25 headline events
+were avalanches, Everest and Manaslu included. New `hazard_type` field
+(landslide / debris_flow / rockfall / avalanche / flood / other_hazard), matching
+the locked test set's vocabulary so labels and output compare directly. Avalanche
+must be tested first or any landslide-first check swallows all of them.
+
+**Result — Kathmandu is no longer the #1 landslide district.**
+
+| # | before | after |
+|---|---|---|
+| 1 | Kathmandu (73) | **Chitwan (58)** |
+| 2 | Chitwan (58) | **Kathmandu (49)** |
+| 3 | Sindhupalchok (45) | Sindhupalchok (48) |
+
+Canonical events 1127 → 1112; headline events 1003 → **962** (124
+`road_obstruction` + 26 non-landslide hazard excluded). Neither fix tuned a
+threshold — both removed something wrong by construction, so neither burns the
+test set.
+
+**What is left in the remaining 49 Kathmandu events:** ~6 are genuinely
+Kathmandu (Tarebhir, Tarkeshwor, Tokha, Naikap, Chandragiri — the valley rim
+does have landslides). The rest are wrong-district cases for §8.1
+(Kakani → Nuwakot; **"Makawanpur" not normalising to Makwanpur — a gazetteer
+alias gap, probably a one-line fix**), a few surviving nationwide roundups, and
+policy/relief articles that should be `context_only`.
+
+Tests: 377 passing.
+
 ### Open decisions for the operator
 
 Items 1–4 were decided and applied this session (see above). Remaining:
@@ -227,17 +280,17 @@ single rule before it exists, and it now exists. Label it (blind — the
 predictions are in a separate file, keep them there), double-annotate ≥100 rows
 for Cohen's κ, and only then start measuring.
 
-The highest-value piece of work remaining is **§8.1 event-site role
-classification**. Road typing already moved Chitwan down (89 → 58), but
-**Kathmandu is still #1 at 73 headline events**, which is geomorphologically
-impossible and is the finding a reviewer will stop at. The cause is `location.py`
-taking `ordered[0]` from a candidate list scored to favour early mentions, so a
-myRepublica dateline (`KATHMANDU, July 12: A landslide killed three in
-Sindhupalchok...`) wins deterministically. Much of the plumbing exists —
-`MYREPUBLICA_DATELINE_PATTERN` is already detected in `extract_stage.py`, it is
-just used to trim text rather than to veto a place candidate.
+~~The highest-value piece of work remaining is §8.1.~~ Superseded — see the
+third pass above. Kathmandu is now #2 at 49 headline events, fixed by removing
+the dateline fallback and separating avalanches, not by role classification.
 
-Second: **§8.2 cross-language dedup**. Multi-source clusters went 69 → 81 after
+§8.1 is still worth doing, but it is now a *smaller* job than the review implies:
+the dateline machinery already exists and is enforced, so what remains is the
+genuinely-wrong-district residue (Kakani → Nuwakot, Langtang → Rasuwa,
+Helambu → Sindhupalchok). Start with the gazetteer alias gap — "Makawanpur" not
+normalising to Makwanpur is likely a one-line fix with immediate effect.
+
+Ahead of it in value now: **§8.2 cross-language dedup**. Multi-source clusters went 69 → 81 after
 the re-run, but that is still ~7% of 1,127. `token_set_ratio` cannot match
 Devanagari against Latin, so an ekantipur and a Kathmandu Post report of the same
 event score ~0 and can never merge. Since bilingual coverage correlates with
