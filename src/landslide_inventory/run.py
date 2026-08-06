@@ -9,6 +9,7 @@ from typing import Callable
 from .bipad import run_bipad_validation_stage
 from .config import AppConfig, load_config
 from .db import initialize_sqlite
+from .export import run_export_final_stage
 from .langdetect import run_language_stage
 from .validation import (
     run_article_quality_stage,
@@ -101,6 +102,7 @@ STAGE_HANDLERS: dict[str, Callable[[AppConfig], None]] = {
     'unify': _not_implemented,
     'dedup': run_dedup_stage,
     'article_quality': run_article_quality_stage,
+    'export_final': run_export_final_stage,
     'audit_canonical': run_audit_canonical_stage,
     'inventory_audit': run_inventory_audit_stage,
     'locked_test_set': run_locked_test_set_stage,
