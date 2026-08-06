@@ -444,7 +444,11 @@ def test_manual_audit_prefers_refreshed_file_when_available(tmp_path) -> None:
     from landslide_inventory.validation.manual_audit import run_manual_audit_stage
     from landslide_inventory.config import load_config
 
-    project_root = Path('/Users/aayush/Documents/nepal_landslide_inventory')
+    # Derive the repo root from this file's location. It was previously
+    # hardcoded to one machine's absolute path, so the test failed for anyone
+    # who cloned the repo anywhere else -- including on the same machine after
+    # the project moved.
+    project_root = Path(__file__).resolve().parents[1]
     config_path = tmp_path / 'config.yaml'
     outputs = tmp_path / 'outputs'
     outputs.mkdir()

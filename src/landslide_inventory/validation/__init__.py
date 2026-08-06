@@ -7,6 +7,7 @@ from .manual_audit import run_manual_audit_stage
 from .manual_pack import run_manual_pack_stage
 from .manual_refresh import run_manual_refresh_stage
 from .manual_score import run_manual_score_stage
+from .pattern_audit import run_pattern_audit_stage
 
 __all__ = [
     'run_audit_canonical_stage',
@@ -16,4 +17,5 @@ __all__ = [
     'run_manual_pack_stage',
     'run_manual_refresh_stage',
     'run_manual_score_stage',
+    'run_pattern_audit_stage',
 ]

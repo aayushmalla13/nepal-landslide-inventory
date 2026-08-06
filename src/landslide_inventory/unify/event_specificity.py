@@ -8,7 +8,7 @@ from datetime import date
 import logging
 from pathlib import Path
 import re
-from typing import Iterable
+from typing import Iterable, Sequence
 
 from ..config import AppConfig
 from ..db import connect_sqlite, initialize_sqlite
@@ -61,12 +61,60 @@ CONTEXT_ONLY_PATTERNS = (
     'नियन्त्रण आयोजना', 'पहिरो नियन्त्रण', 'बायो–इन्जिनियरिङ', 'बायो-इन्जिनियरिङ',
     'पुनर्निर्माण', 'बजेट', 'दुःख व्यक्त', 'जोगिने', 'चुनौती', 'सञ्चालन अनिश्चित',
 )
+# Unambiguous political-metaphor phrases. Every entry here must be a phrase that
+# cannot plausibly occur in a report of a physical landslide.
+#
+# HISTORY -- read before adding anything short. This tuple used to contain the
+# bare substring 'by landslide', intended to catch "won by landslide". It also
+# matched "buried by landslide" and "swept away by landslide", and so excluded
+# 175 articles of which 128 were real Nepal landslide events with casualties
+# ("11 people missing in Sankhuwasabha as eight houses are swept away by
+# landslide"). That single 12-character string was the largest source of false
+# negatives in the pipeline. See docs/TECHNICAL_REVIEW.md section 2.1 and run
+# `--stage pattern_audit` before adding a pattern here.
+#
+# Entries removed for substring collision, and the regexes that replaced them:
+#   'by landslide'   -> METAPHOR_ELECTORAL_PATTERN (requires a winning verb)
+#   'विजय'            -> METAPHOR_ELECTORAL_PATTERN (also a common given name,
+#                        Bijay; matched 44 articles, excluded 28)
+#   'बहुमत'           -> METAPHOR_ELECTORAL_PATTERN
+#   'constituency'   -> METAPHOR_ELECTORAL_PATTERN (appears in ordinary
+#                        political-geography prose in disaster reporting)
+#   'निर्वाचन'         -> METAPHOR_ELECTORAL_PATTERN
+#   'अग्रता'          -> METAPHOR_ELECTORAL_PATTERN
 METAPHOR_PATTERNS = (
     'landslide victory', 'landslide win', 'landslide wins', 'wins by landslide', 'won by landslide',
-    'by landslide', 'historic landslide', 'outright majority', 'constituency', 'constituencies',
+    'historic landslide', 'outright majority',
     'commanding lead', 'maintains lead', 'takes commanding lead', 'double lead',
     'election lead', 'parliamentary elections', 'prime ministerial candidate', 'vote count',
-    'निर्वाचन', 'मतगणना', 'अग्रता', 'बहुमत', 'विजय',
+    'मतगणना',
+)
+
+# Political metaphor detected by *context*, not by a bare fragment. Each branch
+# pairs an electoral term with an electoral action, so "swept away by landslide"
+# (physical) cannot match while "swept to power by a landslide" (metaphor) can.
+METAPHOR_ELECTORAL_PATTERN = re.compile(
+    # "won / wins / elected ... by a landslide".
+    # NOTE: 'swept' is deliberately NOT in this alternation. "swept away by
+    # landslide" is the single most common phrasing for a fatal physical
+    # landslide in this corpus; including 'swept' here reintroduces exactly the
+    # false-negative class this regex was written to eliminate. The metaphorical
+    # sense of 'swept' is handled by its own branch below, which requires
+    # "to power"/"to victory".
+    r'\b(?:won|win|wins|winning|elected|re-elected|romped|coasted)\b'
+    r'[^.\n]{0,40}\bby\s+(?:a\s+|an\s+)?landslide\b'
+    # "swept to power / to victory ... by a landslide"
+    r'|\bswept\b[^.\n]{0,20}\bto\s+(?:power|victory|office)\b'
+    # "landslide" adjacent to an unambiguous electoral noun
+    r'|\blandslide\b[^.\n]{0,30}\b(?:victory|win|mandate|majority|verdict|poll|polls|election|elections)\b'
+    r'|\b(?:victory|win|mandate|majority|verdict|poll|polls|election|elections)\b[^.\n]{0,30}\blandslide\b'
+    # Nepali: an electoral noun within a short window of an electoral action.
+    r'|(?:निर्वाचन|चुनाव|मतगणना|बहुमत|अग्रता)[^।\n]{0,40}(?:विजय|जित|जिते|जिती|निर्वाचित|पराजित|मत\s*पाए)'
+    r'|(?:विजय|जित|जिते|जिती|निर्वाचित)[^।\n]{0,40}(?:निर्वाचन|चुनाव|मतगणना|बहुमत|अग्रता|मतदान)'
+    # "constituency"/"निर्वाचन क्षेत्र" only counts alongside an electoral action.
+    r'|\bconstituenc(?:y|ies)\b[^.\n]{0,60}\b(?:vote|votes|voted|ballot|poll|polls|candidate|candidates|elect|elected|election)\b'
+    r'|\b(?:vote|votes|voted|ballot|poll|polls|candidate|candidates|elect|elected|election)\b[^.\n]{0,60}\bconstituenc(?:y|ies)\b',
+    re.IGNORECASE,
 )
 FOREIGN_TERMS = (
     'india', 'china', 'pakistan', 'turkey', 'indonesia', 'bangladesh', 'afghanistan', 'myanmar', 'japan',
@@ -142,13 +190,14 @@ def run_event_specificity_stage(config: AppConfig) -> int:
     study_start = date.fromisoformat(config.raw['study_period']['start'])
     study_end = date.fromisoformat(config.raw['study_period']['end'])
     rows = list(_specificity_rows(config.sqlite_path))
+    exclude_terms = metaphor_exclude_terms(config)
     decided_at = utc_now_iso()
     reason_counts: Counter[str] = Counter()
     ok_counts: Counter[int] = Counter()
 
     with connect_sqlite(config.sqlite_path) as connection:
         for row in rows:
-            decision = decide_specificity(row, study_start, study_end)
+            decision = decide_specificity(row, study_start, study_end, exclude_terms)
             connection.execute(
                 """
                 INSERT INTO article_specificity (url, specificity_ok, specificity_reason, specificity_score, decided_at)
@@ -231,7 +280,12 @@ def run_event_specificity_stage(config: AppConfig) -> int:
     return len(rows)
 
 
-def decide_specificity(row: SpecificityRow, study_start: date, study_end: date) -> SpecificityDecision:
+def decide_specificity(
+    row: SpecificityRow,
+    study_start: date,
+    study_end: date,
+    extra_exclude_terms: Sequence[str] = (),
+) -> SpecificityDecision:
     """Score whether an extracted row is specific enough to represent a concrete event."""
 
     title = _normalize_specificity_title(row.source, row.title)
@@ -249,7 +303,7 @@ def decide_specificity(row: SpecificityRow, study_start: date, study_end: date) 
     has_followup = _has_followup_signal(combined_cf)
     has_context_only = _has_context_only_signal(combined_cf)
     has_out_of_country = _has_out_of_country_signal(row, combined_cf)
-    has_metaphor = _has_metaphor_signal(combined_cf)
+    has_metaphor = _has_metaphor_signal(combined_cf, extra_exclude_terms)
     has_relative_date_phrase = bool(DATE_PHRASE_PATTERN.search(combined) or NP_DATE_PHRASE_PATTERN.search(combined))
     title_cf = title.casefold()
     direct_event_title = _has_direct_event_title(title_cf)
@@ -448,8 +502,43 @@ def _has_damage_only_signal(text_casefold: str) -> bool:
     return any(pattern.casefold() in text_casefold for pattern in DAMAGE_ONLY_PATTERNS)
 
 
-def _has_metaphor_signal(text_casefold: str) -> bool:
-    return any(pattern.casefold() in text_casefold for pattern in METAPHOR_PATTERNS)
+def _has_metaphor_signal(text_casefold: str, extra_terms: Sequence[str] = ()) -> bool:
+    """Detect political/financial metaphor use of 'landslide'.
+
+    Three sources, in order of trust:
+
+    1. ``extra_terms`` -- ``keywords.exclude`` from config.yaml. This is the
+       supported place for a project to add its own exclusions. It existed
+       before this change but was read by no code, which is why the hardcoded
+       list below was doing all the work, badly.
+    2. ``METAPHOR_PATTERNS`` -- unambiguous literal phrases.
+    3. ``METAPHOR_ELECTORAL_PATTERN`` -- context-requiring regexes, which
+       replaced the bare fragments that were destroying real events.
+    """
+
+    if any(term.casefold() in text_casefold for term in extra_terms):
+        return True
+    if any(pattern.casefold() in text_casefold for pattern in METAPHOR_PATTERNS):
+        return True
+    return METAPHOR_ELECTORAL_PATTERN.search(text_casefold) is not None
+
+
+def metaphor_exclude_terms(config: AppConfig) -> tuple[str, ...]:
+    """Read ``keywords.exclude`` from config, flattened across languages.
+
+    Previously dead config: the block exists in config.yaml and config.example.yaml
+    ('political landslide', 'stock slide', 'राजनीतिक पहिरो') and was never read.
+    """
+
+    raw = (config.raw.get('keywords') or {}).get('exclude') or {}
+    terms: list[str] = []
+    if isinstance(raw, dict):
+        for language in sorted(raw):
+            values = raw[language] or []
+            terms.extend(str(value) for value in values if str(value).strip())
+    elif isinstance(raw, list):
+        terms.extend(str(value) for value in raw if str(value).strip())
+    return tuple(dict.fromkeys(terms))
 
 
 def _has_title_event_signal(title_casefold: str) -> bool:

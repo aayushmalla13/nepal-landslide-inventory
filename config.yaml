@@ -60,14 +60,28 @@ keywords:
     - भूस्खलन
     - ढिस्को
     - माटो खस्नु
+  # Project-level metaphor exclusions, read by
+  # event_specificity.metaphor_exclude_terms(). These are matched as plain
+  # case-folded substrings against title+body, so keep every entry long and
+  # specific enough that it cannot occur in a report of a physical landslide.
+  # A short fragment here will silently delete real events -- that is precisely
+  # how 'by landslide' destroyed 128 of them. Run `--stage pattern_audit` after
+  # adding anything.
   exclude:
     en:
     - political landslide
     - electoral landslide
     - stock slide
+    - stock market slide
     np:
     - राजनीतिक पहिरो
     - निर्वाचनमा पहिरो
+    # Financial-market metaphor: "a 65-point landslide in the share market".
+    # A canonical event in the 2026-04 inventory was a stock-market article
+    # ("सेयर बजारमा ६५ अंकको पहिरो") -- see docs/TECHNICAL_REVIEW.md section 0.
+    - सेयर बजार
+    - शेयर बजार
+    - नेप्से परिसूचक
   trigger_terms:
     rainfall:
       en:
