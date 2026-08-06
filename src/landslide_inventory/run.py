@@ -11,6 +11,7 @@ from .config import AppConfig, load_config
 from .db import initialize_sqlite
 from .langdetect import run_language_stage
 from .validation import (
+    run_article_quality_stage,
     run_audit_canonical_stage,
     run_inventory_audit_stage,
     run_locked_test_set_stage,
@@ -99,6 +100,7 @@ STAGE_HANDLERS: dict[str, Callable[[AppConfig], None]] = {
     'filter_scope': run_filter_scope_stage,
     'unify': _not_implemented,
     'dedup': run_dedup_stage,
+    'article_quality': run_article_quality_stage,
     'audit_canonical': run_audit_canonical_stage,
     'inventory_audit': run_inventory_audit_stage,
     'locked_test_set': run_locked_test_set_stage,

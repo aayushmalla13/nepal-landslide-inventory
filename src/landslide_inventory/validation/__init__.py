@@ -1,5 +1,6 @@
 """Manual validation stage package."""
 
+from .article_quality import run_article_quality_stage
 from .audit_canonical import run_audit_canonical_stage
 from .inventory_audit import run_inventory_audit_stage
 from .locked_test_set import run_locked_test_set_stage
@@ -10,6 +11,7 @@ from .manual_score import run_manual_score_stage
 from .pattern_audit import run_pattern_audit_stage
 
 __all__ = [
+    'run_article_quality_stage',
     'run_audit_canonical_stage',
     'run_inventory_audit_stage',
     'run_locked_test_set_stage',
