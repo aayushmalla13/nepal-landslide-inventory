@@ -162,7 +162,7 @@ def test_cluster_events_uses_only_scope_filtered_class_one_rows(config_file: Pat
         connection.commit()
 
     events = load_dedup_events(config.sqlite_path)
-    clusters = cluster_events(events, build_dedup_config(config))
+    clusters, _ = cluster_events(events, build_dedup_config(config))
     assert events == []
     assert clusters == []
 

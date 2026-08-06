@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import logging
 from dataclasses import dataclass
 from datetime import date
 import json
@@ -16,6 +17,14 @@ from ..config import AppConfig
 from ..db import connect_sqlite, initialize_sqlite
 from ..gazetteer import district_to_province
 from ..utils import ensure_directory, stable_hash, utc_now_iso
+from .similarity import (
+    CasualtyVector,
+    TfidfIndex,
+    merge_rate_by_language_pair,
+    structured_similarity,
+)
+
+LOGGER = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -46,6 +55,12 @@ class EventRecord:
     ward: str | None
     place_name_raw: str | None
     deaths: int | None
+    # Added for cross-language dedup: all language-neutral, all previously
+    # available in article_events but never read here (review section 8.2).
+    missing: int | None
+    injured: int | None
+    trigger: str | None
+    route_lang: str | None
     event_class: int
     in_nepal: int
     conf_class: float
@@ -105,13 +120,43 @@ def run_dedup_stage(config: AppConfig) -> int:
     initialize_sqlite(config.sqlite_path)
     dedup_config = build_dedup_config(config)
     events = load_dedup_events(config.sqlite_path)
-    clusters = cluster_events(events, dedup_config)
+    # IDF is computed over the eligible corpus so monsoon boilerplate ("rescue
+    # teams", "police said", "district") is down-weighted rather than treated
+    # as evidence of a match.
+    tfidf = TfidfIndex(event.body_text for event in events)
+    clusters, merge_rates = cluster_events(events, dedup_config, tfidf)
+    cluster_ids, identity_collisions = assign_cluster_ids(clusters)
     persisted_at = utc_now_iso()
+
+    for pair, counts in merge_rates.items():
+        rate = counts['merged'] / counts['candidates'] if counts['candidates'] else 0.0
+        LOGGER.info(
+            'dedup merge rate %-7s %4d/%-6d (%.1f%%)',
+            pair, counts['merged'], counts['candidates'], 100.0 * rate,
+        )
+    cross = merge_rates.get('en-np', {})
+    if cross.get('candidates') and cross.get('merged', 0) == 0:
+        # Review section 8.2: "If en-np merges stay near zero after the fix, the
+        # fix did not work." Surfaced automatically rather than left to memory.
+        LOGGER.warning(
+            'No en-np merges across %d cross-language candidate pairs -- '
+            'cross-language dedup is not working.', cross['candidates'],
+        )
+
+    if identity_collisions:
+        # Two clusters claiming the same (district, date, municipality) are
+        # usually one event that dedup failed to merge, so this doubles as an
+        # under-merge metric rather than a mere id-uniqueness nuisance.
+        LOGGER.warning(
+            '%d clusters share a (district, date, municipality) identity with '
+            'another cluster -- likely missed merges; ids disambiguated with a suffix',
+            identity_collisions,
+        )
 
     with connect_sqlite(config.sqlite_path) as connection:
         reset_dedup_outputs(connection)
-        for cluster in clusters:
-            summary = build_cluster_summary(cluster, persisted_at)
+        for index, cluster in enumerate(clusters):
+            summary = build_cluster_summary(cluster, persisted_at, cluster_ids[index])
             connection.execute(
                 """
                 INSERT INTO cluster_summary (
@@ -129,7 +174,7 @@ def run_dedup_stage(config: AppConfig) -> int:
                     summary['inserted_at'],
                 ),
             )
-            canonical = build_canonical_event(cluster, persisted_at)
+            canonical = build_canonical_event(cluster, persisted_at, cluster_ids[index])
             connection.execute(
                 """
                 INSERT INTO canonical_events (
@@ -183,7 +228,8 @@ def load_dedup_events(database_path: Path) -> list[EventRecord]:
             """
             SELECT e.url, e.source, e.title, COALESCE(r.text, '') AS body_text,
                    e.event_date_ad, e.district, e.province, e.municipality,
-                   e.ward, e.place_name_raw, e.deaths, e.class, e.in_nepal,
+                   e.ward, e.place_name_raw, e.deaths, e.missing, e.injured,
+                   e.trigger, e.route_lang, e.class, e.in_nepal,
                    COALESCE(e.conf_class, 0.0) AS conf_class,
                    COALESCE(e.conf_date, 0.0) AS conf_date,
                    COALESCE(e.conf_district, 0.0) AS conf_district,
@@ -213,6 +259,10 @@ def load_dedup_events(database_path: Path) -> list[EventRecord]:
             ward=row['ward'],
             place_name_raw=row['place_name_raw'],
             deaths=int(row['deaths']) if row['deaths'] is not None else None,
+            missing=int(row['missing']) if row['missing'] is not None else None,
+            injured=int(row['injured']) if row['injured'] is not None else None,
+            trigger=row['trigger'],
+            route_lang=row['route_lang'],
             event_class=int(row['class']),
             in_nepal=int(row['in_nepal']),
             conf_class=float(row['conf_class']),
@@ -226,17 +276,58 @@ def load_dedup_events(database_path: Path) -> list[EventRecord]:
     ]
 
 
-def cluster_events(events: list[EventRecord], config: DedupConfig) -> list[list[EventRecord]]:
-    """Cluster candidate events using deterministic union-find."""
+def structured_pair_similarity(left: EventRecord, right: EventRecord, tfidf: TfidfIndex | None):
+    """Language-neutral score for one candidate pair. See unify/similarity.py."""
+
+    return structured_similarity(
+        left_municipality=left.municipality, right_municipality=right.municipality,
+        left_ward=left.ward, right_ward=right.ward,
+        left_casualties=CasualtyVector(left.deaths, left.missing, left.injured),
+        right_casualties=CasualtyVector(right.deaths, right.missing, right.injured),
+        left_trigger=left.trigger, right_trigger=right.trigger,
+        left_place=left.place_name_raw, right_place=right.place_name_raw,
+        left_text=left.body_text, right_text=right.body_text,
+        left_lang=left.route_lang, right_lang=right.route_lang,
+        tfidf=tfidf,
+    )
+
+
+def cluster_events(
+    events: list[EventRecord],
+    config: DedupConfig,
+    tfidf: TfidfIndex | None = None,
+) -> tuple[list[list[EventRecord]], dict[str, dict[str, int]]]:
+    """Cluster candidate events using deterministic union-find.
+
+    Two merge paths, unioned:
+
+    1. The original string-similarity path (rapidfuzz over title/body). Kept
+       as-is because its thresholds are tuned, even if tuned on the test set,
+       and changing them would confound this fix with a retuning.
+
+    2. The structured, language-neutral path added for review section 8.2.
+       Devanagari and Latin share no tokens, so path 1 scores every
+       cross-language pair at ~0 and they can never merge -- 1,031 of 1,112
+       clusters were singletons. Path 2 compares gazetteer-normalised
+       municipality, casualty vectors and transliterated place names instead,
+       none of which depend on script.
+
+    Fully replacing path 1 with TF-IDF cosine (review section 8.2) is deferred:
+    it needs weights fitted on a dev set, and the locked test set is unlabelled.
+
+    Also returns merge counts by language pair, which is the acceptance test:
+    if en-np merges stay near zero, the fix did not work.
+    """
 
     if not events:
-        return []
+        return [], {}
 
     parents = {event.url: event.url for event in events}
     grouped_by_district: dict[str, list[EventRecord]] = {}
     for event in events:
         grouped_by_district.setdefault(event.district, []).append(event)
 
+    observed: list[tuple[str, str, bool]] = []
     for district in sorted(grouped_by_district):
         district_events = sorted(grouped_by_district[district], key=event_sort_key)
         for index, left in enumerate(district_events):
@@ -245,17 +336,39 @@ def cluster_events(events: list[EventRecord], config: DedupConfig) -> list[list[
                 if day_diff > config.candidate_window_days:
                     break
                 similarity = compute_similarity(left, right)
-                if should_merge(left, right, similarity, config):
+                merged = should_merge(left, right, similarity, config)
+                # Path 2 applies ONLY to cross-language pairs. That restriction
+                # is deliberate and worth stating: path 1 is *structurally*
+                # blind across scripts -- Devanagari and Latin share no tokens,
+                # so it scores every such pair at ~0 no matter how obviously
+                # they match. Within a language it can see fine; whether it
+                # sees *well* is a separate question that needs weights fitted
+                # on a labelled dev set.
+                #
+                # Applying these unfitted weights to same-language pairs would
+                # confound a structural fix with an untested retuning, and
+                # would over-merge in ways nothing can currently measure. On
+                # the existing test fixture it merges two Dhading reports with
+                # identical dates and death counts that the tuned path keeps
+                # apart -- plausibly correct, but "plausibly" is not a
+                # standard this project can afford right now.
+                if not merged and (left.route_lang or '?') != (right.route_lang or '?'):
+                    structured = structured_pair_similarity(left, right, tfidf)
+                    if structured.should_merge:
+                        merged = True
+                if merged:
                     union(parents, left.url, right.url)
+                observed.append((left.route_lang or '?', right.route_lang or '?', merged))
 
     grouped: dict[str, list[EventRecord]] = {}
     for event in events:
         grouped.setdefault(find(parents, event.url), []).append(event)
 
-    return sorted(
+    clusters = sorted(
         [sorted(cluster, key=event_sort_key) for cluster in grouped.values()],
         key=lambda cluster: event_sort_key(cluster[0]),
     )
+    return clusters, merge_rate_by_language_pair(observed)
 
 
 def compute_similarity(left: EventRecord, right: EventRecord) -> PairSimilarity:
@@ -313,14 +426,17 @@ def deaths_within_delta(left: int | None, right: int | None, delta: int) -> bool
     return abs(left - right) <= delta
 
 
-def build_cluster_summary(cluster: list[EventRecord], inserted_at: str) -> dict[str, Any]:
+def build_cluster_summary(cluster: list[EventRecord], inserted_at: str, cluster_id: str | None = None) -> dict[str, Any]:
     """Build one cluster_summary row."""
 
     urls = sorted(event.url for event in cluster)
     sources = sorted({event.source for event in cluster})
     dates = sorted(event.event_date_ad for event in cluster)
     return {
-        'cluster_id': build_cluster_id(cluster),
+        # Must use the caller-assigned id when given: build_cluster_id alone is
+        # not unique (see assign_cluster_ids), and cluster_summary.cluster_id
+        # carries a UNIQUE constraint.
+        'cluster_id': cluster_id or build_cluster_id(cluster),
         'district': cluster[0].district,
         'date_min': dates[0],
         'date_max': dates[-1],
@@ -331,11 +447,11 @@ def build_cluster_summary(cluster: list[EventRecord], inserted_at: str) -> dict[
     }
 
 
-def build_canonical_event(cluster: list[EventRecord], inserted_at: str) -> dict[str, Any]:
+def build_canonical_event(cluster: list[EventRecord], inserted_at: str, cluster_id: str | None = None) -> dict[str, Any]:
     """Build one canonical_events row from a cluster."""
 
     representative = choose_representative(cluster)
-    cluster_id = build_cluster_id(cluster)
+    cluster_id = cluster_id or build_cluster_id(cluster)
     municipalities = sorted({event.municipality for event in cluster if event.municipality})
     wards = sorted({event.ward for event in cluster if event.ward})
     place_names = sorted({event.place_name_raw for event in cluster if event.place_name_raw})
@@ -378,17 +494,87 @@ def choose_representative(cluster: list[EventRecord]) -> EventRecord:
 
 
 def build_cluster_id(cluster: list[EventRecord]) -> str:
-    """Return a deterministic cluster identifier."""
+    """Return a content-stable cluster identifier.
 
-    urls = sorted(event.url for event in cluster)
-    return f"cluster_{stable_hash('dedup', urls)[:16]}"
+    Hashes the event's *identity* -- district, canonical date, municipality --
+    not its member URL set (review section 8.2).
+
+    Why this matters: hashing the URL set means every ``cluster_id``, and
+    therefore every ``event_id``, changes whenever coverage changes. Add a
+    source, re-fetch a failed article, or merge one extra duplicate, and the
+    identifiers of *unrelated* events churn. That breaks any longitudinal audit
+    and makes a DOI'd dataset version impossible to reconcile with the next one
+    -- a reader cannot ask "is event X still in the v2 inventory?".
+
+    Under this scheme, an event keeps its identity as long as it happened in
+    the same place on the same day, which is what identity should mean here.
+    Adding the ekantipur report of a landslide already covered by setopati now
+    grows the cluster instead of renaming the event.
+
+    Collision note: two clusters sharing (district, date, municipality) produce
+    the same identity. Measured on the current inventory that is 82 identities
+    covering 176 clusters -- far from rare.
+
+    Inspecting them turned out to be informative rather than merely annoying:
+    almost every collision is a *missed merge*. Baglung 2024-08-06, Badigad
+    Rural Municipality appears twice with tolls of 6 and 7; Arghakhanchi
+    2021-08-31 appears twice, once with a casualty count and once without. So
+    the collision count doubles as an under-merge metric -- see
+    ``assign_cluster_ids``, which reports it.
+
+    Collisions are disambiguated with a deterministic suffix so the identifier
+    stays unique. Identifiers for non-colliding clusters -- the large majority --
+    remain content-stable across coverage changes, which is the point.
+    """
+
+    canonical_date = min(event.event_date_ad for event in cluster)
+    districts = sorted({event.district for event in cluster})
+    municipalities = sorted({event.municipality for event in cluster if event.municipality})
+    identity = (
+        districts[0] if districts else '',
+        canonical_date,
+        municipalities[0] if municipalities else '',
+    )
+    return f"cluster_{stable_hash('dedup_v2', identity)[:16]}"
+
+
+def assign_cluster_ids(clusters: list[list[EventRecord]]) -> tuple[dict[int, str], int]:
+    """Map each cluster index to a unique id, disambiguating collisions.
+
+    Returns the mapping and the number of colliding identities. That count is a
+    useful diagnostic in its own right: two clusters claiming the same
+    (district, date, municipality) are usually the same event that dedup failed
+    to merge, so a rising collision count means under-merging.
+
+    Disambiguation is by position in a deterministic ordering (earliest member
+    URL), so a given run always produces the same ids.
+    """
+
+    seen: dict[str, int] = {}
+    assignments: dict[int, str] = {}
+    collisions = 0
+    ordered = sorted(
+        range(len(clusters)),
+        key=lambda index: min(event.url for event in clusters[index]),
+    )
+    for index in ordered:
+        base = build_cluster_id(clusters[index])
+        occurrence = seen.get(base, 0)
+        seen[base] = occurrence + 1
+        if occurrence == 0:
+            assignments[index] = base
+        else:
+            collisions += 1
+            assignments[index] = f'{base}_{occurrence}'
+    return assignments, collisions
 
 
 def export_cluster_summary_csv(path: Path, clusters: list[list[EventRecord]], inserted_at: str) -> None:
     """Export cluster summary rows to CSV."""
 
     ensure_directory(path.parent)
-    rows = [build_cluster_summary(cluster, inserted_at) for cluster in clusters]
+    ids, _ = assign_cluster_ids(clusters)
+    rows = [build_cluster_summary(c, inserted_at, ids[i]) for i, c in enumerate(clusters)]
     with path.open('w', encoding='utf-8', newline='') as handle:
         writer = csv.DictWriter(
             handle,
@@ -403,7 +589,8 @@ def export_canonical_events_csv(path: Path, clusters: list[list[EventRecord]], i
     """Export canonical event rows to CSV."""
 
     ensure_directory(path.parent)
-    rows = [build_canonical_event(cluster, inserted_at) for cluster in clusters]
+    ids, _ = assign_cluster_ids(clusters)
+    rows = [build_canonical_event(c, inserted_at, ids[i]) for i, c in enumerate(clusters)]
     with path.open('w', encoding='utf-8', newline='') as handle:
         writer = csv.DictWriter(
             handle,
