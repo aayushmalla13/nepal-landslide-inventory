@@ -123,6 +123,38 @@ FOREIGN_TERMS = (
     'भारत', 'चीन', 'पाकिस्तान', 'टर्की', 'इन्डोनेसिया', 'बंगलादेश', 'अफगानिस्तान', 'म्यानमार', 'जापान',
     'न्युजिल्यान्ड', 'न्यूजिल्यान्ड', 'न्युजील्यान्ड', 'न्यूजील्यान्ड', 'उत्तराखण्ड', 'उत्तराखंड', 'हिमाचल',
 )
+
+# Countries and foreign regions, EN and NP. The Nepali side was almost empty,
+# which is how "सुडानमा पहिरोले पुरिएर कम्तीमा १००० जनाको मृत्यु" -- a Sudan
+# landslide killing ~1,000 -- entered the inventory as an event in PARBAT
+# DISTRICT, contributing 1,000 deaths to Nepal's national total.
+#
+# Nepali outlets report foreign disasters in Nepali, so an English-only foreign
+# filter is structurally blind to exactly the articles most likely to leak. Any
+# country added here must be added in BOTH scripts.
+FOREIGN_TERMS_EXTRA = (
+    # South Asia and neighbours
+    'sri lanka', 'maldives', 'bhutan', 'sikkim', 'assam', 'meghalaya', 'kerala',
+    'maharashtra', 'kashmir', 'ladakh', 'darjeeling', 'kalimpong',
+    'श्रीलंका', 'श्रीलङ्का', 'भुटान', 'भूटान', 'सिक्किम', 'असम', 'केरला',
+    'कास्मिर', 'कस्मिर', 'दार्जिलिङ', 'दार्जिलिंग', 'लद्दाख',
+    # Wider Asia
+    'vietnam', 'malaysia', 'south korea', 'north korea', 'taiwan', 'cambodia',
+    'भियतनाम', 'मलेसिया', 'दक्षिण कोरिया', 'उत्तर कोरिया', 'ताइवान',
+    'तिब्बत', 'भारत', 'चीन', 'पाकिस्तान', 'बंगलादेश', 'श्रीलंका',
+    # Africa, Americas, Europe -- all have produced fatal landslide wire copy
+    'sudan', 'ethiopia', 'uganda', 'kenya', 'tanzania', 'congo', 'rwanda',
+    'nigeria', 'cameroon', 'south africa',
+    'सुडान', 'सूडान', 'इथियोपिया', 'युगाण्डा', 'केन्या', 'कंगो', 'नाइजेरिया',
+    'colombia', 'ecuador', 'peru', 'bolivia', 'guatemala', 'mexico', 'brazil',
+    'venezuela', 'chile', 'haiti',
+    'कोलम्बिया', 'इक्वेडर', 'पेरु', 'बोलिभिया', 'ग्वाटेमाला', 'मेक्सिको',
+    'ब्राजिल', 'भेनेजुएला', 'चिली', 'हैटी',
+    'italy', 'norway', 'switzerland', 'austria', 'georgia', 'russia', 'ukraine',
+    'इटाली', 'नर्वे', 'स्विट्जरल्यान्ड', 'अस्ट्रिया', 'रुस', 'युक्रेन',
+    'papua new guinea', 'पपुवा न्यू गिनी', 'indonesia', 'इन्डोनेसिया',
+)
+FOREIGN_TERMS = tuple(dict.fromkeys(FOREIGN_TERMS + FOREIGN_TERMS_EXTRA))
 NEPAL_TERMS = ('nepal', 'नेपाल')
 URL_NEPAL_MARKERS = ('/nepal', '/national', '/social')
 NEPAL_SIGNAL_PATTERN = re.compile(r'(?<![a-z])nepal(?![a-z])|नेपाल', re.IGNORECASE)

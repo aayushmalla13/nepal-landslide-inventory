@@ -573,8 +573,72 @@ def _resolve_event_date(
     return anchor_date.isoformat(), anchor_conf
 
 
+# Context marking a number as a running total rather than this event's toll.
+# Checked in a window around each candidate, so a legitimately late figure
+# ("15 people were injured in the landslide") survives while a context figure
+# ("90 have died nationwide since the monsoon began") does not.
+AGGREGATE_CONTEXT_PATTERN = re.compile(
+    r'nationwide|across the country|country-?wide|so far|since the (?:monsoon|onset|beginning)'
+    r'|this (?:monsoon|year|season)|in the (?:past|last)\s+\w+\s+(?:years?|months?|weeks?)'
+    r'|to date|cumulative|overall|in total|altogether|total of'
+    r'|देशभर|देशैभरि|देशभरि|अहिलेसम्म|हालसम्म|यसवर्ष|यस वर्ष|यो मनसुन|कुल|जम्मा|यता',
+    re.IGNORECASE,
+)
+
+
+def _is_aggregate_context(text: str, start: int, end: int, window: int = 90) -> bool:
+    """Whether a numeric match sits in running-total context."""
+
+    return AGGREGATE_CONTEXT_PATTERN.search(text[max(0, start - window):end + window]) is not None
+
+
+def _casualty_scope(text: str, lead_chars: int = 400) -> str:
+    """Restrict casualty search to the headline and lead.
+
+    CASUALTY SCOPE -- why this is not a maximum over the whole article.
+
+    ``_extract_casualties`` used to keep the LARGEST matching number found
+    anywhere in the body::
+
+        if best_value is None or value > best_value:
+
+    News bodies routinely carry two very different numbers. The event's own toll
+    is in the headline and lead; the season-to-date or nationwide total appears
+    further down as context ("... 90 people have died in landslides nationwide
+    since the monsoon began"). Taking the maximum systematically returns the
+    second one.
+
+    Measured before the fix: 6,242 landslide deaths across 862 events, a mean of
+    25.6 per fatal event, against a real national toll of roughly 100-150 a
+    year. Concrete cases::
+
+        "मोरङको लेटाङमा पहिरोले घर पुरिँदा महिलाको मृत्यु"  (one woman)  -> 90
+        "At least three killed ... as landslide sweeps"      (three)      -> 249
+        "पहिरोले घर भत्किँदा ४ जनाको मृत्यु"                 (four)       -> 60
+        "काठमाडौंमा पहिरो जाँदा एकको मृत्यु"                 (one)        -> 22
+
+    44 events claiming more than 20 deaths contributed 86% of all recorded
+    deaths, so the casualty field -- the primary scientific variable of a
+    fatal-landslide inventory -- was unusable.
+
+    The rule now follows the inverted-pyramid convention the corpus actually
+    obeys: search the title and lead only, and take the FIRST match rather than
+    the largest. A number in paragraph nine is context, not this event.
+    """
+
+    if not text:
+        return ''
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if not lines:
+        return text[:lead_chars]
+    # Title (first line) plus the lead. Generous enough to include a dateline
+    # and the opening sentence, short enough to exclude the context paragraphs.
+    return '\n'.join(lines[:2])[:lead_chars] or text[:lead_chars]
+
+
 def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tuple[int | None, int | None, int | None, float]:
     lowered = text.casefold()
+    casualty_scope = _casualty_scope(text)
     values = {
         'deaths': None,
         'missing': None,
@@ -592,16 +656,26 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         )
         best_value = None
         best_conf = 0.0
-        for pattern in patterns:
-            for match in pattern.finditer(text):
-                value = _parse_count(match.group('num'))
-                if value is None:
-                    continue
-                qualifier = match.groupdict().get('qual') or ''
-                current_conf = 0.75 if qualifier else 0.92
-                if best_value is None or value > best_value:
+        # Lead first; consult the full body only if the lead yields nothing for
+        # this field, because some genuine figures appear late ("15 people were
+        # injured in the landslide"). Either way take the FIRST match, never the
+        # largest, and skip matches sitting in running-total context.
+        for search_text in (casualty_scope, text):
+            if best_value is not None:
+                break
+            for pattern in patterns:
+                if best_value is not None:
+                    break
+                for match in pattern.finditer(search_text):
+                    if _is_aggregate_context(search_text, match.start(), match.end()):
+                        continue
+                    value = _parse_count(match.group('num'))
+                    if value is None:
+                        continue
+                    qualifier = match.groupdict().get('qual') or ''
                     best_value = value
-                    best_conf = current_conf
+                    best_conf = 0.75 if qualifier else 0.92
+                    break
         values[label] = best_value
         confidence = max(confidence, best_conf)
     if not any(value is not None for value in values.values()):

@@ -325,8 +325,44 @@ def _resolve_event_date(
     return anchor_date.isoformat(), anchor_conf
 
 
+# Context marking a number as a running total rather than this event's toll.
+# Checked in a window around each candidate, so a legitimately late figure
+# ("15 people were injured in the landslide") survives while a context figure
+# ("90 have died nationwide since the monsoon began") does not.
+AGGREGATE_CONTEXT_PATTERN = re.compile(
+    r'nationwide|across the country|country-?wide|so far|since the (?:monsoon|onset|beginning)'
+    r'|this (?:monsoon|year|season)|in the (?:past|last)\s+\w+\s+(?:years?|months?|weeks?)'
+    r'|to date|cumulative|overall|in total|altogether|total of'
+    r'|देशभर|देशैभरि|देशभरि|अहिलेसम्म|हालसम्म|यसवर्ष|यस वर्ष|यो मनसुन|कुल|जम्मा|यता',
+    re.IGNORECASE,
+)
+
+
+def _is_aggregate_context(text: str, start: int, end: int, window: int = 90) -> bool:
+    """Whether a numeric match sits in running-total context."""
+
+    return AGGREGATE_CONTEXT_PATTERN.search(text[max(0, start - window):end + window]) is not None
+
+
+def _casualty_scope(text: str, lead_chars: int = 400) -> str:
+    """Restrict casualty search to the headline and lead.
+
+    See the identical note in nlp_en/extract.py: taking the maximum number
+    anywhere in the body returned the nationwide season-to-date total instead of
+    this event's toll, inflating recorded deaths roughly sevenfold.
+    """
+
+    if not text:
+        return ''
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if not lines:
+        return text[:lead_chars]
+    return '\n'.join(lines[:2])[:lead_chars] or text[:lead_chars]
+
+
 def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tuple[int | None, int | None, int | None, float]:
     normalized_text = devanagari_to_ascii_digits(text)
+    casualty_scope = _casualty_scope(normalized_text)
     values = {
         'deaths': None,
         'missing': None,
@@ -344,14 +380,22 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         )
         best_value = None
         best_conf = 0.0
-        for pattern in patterns:
-            for match in pattern.finditer(normalized_text):
-                value = int(match.group('num'))
-                qualifier = match.groupdict().get('qual') or ''
-                current_conf = 0.75 if qualifier else 0.92
-                if best_value is None or value > best_value:
+        # See the English extractor: lead first, full body only as a fallback,
+        # first match rather than largest, running totals vetoed.
+        for search_text in (casualty_scope, normalized_text):
+            if best_value is not None:
+                break
+            for pattern in patterns:
+                if best_value is not None:
+                    break
+                for match in pattern.finditer(search_text):
+                    if _is_aggregate_context(search_text, match.start(), match.end()):
+                        continue
+                    value = int(match.group('num'))
+                    qualifier = match.groupdict().get('qual') or ''
                     best_value = value
-                    best_conf = current_conf
+                    best_conf = 0.75 if qualifier else 0.92
+                    break
         values[label] = best_value
         confidence = max(confidence, best_conf)
     if not any(value is not None for value in values.values()):

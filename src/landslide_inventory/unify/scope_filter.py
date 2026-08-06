@@ -25,6 +25,38 @@ FOREIGN_TERMS = (
     'iraq', 'israel', 'gaza', 'syria', 'yemen', 'mexico', 'brazil', 'peru', 'chile', 'argentina',
     'australia', 'new zealand', 'south africa', 'spain', 'uk', 'england', 'scotland', 'ireland', 'hong kong', 'uttarakhand', 'sikkim', 'delhi',
 )
+
+# Countries and foreign regions, EN and NP. The Nepali side was almost empty,
+# which is how "सुडानमा पहिरोले पुरिएर कम्तीमा १००० जनाको मृत्यु" -- a Sudan
+# landslide killing ~1,000 -- entered the inventory as an event in PARBAT
+# DISTRICT, contributing 1,000 deaths to Nepal's national total.
+#
+# Nepali outlets report foreign disasters in Nepali, so an English-only foreign
+# filter is structurally blind to exactly the articles most likely to leak. Any
+# country added here must be added in BOTH scripts.
+FOREIGN_TERMS_EXTRA = (
+    # South Asia and neighbours
+    'sri lanka', 'maldives', 'bhutan', 'sikkim', 'assam', 'meghalaya', 'kerala',
+    'maharashtra', 'kashmir', 'ladakh', 'darjeeling', 'kalimpong',
+    'श्रीलंका', 'श्रीलङ्का', 'भुटान', 'भूटान', 'सिक्किम', 'असम', 'केरला',
+    'कास्मिर', 'कस्मिर', 'दार्जिलिङ', 'दार्जिलिंग', 'लद्दाख',
+    # Wider Asia
+    'vietnam', 'malaysia', 'south korea', 'north korea', 'taiwan', 'cambodia',
+    'भियतनाम', 'मलेसिया', 'दक्षिण कोरिया', 'उत्तर कोरिया', 'ताइवान',
+    'तिब्बत', 'भारत', 'चीन', 'पाकिस्तान', 'बंगलादेश', 'श्रीलंका',
+    # Africa, Americas, Europe -- all have produced fatal landslide wire copy
+    'sudan', 'ethiopia', 'uganda', 'kenya', 'tanzania', 'congo', 'rwanda',
+    'nigeria', 'cameroon', 'south africa',
+    'सुडान', 'सूडान', 'इथियोपिया', 'युगाण्डा', 'केन्या', 'कंगो', 'नाइजेरिया',
+    'colombia', 'ecuador', 'peru', 'bolivia', 'guatemala', 'mexico', 'brazil',
+    'venezuela', 'chile', 'haiti',
+    'कोलम्बिया', 'इक्वेडर', 'पेरु', 'बोलिभिया', 'ग्वाटेमाला', 'मेक्सिको',
+    'ब्राजिल', 'भेनेजुएला', 'चिली', 'हैटी',
+    'italy', 'norway', 'switzerland', 'austria', 'georgia', 'russia', 'ukraine',
+    'इटाली', 'नर्वे', 'स्विट्जरल्यान्ड', 'अस्ट्रिया', 'रुस', 'युक्रेन',
+    'papua new guinea', 'पपुवा न्यू गिनी', 'indonesia', 'इन्डोनेसिया',
+)
+FOREIGN_TERMS = tuple(dict.fromkeys(FOREIGN_TERMS + FOREIGN_TERMS_EXTRA))
 COUNTRY_LIST_PATTERN = re.compile(r'\b(?:India|China|Turkey|Indonesia|Pakistan|Japan|Bangladesh|California|Sierra Leone)(?:\s*,\s*(?:India|China|Turkey|Indonesia|Pakistan|Japan|Bangladesh|California|Sierra Leone)){2,}', re.IGNORECASE)
 MYREPUBLICA_TITLE_SUFFIX_PATTERN = re.compile(
     r'\s*-\s*myRepublica\s*-\s*The New York Times Partner.*$',

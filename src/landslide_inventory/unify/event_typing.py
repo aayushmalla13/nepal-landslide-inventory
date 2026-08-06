@@ -54,6 +54,7 @@ LOGGER = logging.getLogger(__name__)
 
 EVENT_TYPE_LANDSLIDE = 'landslide'
 EVENT_TYPE_ROAD_OBSTRUCTION = 'road_obstruction'
+EVENT_TYPE_AGGREGATE_REPORT = 'aggregate_report'
 
 # Hazard vocabulary, matching validation/locked_test_set.TRUTH_VOCABULARIES so
 # annotator labels and pipeline output are directly comparable.
@@ -121,6 +122,98 @@ EXTRACTION_BASIS_TITLE_ONLY = 'title_only'
 # Bodies at or below this are too thin to have supported extraction. Matches
 # MIN_BODY_CHARS in validation/article_quality.py -- keep them in step.
 TITLE_ONLY_BODY_CHARS = 200
+
+# AGGREGATE REPORTS -- articles that state a running total, not an event.
+#
+# These are the single largest source of error in the casualty field. Before
+# this filter the inventory recorded 6,242 landslide deaths across 862 events
+# (25.6 per fatal event) against a real national toll of roughly 100-150 a year.
+# Scoping the casualty extractor to the lead removed half of it; the remainder
+# comes from articles that are *entirely* aggregate:
+#
+#   "Floods, landslides claim 1000 plus lives in five years"        -> 480 deaths
+#   "134 people dead in floods, landslides since monsoon rain"      -> 134
+#   "90 killed in floods, landslides so far, DPM informs House"     ->  90
+#   "गृहको समीक्षा : समन्वयमा चुक्यौं" (Home Ministry review)         -> 170
+#
+# Every one was assigned to a single district -- 480 deaths to Bardiya, a Terai
+# district. They are not extraction failures; they are non-events that the
+# specificity filter let through. Typed and excluded rather than deleted, so the
+# count is disclosable.
+PERIOD_TOTAL_PATTERN = re.compile(
+    r'\bsince\s+(?:the\s+)?(?:monsoon|onset|beginning|start)'
+    r'|\bso far\b|\bto date\b|\bthis (?:monsoon|year|season)\b|\bthis year alone\b'
+    r'|\bin\s+(?:the\s+)?(?:past|last)?\s*(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)'
+    r'\s*(?:years?|months?|weeks?|days?)\b'
+    r'|\bover the (?:years|last|past)\b|\bcumulative\b|\bin total\b'
+    r'|अहिलेसम्म|हालसम्म|यसवर्ष|यस वर्ष|यो मनसुन|यता|वर्षमा|महिनामा|कुल|जम्मा',
+    re.IGNORECASE,
+)
+
+MULTI_HAZARD_PATTERN = re.compile(
+    r'\bfloods?\s+and\s+landslides?\b|\blandslides?\s+and\s+floods?\b'
+    r'|\bfloods?,\s*landslides?\b|\blandslides?,\s*floods?\b'
+    r'|बाढी\s*[–—-]?\s*पहिरो|पहिरो\s*[–—-]?\s*बाढी|बाढीपहिरो|प्राकृतिक विपद',
+    re.IGNORECASE,
+)
+
+NATIONAL_SCOPE_PATTERN = re.compile(
+    r'\bnationwide\b|\bacross the country\b|\bcountry-?wide\b|\bin nepal\b'
+    r'|\bvarious districts\b|\bseveral districts\b'
+    r'|देशभर|देशैभरि|देशभरि|राष्ट्रिय',
+    re.IGNORECASE,
+)
+
+# Government/institutional framing: a ministry review, a PM inspection, a
+# parliamentary statement. The article is about the response, not an event.
+INSTITUTIONAL_PATTERN = re.compile(
+    r'\b(?:informs house|house of representatives|parliament|minister|ministry|'
+    r'prime minister|cabinet|review meeting|convenes|inspection|briefing|'
+    r'informs|urges|directs|discussion)\b'
+    r'|गृहको समीक्षा|मन्त्रिपरिषद|प्रधानमन्त्री|प्रचण्ड|देउवा|ओली|संसद|मन्त्रालय|'
+    r'निरीक्षण|समीक्षा|बैठक|छलफल|बोलाए|निर्देशन',
+    re.IGNORECASE,
+)
+
+
+# A specific incident with its own casualties, e.g. "Landslide kills three in
+# Sindhupalchok". Protects real events from the institutional/multi-hazard
+# heuristics above.
+DIRECT_INCIDENT_TITLE_PATTERN = re.compile(
+    r'(?:landslide|landslides|mudslide|rockfall|पहिरो|भूस्खलन)[^\n]{0,60}'
+    r'(?:kill|kills|killed|dead|die|dies|died|buri|swept|missing|injur|'
+    r'मृत्यु|पुरिए|पुरिँदा|बेपत्ता|घाइते|बगायो)'
+    r'|(?:kill|kills|killed|dead|die|dies|died|buri|swept|missing|injur|'
+    r'मृत्यु|पुरिए|पुरिँदा|बेपत्ता|घाइते|बगायो)[^\n]{0,60}'
+    r'(?:landslide|landslides|mudslide|rockfall|पहिरो|भूस्खलन)',
+    re.IGNORECASE,
+)
+
+
+def is_aggregate_report(title: str | None) -> bool:
+    """Whether a title states a running total or institutional response.
+
+    Judged on the TITLE only. A body may legitimately mention seasonal totals as
+    context; a title that leads with one means the article itself is an
+    aggregate.
+    """
+
+    heading = (title or '').strip()
+    if not heading:
+        return False
+    period = PERIOD_TOTAL_PATTERN.search(heading) is not None
+    multi = MULTI_HAZARD_PATTERN.search(heading) is not None
+    national = NATIONAL_SCOPE_PATTERN.search(heading) is not None
+    institutional = INSTITUTIONAL_PATTERN.search(heading) is not None
+    # A title reporting a specific incident with its own casualties is an
+    # event even if a minister appears in it ("Minister visits site where three
+    # died"). Everything else that is institutional is about the response, not
+    # the event.
+    direct_incident = DIRECT_INCIDENT_TITLE_PATTERN.search(heading) is not None
+    if direct_incident and not (period or national):
+        return False
+    return period or national or institutional or multi
+
 
 # Road/highway infrastructure vocabulary, EN and NP.
 ROAD_TERMS_PATTERN = re.compile(
@@ -250,6 +343,11 @@ def classify_event_type(
         else EXTRACTION_BASIS_FULL
     )
 
+    # Checked before casualties: an aggregate report always HAS a casualty
+    # count -- that is what makes it dangerous. Letting the casualty branch win
+    # would keep every roundup in the headline inventory.
+    if is_aggregate_report(title):
+        return EventTyping(EVENT_TYPE_AGGREGATE_REPORT, basis, 'aggregate_report', hazard)
     if any(value for value in (deaths, missing, injured) if value):
         return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'casualties_recorded', hazard)
     if HUMAN_IMPACT_PATTERN.search(combined):

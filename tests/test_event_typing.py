@@ -219,3 +219,62 @@ def test_summarize_counts_non_landslide_hazards() -> None:
     assert summary['headline_events'] == 1
     assert summary['non_landslide_hazard'] == 1
     assert summary['by_hazard_type'][HAZARD_AVALANCHE] == 1
+
+
+# --- aggregate reports -------------------------------------------------------
+# Articles stating a running total rather than an event. Before this filter the
+# inventory recorded 6,242 landslide deaths (25.6/fatal event) against a real
+# national toll of ~100-150/yr. "Floods, landslides claim 1000 plus lives in
+# five years" contributed 480 deaths -- to Bardiya, a Terai district.
+
+from landslide_inventory.unify.event_typing import (  # noqa: E402
+    EVENT_TYPE_AGGREGATE_REPORT,
+    is_aggregate_report,
+)
+
+
+@pytest.mark.parametrize('title', [
+    'Floods, landslides claim 1000 plus lives in five years',
+    '134 people dead in floods, landslides since monsoon rain',
+    '90 killed in floods, landslides so far, DPM informs House',
+    'At least 148 are dead in floods and landslides in Nepal',
+    'गृहको समीक्षा : समन्वयमा चुक्यौं',
+    'बाढी—पहिरोबाट उत्पन्न परिस्थितिबारे छलफल गर्न प्रचण्डले बोलाए',
+])
+def test_running_totals_are_typed_aggregate(title: str) -> None:
+    assert is_aggregate_report(title) is True, f'{title!r} is a running total, not an event'
+
+
+@pytest.mark.parametrize('title', [
+    'Landslide kills three in Sindhupalchok',
+    'सिन्धुपाल्चोकमा पहिरो खस्दा दुईको मृत्यु',
+    'Eight houses swept away by landslide in Sankhuwasabha, 11 missing',
+    'इलाममा पहिरोमा पुरिएर १७ जनाको मृत्यु',
+    'Jhyaple Khola landslides: All 35 dead identified',
+    'Landslide buries moving bus in Kakani',
+])
+def test_specific_incidents_are_not_aggregates(title: str) -> None:
+    assert is_aggregate_report(title) is False, (
+        f'{title!r} is a specific incident; typing it as an aggregate removes a '
+        'real event from the inventory'
+    )
+
+
+def test_aggregate_beats_the_casualty_branch() -> None:
+    """Order matters: an aggregate always HAS a casualty count."""
+
+    typing = classify_event_type(
+        title='Floods, landslides claim 1000 plus lives in five years',
+        text='x' * 500, deaths=1000,
+    )
+    assert typing.event_type == EVENT_TYPE_AGGREGATE_REPORT
+    assert typing.in_headline_counts is False
+    assert typing.eligible_for_bipad is False
+
+
+def test_a_minister_visiting_a_real_event_is_still_an_event() -> None:
+    typing = classify_event_type(
+        title='Minister visits Sindhupalchok where landslide killed three',
+        text='x' * 500, deaths=3,
+    )
+    assert typing.event_type != EVENT_TYPE_AGGREGATE_REPORT
