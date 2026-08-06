@@ -10,13 +10,19 @@ Newest entries at the bottom of each session. Session headers are dated.
 ## Standing context (read first)
 
 **The problem, in one paragraph.** The pipeline turns 4,453 scraped Nepali/English news
-articles into canonical landslide events (1,071 at review time; **1,127 now**, of which
-**1,003 are headline landslide events** and 124 are typed `road_obstruction`). The
-engineering is sound; the science layer is not. Class-1 precision was 0.516, the district
-field is biased toward Kathmandu by construction (Kathmandu is still the #1 landslide
-district, which is geomorphologically impossible), and every reported metric is in-sample
-because the 200-row evaluation set was re-scored after the rules were tuned on it.
+articles into canonical landslide events (1,071 at review time; **1,112 now**, of which
+**962 are headline landslide events** — the rest are 124 `road_obstruction` and 26
+non-landslide hazards, both retained but excluded from headline counts).
+
+The engineering is sound; the science layer is improving but not yet publishable.
+Class-1 precision was 0.516 and **has not been re-measured** — every metric in the repo
+is still in-sample, because the 200-row evaluation set was re-scored after the rules were
+tuned on it. Kathmandu's rank was fixed on 2026-08-06 (now #2 at 49, behind Chitwan at
+58), but by removing two construction errors, not by validation.
 See `docs/TECHNICAL_REVIEW.md` §0.
+
+**Nothing here is validated yet.** The locked test set exists and is unlabelled. Until
+it is annotated, every number in this log is a count, not an accuracy.
 
 **The governing constraint.** Do not tune any rule before a locked, held-out test set
 exists (§9, "the single best next step"). Every tuning pass without one destroys more
@@ -47,7 +53,15 @@ of each is visible rather than silently disappearing.)
   articles. `validation/article_quality.is_ingestible_article` is now the gate; use it.
 - `config.py` hard-fails unless there are exactly 8 sources with exactly the expected
   slugs. Two of those sources (kathmandu-post, ekantipur) collected almost nothing, so
-  you cannot drop them without editing the validator. ~~Still open.~~
+  you cannot drop them without editing the validator. **Still open.**
+- **Nepali compounds contain their own parts.** हिमपहिरो (avalanche) contains पहिरो
+  (landslide); बाढीपहिरो (flood-landslide) contains both. Any substring check over
+  Nepali hazard terms must test the most specific compound first, or it silently
+  absorbs a whole hazard class. This is what put Everest and Manaslu avalanches in a
+  landslide inventory.
+- **A dateline is not a location.** `_find_explicit_district` no longer falls back to
+  it. If you add another "last resort" district source, check first whether returning
+  `None` is more honest — a null district is measurable, a wrong one is invisible.
 - ~~`config.yaml → keywords.exclude` is dead config.~~ Fixed — now read by
   `event_specificity.metaphor_exclude_terms`.
 - ~~`canonical_events_final.csv` is produced by no code.~~ Fixed — `--stage export_final`.
