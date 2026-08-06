@@ -19,7 +19,7 @@ The engineering is sound; the science layer is improving but not yet publishable
 Class-1 precision was 0.516 and **has not been re-measured** — every metric in the repo
 is still in-sample, because the 200-row evaluation set was re-scored after the rules were
 tuned on it. Kathmandu's rank was fixed on 2026-08-06 — the headline table now reads
-Chitwan 51, Kathmandu 46, Sindhupalchok 38 — but by removing construction
+Chitwan 48, Kathmandu 33, Palpa 33, Baglung 32 — but by removing construction
 errors, not by validation.
 See `docs/TECHNICAL_REVIEW.md` §0.
 
