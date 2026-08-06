@@ -1,0 +1,10 @@
+PyYAML
+langdetect
+spacy
+tqdm
+nepali-datetime
+black
+ruff
+pytest
+beautifulsoup4==4.14.3
+rapidfuzz==3.14.3

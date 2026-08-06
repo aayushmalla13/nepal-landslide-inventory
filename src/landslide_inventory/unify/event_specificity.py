@@ -1,0 +1,499 @@
+"""Event-specificity filtering for extracted articles before dedup."""
+
+from __future__ import annotations
+
+from collections import Counter
+from dataclasses import dataclass
+from datetime import date
+import logging
+from pathlib import Path
+import re
+from typing import Iterable
+
+from ..config import AppConfig
+from ..db import connect_sqlite, initialize_sqlite
+from ..utils import utc_now_iso
+
+LOGGER = logging.getLogger(__name__)
+
+RESCUE_PATTERNS = (
+    'search ongoing', 'rescue operation', 'still missing', 'bodies recovered',
+    'खोजी जारी', 'उद्धार', 'अझै बेपत्ता', 'शव निकालियो', 'शव फेला',
+)
+ROUNDUP_PATTERNS = (
+    'so far this monsoon', 'this monsoon', 'in 10 years', 'in 5 years', 'in 20 years', 'death toll reaches', 'death toll rises to', 'toll rises to', 'toll climbs to', 'number of fatalities due to', 'highest number of fatalities',
+    'nationwide total', 'province-wide total', 'district-wide total', 'over the last', 'cumulative', 'overall', 'has killed',
+    'recent landslides and floods', 'death toll climbed to', 'this year alone', 'over the years', 'across the country', 'disaster incidents',
+    'अहिलेसम्म', 'यो मनसुन', 'यति वर्षमा', 'मृत्यु हुनेको संख्या', 'मृतकको संख्या', 'कुल', 'समग्र', 'हालसम्म',
+    'बाढीपहिरोमा परी मृत्यु हुनेको संख्या', 'बाढी पहिरोपीडित', 'देशभर', 'देशैभरि', 'देशभरि',
+    'बाढी-पहिरोले देशभर', 'बाढीपहिरोले देशभर', 'देशभर १३ जनाको मृत्यु', 'जिल्लामा बाढीपहिरोबाट',
+    'various districts', 'across various districts',
+    'कहाँ कस्तो छ क्षति', 'प्रदेशमा कहाँ कस्तो', 'बाढी पहिरोको वितण्डा', 'बाढीपहिरोको वितण्डा',
+)
+RISK_PATTERNS = (
+    'high risk', 'risk of landslides', 'warning', 'forecast', 'heavy rainfall likely', 'could trigger landslides',
+    'risk of a landslide', 'at high risk of landslide', 'growing incidents of landslide', 'experts warn', 'houses at risk of being washed away',
+    'उच्च जोखिम', 'पहिरोको जोखिम', 'चेतावनी', 'सतर्कता', 'पूर्वानुमान', 'भारी वर्षा', 'पहिरो जान सक्ने',
+)
+DAMAGE_ONLY_PATTERNS = (
+    'damaged houses', 'loss', 'property damage', 'road damage', 'road section damaged', 'houses damaged',
+    'क्षति', 'घरमा क्षति', 'सडकमा क्षति', 'घर क्षति', 'भौतिक क्षति',
+)
+FOLLOWUP_PATTERNS = (
+    'relief to the families', 'compensation to the families', 'bodies recovered after', 'body recovered after',
+    'identified among the dead', 'families to receive relief', 'victims get relief', 'survivors continue',
+    'road reopens', 'road reopened', 'highway reopens', 'highway reopened', 'route opened',
+    'debris cleared', 'landslide debris cleared', 'opened to one-way traffic', 'opened one-way',
+    'मृतकका परिवारलाई', 'राहत दिइने', 'क्षतिपूर्ति', 'शव फेला', 'पहिचान खुल्यो',
+    'खुल्यो', 'खुलेन', 'खुलेको', 'सञ्चालनमा आयो', 'सञ्चालनमा आउने', 'सञ्चालनमा',
+    'पन्छाएपछि', 'पन्छाइएपछि', 'हटाएपछि', 'हटाइयो', 'पुन: सञ्चालन', 'पुनः सञ्चालन',
+    'सनाखत', 'उपचार हुँदै', 'अपडेट',
+)
+CONTEXT_ONLY_PATTERNS = (
+    'call for prompt relief', 'affected people', 'drawn the attention of the government',
+    'meeting of the house of representatives', 'lawmakers speaking in the meeting',
+    'joint press statement', 'effective relief and rescue efforts', 'relief and rescue efforts effective', 'provide food, shelter and other relief materials', 'those affected by floods, landslides and inundation',
+    'poor slc results', 'blamed for poor', 'vegetables rot', 'affects road transport',
+    'control landslide', 'control landslides', 'landslide control', 'dpr to control', 'permanent solution',
+    'budget for flood', 'budget for landslide', 'reconstruction', 'mitigation', 'bio-engineering',
+    'operation uncertain', 'landslide challenge', 'expressed sorrow', 'expresses sorrow',
+    'गृहले भन्यो', 'क्षतिबारे जानकारी', 'खोजी र राहतमा जुट्न', 'हेलिकोप्टरबाट उद्धार गर्न',
+    'नियन्त्रण आयोजना', 'पहिरो नियन्त्रण', 'बायो–इन्जिनियरिङ', 'बायो-इन्जिनियरिङ',
+    'पुनर्निर्माण', 'बजेट', 'दुःख व्यक्त', 'जोगिने', 'चुनौती', 'सञ्चालन अनिश्चित',
+)
+METAPHOR_PATTERNS = (
+    'landslide victory', 'landslide win', 'landslide wins', 'wins by landslide', 'won by landslide',
+    'by landslide', 'historic landslide', 'outright majority', 'constituency', 'constituencies',
+    'commanding lead', 'maintains lead', 'takes commanding lead', 'double lead',
+    'election lead', 'parliamentary elections', 'prime ministerial candidate', 'vote count',
+    'निर्वाचन', 'मतगणना', 'अग्रता', 'बहुमत', 'विजय',
+)
+FOREIGN_TERMS = (
+    'india', 'china', 'pakistan', 'turkey', 'indonesia', 'bangladesh', 'afghanistan', 'myanmar', 'japan',
+    'philippines', 'thailand', 'tibet', 'uttarakhand', 'himachal', 'himachal pradesh', 'sikkim', 'delhi', 'beijing', 'istanbul', 'california', 'sierra leone', 'hong kong',
+    'भारत', 'चीन', 'पाकिस्तान', 'टर्की', 'इन्डोनेसिया', 'बंगलादेश', 'अफगानिस्तान', 'म्यानमार', 'जापान',
+    'न्युजिल्यान्ड', 'न्यूजिल्यान्ड', 'न्युजील्यान्ड', 'न्यूजील्यान्ड', 'उत्तराखण्ड', 'उत्तराखंड', 'हिमाचल',
+)
+NEPAL_TERMS = ('nepal', 'नेपाल')
+URL_NEPAL_MARKERS = ('/nepal', '/national', '/social')
+NEPAL_SIGNAL_PATTERN = re.compile(r'(?<![a-z])nepal(?![a-z])|नेपाल', re.IGNORECASE)
+
+INCIDENT_NEAR_PATTERN = re.compile(
+    r'(?:landslide|landslides|mudslide|mudslides|पहिरो|भूस्खलन).{0,80}'
+    r'(?:occurred|hit|triggered|swept away|buried|collapsed|blocked|washed away|गयो|बगायो|पुरियो|अवरुद्ध|खस्यो|पहिरो खस्यो|पहिरो गयो)'
+    r'|(?:occurred|hit|triggered|swept away|buried|collapsed|blocked|washed away|गयो|बगायो|पुरियो|अवरुद्ध|खस्यो|पहिरो खस्यो|पहिरो गयो).{0,80}'
+    r'(?:landslide|landslides|mudslide|mudslides|पहिरो|भूस्खलन)',
+    re.IGNORECASE | re.DOTALL,
+)
+DATE_PHRASE_PATTERN = re.compile(r'\b(?:today|yesterday|on\s+[A-Z][a-z]+\s+\d{1,2}(?:,\s*\d{4})?)\b', re.IGNORECASE)
+NP_DATE_PHRASE_PATTERN = re.compile(r'(?:आज|हिजो|गत\s*\S+|\d{4}-\d{2}-\d{2}|[०-९]{4}-[०-९]{2}-[०-९]{2})')
+MULTI_DISTRICT_PATTERN = re.compile(r'(?:\b\d+\s+districts\b|[०-९]+\s*जिल्लामा|\d+\s*जिल्लामा)')
+NATIONWIDE_ROUNDUP_PATTERN = re.compile(r'(?:nationwide|province-wide|district-wide|across\s+\d+\s+districts|देशभर|देशैभरि|देशभरि)')
+FOLLOWUP_DELAY_PATTERN = re.compile(r'(?:\bafter\s+\d+\s+days\b|\b\d+\s+days\s+later\b|[०-९]+\s*दिनपछि|\d+\s*दिनपछि|\bweeks\s+later\b)', re.IGNORECASE)
+NP_COUNT_REACHED_PATTERN = re.compile(r'(?:मृतकको संख्या|ज्यान गुमाउनेको संख्या|मृत्यु हुनेको संख्या)\s*[०-९\d]+\s*पुग्यो')
+NP_PERIOD_SUMMARY_PATTERN = re.compile(r'(?:एक|दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|एघार|बाह्र|तेह्र|चौध|पन्ध्र|सोह्र|सत्र|अठार|उन्नाइस|बीस|[०-९]+)\s*(?:साता|हप्ता|महिना|वर्ष|दिन)(?:को\s+अवधिमा|मा)')
+NP_LONG_RUNNING_DISRUPTION_PATTERN = re.compile(r'[०-९\d]+\s*दिनदेखि[^.]{0,80}(?:यातायात|सडक|राजमार्ग).{0,40}अवरुद्ध')
+ROUNDUP_CONNECTOR_PATTERN = re.compile(
+    r'\b(?:likewise|similarly),[^.]{0,220}\b(?:killed|missing|dead|injured|lost\s+his\s+life|lost\s+her\s+life|lost\s+their\s+life|lost\s+their\s+lives)\b[^.]{0,220}\b(?:at|in)\s+[^.]{0,120}\b(?:municipality|rural\s+municipality|metropolitan\s+city|sub-metropolitan\s+city|district|ward|-\d)\b',
+    re.IGNORECASE,
+)
+REGIONAL_BREAKDOWN_PATTERN = re.compile(
+    r'\b(?:kathmandu valley|koshi province|madhesh province|bagmati province|gandaki province|lumbini province|karnali province|sudurpashchim province)\b',
+    re.IGNORECASE,
+)
+DIRECT_CASUALTY_TITLE_PATTERN = re.compile(
+    r'(?:\blandslide\b|\bmudslide\b|\brockfall\b|पहिरो|भूस्खलन).{0,80}(?:killed|dead|died|missing|injured|buried)'
+    r'|(?:killed|dead|died|missing|injured|buried).{0,80}(?:\blandslide\b|\bmudslide\b|\brockfall\b|पहिरो|भूस्खलन)',
+    re.IGNORECASE,
+)
+
+
+@dataclass(frozen=True)
+class SpecificityRow:
+    url: str
+    source: str
+    title: str | None
+    text: str
+    published_date_ad: str | None
+    route_lang: str
+    mixed_flag: bool
+    devanagari_ratio: float
+    event_class: int | None
+    event_date_ad: str | None
+    district: str | None
+    municipality: str | None
+    deaths: int | None
+    missing: int | None
+    injured: int | None
+
+
+@dataclass(frozen=True)
+class SpecificityDecision:
+    specificity_ok: int
+    specificity_reason: str
+    specificity_score: float
+    updated_class: int | None
+
+
+def run_event_specificity_stage(config: AppConfig) -> int:
+    """Populate article_specificity and downgrade non-specific rows before dedup."""
+
+    initialize_sqlite(config.sqlite_path)
+    study_start = date.fromisoformat(config.raw['study_period']['start'])
+    study_end = date.fromisoformat(config.raw['study_period']['end'])
+    rows = list(_specificity_rows(config.sqlite_path))
+    decided_at = utc_now_iso()
+    reason_counts: Counter[str] = Counter()
+    ok_counts: Counter[int] = Counter()
+
+    with connect_sqlite(config.sqlite_path) as connection:
+        for row in rows:
+            decision = decide_specificity(row, study_start, study_end)
+            connection.execute(
+                """
+                INSERT INTO article_specificity (url, specificity_ok, specificity_reason, specificity_score, decided_at)
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(url) DO UPDATE SET
+                    specificity_ok = excluded.specificity_ok,
+                    specificity_reason = excluded.specificity_reason,
+                    specificity_score = excluded.specificity_score,
+                    decided_at = excluded.decided_at
+                """,
+                (row.url, decision.specificity_ok, decision.specificity_reason, decision.specificity_score, decided_at),
+            )
+            connection.execute(
+                """
+                UPDATE article_events
+                SET specificity_ok = ?,
+                    specificity_reason = ?,
+                    specificity_score = ?,
+                    class = COALESCE(?, class),
+                    event_class = COALESCE(?, event_class),
+                    event_date_ad = CASE WHEN ? = 3 THEN NULL ELSE event_date_ad END,
+                    district = CASE WHEN ? = 3 THEN NULL ELSE district END,
+                    province = CASE WHEN ? = 3 THEN NULL ELSE province END,
+                    municipality = CASE WHEN ? = 3 THEN NULL ELSE municipality END,
+                    ward = CASE WHEN ? = 3 THEN NULL ELSE ward END,
+                    place_admin_level = CASE WHEN ? = 3 THEN NULL ELSE place_admin_level END,
+                    place_name_raw = CASE WHEN ? = 3 THEN NULL ELSE place_name_raw END,
+                    place_candidates_json = CASE WHEN ? = 3 THEN NULL ELSE place_candidates_json END,
+                    deaths = CASE WHEN ? = 3 THEN NULL ELSE deaths END,
+                    missing = CASE WHEN ? = 3 THEN NULL ELSE missing END,
+                    injured = CASE WHEN ? = 3 THEN NULL ELSE injured END,
+                    trigger = CASE WHEN ? = 3 THEN NULL ELSE trigger END,
+                    conf_class = CASE
+                        WHEN ? IS NULL THEN conf_class
+                        WHEN ? = 3 THEN MAX(COALESCE(conf_class, 0.0), 0.95)
+                        ELSE MAX(COALESCE(conf_class, 0.0), 0.8)
+                    END,
+                    conf_date = CASE WHEN ? = 3 THEN 0.0 ELSE conf_date END,
+                    conf_district = CASE WHEN ? = 3 THEN 0.0 ELSE conf_district END,
+                    conf_place = CASE WHEN ? = 3 THEN 0.0 ELSE conf_place END,
+                    conf_fatalities = CASE WHEN ? = 3 THEN 0.0 ELSE conf_fatalities END,
+                    conf_trigger = CASE WHEN ? = 3 THEN 0.0 ELSE conf_trigger END
+                WHERE url = ?
+                """,
+                (
+                    decision.specificity_ok,
+                    decision.specificity_reason,
+                    decision.specificity_score,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    decision.updated_class,
+                    row.url,
+                ),
+            )
+            reason_counts[decision.specificity_reason] += 1
+            ok_counts[decision.specificity_ok] += 1
+        connection.commit()
+
+    LOGGER.info('Event specificity decisions: kept=%s downgraded=%s', ok_counts.get(1, 0), ok_counts.get(0, 0))
+    for reason, count in sorted(reason_counts.items()):
+        LOGGER.info('event_specificity reason=%s count=%s', reason, count)
+    return len(rows)
+
+
+def decide_specificity(row: SpecificityRow, study_start: date, study_end: date) -> SpecificityDecision:
+    """Score whether an extracted row is specific enough to represent a concrete event."""
+
+    title = _normalize_specificity_title(row.source, row.title)
+    text = _trim_specificity_text(row.source, row.text or '')
+    combined = f'{title}\n{text}'.strip()
+    combined_cf = combined.casefold()
+
+    has_location_anchor = bool(row.district or row.municipality)
+    has_valid_date = _is_date_in_window(row.event_date_ad, study_start, study_end)
+    has_incident_verb = _has_incident_verb_signal(combined)
+    has_casualty_signal = _has_casualty_signal(row, combined_cf)
+    has_damage_only = _has_damage_only_signal(combined_cf)
+    has_roundup = _has_roundup_signal(combined_cf)
+    has_risk_only = _has_risk_signal(combined_cf)
+    has_followup = _has_followup_signal(combined_cf)
+    has_context_only = _has_context_only_signal(combined_cf)
+    has_out_of_country = _has_out_of_country_signal(row, combined_cf)
+    has_metaphor = _has_metaphor_signal(combined_cf)
+    has_relative_date_phrase = bool(DATE_PHRASE_PATTERN.search(combined) or NP_DATE_PHRASE_PATTERN.search(combined))
+    title_cf = title.casefold()
+    direct_event_title = _has_direct_event_title(title_cf)
+    if has_roundup and direct_event_title and has_location_anchor and (has_valid_date or has_relative_date_phrase or has_casualty_signal):
+        if not REGIONAL_BREAKDOWN_PATTERN.search(combined_cf) and 'separate incident' not in combined_cf and ROUNDUP_CONNECTOR_PATTERN.search(combined_cf) is None:
+            has_roundup = False
+    if has_risk_only and has_location_anchor and (has_valid_date or has_relative_date_phrase) and (has_casualty_signal or direct_event_title):
+        has_risk_only = False
+
+    score = 0.0
+    if has_location_anchor:
+        score += 0.4
+    if has_valid_date:
+        score += 0.3
+    elif has_relative_date_phrase and row.published_date_ad and _is_date_in_window(row.published_date_ad, study_start, study_end):
+        score += 0.15
+    if has_incident_verb:
+        score += 0.3
+    if has_casualty_signal:
+        score += 0.2
+    if has_roundup:
+        score -= 0.6
+    if has_risk_only:
+        score -= 0.6
+    if has_followup:
+        score -= 0.5
+    if has_context_only:
+        score -= 0.7
+    if has_out_of_country:
+        score -= 0.7
+    if has_metaphor:
+        score -= 0.7
+    score = max(0.0, min(1.0, round(score, 3)))
+
+    title_event_signal = _has_title_event_signal(title_cf)
+    strong_signal_present = has_location_anchor or has_valid_date or has_incident_verb or has_casualty_signal
+    hard_negative = has_roundup or has_risk_only or has_followup or has_context_only or has_out_of_country or has_metaphor
+
+    if not title_event_signal and not has_incident_verb and not has_casualty_signal:
+        if has_damage_only:
+            return SpecificityDecision(0, 'damage_only', score, _downgraded_class(row.event_class, 'damage_only'))
+        if not strong_signal_present:
+            return SpecificityDecision(0, 'no_location_signal', score, _downgraded_class(row.event_class, 'no_location_signal'))
+        return SpecificityDecision(0, 'context_only', score, _downgraded_class(row.event_class, 'context_only'))
+    if has_out_of_country:
+        return SpecificityDecision(0, 'out_of_country', score, _downgraded_class(row.event_class, 'out_of_country'))
+    if has_metaphor:
+        return SpecificityDecision(0, 'metaphor', score, _downgraded_class(row.event_class, 'metaphor'))
+    if has_context_only and not has_casualty_signal:
+        return SpecificityDecision(0, 'context_only', score, _downgraded_class(row.event_class, 'context_only'))
+    if has_risk_only:
+        return SpecificityDecision(0, 'risk_only', score, _downgraded_class(row.event_class, 'risk_only'))
+    if has_followup:
+        return SpecificityDecision(0, 'followup', score, _downgraded_class(row.event_class, 'followup'))
+    if has_roundup:
+        nationwide_roundup = (
+            not has_location_anchor
+            or NATIONWIDE_ROUNDUP_PATTERN.search(combined_cf) is not None
+            or REGIONAL_BREAKDOWN_PATTERN.search(combined_cf) is not None
+            or 'across the country' in combined_cf
+            or 'various districts' in combined_cf
+        )
+        reason = 'context_only' if nationwide_roundup else 'roundup'
+        return SpecificityDecision(0, reason, score, _downgraded_class(row.event_class, reason))
+    if has_damage_only and not (has_location_anchor or has_valid_date or has_incident_verb or has_casualty_signal):
+        return SpecificityDecision(0, 'damage_only', score, _downgraded_class(row.event_class, 'damage_only'))
+    if not strong_signal_present:
+        return SpecificityDecision(0, 'no_location_signal', score, _downgraded_class(row.event_class, 'no_location_signal'))
+    if score >= 0.6 and not hard_negative:
+        return SpecificityDecision(1, 'event_specific', score, None)
+    return SpecificityDecision(0, 'insufficient_signal', score, _downgraded_class(row.event_class, 'insufficient_signal'))
+
+
+def _downgraded_class(current_class: int | None, reason: str) -> int | None:
+    if current_class is None:
+        return 3 if reason in {'out_of_country', 'risk_only', 'metaphor', 'context_only'} else 2
+    target = 3 if reason in {'out_of_country', 'risk_only', 'metaphor', 'context_only'} else 2
+    return max(int(current_class), target)
+
+
+def _specificity_rows(database_path: Path) -> Iterable[SpecificityRow]:
+    with connect_sqlite(database_path) as connection:
+        rows = connection.execute(
+            """
+            SELECT e.url,
+                   e.source,
+                   e.title,
+                   COALESCE(r.text, '') AS text,
+                   r.published_date_ad,
+                   COALESCE(l.route_lang, e.route_lang, 'en') AS route_lang,
+                   COALESCE(l.mixed_flag, e.mixed_flag, 0) AS mixed_flag,
+                   COALESCE(l.devanagari_ratio, 0.0) AS devanagari_ratio,
+                   e.class,
+                   e.event_date_ad,
+                   e.district,
+                   e.municipality,
+                   e.deaths,
+                   e.missing,
+                   e.injured
+            FROM article_events e
+            LEFT JOIN raw_articles r ON r.url = e.url
+            LEFT JOIN article_lang l ON l.url = e.url
+            ORDER BY e.url ASC
+            """
+        ).fetchall()
+    for row in rows:
+        yield SpecificityRow(
+            url=str(row['url']),
+            source=str(row['source']),
+            title=row['title'],
+            text=str(row['text'] or ''),
+            published_date_ad=row['published_date_ad'],
+            route_lang=str(row['route_lang'] or 'en'),
+            mixed_flag=bool(row['mixed_flag']),
+            devanagari_ratio=float(row['devanagari_ratio'] or 0.0),
+            event_class=int(row['class']) if row['class'] is not None else None,
+            event_date_ad=row['event_date_ad'],
+            district=row['district'],
+            municipality=row['municipality'],
+            deaths=int(row['deaths']) if row['deaths'] is not None else None,
+            missing=int(row['missing']) if row['missing'] is not None else None,
+            injured=int(row['injured']) if row['injured'] is not None else None,
+        )
+
+
+def _normalize_specificity_title(source: str, title: str | None) -> str:
+    if not title:
+        return ''
+    if source == 'myrepublica':
+        title = re.sub(r'\s*-\s*myRepublica\s*-\s*The New York Times Partner.*$', '', title, flags=re.IGNORECASE)
+    if source == 'ratopati':
+        title = re.sub(r'\s*\|\s*Nepal\'s first 24-hour updated news portal.*$', '', title, flags=re.IGNORECASE)
+    return title.strip()
+
+
+
+def _trim_specificity_text(source: str, text: str) -> str:
+    if not text:
+        return ''
+    trimmed = text
+    if source == 'myrepublica':
+        lead_match = re.search(
+            r'(?:By\s+[A-Z][A-Za-z.\s-]+\s+)?(?:[A-Z][A-Z.-]+(?:\s+[A-Z][A-Z.-]+)*|[A-Z][a-z.-]+(?:\s+[A-Z][a-z.-]+)*),\s+'
+            r'(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}:',
+            text,
+        )
+        if lead_match is not None and lead_match.start() >= 40:
+            trimmed = text[lead_match.start():]
+    return trimmed[:1800]
+
+
+def _has_incident_verb_signal(text: str) -> bool:
+    return INCIDENT_NEAR_PATTERN.search(text) is not None
+
+
+def _has_casualty_signal(row: SpecificityRow, text_casefold: str) -> bool:
+    if any(value is not None and int(value) > 0 for value in (row.deaths, row.missing, row.injured)):
+        return True
+    return any(pattern.casefold() in text_casefold for pattern in RESCUE_PATTERNS)
+
+
+def _has_roundup_signal(text_casefold: str) -> bool:
+    if any(pattern.casefold() in text_casefold for pattern in ROUNDUP_PATTERNS):
+        return True
+    if NP_COUNT_REACHED_PATTERN.search(text_casefold) is not None or NP_PERIOD_SUMMARY_PATTERN.search(text_casefold) is not None:
+        return True
+    if MULTI_DISTRICT_PATTERN.search(text_casefold) is not None or NATIONWIDE_ROUNDUP_PATTERN.search(text_casefold) is not None:
+        return True
+    if 'in a separate incident' in text_casefold or 'separate incidents of landslides' in text_casefold:
+        return True
+    if ROUNDUP_CONNECTOR_PATTERN.search(text_casefold) is not None:
+        return True
+    return False
+
+
+def _has_risk_signal(text_casefold: str) -> bool:
+    if ' at risk ' in f' {text_casefold} ' and ('landslide' in text_casefold or 'पहिरो' in text_casefold):
+        if any(term in text_casefold for term in ('killed', 'missing', 'injured', 'buried', 'occurred')):
+            return False
+    return any(pattern.casefold() in text_casefold for pattern in RISK_PATTERNS)
+
+
+def _has_followup_signal(text_casefold: str) -> bool:
+    if any(pattern.casefold() in text_casefold for pattern in FOLLOWUP_PATTERNS):
+        return True
+    if NP_LONG_RUNNING_DISRUPTION_PATTERN.search(text_casefold) is not None:
+        return True
+    return FOLLOWUP_DELAY_PATTERN.search(text_casefold) is not None
+
+
+def _has_context_only_signal(text_casefold: str) -> bool:
+    return any(pattern.casefold() in text_casefold for pattern in CONTEXT_ONLY_PATTERNS)
+
+
+def _has_damage_only_signal(text_casefold: str) -> bool:
+    return any(pattern.casefold() in text_casefold for pattern in DAMAGE_ONLY_PATTERNS)
+
+
+def _has_metaphor_signal(text_casefold: str) -> bool:
+    return any(pattern.casefold() in text_casefold for pattern in METAPHOR_PATTERNS)
+
+
+def _has_title_event_signal(title_casefold: str) -> bool:
+    if not title_casefold:
+        return False
+    return any(
+        term in title_casefold
+        for term in (
+            'landslide', 'landslides', 'mudslide', 'mudslides', 'rockfall',
+            'पहिरो', 'भूस्खलन', 'हिमपहिरो', 'ढिस्को', 'पुरिए', 'पुरिँदा', 'बेपत्ता', 'मृत्यु',
+            'अवरुद्ध', 'अवरूद्ध', 'blocked', 'obstructed', 'buried', 'killed', 'missing', 'injured',
+        )
+    )
+
+
+def _has_direct_event_title(title_casefold: str) -> bool:
+    if not title_casefold:
+        return False
+    if any(pattern.casefold() in title_casefold for pattern in ROUNDUP_PATTERNS):
+        return False
+    if DIRECT_CASUALTY_TITLE_PATTERN.search(title_casefold) is not None:
+        return True
+    has_landslide = any(term in title_casefold for term in ('landslide', 'landslides', 'mudslide', 'mudslides', 'पहिरो', 'भूस्खलन'))
+    has_road_incident = any(term in title_casefold for term in ('blocked', 'obstructed', 'disrupted', 'shut', 'closed', 'averted', 'buried'))
+    return has_landslide and has_road_incident
+
+
+def _has_out_of_country_signal(row: SpecificityRow, text_casefold: str) -> bool:
+    title = _normalize_specificity_title(row.source, row.title).casefold()
+    if any(term.casefold() in title for term in FOREIGN_TERMS):
+        return True
+    lead = text_casefold[:800]
+    foreign_hit = any(term.casefold() in lead for term in FOREIGN_TERMS)
+    if not foreign_hit:
+        return False
+    nepal_signal = NEPAL_SIGNAL_PATTERN.search(lead) is not None or any(marker in row.url.casefold() for marker in URL_NEPAL_MARKERS)
+    return not nepal_signal
+
+
+def _is_date_in_window(value: str | None, study_start: date, study_end: date) -> bool:
+    if not value:
+        return False
+    try:
+        parsed = date.fromisoformat(value)
+    except ValueError:
+        return False
+    return study_start <= parsed <= study_end

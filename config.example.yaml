@@ -1,0 +1,235 @@
+paper_metadata:
+  study_area: Nepal, 77 districts
+  study_period: 2015-2024
+  version: 0.1.0
+
+study_period:
+  start: '2015-01-01'
+  end: '2024-12-31'
+
+paths:
+  raw_sqlite_dir: data/raw_sqlite
+  intermediate_dir: data/intermediate
+  outputs_dir: data/outputs
+  caches_dir: data/caches
+  logs_dir: data/logs
+
+runtime:
+  rate_limit_seconds: 1.0
+  retries: 3
+  timeout_seconds: 30
+  user_agent: landslide-inventory/0.1.0 (+research; contact-user-to-customize)
+  max_pages_per_entry_point: 50
+  max_urls_per_source: 2000
+
+language_detection:
+  devanagari_threshold: 0.30
+  mixed_lower: 0.10
+  mixed_upper: 0.30
+
+dedup:
+  candidate_window_days: 7
+  primary_window_days: 3
+  headline_sim_threshold: 0.82
+  body_sim_threshold: 0.88
+  high_body_sim_threshold: 0.96
+  guard_deaths_delta: 1
+  prefer_same_municipality: true
+
+geocode:
+  district_shapefile_path: /absolute/path/to/ocha_districts.shp
+  centroid_cache_path: data/caches/district_centroids.csv
+  nominatim_cache_db_path: data/caches/nominatim_cache.sqlite
+
+validation:
+  manual_sample_total: 150
+  manual_en: 75
+  manual_np: 75
+  random_seed: 42
+
+bipad:
+  bipad_input_path: /absolute/path/to/bipad_landslides.csv
+  match_windows_days:
+    - 1
+    - 3
+    - 7
+
+analysis:
+  chirps_district_month_path: /absolute/path/to/chirps_district_month.csv
+  correlation_method: spearman
+
+keywords:
+  terms:
+    en:
+      - landslide
+      - mudslide
+      - debris flow
+      - slope failure
+    np:
+      - पहिरो
+      - भूस्खलन
+      - ढिस्को
+      - माटो खस्नु
+  exclude:
+    en:
+      - political landslide
+      - electoral landslide
+      - stock slide
+    np:
+      - राजनीतिक पहिरो
+      - निर्वाचनमा पहिरो
+  trigger_terms:
+    rainfall:
+      en:
+        - rain
+        - rainfall
+        - heavy rain
+        - monsoon
+        - cloudburst
+      np:
+        - वर्षा
+        - अविरल वर्षा
+        - भारी वर्षा
+        - मनसुन
+    earthquake:
+      en:
+        - earthquake
+        - tremor
+      np:
+        - भूकम्प
+        - कम्पन
+    road_construction:
+      en:
+        - road expansion
+        - excavator
+        - construction
+      np:
+        - सडक विस्तार
+        - डोजर
+        - निर्माण
+  casualty_terms:
+    deaths:
+      en:
+        - killed
+        - dead
+        - deaths
+      np:
+        - मृत्यु
+        - मृत
+        - ज्यान गुमायो
+    missing:
+      en:
+        - missing
+        - disappeared
+      np:
+        - बेपत्ता
+        - हराइरहेका
+    injured:
+      en:
+        - injured
+        - hurt
+        - wounded
+      np:
+        - घाइते
+        - घाइते भएका
+
+doctor:
+  spacy_model: en_core_web_sm
+
+sources:
+  - name: Kathmandu Post
+    slug: kathmandu-post
+    language: en
+    base_url: https://kathmandupost.com
+    discovery:
+      primary: googlenews
+      secondary: tag
+    entry_points:
+      - kind: googlenews
+        url: https://news.google.com/rss/search?q=site:kathmandupost.com+landslide+Nepal
+        pagination: rss
+      - kind: tag
+        url: https://kathmandupost.com/tag/monsoon-floods
+        pagination: next_link
+
+  - name: The Himalayan Times
+    slug: himalayan-times
+    language: en
+    base_url: https://thehimalayantimes.com
+    discovery:
+      primary: googlenews
+    entry_points:
+      - kind: googlenews
+        url: https://news.google.com/rss/search?q=site:thehimalayantimes.com+landslide+Nepal
+        pagination: rss
+
+  - name: MyRepublica
+    slug: myrepublica
+    language: en
+    base_url: https://myrepublica.nagariknetwork.com
+    discovery:
+      primary: tag
+    entry_points:
+      - kind: tag
+        url: https://myrepublica.nagariknetwork.com/tag/Landslide?page=1
+        pagination: page
+
+  - name: The Rising Nepal
+    slug: rising-nepal
+    language: en
+    base_url: https://risingnepaldaily.com
+    discovery:
+      primary: googlenews
+    entry_points:
+      - kind: googlenews
+        url: https://news.google.com/rss/search?q=site:risingnepaldaily.com+landslide+Nepal
+        pagination: rss
+
+  - name: eKantipur
+    slug: ekantipur
+    language: np
+    base_url: https://ekantipur.com
+    discovery:
+      primary: googlenews
+      secondary: archive_home
+      notes: Archive and homepage entry points may include metaphorical uses of landslide terms.
+    entry_points:
+      - kind: googlenews
+        url: https://news.google.com/rss/search?q=site:ekantipur.com+%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B
+        pagination: rss
+      - kind: archive_home
+        url: https://ekantipur.com/
+        pagination: date_archive
+
+  - name: Online Khabar
+    slug: online-khabar
+    language: np
+    base_url: https://www.onlinekhabar.com
+    discovery:
+      primary: trend
+    entry_points:
+      - kind: trend
+        url: https://www.onlinekhabar.com/trend/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B
+        pagination: /page/{page}
+
+  - name: Setopati
+    slug: setopati
+    language: np
+    base_url: https://www.setopati.com
+    discovery:
+      primary: tag
+    entry_points:
+      - kind: tag
+        url: https://www.setopati.com/tag/577
+        pagination: next_link
+
+  - name: Ratopati
+    slug: ratopati
+    language: np
+    base_url: https://www.ratopati.com
+    discovery:
+      primary: tag
+    entry_points:
+      - kind: tag
+        url: https://www.ratopati.com/tag/797?page=1
+        pagination: page
