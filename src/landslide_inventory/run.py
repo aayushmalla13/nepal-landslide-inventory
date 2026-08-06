@@ -13,6 +13,7 @@ from .langdetect import run_language_stage
 from .validation import (
     run_audit_canonical_stage,
     run_inventory_audit_stage,
+    run_locked_test_set_stage,
     run_manual_audit_stage,
     run_manual_pack_stage,
     run_manual_refresh_stage,
@@ -99,6 +100,7 @@ STAGE_HANDLERS: dict[str, Callable[[AppConfig], None]] = {
     'dedup': run_dedup_stage,
     'audit_canonical': run_audit_canonical_stage,
     'inventory_audit': run_inventory_audit_stage,
+    'locked_test_set': run_locked_test_set_stage,
     'manual_pack': run_manual_pack_stage,
     'manual_score': run_manual_score_stage,
     'manual_refresh': run_manual_refresh_stage,
