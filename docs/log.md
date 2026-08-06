@@ -138,27 +138,74 @@ the pre-fix snapshot; the code is committed and ready to run.
 --stage locked_test_set   draw/verify the held-out test set (refuses to redraw)
 --stage pattern_audit     rank exclusion patterns by suspected false negatives
 --stage article_quality   report non-articles in raw_articles (flags, never deletes)
+--stage event_typing      label road_obstruction / title_only on canonical_events
 --stage export_final      regenerate canonical_events_final.csv from the DB
 ```
 
+### Second half of session: clean re-run + operator decisions
+
+The `extract` re-run went ahead (spaCy model copied out of `.venv` into the
+sandbox; ~90 s for 4,453 docs), followed by `event_specificity` →
+`location_consistency` → `filter_scope` → `dedup`. DB snapshotted first as
+`landslide_inventory.snapshot_20260806_pre_extract.sqlite`.
+
+**Post-re-run numbers** — these are the first clean ones, because the fresh
+extract restored the district/date fields the old destructive runs had NULLed.
+
+| | before | after | Δ |
+|---|---:|---:|---:|
+| class-1 articles | 1174 | 1250 | +76 |
+| canonical events | 1071 | 1127 | +56 |
+| multi-source clusters | 69 | 81 | +12 |
+| `metaphor` exclusions | 235 | 56 | −179 |
+
+The large `no_location_signal` → `context_only` shift (−1041/+1041) is a
+*relabelling*, not a decision change: totals are identical. With districts
+populated again, `has_location_anchor` is true, so the no-location branch stops
+firing and rows fall through to a more accurate reason.
+
+**Decisions taken** (commit `b5308e2`):
+
+1. **Study window → 2015–2026.** `config.yaml` is authoritative; README and
+   `paper_metadata` now follow it. The temporal-coverage caveat is recorded in
+   the README next to the claim.
+2. **Road obstructions → kept, typed.** `event_type = 'road_obstruction'`,
+   retained in the dataset, excluded from headline counts and BIPAD.
+   Conservative: any casualty count, casualty word, or house/land damage keeps
+   the row as `landslide`.
+3. **Title-only extractions → kept, flagged.** `extraction_basis =
+   'title_only'` with a 0.6 confidence multiplier. 33 of 1,127 events.
+4. Both labels are carried in `canonical_events_final.csv`.
+
+**Effect on the district table** (headline events only):
+
+Chitwan 89 → 58 as 31 road obstructions move out; Sindhupalchok rises to #3.
+**Kathmandu is still #1 at 73.** That is the dateline-bias problem in §4.1 and
+it needs the §8.1 event-site role classifier — deliberately out of scope here.
+
+`by landslide` no longer appears in the pattern audit's critical/high list. The
+top remaining entries are the FOLLOWUP road terms, which decision 2 has now made
+deliberate rather than accidental.
+
+Tests: 355 passing.
+
 ### Open decisions for the operator
 
-1. **Re-run `extract`?** Required for a clean post-fix measurement. Nothing else
-   recovers the destroyed district/date provenance.
-2. **Road-obstruction events (§4.2).** 224 of 1,071 canonical events (21%) have
-   road/highway in the representative title, and the FOLLOWUP patterns exclude
-   others inconsistently. This is a scientific judgement about what the inventory
-   *is*, and the review says it must be decided and stated in the methods
-   section. Recommendation stands: keep them, flagged as
-   `event_type = road_obstruction`, excluded from headline counts and BIPAD.
-3. **`body_too_short` policy.** 50 class-1 events come from himalayan-times rows
-   under 200 characters. Exclude them, or keep them flagged as title-only
-   extractions with lower confidence?
-4. **Study window.** `config.yaml` says 2015–2026, README and `paper_metadata`
-   say 2015–2024. 485 rows fall in 2026. One of the three has to move.
-5. **`landslide_inventory_final_snapshot_20260423.sqlite`** differs from the
+Items 1–4 were decided and applied this session (see above). Remaining:
+
+1. **Re-fetch the 615 himalayan-times HTTP 429 URLs**, with backoff. They are
+   real articles that were never retrieved. This is the single largest remaining
+   data-quality item and it may materially change the source balance, the year
+   distribution, and the `title_only` count — many thin bodies share the same
+   rate-limiting cause. Not attempted here because it needs live network access
+   to the outlet.
+2. **`landslide_inventory_final_snapshot_20260423.sqlite`** differs from the
    working DB and has no generating code. Needs a `DATA_VERSION` pointer or
    deletion.
+3. **`canonical_events_final.orphaned_20260423.csv`** is kept only so the
+   reproduction can be re-checked. Delete once you are satisfied with it.
+4. **Label the locked test set.** Nothing downstream can be measured until this
+   happens.
 
 ### For whoever picks this up next
 
@@ -168,11 +215,23 @@ single rule before it exists, and it now exists. Label it (blind — the
 predictions are in a separate file, keep them there), double-annotate ≥100 rows
 for Cohen's κ, and only then start measuring.
 
-The two highest-value pieces of work remaining are unchanged from the review:
-**§8.1 event-site role classification** (which should move Kathmandu and Chitwan
-off the top of the district table) and **§8.2 cross-language dedup** (1,002 of
-1,071 clusters are singletons because `token_set_ratio` cannot match across
-scripts). Neither was attempted in this session.
+The highest-value piece of work remaining is **§8.1 event-site role
+classification**. Road typing already moved Chitwan down (89 → 58), but
+**Kathmandu is still #1 at 73 headline events**, which is geomorphologically
+impossible and is the finding a reviewer will stop at. The cause is `location.py`
+taking `ordered[0]` from a candidate list scored to favour early mentions, so a
+myRepublica dateline (`KATHMANDU, July 12: A landslide killed three in
+Sindhupalchok...`) wins deterministically. Much of the plumbing exists —
+`MYREPUBLICA_DATELINE_PATTERN` is already detected in `extract_stage.py`, it is
+just used to trim text rather than to veto a place candidate.
+
+Second: **§8.2 cross-language dedup**. Multi-source clusters went 69 → 81 after
+the re-run, but that is still ~7% of 1,127. `token_set_ratio` cannot match
+Devanagari against Latin, so an ekantipur and a Kathmandu Post report of the same
+event score ~0 and can never merge. Since bilingual coverage correlates with
+severity, large events are systematically double-counted relative to small ones.
+
+Neither was attempted in this session.
 
 ### Environment note
 
