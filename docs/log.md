@@ -10,11 +10,13 @@ Newest entries at the bottom of each session. Session headers are dated.
 ## Standing context (read first)
 
 **The problem, in one paragraph.** The pipeline turns 4,453 scraped Nepali/English news
-articles into 1,071 canonical landslide events. The engineering is sound; the science
-layer is not. Class-1 precision is 0.516, the district field is biased toward Kathmandu
-by construction (Kathmandu is the #1 landslide district, which is geomorphologically
-impossible), and every reported metric is in-sample because the 200-row evaluation set
-was re-scored after the rules were tuned on it. See `docs/TECHNICAL_REVIEW.md` §0.
+articles into canonical landslide events (1,071 at review time; **1,127 now**, of which
+**1,003 are headline landslide events** and 124 are typed `road_obstruction`). The
+engineering is sound; the science layer is not. Class-1 precision was 0.516, the district
+field is biased toward Kathmandu by construction (Kathmandu is still the #1 landslide
+district, which is geomorphologically impossible), and every reported metric is in-sample
+because the 200-row evaluation set was re-scored after the rules were tuned on it.
+See `docs/TECHNICAL_REVIEW.md` §0.
 
 **The governing constraint.** Do not tune any rule before a locked, held-out test set
 exists (§9, "the single best next step"). Every tuning pass without one destroys more
@@ -29,18 +31,28 @@ of the project's ability to state a defensible number in the paper.
 - `data/` is gitignored (378 MB). Datasets are versioned by snapshot file + a
   `DATA_VERSION` pointer, never by committing the SQLite.
 
-**Landmines.**
+**Landmines.** (Struck-through items were fixed on 2026-08-06; kept so the history
+of each is visible rather than silently disappearing.)
 
-- Filter stages (`event_specificity.py`, `scope_filter.py`) historically ran
-  `UPDATE article_events SET district = NULL, ...` on demotion. This destroys
-  provenance and makes the stages non-idempotent. Anything that re-runs a stage twice
-  and gets a different answer is hitting this.
-- `config.yaml → keywords.exclude` exists and is read by no code. The hardcoded
-  `METAPHOR_PATTERNS` in `event_specificity.py` does the work instead.
+- Filter stages (`event_specificity.py`, `scope_filter.py`) **still** run
+  `UPDATE article_events SET district = NULL, ...` on demotion. They now log the
+  pre-mutation values to `article_decisions` first, so provenance survives — but
+  `article_events` is not yet immutable. Making it so is review §7 Redesign item 3
+  and requires reworking `dedup` and `location_consistency`.
+- **Never add a short bare substring to an exclusion pattern list.** `'by landslide'`
+  cost 128 real events. Run `--stage pattern_audit` before and after any change to
+  `METAPHOR_PATTERNS`, `ROUNDUP_PATTERNS`, `RISK_PATTERNS`, `CONTEXT_ONLY_PATTERNS`,
+  `FOLLOWUP_PATTERNS` or `FOREIGN_TERMS`.
+- `http_status` was consulted nowhere, which is how 615 HTTP 429 error pages became
+  articles. `validation/article_quality.is_ingestible_article` is now the gate; use it.
 - `config.py` hard-fails unless there are exactly 8 sources with exactly the expected
   slugs. Two of those sources (kathmandu-post, ekantipur) collected almost nothing, so
-  you cannot drop them without editing the validator.
-- `data/outputs/canonical_events_final.csv` is produced by no code in this repo.
+  you cannot drop them without editing the validator. ~~Still open.~~
+- ~~`config.yaml → keywords.exclude` is dead config.~~ Fixed — now read by
+  `event_specificity.metaphor_exclude_terms`.
+- ~~`canonical_events_final.csv` is produced by no code.~~ Fixed — `--stage export_final`.
+- ~~The study window is stated three different ways.~~ Fixed — 2015–2026 everywhere,
+  `config.yaml` authoritative.
 
 ---
 
