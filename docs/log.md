@@ -10,8 +10,8 @@ Newest entries at the bottom of each session. Session headers are dated.
 ## Standing context (read first)
 
 **The problem, in one paragraph.** The pipeline turns 4,453 scraped Nepali/English news
-articles into canonical landslide events (1,071 at review time; **1,112 now**, of which
-**962 are headline landslide events** — the rest are 124 `road_obstruction` and 26
+articles into canonical landslide events (1,071 at review time; **1,010 now**, of which
+**862 are headline landslide events** — the rest are 124 `road_obstruction` and 26
 non-landslide hazards, both retained but excluded from headline counts).
 
 The engineering is sound; the science layer is improving but not yet publishable.
@@ -268,11 +268,70 @@ policy/relief articles that should be `context_only`.
 
 Tests: 377 passing.
 
+### Fourth pass: cross-language dedup (§8.2)
+
+`token_set_ratio` scores every cross-language pair at ~0 because Devanagari and
+Latin share no tokens, and the one cross-language path in the old code was gated
+*behind* that check, so it was unreachable. 1,034 of 1,112 clusters were
+singletons.
+
+New `unify/similarity.py` compares **facts instead of scripts**: gazetteer-
+normalised municipality and ward (already canonical English on both sides — the
+old code used municipality only as a veto, never as evidence), casualty vectors,
+Devanagari digit normalisation, a fixed transliteration table for place names
+outside the gazetteer, and hand-rolled TF-IDF cosine replacing `token_set_ratio`
+for bodies.
+
+| | before | after |
+|---|---:|---:|
+| canonical events | 1112 | **1010** |
+| multi-article clusters | 78 | **129** |
+| en–np merge rate | 0 | **136/612 (22.2%)** |
+
+All six known cross-language duplicates merged, including Baglung 2024-08-06
+(6 deaths) which had been counted **six times** across three outlets.
+
+**Scoped deliberately:** the structured path runs **only** on cross-language
+pairs. Path 1 is *structurally* blind across scripts; within a language it can
+see, and whether it sees *well* needs weights fitted on a labelled dev set.
+Applying unfitted weights to same-language pairs would confound a structural fix
+with an untested retuning.
+
+**Three bugs found while building it** — all caught by tests or by reading
+output, not by assumption:
+
+1. *Renormalisation trap.* With one signal available it became the whole score,
+   so a fuzzy place-name match alone hit 0.92 and merged. District and date are
+   already the blocking key, so that is not evidence. Added a strong-evidence
+   gate.
+2. *Casualty tolerance.* Exact match vetoed correct merges when tolls were
+   revised — Baglung was 6 in myRepublica and 7 in setopati, same day, same
+   municipality. Now tolerance 1.
+3. *`cluster_id` UNIQUE violation* from the new content-stable id. The
+   collisions turned out to be **missed merges**, so the count is now logged as
+   an under-merge metric (87 clusters).
+
+**Honest cost.** Clusters with ≥6 members went 4 → 8, and the largest is wrong —
+it mixes Jhyaplekhola, Nagdhunga–Naubise and two nationwide roundups. That
+cluster existed at size **9 before** this change: a pre-existing
+`token_set_ratio` over-merge that this grew by one. The root cause is upstream —
+nationwide roundups should not be class-1 events at all.
+
+**Process note, worth internalising.** The first two dedup runs appeared to
+succeed. They had actually crashed on an `IntegrityError` and rolled back; the
+unchanged counts were stale data. The crash was invisible because the run output
+was piped through `grep`. Read full output when verifying a write.
+
 ### Open decisions for the operator
 
 Items 1–4 were decided and applied this session (see above). Remaining:
 
-1. **Re-fetch the 615 himalayan-times HTTP 429 URLs**, with backoff. They are
+1. **The roundup over-merge.** Nationwide roundups ("At least 148 are dead in
+   floods and landslides in Nepal") are still entering as class-1 events with a
+   district, and they attract merges. Fixing them upstream in
+   `event_specificity` would shrink the largest clusters and is probably the
+   next-highest-value item.
+2. **Re-fetch the 615 himalayan-times HTTP 429 URLs**, with backoff. They are
    real articles that were never retrieved. This is the single largest remaining
    data-quality item and it may materially change the source balance, the year
    distribution, and the `title_only` count — many thin bodies share the same
