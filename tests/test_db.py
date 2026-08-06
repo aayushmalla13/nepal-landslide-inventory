@@ -11,6 +11,9 @@ def test_initialize_sqlite_creates_expected_tables(tmp_path: Path) -> None:
     database_path = tmp_path / 'data' / 'raw_sqlite' / 'inventory.sqlite'
     initialize_sqlite(database_path)
     assert list_tables(database_path) == [
+        # Non-destructive decision log for the filter stages. See
+        # unify/decisions.py and docs/TECHNICAL_REVIEW.md section 2.2.
+        'article_decisions',
         'article_events',
         'article_lang',
         'article_location_check',

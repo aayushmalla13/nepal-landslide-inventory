@@ -13,6 +13,7 @@ from typing import Iterable, Sequence
 from ..config import AppConfig
 from ..db import connect_sqlite, initialize_sqlite
 from ..utils import utc_now_iso
+from .decisions import ensure_decisions_table, record_decision, snapshot_fields
 
 LOGGER = logging.getLogger(__name__)
 
@@ -196,8 +197,24 @@ def run_event_specificity_stage(config: AppConfig) -> int:
     ok_counts: Counter[int] = Counter()
 
     with connect_sqlite(config.sqlite_path) as connection:
+        ensure_decisions_table(connection)
         for row in rows:
             decision = decide_specificity(row, study_start, study_end, exclude_terms)
+            # Log the decision AND the extractor's field values BEFORE the
+            # UPDATE below nulls them. Without this, a demoted row's original
+            # district/date/casualties are unrecoverable except by re-running
+            # spaCy over the whole corpus (review section 2.2).
+            record_decision(
+                connection,
+                url=row.url,
+                stage='event_specificity',
+                decision=decision.specificity_ok,
+                reason=decision.specificity_reason,
+                score=decision.specificity_score,
+                updated_class=decision.updated_class,
+                preserved=snapshot_fields(connection, row.url),
+                decided_at=decided_at,
+            )
             connection.execute(
                 """
                 INSERT INTO article_specificity (url, specificity_ok, specificity_reason, specificity_score, decided_at)

@@ -10,6 +10,7 @@ from typing import Iterable
 from ..config import AppConfig
 from ..db import connect_sqlite, initialize_sqlite
 from ..utils import utc_now_iso
+from .decisions import ensure_decisions_table, record_decision, snapshot_fields
 
 NEPAL_KEYWORDS = ('nepal', 'नेपाल', 'नेपाली')
 URL_NEPAL_MARKERS = ('/nepal', '/national', '/social')
@@ -100,8 +101,22 @@ def run_filter_scope_stage(config: AppConfig) -> int:
     rows = list(_scope_rows(config.sqlite_path))
     decided_at = utc_now_iso()
     with connect_sqlite(config.sqlite_path) as connection:
+        ensure_decisions_table(connection)
         for row in rows:
             decision = decide_scope(row, devanagari_threshold)
+            # See event_specificity: preserve the pre-mutation snapshot before
+            # the demotion UPDATE below discards it.
+            record_decision(
+                connection,
+                url=row.url,
+                stage='filter_scope',
+                decision=decision.in_nepal,
+                reason=decision.scope_reason,
+                score=decision.scope_score,
+                updated_class=3 if decision.in_nepal == 0 else None,
+                preserved=snapshot_fields(connection, row.url),
+                decided_at=decided_at,
+            )
             connection.execute(
                 """
                 INSERT INTO article_scope (url, in_nepal, scope_reason, scope_score, decided_at)

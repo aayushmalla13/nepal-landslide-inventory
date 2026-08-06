@@ -66,6 +66,24 @@ SCHEMA_STATEMENTS = (
     )
     """,
     """
+    CREATE TABLE IF NOT EXISTS article_decisions (
+        url TEXT NOT NULL,
+        stage TEXT NOT NULL,
+        decision INTEGER NOT NULL,
+        reason TEXT NOT NULL,
+        score REAL,
+        updated_class INTEGER,
+        preserved_fields_json TEXT,
+        first_decided_at TEXT NOT NULL,
+        decided_at TEXT NOT NULL,
+        PRIMARY KEY (url, stage)
+    )
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_article_decisions_stage_reason
+        ON article_decisions (stage, reason)
+    """,
+    """
     CREATE TABLE IF NOT EXISTS article_specificity (
         url TEXT PRIMARY KEY,
         specificity_ok INTEGER NOT NULL,
