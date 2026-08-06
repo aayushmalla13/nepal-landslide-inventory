@@ -396,11 +396,59 @@ and kathmandu-post 0 — the "eight bilingual sources" claim is not supported by
 the data. And 2024 (152) is still 4.5× 2016 (34), so the temporal distribution
 remains a coverage artifact, not a landslide signal.
 
+### Correction to my own assessment: district resolution is the design
+
+I previously wrote that the missing coordinates rule out the paper's downstream
+analysis. That was measured against a susceptibility-mapping standard **this
+project never claimed**. Reading `config.yaml` properly:
+
+```
+geocode.district_shapefile_path      ocha_districts.shp
+analysis.chirps_district_month_path  chirps_district_month.csv
+analysis.correlation_method          spearman
+bipad.match_windows_days             [1, 3, 7]
+```
+
+The intended analysis is **district-month landslide counts against district-month
+CHIRPS rainfall, by Spearman**, plus BIPAD cross-comparison. District resolution
+is the design, not a shortfall. Susceptibility mapping was never in scope, so
+the absence of point coordinates is not a defect. I withdraw that framing.
+
+**The real statistical problem is sparsity, not resolution.**
+
+| aggregation | cells | non-zero | mean count |
+|---|---:|---:|---:|
+| district-month | 10,164 | 535 (5.3%) | 0.075 |
+| district-year | 847 | 326 (38%) | 0.89 |
+| district-monsoon-season | 847 | 276 (33%) | 0.70 |
+
+79% of events fall in Jun–Sep, so eight months a year contribute almost nothing
+but inflate the zero mass. **A Spearman correlation on a surface that is 95%
+zeros is driven by the zeros and will be badly attenuated** — it will understate
+a real rainfall–landslide association and may report near-null.
+
+Recommendation, in order of preference:
+
+1. **Aggregate to district–monsoon-season** and correlate against seasonal
+   rainfall totals. Only aggregation with enough signal per cell.
+2. If month resolution is required, **model counts directly** — negative
+   binomial or zero-inflated Poisson with an articles-per-source-year exposure
+   offset — rather than correlating. That also absorbs the reporting-effort
+   confound (§4.4) instead of leaving it in the residual.
+3. Report Spearman on district-month only as a robustness check, with the
+   zero fraction stated.
+
+Municipality-level geocoding would still help (302 of 758 events have one), but
+it is an improvement, not a prerequisite.
+
 ### Open decisions for the operator
 
 Items 1–4 were decided and applied this session (see above). Remaining:
 
-1. **The roundup over-merge.** Nationwide roundups ("At least 148 are dead in
+1. **Label the locked test set.** Rubric reconciled
+   (`docs/ANNOTATION_RUBRIC.md`), tool built (`tools/annotate.html`). This is
+   the only remaining hard blocker on every number in the paper.
+2. **The roundup over-merge.** Nationwide roundups ("At least 148 are dead in
    floods and landslides in Nepal") are still entering as class-1 events with a
    district, and they attract merges. Fixing them upstream in
    `event_specificity` would shrink the largest clusters and is probably the
