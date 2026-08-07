@@ -21,6 +21,7 @@ from .validation import (
     run_manual_refresh_stage,
     run_manual_score_stage,
     run_pattern_audit_stage,
+    run_refresh_predictions_stage,
     run_score_locked_stage,
 )
 from .preprocess import normalize_dates_in_sqlite
@@ -114,6 +115,7 @@ STAGE_HANDLERS: dict[str, Callable[[AppConfig], None]] = {
     'manual_refresh': run_manual_refresh_stage,
     'manual_audit': run_manual_audit_stage,
     'pattern_audit': run_pattern_audit_stage,
+    'refresh_predictions': run_refresh_predictions_stage,
     'score_locked': run_score_locked_stage,
     'validate': _not_implemented,
     'bipad': run_bipad_validation_stage,

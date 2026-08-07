@@ -1,0 +1,89 @@
+{
+  "labelled_rows": 30,
+  "undecidable_rows": 0,
+  "weighted_confusion": {
+    "tp": 60.4,
+    "fp": 9.0,
+    "fn": 48.9,
+    "tn": 172.4
+  },
+  "unweighted_confusion": {
+    "tp": 7,
+    "fp": 1,
+    "fn": 7,
+    "tn": 15
+  },
+  "weighted": {
+    "precision": 0.870175758436541,
+    "recall": 0.552636398295927,
+    "f1": 0.6759722915654266
+  },
+  "unweighted_sample_only": {
+    "precision": 0.875,
+    "recall": 0.5,
+    "f1": 0.6363636363636364
+  },
+  "precision_ci95_unweighted": [
+    0.5291051942301386,
+    0.9775830911367038
+  ],
+  "recall_ci95_unweighted": [
+    0.2679886791947528,
+    0.7320113208052472
+  ],
+  "per_stratum_coverage": {
+    "dropped_other|en": {
+      "labelled": 1,
+      "total": 1
+    },
+    "dropped_other|np": {
+      "labelled": 3,
+      "total": 14
+    },
+    "dropped_scope|en": {
+      "labelled": 4,
+      "total": 68
+    },
+    "dropped_scope|np": {
+      "labelled": 2,
+      "total": 2
+    },
+    "dropped_specificity|en": {
+      "labelled": 3,
+      "total": 49
+    },
+    "dropped_specificity|np": {
+      "labelled": 4,
+      "total": 81
+    },
+    "kept_class1|en": {
+      "labelled": 3,
+      "total": 55
+    },
+    "kept_class1|np": {
+      "labelled": 4,
+      "total": 75
+    },
+    "kept_class2|en": {
+      "labelled": 3,
+      "total": 39
+    },
+    "kept_class2|np": {
+      "labelled": 3,
+      "total": 11
+    }
+  },
+  "false_positive_examples": [
+    "https://myrepublica.nagariknetwork.com/news/17-still-missing-in-kalikot-two-more-bodies-retrieved"
+  ],
+  "false_negative_examples": [
+    "https://myrepublica.nagariknetwork.com/news/11-killed-20-others-still-missing-in-gumthang-landslide",
+    "https://www.onlinekhabar.com/2024/10/1550238/life-between-two-landslides-in-jhaple-river",
+    "https://www.onlinekhabar.com/2025/09/1766589/landslide-in-maiwakhola-displaces-11-houses",
+    "https://myrepublica.nagariknetwork.com/news/150-households-displaced-as-fresh-landslide-looms-large-in-parbat",
+    "https://myrepublica.nagariknetwork.com/news/55-die-in-taplejung-landslides",
+    "https://www.setopati.com/politics/243038",
+    "https://myrepublica.nagariknetwork.com/news/16-vdcs-of-bajura-at-high-risk-of-landslides"
+  ],
+  "generated_at": "2026-08-07T02:51:57Z"
+}
