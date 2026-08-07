@@ -23,8 +23,16 @@ Chitwan 48, Kathmandu 33, Palpa 33, Baglung 32 — but by removing construction
 errors, not by validation.
 See `docs/TECHNICAL_REVIEW.md` §0.
 
-**Nothing here is validated yet.** The locked test set exists and is unlabelled. Until
-it is annotated, every number in this log is a count, not an accuracy.
+**First out-of-sample score (2026-08-07, n=30 of 395):** weighted precision **0.870**,
+recall **0.553**, F1 0.676. Wilson 95% CI on the unweighted sample is [0.53, 0.98] for
+precision and [0.27, 0.73] for recall — at n=30 this is a smoke test of the rubric, not
+a measurement. Everything else in this log is still a count, not an accuracy.
+
+**Before scoring, always run `--stage refresh_predictions`.** The prediction file is
+written when the sample is drawn and goes stale the moment the pipeline changes. The
+first score ran against predictions from before the metaphor fix and reported the
+already-fixed `by landslide` bug as a live failure — 8 of 9 apparent disagreements were
+against code that no longer existed.
 
 **The governing constraint.** Do not tune any rule before a locked, held-out test set
 exists (§9, "the single best next step"). Every tuning pass without one destroys more
@@ -440,6 +448,44 @@ Recommendation, in order of preference:
 
 Municipality-level geocoding would still help (302 of 758 events have one), but
 it is an improvement, not a prerequisite.
+
+### Sixth pass: the first real score, and what the errors say
+
+30 rows labelled. Weighted **precision 0.870, recall 0.553**.
+
+**Precision looks healthy; recall is the problem, and it has one dominant cause.**
+Of 7 false negatives, **5 are `kept_class2`** — the pipeline found the event, judged
+it real, and then declined to promote it to class 1.
+
+Corpus-wide this is large: **1,033 of 1,260 class-2 rows have both district and
+date**, so the demotion is not failed extraction.
+
+| demoted by | n |
+|---|---:|
+| `followup` | 428 |
+| `event_specific` (i.e. specificity kept it, extract ladder demoted it) | 351 |
+| `roundup` | 221 |
+
+Tracing the 351 through `_qualifies_for_specific_class_one` (nine sequential
+vetoes) gives two mechanisms:
+
+1. **`_is_cumulative_toll_update` fires on single-event reports that state a
+   toll** — "11 killed, 20 others still missing in Gumthang landslide",
+   "55 die in Taplejung landslides". These are events, not running totals.
+2. **The ladder requires `deaths/missing/injured > 0`**, so a displacement-only
+   event can never reach class 1 — "150 households displaced as fresh landslide
+   looms large in Parbat", which the annotator labelled a real event with zero
+   deaths.
+
+Mechanism 2 is the `LABELING_GUIDE` vs `manual_label_policy` conflict
+resurfacing as measurable recall loss: the code implements *casualties
+required*, while `docs/ANNOTATION_RUBRIC.md` — now authoritative — does not.
+
+**Neither is fixed yet, deliberately.** Adjusting `_is_cumulative_toll_update`
+until these five rows pass is fitting to the test set — the exact failure that
+makes the old 200-row set unusable. The casualty requirement is a *definitional*
+mismatch rather than a tuning question and can be corrected on principle, but its
+effect has to be measured corpus-wide, not against the rows that revealed it.
 
 ### Open decisions for the operator
 
