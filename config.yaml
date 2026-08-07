@@ -12,8 +12,15 @@ paths:
   caches_dir: data/caches
   logs_dir: data/logs
 runtime:
-  rate_limit_seconds: 1.0
-  retries: 3
+  # Raised from 1.0 on 2026-08-07. At one request per second himalayan-times
+  # rate-limited us, and the fetcher stored the 429 error page as the article
+  # body -- 615 of its 992 rows, the median row from that outlet. The fetcher
+  # now retries and refuses to store error text, but crawling politely is the
+  # actual fix. Raise to 8.0 if 429s persist.
+  rate_limit_seconds: 3.0
+  # Raised from 3. Retries now also cover 429/5xx, which previously were not
+  # retried at all.
+  retries: 5
   timeout_seconds: 30
   user_agent: landslide-inventory/0.1.0 (+research; contact-user-to-customize)
   max_pages_per_entry_point: 100

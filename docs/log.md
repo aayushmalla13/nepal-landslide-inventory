@@ -33,6 +33,18 @@ review's 0.516 class-1 precision — different definition, different sample, and
 is weighted to population. By language: en 0.779/0.372, np 0.827/0.426 — **Nepali is not
 the weaker path**, which is a real result for a bilingual pipeline.
 
+**EXTERNAL VALIDATION (2026-08-07).** Nepal's DRR Portal, quoted by The Himalayan
+Times, records **4,629 landslides and 1,906 deaths for 2011–Aug 2025** — i.e. ~130
+deaths/year. Our inventory now reports **130 deaths/year**. A ratio of 1.00 against
+a completely independent national source, where before the casualty fix we were at
+567/year. That is the strongest validation available without the BIPAD export, and
+it belongs in the paper.
+
+Event completeness is ~22% of DRR-recorded landslides (70/yr vs 315/yr). That is
+expected and reportable: a news-derived inventory captures *newsworthy* landslides,
+not every recorded incident. Do not present it as a shortfall — present it as what
+the method measures.
+
 **Before scoring, always run `--stage refresh_predictions`.** The prediction file is
 written when the sample is drawn and goes stale the moment the pipeline changes. The
 first score ran against predictions from before the metaphor fix and reported the

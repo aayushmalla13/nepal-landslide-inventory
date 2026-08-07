@@ -41,27 +41,46 @@ UA = 'landslide-inventory/0.1.0 (+research; verifying archive entry points)'
 # Candidates for the four sources with no working archive path. These are
 # PATTERNS THAT NEED CHECKING, not verified URLs -- the whole point of this
 # script. Nepali outlets change tag slugs; treat every one as a hypothesis.
+# Candidates for the sources with no working archive path.
+#
+# These were narrowed by web search on 2026-08-07, which established the URL
+# SHAPES each site actually uses. They still need checking from a machine that
+# can reach Nepal -- the shape being right does not mean a given index page
+# exists or paginates.
+#
+# What the search established:
+#   ekantipur       date+province article URLs, e.g.
+#                   /bagmati-pradesh/2026/08/07/... and /news/2026/08/05/...
+#                   so a date archive exists even if the tag slug is unclear.
+#   kathmandupost   has an /archive page, and live articles as far back as
+#                   /gandaki-province/2020/09/03/... -- the deep archive IS
+#                   reachable. Our crawler simply never looked, because it used
+#                   Google News RSS.
+#   himalayantimes  has a working search endpoint: /search?query=...
+#                   plus section pages such as /nepal/.
+#   onlinekhabar    /trend/{keyword} confirmed as the pattern already in use.
 CANDIDATES: dict[str, list[str]] = {
     'ekantipur': [
         'https://ekantipur.com/tag/पहिरो',
-        'https://ekantipur.com/tag/landslide',
-        'https://ekantipur.com/news',
         'https://ekantipur.com/search?q=पहिरो',
+        'https://ekantipur.com/news',
+        'https://ekantipur.com/bagmati-pradesh',
+        'https://ekantipur.com/gandaki-pradesh',
     ],
     'kathmandu-post': [
+        'https://kathmandupost.com/archive',
         'https://kathmandupost.com/tag/landslide',
-        'https://kathmandupost.com/tag/landslides',
-        'https://kathmandupost.com/tag/monsoon-floods',
         'https://kathmandupost.com/search?q=landslide',
+        'https://kathmandupost.com/national',
     ],
     'himalayan-times': [
-        'https://thehimalayantimes.com/tag/landslide',
-        'https://thehimalayantimes.com/search?q=landslide',
+        'https://thehimalayantimes.com/search?query=landslide',
         'https://thehimalayantimes.com/nepal',
+        'https://thehimalayantimes.com/tag/landslide',
     ],
     'rising-nepal': [
-        'https://risingnepaldaily.com/tag/landslide',
         'https://risingnepaldaily.com/search?q=landslide',
+        'https://risingnepaldaily.com/tag/landslide',
     ],
     # These two work but stopped early -- check whether deeper pages exist.
     'online-khabar': [
