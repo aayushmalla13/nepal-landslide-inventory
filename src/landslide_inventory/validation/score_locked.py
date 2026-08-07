@@ -98,6 +98,25 @@ def _truth_headline(row: Mapping[str, str]) -> bool | None:
     return True
 
 
+def _is_definitional_exclusion(pred: Mapping[str, str]) -> bool:
+    """Whether the pipeline excluded this row by POLICY rather than by error.
+
+    The operator decided (2026-08-06) that a landslide reported only through its
+    effect on a road is retained but kept out of headline counts, because a
+    single corridor generating recurrent blockages would otherwise dominate the
+    inventory. See docs/log.md and unify/event_typing.py.
+
+    An annotator labelling "did a landslide happen?" will answer yes for such an
+    article -- correctly. Counting that as a pipeline miss measures the
+    *definition*, not the pipeline. These rows are reported separately so the
+    cost of that policy choice is visible instead of buried in the recall
+    figure. 24 of the 46 remaining class-2 misses are this case.
+    """
+
+    return (pred.get('specificity_reason') or '') in {'road_obstruction'} or \
+           (pred.get('scope_reason') or '') in {'road_obstruction'}
+
+
 def _predicted_headline(pred: Mapping[str, str]) -> bool:
     """What the pipeline decided for this row: did it become a kept class-1 event?"""
 

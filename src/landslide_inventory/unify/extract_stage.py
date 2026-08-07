@@ -480,10 +480,49 @@ def _is_road_disruption_title(title: str | None) -> bool:
 
 
 
+# A toll is cumulative only when the article also scopes it to a period or an
+# area wider than the event -- "so far this monsoon", "nationwide", "in five
+# years". Without one of these, "death toll" is just how a reporter states the
+# casualty count of the event in front of them.
+CUMULATIVE_SCOPE_PATTERN = re.compile(
+    r'\bso far\b|\bto date\b|\bthis (?:monsoon|year|season)\b|\bsince the (?:monsoon|onset)\b'
+    r'|\bnationwide\b|\bacross the country\b|\bin nepal\b|\bvarious districts\b'
+    r'|\bin\s+(?:the\s+)?(?:past|last)?\s*\d+\s*(?:years?|months?|weeks?)\b'
+    r'|अहिलेसम्म|हालसम्म|यो मनसुन|यसवर्ष|यस वर्ष|देशभर|देशैभरि|देशभरि|कुल',
+    re.IGNORECASE,
+)
+
+
 def _is_cumulative_toll_update(title: str | None, extraction_text: str) -> bool:
+    """Whether an article reports a RUNNING TOTAL rather than an event.
+
+    The phrase "death toll" alone was treated as proof of a cumulative report.
+    It is not: an ordinary single-event story routinely says "the death toll in
+    the Gumthang landslide has reached 11". Measured on the locked test set,
+    this veto blocked real single-event reports from class 1 --
+    "11 killed, 20 others still missing in Gumthang landslide" and
+    "55 die in Taplejung landslides" among them.
+
+    A running total needs a *period or scope* as well as a toll. "Death toll
+    reaches 11 in Gumthang" is an event; "death toll reaches 244 this monsoon"
+    is a tally. That distinction is what the phrase alone could not make.
+    """
+
     title_cf = (title or '').casefold()
     lowered = extraction_text.casefold()
-    return 'death toll' in title_cf or ('death toll' in lowered and any(term in lowered for term in ('climbed to', 'reaches', 'reached')))
+    combined = f'{title_cf}\n{lowered}'
+    # Nepali too: an English-only toll check is blind to exactly the articles
+    # a bilingual pipeline exists to read.
+    mentions_toll = 'death toll' in combined or any(
+        term in combined for term in (
+            'toll rises', 'toll climbs', 'toll reaches',
+            'मृतकको संख्या', 'मृत्यु हुनेको संख्या', 'ज्यान गुमाउनेको संख्या',
+        )
+    )
+    if not mentions_toll:
+        return False
+    # A toll becomes cumulative only when scoped to a period or a wider area.
+    return CUMULATIVE_SCOPE_PATTERN.search(combined) is not None
 
 def _qualifies_for_specific_class_one(row: ArticleRow, result: dict[str, Any], extraction_text: str) -> bool:
     """Return whether a Class 2 row is still specific enough for Class 1."""
@@ -503,8 +542,20 @@ def _qualifies_for_specific_class_one(row: ArticleRow, result: dict[str, Any], e
         return False
     if _is_cumulative_toll_update(row.title, extraction_text):
         return False
-    if not any(result.get(field) is not None and int(result.get(field)) > 0 for field in ('deaths', 'missing', 'injured')):
-        return False
+    # NO HARD CASUALTY REQUIREMENT.
+    #
+    # This used to demand deaths/missing/injured > 0, which meant a
+    # displacement-only event could never be class 1 -- "150 households
+    # displaced as fresh landslide looms large in Parbat" was excluded despite
+    # being a real, located, dated landslide. That contradicts
+    # docs/ANNOTATION_RUBRIC.md, which is authoritative and does not require
+    # casualties, and it contradicts LABELING_GUIDE.md too; only the older
+    # manual_label_policy.md ever required them (review section 3.3).
+    #
+    # The gate is also redundant: _has_strong_fallback_impact below already
+    # requires casualties OR strong impact evidence, so removing this line
+    # widens the definition to "human OR settlement impact" rather than
+    # removing the impact requirement altogether.
     if _is_road_disruption_title(row.title):
         return False
     if not title or not FALLBACK_EVENT_LANDSLIDE_PATTERN.search(combined):
