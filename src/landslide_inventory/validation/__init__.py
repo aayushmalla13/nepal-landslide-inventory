@@ -9,6 +9,7 @@ from .manual_pack import run_manual_pack_stage
 from .manual_refresh import run_manual_refresh_stage
 from .manual_score import run_manual_score_stage
 from .pattern_audit import run_pattern_audit_stage
+from .score_locked import run_score_locked_stage
 
 __all__ = [
     'run_article_quality_stage',
@@ -20,4 +21,5 @@ __all__ = [
     'run_manual_refresh_stage',
     'run_manual_score_stage',
     'run_pattern_audit_stage',
+    'run_score_locked_stage',
 ]
