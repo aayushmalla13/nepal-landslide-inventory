@@ -462,8 +462,14 @@ def discover_myrepublica_sitemaps(
     index_url = f"{source.base_url.rstrip('/')}/sitemap.xml"
     include_terms = list(config.raw["keywords"]["terms"][source.language])
     exclude_terms = list(config.raw["keywords"]["exclude"][source.language])
-    sitemap_index = fetcher.fetch(index_url).text
-    sitemap_urls = ordered_myrepublica_sitemaps(parse_sitemap_index(sitemap_index))
+    index_result = fetcher.fetch(index_url)
+    if index_result.status_code != 200:
+        # Non-200 bodies are error pages, not sitemaps. Parsing one wastes time
+        # and produces a confusing XML error far from the real cause.
+        LOGGER.warning('Sitemap index %s returned HTTP %s; skipping sitemap discovery',
+                       index_url, index_result.status_code)
+        return []
+    sitemap_urls = ordered_myrepublica_sitemaps(parse_sitemap_index(index_result.text))
     discoveries: list[DiscoveredUrl] = []
     domains = allowed_domains(source)
     start_year, end_year = config.study_period
@@ -471,7 +477,12 @@ def discover_myrepublica_sitemaps(
     for sitemap_url in sitemap_urls:
         if len(discoveries) >= max_urls:
             break
-        sitemap_text = fetcher.fetch(sitemap_url).text
+        sitemap_result = fetcher.fetch(sitemap_url)
+        if sitemap_result.status_code != 200:
+            LOGGER.warning('Sitemap %s returned HTTP %s; skipping it',
+                           sitemap_url, sitemap_result.status_code)
+            continue
+        sitemap_text = sitemap_result.text
         added_from_sitemap = 0
         for article in parse_news_sitemap(sitemap_text):
             if len(discoveries) >= max_urls:
@@ -563,9 +574,26 @@ def discover_himalayan_times_sitemaps(
 
 
 def parse_sitemap_index(xml_text: str) -> list[str]:
-    """Extract sitemap URLs from a sitemap index document."""
+    """Extract sitemap URLs from a sitemap index document.
 
-    root = ET.fromstring(xml_text)
+    Returns an empty list rather than raising when the response is not XML.
+    A site under load, behind Cloudflare, or rate-limiting us answers a
+    sitemap request with an HTML error page; feeding that to ET.fromstring
+    raised ParseError and killed the entire collect stage mid-run, losing every
+    source queued after the failure. A sitemap we cannot read is a reason to
+    skip that supplemental path, not to abandon the crawl.
+    """
+
+    if not xml_text or not xml_text.lstrip().startswith('<'):
+        LOGGER.warning('Sitemap index is not XML (starts with %r); skipping sitemap discovery',
+                       (xml_text or '')[:40])
+        return []
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError as exc:
+        # Almost always an HTML error page served in place of the sitemap.
+        LOGGER.warning('Sitemap index did not parse as XML (%s); skipping sitemap discovery', exc)
+        return []
     return [
         str(loc.text).strip()
         for loc in root.findall(".//sm:loc", SITEMAP_NAMESPACE)

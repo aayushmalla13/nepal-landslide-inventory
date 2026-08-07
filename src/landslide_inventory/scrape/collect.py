@@ -41,10 +41,23 @@ def run_collect_stage(config: AppConfig) -> None:
     fetcher = HTTPFetcher.from_config(config)
     sources = load_sources(config)
 
+    failed_sources: list[tuple[str, str]] = []
+
     for source in sources:
         total_before = count_discovered_urls_for_source(database_path, source.slug)
         LOGGER.info('Collecting source %s', source.slug)
-        discoveries, new_discovered = _discover_source(config, source, fetcher, database_path)
+        try:
+            discoveries, new_discovered = _discover_source(config, source, fetcher, database_path)
+        except Exception as exc:  # noqa: BLE001 - one bad source must not end the crawl
+            # A crawl is a long, partly unreliable operation over eight
+            # independent sites. Letting one site's malformed response abort the
+            # whole stage throws away every source queued behind it, and the
+            # work already done is not resumable in one command. Record the
+            # failure, keep going, and report it at the end.
+            LOGGER.error('Source %s failed during discovery: %s: %s',
+                         source.slug, type(exc).__name__, exc)
+            failed_sources.append((source.slug, f'{type(exc).__name__}: {exc}'))
+            continue
         stale_refreshes = _stale_refresh_discoveries(database_path, source, discoveries)
         if stale_refreshes:
             LOGGER.info('Source %s stale refresh queue=%s', source.slug, len(stale_refreshes))
@@ -75,6 +88,17 @@ def run_collect_stage(config: AppConfig) -> None:
     report_path = config.resolve_path('outputs_dir') / 'coverage_report.csv'
     write_coverage_report(database_path, report_path)
     LOGGER.info('Coverage report written to %s', report_path)
+
+    if failed_sources:
+        # Loud, and at the end where it will actually be seen. A partial crawl
+        # that looks complete is worse than one that failed outright, because
+        # the missing source silently becomes a gap in the inventory.
+        LOGGER.warning('%d of %d sources FAILED and collected nothing this run:',
+                       len(failed_sources), len(sources))
+        for slug, reason in failed_sources:
+            LOGGER.warning('    %-18s %s', slug, reason)
+        LOGGER.warning('The other sources completed. Re-run --stage collect to retry the '
+                       'failures; discovery is idempotent, so completed work is not repeated.')
 
 
 def _discover_source(
