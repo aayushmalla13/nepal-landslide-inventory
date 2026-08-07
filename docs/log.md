@@ -630,6 +630,48 @@ plus Bland–Altman. Layer 6 samples both unmatched sets for the discussion.
 The old module is left in place; switching `--stage bipad` is a one-line change
 once a real export exists.
 
+### Tenth pass: the data problem, diagnosed
+
+**The inventory is a two-source corpus before 2020.** Articles per source-year
+showed holes that follow the discovery method exactly:
+
+| method | sources | earliest |
+|---|---|---|
+| tag pagination | myrepublica, setopati | 2012, 2017 |
+| **Google News RSS** | himalayan-times, ekantipur, kathmandu-post, rising-nepal | 2015\*, 2019, 2019, 2022 |
+
+Google News RSS `site:` queries return only recent items and **never backfill
+archives** (§9.11, now confirmed). eKantipur and the Kathmandu Post — two of
+Nepal's largest outlets — contribute essentially nothing before 2025.
+
+**This is the cause of the 4.5× 2024/2016 ratio.** Not landslide activity, not
+recency bias in reporting — four of eight sources simply have no pre-2023 data
+in the corpus. The "eight bilingual sources" claim is unsupported for 2015–2019.
+
+\* himalayan-times reaches 2015 but 615 of its 992 rows are 429 error pages.
+
+**The 429s were a one-branch bug.** `scrape/fetcher.py` returned immediately on
+any `HTTPError`, so a 429 was accepted as the site's answer and its error page
+stored as the article body. Now retries with backoff, honours `Retry-After`, and
+stores **no text** on final failure so a failed row cannot be mistaken for an
+article. Recovering these is worth ~600 articles concentrated in 2015–2020 — the
+years that most need them.
+
+**`scripts/verify_entry_points.py`** checks candidate archive URLs before they
+go into config (200? 10+ article links? does pagination advance?) and emits
+ready-to-paste YAML. Tag slugs change, so the candidates in it are hypotheses,
+not verified URLs.
+
+**`docs/COLLECTION_RUNBOOK.md`** has the four steps in order. All of it runs on
+the operator's machine — this sandbox cannot reach any Nepali news domain.
+
+**Free LLM: use a local model.** `ollama_caller()` added, and `build_caller()`
+prefers local over hosted over rules. For this project local is better *on the
+merits*: a hosted API is a moving target while a local model is a pinned
+artefact that replays offline years later, which is what a reproducibility claim
+needs. Temperature 0, fixed seed, `qwen2.5:7b` for Devanagari. The quality trade
+at 7B is exactly what `--stage benchmark_adjudicator` measures.
+
 ### Open decisions for the operator
 
 Items 1–4 were decided and applied this session (see above). Remaining:
