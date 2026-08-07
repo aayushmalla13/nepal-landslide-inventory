@@ -222,7 +222,10 @@ def run_score_locked_stage(config: AppConfig) -> dict[str, Any]:
 
     outputs_dir = config.resolve_path('outputs_dir')
     ensure_directory(outputs_dir)
-    filled = outputs_dir / f'{OUTPUT_STEM}_labels_filled.csv'
+    # Prefer the hand-edited spreadsheet when present; fall back to the tool
+    # export. Both carry the same columns keyed on row_id.
+    edited = outputs_dir / f'{OUTPUT_STEM}_LABEL_HERE.csv'
+    filled = edited if edited.exists() else outputs_dir / f'{OUTPUT_STEM}_labels_filled.csv'
     predictions_path = outputs_dir / f'{OUTPUT_STEM}_predictions.csv'
 
     if not filled.exists():

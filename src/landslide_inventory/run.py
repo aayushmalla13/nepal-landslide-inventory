@@ -14,6 +14,7 @@ from .langdetect import run_language_stage
 from .validation import (
     run_article_quality_stage,
     run_audit_canonical_stage,
+    run_check_labels_stage,
     run_inventory_audit_stage,
     run_locked_test_set_stage,
     run_manual_audit_stage,
@@ -105,6 +106,7 @@ STAGE_HANDLERS: dict[str, Callable[[AppConfig], None]] = {
     'unify': _not_implemented,
     'dedup': run_dedup_stage,
     'article_quality': run_article_quality_stage,
+    'check_labels': run_check_labels_stage,
     'event_typing': run_event_typing_stage,
     'export_final': run_export_final_stage,
     'audit_canonical': run_audit_canonical_stage,
