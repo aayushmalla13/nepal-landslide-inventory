@@ -32,7 +32,7 @@ from ..unify.llm_adjudicator import (
     DEFAULT_MODEL,
     ResponseCache,
     adjudicate,
-    anthropic_caller,
+    build_caller,
     needs_adjudication,
 )
 from ..utils import ensure_directory
@@ -67,7 +67,8 @@ def run_benchmark_adjudicator_stage(config: AppConfig) -> dict[str, Any]:
         predictions = {row['row_id']: row for row in csv.DictReader(handle)}
 
     cache = ResponseCache(config.resolve_path('caches_dir') / 'llm_adjudications.json')
-    caller = anthropic_caller(model=DEFAULT_MODEL)
+    # Local model first: free, no quota, and reproducible from pinned weights.
+    caller, model_id = build_caller(prefer='ollama')
     connection = sqlite3.connect(f'file:{config.sqlite_path}?mode=ro', uri=True)
     connection.row_factory = sqlite3.Row
 
@@ -105,7 +106,7 @@ def run_benchmark_adjudicator_stage(config: AppConfig) -> dict[str, Any]:
         verdict = adjudicate(
             article['t'] if article else None,
             article['x'] if article else None,
-            cache=cache, call_model=caller, model=DEFAULT_MODEL,
+            cache=cache, call_model=caller, model=model_id,
         )
         if verdict is None:
             skipped_no_verdict += 1
@@ -118,7 +119,7 @@ def run_benchmark_adjudicator_stage(config: AppConfig) -> dict[str, Any]:
     cache.save()
     report = {
         'generated_at': iso_now(),
-        'model': DEFAULT_MODEL,
+        'model': model_id,
         'rows_considered': considered,
         'rows_without_verdict': skipped_no_verdict,
         'cache_entries': len(cache),
@@ -130,8 +131,12 @@ def run_benchmark_adjudicator_stage(config: AppConfig) -> dict[str, Any]:
 
     LOGGER.info('Judgement-call rows scored: %d (no verdict for %d)', considered, skipped_no_verdict)
     if report['llm'] is None:
-        LOGGER.warning('No model verdicts available — set ANTHROPIC_API_KEY and '
-                       'pip install anthropic, or ship a populated cache.')
+        LOGGER.warning(
+            'No model verdicts available. Easiest free option:\n'
+            '    curl -fsSL https://ollama.com/install.sh | sh\n'
+            '    ollama pull qwen2.5:7b\n'
+            '    ollama serve\n'
+            'then re-run this stage. No account, no key, no quota.')
         return report
     for name in ('rules', 'llm'):
         m = report[name]

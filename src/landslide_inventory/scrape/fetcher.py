@@ -16,6 +16,14 @@ from .models import FetchResult
 
 LOGGER = logging.getLogger(__name__)
 
+# Statuses that mean "ask again later", not "this is the content".
+# 429 is the one that mattered: 615 himalayan-times rows were rate-limit pages
+# stored as articles because HTTPError returned without retrying.
+RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
+
+# Cap the backoff so one hostile host cannot stall a whole run.
+MAX_BACKOFF_SECONDS = 60.0
+
 
 @dataclass
 class HTTPFetcher:
@@ -55,9 +63,35 @@ class HTTPFetcher:
                     )
             except HTTPError as exc:
                 body = exc.read().decode("utf-8", errors="replace")
+                status = int(exc.code)
+                # RETRY on rate limiting and server errors.
+                #
+                # This branch used to return immediately for every HTTPError,
+                # so a 429 was treated as the site's final answer and its error
+                # page ("You have exceeded the rate limit. Please try again
+                # later.", 57 characters) was stored as the article body. That
+                # is how 615 of 992 himalayan-times rows -- the MEDIAN row from
+                # that outlet -- became error pages masquerading as news, and
+                # nothing downstream consulted http_status to notice.
+                if status in RETRYABLE_STATUS and attempt < self.retries:
+                    delay = self._retry_delay(exc, attempt)
+                    LOGGER.warning(
+                        "HTTP %s for %s; backing off %.1fs (attempt %s of %s)",
+                        status, url, delay, attempt + 1, self.retries,
+                    )
+                    time.sleep(delay)
+                    continue
+                if status in RETRYABLE_STATUS:
+                    LOGGER.error(
+                        "HTTP %s for %s after %s attempts; storing NO text so the "
+                        "row is not mistaken for an article", status, url, self.retries + 1,
+                    )
+                    # Empty text, not the error page. A row with a non-200 status
+                    # and no body is unambiguously a failed fetch to re-try later.
+                    body = ""
                 return FetchResult(
                     url=url,
-                    status_code=int(exc.code),
+                    status_code=status,
                     text=body,
                     fetched_at=utc_now_iso(),
                 )
@@ -66,6 +100,21 @@ class HTTPFetcher:
                 LOGGER.warning("Fetch attempt %s failed for %s: %s", attempt + 1, url, exc)
                 time.sleep(2**attempt)
         raise RuntimeError(f"Failed to fetch {url}: {last_error}")
+
+    def _retry_delay(self, exc: HTTPError, attempt: int) -> float:
+        """Seconds to wait, honouring Retry-After when the server sends it.
+
+        A server that says how long to wait is telling you something more
+        useful than exponential backoff guesses.
+        """
+
+        header = exc.headers.get("Retry-After") if exc.headers else None
+        if header:
+            try:
+                return min(float(header), MAX_BACKOFF_SECONDS)
+            except (TypeError, ValueError):
+                pass
+        return min(2.0 ** (attempt + 1), MAX_BACKOFF_SECONDS)
 
     def _respect_rate_limit(self) -> None:
         """Sleep if needed to satisfy the configured rate limit."""

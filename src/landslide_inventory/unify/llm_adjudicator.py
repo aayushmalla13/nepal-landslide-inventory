@@ -278,6 +278,109 @@ def adjudicate(
     return Adjudication(**record, from_cache=False)
 
 
+def ollama_caller(
+    model: str = 'qwen2.5:7b',
+    host: str = 'http://localhost:11434',
+) -> Callable[[str, str], str] | None:
+    """Build a caller backed by a LOCAL model served by Ollama.
+
+    For this project a local model is not a budget compromise -- it is the
+    better choice on the merits.
+
+    **Reproducibility.** The paper claims a reproducible pipeline. A hosted API
+    is a moving target: versions are retired, and the same prompt can drift
+    between runs. A local model is a pinned artefact. Record the model tag and
+    its digest and the classification step replays years later, offline, with no
+    account and no vendor.
+
+    **Cost and rate limits.** 4,453 articles, of which only the ~25% ambiguous
+    ones are sent. No key, no quota, no per-token cost, so re-running after a
+    prompt change is free rather than a decision.
+
+    **Data handling.** Article text never leaves the machine, which some
+    institutional data agreements require.
+
+    The trade is quality: a 7B local model is weaker than a frontier API model
+    at nuanced judgement. That is exactly what --stage benchmark_adjudicator is
+    for. Measure both against the labelled rows and take whichever wins; if the
+    local model matches the rules it is already worth having, because it costs
+    nothing to re-run.
+
+    Setup:
+        # https://ollama.com  -- one install, no account
+        ollama pull qwen2.5:7b       # good multilingual, handles Devanagari
+        ollama serve
+
+    Model suggestions, best multilingual first:
+        qwen2.5:7b     strong Nepali/Devanagari, ~5 GB
+        qwen2.5:14b    better judgement if you have ~10 GB of RAM to spare
+        gemma2:9b      solid alternative
+        llama3.1:8b    weaker on Devanagari; fine for the English half
+    """
+
+    import json as _json
+    import urllib.error
+    import urllib.request
+
+    endpoint = f'{host.rstrip("/")}/api/chat'
+    try:
+        with urllib.request.urlopen(f'{host.rstrip("/")}/api/tags', timeout=3) as response:
+            available = {m.get('name', '') for m in _json.loads(response.read()).get('models', [])}
+    except (urllib.error.URLError, TimeoutError, OSError):
+        LOGGER.info('No Ollama server at %s; LLM adjudication disabled, using rules', host)
+        return None
+    if model not in available and available:
+        LOGGER.warning('Model %r not pulled. Available: %s. Run: ollama pull %s',
+                       model, sorted(available), model)
+        return None
+
+    def _call(system: str, user: str) -> str:
+        payload = _json.dumps({
+            'model': model,
+            'messages': [{'role': 'system', 'content': system},
+                         {'role': 'user', 'content': user}],
+            'stream': False,
+            # Greedy decoding: the same input gives the same output, which is
+            # what makes the cached run defensible as a method.
+            'options': {'temperature': 0, 'seed': 20260807},
+            'format': 'json',
+        }).encode('utf-8')
+        request = urllib.request.Request(
+            endpoint, data=payload, headers={'Content-Type': 'application/json'})
+        with urllib.request.urlopen(request, timeout=120) as response:
+            body = _json.loads(response.read())
+        return body.get('message', {}).get('content', '')
+
+    LOGGER.info('Using local model %s via Ollama at %s', model, host)
+    return _call
+
+
+def build_caller(
+    prefer: str = 'ollama',
+    model: str | None = None,
+) -> tuple[Callable[[str, str], str] | None, str]:
+    """Pick a caller, preferring the local model. Returns (caller, model_id).
+
+    Order is deliberate: local first because it is free and reproducible, hosted
+    only as a fallback, and rules if neither is available. Nothing here ever
+    raises -- an absent model must degrade, not break the pipeline.
+    """
+
+    if prefer == 'ollama':
+        chosen = model or 'qwen2.5:7b'
+        caller = ollama_caller(model=chosen)
+        if caller is not None:
+            return caller, f'ollama/{chosen}'
+        caller = anthropic_caller(model=model or DEFAULT_MODEL)
+        return caller, (model or DEFAULT_MODEL) if caller else 'rules-only'
+    chosen = model or DEFAULT_MODEL
+    caller = anthropic_caller(model=chosen)
+    if caller is not None:
+        return caller, chosen
+    caller = ollama_caller()
+    return caller, 'ollama/qwen2.5:7b' if caller else 'rules-only'
+
+
 def anthropic_caller(api_key: str | None = None, model: str = DEFAULT_MODEL) -> Callable[[str, str], str] | None:
     """Build a caller backed by the Anthropic SDK, or None if unavailable.
 
