@@ -531,6 +531,56 @@ result must be re-measured on a *fresh* draw, not this set.
 `--stage check_labels` now guards spreadsheet editing: out-of-vocabulary values,
 Excel mangling Devanagari, reformatted dates, deleted rows.
 
+### Eighth pass: ladder fixes, and the LLM question answered with data
+
+**Two principled fixes** (not tuned to the labels):
+1. `_is_cumulative_toll_update` treated the phrase "death toll" as proof of a
+   running total. A single-event story routinely says "the death toll in the
+   Gumthang landslide has reached 11". Now requires a toll **and** a period or
+   wider-area scope. Nepali toll phrases added.
+2. The ladder's hard casualty requirement contradicted `ANNOTATION_RUBRIC.md`
+   and was redundant with `_has_strong_fallback_impact`. Removed, so
+   displacement-only events can qualify.
+
+**Effect: precision 0.806 → 0.801, recall 0.401 → 0.413.** Only 6 of 395
+decisions changed. Modest — and the diagnosis is worth more than the gain.
+
+**The dominant remaining blocker is not a bug.** Re-tracing the 46 still-missed
+class-2 rows, `_is_road_disruption_title` accounts for 24 — which is the
+operator's own road-obstruction policy. An annotator asked "did a landslide
+happen?" says yes; the pipeline excludes by design. The scorer now reports the
+sensitivity:
+
+| | precision | recall |
+|---|---:|---:|
+| all rows | 0.801 | 0.413 |
+| excluding road-title articles | 0.800 | **0.452** |
+
+So ~4 recall points are the price of a definition, not a defect. **State this in
+the methods section rather than reporting 0.413 unqualified.**
+
+**Should you use an LLM?** Splitting the 140 errors answers it:
+
+| | n | can an LLM help? |
+|---|---:|---|
+| definitional (road policy) | ~24 | No — a policy is not a prediction |
+| mechanical (gate bugs) | ~28 | No — rules already had it right |
+| **judgement** | **~88** | **Yes — this is reading comprehension** |
+
+So: `unify/llm_adjudicator.py`, adjudicating **only** the judgement calls.
+Responses cached on disk keyed by hash(model, prompt, article) so runs replay
+with no network; model id and prompt version recorded per row; rules remain the
+fallback when there is no key. `--stage benchmark_adjudicator` scores it against
+the rules on the same labelled rows.
+
+**Not yet benchmarked** — no API key in the working environment. 332 rows are
+queued. Adopt it only if it wins that benchmark, and report both numbers either
+way.
+
+**Measurement honesty:** this is the second score on the same locked rows. One
+principled change then one measurement is defensible; iterating is not. Treat
+0.413 as mildly optimistic and draw `DESIGN_VERSION = v2` before publishing.
+
 ### Open decisions for the operator
 
 Items 1–4 were decided and applied this session (see above). Remaining:
