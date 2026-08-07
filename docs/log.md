@@ -581,6 +581,55 @@ way.
 principled change then one measurement is defensible; iterating is not. Treat
 0.413 as mildly optimistic and draw `DESIGN_VERSION = v2` before publishing.
 
+### Ninth pass: BIPAD rewritten as cross-inventory agreement (§6)
+
+`bipad/validation.py` computed `precision = matches/canonical_count` and
+`recall = matches/bipad_count`, asserting BIPAD is ground truth. New
+`bipad/agreement.py` implements all six §6.2 layers and **never reports
+precision or recall against BIPAD**.
+
+**Three correctness bugs fixed, each with a test:**
+
+- The hazard filter **failed open** (`if not disaster_value: return True`). If
+  the export's hazard column wasn't among the expected names, every flood, fire
+  and epidemic counted as a landslide — silently, producing a plausible recall
+  number. Now fails closed.
+- **Bikram Sambat dates parsed as AD.** `date_bs` is in the column list and
+  `2081-03-25` is a valid-looking AD string, so it landed ~57 years out. Now
+  raises `BikramSambatDateError`.
+- **Ambiguous date orders resolved silently** (`%d-%m-%Y` before `%m-%d-%Y`).
+  Now returns None and the unparseable count is reported.
+
+Plus the missing study-window filter, with every exclusion counted.
+
+**The demonstration that justifies Layer 3.** Run against the real 772-event
+inventory with a synthetic BIPAD export having 60% true overlap:
+
+| tier | observed | chance | corrected | z |
+|---|---:|---:|---:|---:|
+| pooled | 0.742 | 0.742 | **0.000** | — |
+| A (muni + 1 day) | 0.251 | 0.059 | **0.192** | 28.7 |
+| B | 0.000 | 0.000 | 0.000 | — |
+| C (district + 7 days) | 0.602 | 0.719 | −0.116 | −25.0 |
+
+Pooled overlap reads **0.742 — higher than the true 0.60 — and is entirely
+chance.** With ~870 BIPAD incidents across 77 districts on monsoon-clustered
+dates, almost any news event finds *some* BIPAD row within a week in the same
+district. **Tier C is noise, and Tier C is what the old code called "recall".**
+
+Only Tier A carries signal, so chance correction is computed **per tier**;
+pooling lets the loosest tier dominate and hides this entirely. If you take one
+thing from this rewrite into the paper, it is that table.
+
+Layer 1 collapses per-household BIPAD rows to incidents (ratio 1.77 synthetic)
+and reports it as a finding about the two units. Layer 4 is Chapman
+capture–recapture with the independence assumption stated — media-triggered
+BIPAD reporting makes it a **lower bound**. Layer 5 is district-year Spearman
+plus Bland–Altman. Layer 6 samples both unmatched sets for the discussion.
+
+The old module is left in place; switching `--stage bipad` is a one-line change
+once a real export exists.
+
 ### Open decisions for the operator
 
 Items 1–4 were decided and applied this session (see above). Remaining:
