@@ -23,10 +23,15 @@ Chitwan 48, Kathmandu 33, Palpa 33, Baglung 32 — but by removing construction
 errors, not by validation.
 See `docs/TECHNICAL_REVIEW.md` §0.
 
-**First out-of-sample score (2026-08-07, n=30 of 395):** weighted precision **0.870**,
-recall **0.553**, F1 0.676. Wilson 95% CI on the unweighted sample is [0.53, 0.98] for
-precision and [0.27, 0.73] for recall — at n=30 this is a smoke test of the rubric, not
-a measurement. Everything else in this log is still a count, not an accuracy.
+**VALIDATED RESULT (2026-08-07, all 395 rows labelled, 362 scored):**
+weighted **precision 0.806, recall 0.401, F1 0.536**. 95% CI: precision [0.74, 0.87],
+recall [0.41, 0.54]. Confusion tp 107 / fp 24 / fn 118 / tn 113. The 33 excluded rows
+are exactly those with no stored article text.
+
+This is the project's first out-of-sample number. It is **not** comparable to the
+review's 0.516 class-1 precision — different definition, different sample, and this one
+is weighted to population. By language: en 0.779/0.372, np 0.827/0.426 — **Nepali is not
+the weaker path**, which is a real result for a bilingual pipeline.
 
 **Before scoring, always run `--stage refresh_predictions`.** The prediction file is
 written when the sample is drawn and goes stale the moment the pipeline changes. The
@@ -486,6 +491,45 @@ until these five rows pass is fitting to the test set — the exact failure that
 makes the old 200-row set unusable. The casualty requirement is a *definitional*
 mismatch rather than a tuning question and can be corrected on principle, but its
 effect has to be measured corpus-wide, not against the rows that revealed it.
+
+### Seventh pass: the validated result
+
+All 395 rows labelled by the operator over two rounds. **Precision 0.806, recall 0.401.**
+
+**Recall is the problem and 88% of it sits in two buckets:**
+
+| where the 118 false negatives are | n | |
+|---|---:|---|
+| `dropped_specificity` | 54 (46%) | followup 19, context_only 18, risk_only 13, roundup 9 |
+| `kept_class2` | 50 (42%) | **all 50 have `specificity_reason = event_specific`** |
+
+The second is the bigger finding. Specificity judged all 50 to be specific
+events; the extract-stage class ladder then refused to promote them. Corpus-wide
+**1,033 of 1,260 class-2 rows have both district and date**, so this is not
+failed extraction — it is review §3.2's conflation, where `class` answers both
+*is this an event?* and *did we extract two fields?* at once.
+
+**Precision is healthy and its errors are one thing:** 18 of 24 false positives
+are roundups the annotator rejected as running totals — mostly follow-ups that
+restate an ongoing toll ("17 still missing in Kalikot, two more bodies
+retrieved") which `aggregate_report` does not yet catch.
+
+**Nothing has been tuned against these labels.** The two fixes this diagnosis
+implies — the cumulative-toll veto misfiring on single-event reports, and the
+casualty requirement contradicting `docs/ANNOTATION_RUBRIC.md` — remain unmade
+so the measurement stays honest. Making them is the next session's work, and the
+result must be re-measured on a *fresh* draw, not this set.
+
+**Two annotation-workflow lessons**, both my errors:
+- The first tool showed a 400-char snippet and a link; when links were dead the
+  operator correctly marked 162 rows unclear. The full text was in the database
+  the whole time. Round 2 showed it and 129 of those resolved.
+- `trigger_true` was a free-text box with no stated vocabulary, so 152 rows hold
+  prose ("Incessant monsoon rainfall"). `check_labels.normalize_trigger` maps
+  them; it does not affect the headline metric.
+
+`--stage check_labels` now guards spreadsheet editing: out-of-vocabulary values,
+Excel mangling Devanagari, reformatted dates, deleted rows.
 
 ### Open decisions for the operator
 
