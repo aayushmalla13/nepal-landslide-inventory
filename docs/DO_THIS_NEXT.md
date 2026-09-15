@@ -1,6 +1,7 @@
-# Do this next - submission consolidation
+# Do this next - canonical event-level audit
 
-**Status:** scientific pipeline complete for the frozen scope as of 2026-09-14.
+**Status:** frozen scientific pipeline complete; independent event-level audit
+pack drawn on 2026-09-16.
 
 ## Current frozen results
 
@@ -15,11 +16,30 @@
 Do not rebuild or overwrite either frozen release. Any scientific change now
 requires new evidence, a new locked evaluation, and a new release version.
 
-## Next project stage
+## Current validation stage
 
-The next stage is manuscript and submission consolidation, not more extractor
-work. Use the frozen inventory v0.4.0 and rainfall v0.6.0 bundles as the only
-reportable sources.
+Complete the 150-row canonical event audit described in
+`docs/CANONICAL_EVENT_AUDIT_GUIDE.md`. This is validation of the frozen v0.6.0
+inventory, not extractor development. Do not use the confidence, specificity,
+scope, or location-consistency fields while reviewing.
+
+Open:
+
+1. `data/outputs/canonical_event_audit_LABEL_HERE.csv`
+2. `data/outputs/canonical_event_audit_reading_pack.csv`
+
+Save the completed first file as
+`data/outputs/canonical_event_audit_COMPLETED.csv`, then run:
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/score_canonical_event_audit.py
+```
+
+The frozen releases remain the only current reportable data sources. Audit
+findings do not modify them automatically. Corrections, if justified, require a
+new inventory release and corresponding rainfall provenance release.
+
+## Submission consolidation after the audit
 
 Repository-side consolidation completed:
 
