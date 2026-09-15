@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
-import re
 from typing import Iterable
 
 from ..config import AppConfig
@@ -24,6 +24,8 @@ FOREIGN_TERMS = (
     'russia', 'ukraine', 'italy', 'france', 'germany', 'united states', 'america', 'canada', 'iran',
     'iraq', 'israel', 'gaza', 'syria', 'yemen', 'mexico', 'brazil', 'peru', 'chile', 'argentina',
     'australia', 'new zealand', 'south africa', 'spain', 'uk', 'england', 'scotland', 'ireland', 'hong kong', 'uttarakhand', 'sikkim', 'delhi',
+    'भारत', 'चीन', 'पाकिस्तान', 'टर्की', 'इन्डोनेसिया', 'बंगलादेश',
+    'अफगानिस्तान', 'म्यानमार', 'जापान', 'फिलिपिन्स', 'थाइल्यान्ड',
 )
 
 # Countries and foreign regions, EN and NP. The Nepali side was almost empty,
@@ -75,8 +77,20 @@ MYREPUBLICA_DATELINE_PATTERN = re.compile(
 )
 MYREPUBLICA_SCOPE_TEXT_LIMIT = 900
 FOREIGN_TERM_PATTERNS = tuple(
-    re.compile(rf'\b{re.escape(term)}\b', re.IGNORECASE)
+    re.compile(
+        (
+            rf'(?<![A-Za-z]){re.escape(term)}(?![A-Za-z])'
+            if term.isascii()
+            else rf'{re.escape(term)}(?!ीय)'
+        ),
+        re.IGNORECASE,
+    )
     for term in FOREIGN_TERMS
+)
+FOREIGN_HAZARD_DEMONYM_PATTERN = re.compile(
+    r'\b(?:indian|chinese|pakistani|indonesian|bangladeshi|afghan|'
+    r'japanese|filipino|myanmarese)\s+(?:landslide|mudslide|avalanche|flood)',
+    re.IGNORECASE,
 )
 
 
@@ -109,7 +123,10 @@ def decide_scope(row: ScopeRow, devanagari_threshold: float) -> ScopeDecision:
 
     if _is_global_roundup(combined):
         return ScopeDecision(0, 'global_roundup', 0.98)
-    if _is_out_of_country(combined):
+    if _is_out_of_country(combined) and (
+        not (row.district or row.municipality)
+        or _is_out_of_country(title.casefold())
+    ):
         return ScopeDecision(0, 'out_of_country', 0.96)
     if row.district:
         return ScopeDecision(1, 'district_match', 1.0)
@@ -280,4 +297,5 @@ def _is_out_of_country(text: str) -> bool:
     primary = re.split(r'(?<=[.!?])\s+', lead, maxsplit=1)[0]
     foreign_hits = sum(1 for pattern in FOREIGN_TERM_PATTERNS if pattern.search(primary))
     nepal_hits = sum(1 for term in (keyword.casefold() for keyword in NEPAL_KEYWORDS) if term in primary)
-    return foreign_hits >= 1 and nepal_hits == 0
+    demonym_hazard = FOREIGN_HAZARD_DEMONYM_PATTERN.search(primary) is not None
+    return (foreign_hits >= 1 or demonym_hazard) and nepal_hits == 0

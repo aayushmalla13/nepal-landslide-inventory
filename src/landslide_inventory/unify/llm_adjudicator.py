@@ -54,15 +54,16 @@ from __future__ import annotations
 import json
 import logging
 import os
-from dataclasses import dataclass, field
+from collections.abc import Callable, Mapping
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Mapping, Sequence
+from typing import Any
 
 from ..utils import ensure_directory, stable_hash
 
 LOGGER = logging.getLogger(__name__)
 
-PROMPT_VERSION = 'v1'
+PROMPT_VERSION = 'v2'
 DEFAULT_MODEL = 'claude-sonnet-4-5'
 
 # The vocabularies the model must answer in -- identical to
@@ -76,7 +77,7 @@ HAZARDS = ('landslide', 'debris_flow', 'rockfall', 'avalanche', 'flood',
 
 SYSTEM_PROMPT = """You classify Nepali and English news articles for a landslide event inventory.
 
-You answer four questions about the article you are given. You are not asked to \
+You answer five questions about the article you are given. You are not asked to \
 be helpful, tactful, or generous — only accurate. "unclear" is a valid answer \
 and is strongly preferred over a guess.
 
@@ -84,14 +85,19 @@ and is strongly preferred over a guess.
    yes / no / unclear
    A forecast, a warning, a risk assessment or a political metaphor is "no".
 
-2. hazard_type — which hazard does the article describe?
+2. in_nepal — did the reported event occur inside Nepal?
+   yes / no / unclear
+   Nationality is not location. Indian victims in a landslide in Kapilvastu are
+   still a Nepal event; Nepali victims in India are not.
+
+3. hazard_type — which hazard does the article describe?
    landslide / debris_flow / rockfall / avalanche / flood / other_hazard / \
 not_a_hazard / unclear
    CRITICAL: in Nepali an avalanche is हिमपहिरो or हिउँपहिरो, literally \
 "snow-landslide". It contains the word पहिरो (landslide) but IS NOT ONE. \
 Everest and Manaslu snow events are avalanches. बाढी alone is a flood.
 
-3. event_granularity — what does the article count?
+4. event_granularity — what does the article count?
    single    one identifiable landslide at one place
    multi     several distinct landslides in one article
    roundup   a running total over a period or region, not an event
@@ -102,14 +108,14 @@ Everest and Manaslu snow events are avalanches. बाढी alone is a flood.
 reaches 11") is SINGLE, not a roundup. The distinction is whether the number is \
 scoped to a period or region beyond the event itself.
 
-4. article_role — what kind of article is it?
+5. article_role — what kind of article is it?
    first_report / follow_up / retrospective / forecast_or_risk / \
 metaphor_or_nonevent / unclear
    A relief-distribution or government-response piece about a real past event is \
 follow_up.
 
 Reply with JSON only, no prose:
-{"is_landslide_event": "...", "hazard_type": "...", "event_granularity": "...", \
+{"is_landslide_event": "...", "in_nepal": "...", "hazard_type": "...", "event_granularity": "...", \
 "article_role": "...", "confidence": 0.0-1.0, "reason": "one short sentence"}"""
 
 
@@ -118,6 +124,7 @@ class Adjudication:
     """One model verdict, plus the provenance needed to reproduce it."""
 
     is_landslide_event: str
+    in_nepal: str
     hazard_type: str
     event_granularity: str
     article_role: str
@@ -133,8 +140,9 @@ class Adjudication:
 
         return (
             self.is_landslide_event == 'yes'
+            and self.in_nepal == 'yes'
             and self.hazard_type in {'landslide', 'debris_flow', 'rockfall'}
-            and self.event_granularity in {'single', 'multi'}
+            and self.event_granularity == 'single'
         )
 
 
@@ -142,7 +150,7 @@ class Adjudication:
 # reasons that the locked-set error analysis showed the rules getting wrong.
 AMBIGUOUS_REASONS = frozenset({
     'followup', 'context_only', 'risk_only', 'roundup', 'insufficient_signal',
-    'damage_only', 'event_specific',
+    'damage_only', 'event_specific', 'out_of_country', 'no_location_signal',
 })
 
 
@@ -155,8 +163,6 @@ def needs_adjudication(specificity_reason: str | None, specificity_score: float 
     """
 
     reason = (specificity_reason or '').strip()
-    if reason in {'out_of_country', 'no_location_signal'}:
-        return False  # the rules are reliable here; do not spend a call
     return reason in AMBIGUOUS_REASONS
 
 
@@ -199,7 +205,7 @@ class ResponseCache:
         return len(self._data)
 
 
-def build_user_prompt(title: str | None, text: str | None, max_chars: int = 6000) -> str:
+def build_user_prompt(title: str | None, text: str | None, max_chars: int = 2200) -> str:
     return (
         f'TITLE: {(title or "").strip()}\n\n'
         f'ARTICLE:\n{(text or "").strip()[:max_chars]}'
@@ -225,13 +231,18 @@ def parse_response(payload: str) -> dict[str, Any] | None:
         return None
     checks = (
         ('is_landslide_event', ('yes', 'no', 'unclear')),
+        ('in_nepal', ('yes', 'no', 'unclear')),
         ('hazard_type', HAZARDS),
         ('event_granularity', GRANULARITIES),
         ('article_role', ARTICLE_ROLES),
     )
     for field_name, allowed in checks:
         if data.get(field_name) not in allowed:
-            LOGGER.warning('Model returned %s=%r, not in vocabulary', field_name, data.get(field_name))
+            LOGGER.warning(
+                'Model returned %s=%r, not in vocabulary',
+                field_name,
+                data.get(field_name),
+            )
             return None
     return data
 
@@ -266,6 +277,7 @@ def adjudicate(
 
     record = {
         'is_landslide_event': parsed['is_landslide_event'],
+        'in_nepal': parsed['in_nepal'],
         'hazard_type': parsed['hazard_type'],
         'event_granularity': parsed['event_granularity'],
         'article_role': parsed['article_role'],
@@ -342,13 +354,22 @@ def ollama_caller(
             'stream': False,
             # Greedy decoding: the same input gives the same output, which is
             # what makes the cached run defensible as a method.
-            'options': {'temperature': 0, 'seed': 20260807},
+            'options': {
+                'temperature': 0,
+                'seed': 20260807,
+                'num_ctx': 4096,
+                'num_predict': 180,
+            },
             'format': 'json',
         }).encode('utf-8')
         request = urllib.request.Request(
             endpoint, data=payload, headers={'Content-Type': 'application/json'})
-        with urllib.request.urlopen(request, timeout=120) as response:
-            body = _json.loads(response.read())
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                body = _json.loads(response.read())
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            LOGGER.warning('Local model call failed: %s', exc)
+            return ''
         return body.get('message', {}).get('content', '')
 
     LOGGER.info('Using local model %s via Ollama at %s', model, host)
@@ -381,7 +402,10 @@ def build_caller(
     return caller, 'ollama/qwen2.5:7b' if caller else 'rules-only'
 
 
-def anthropic_caller(api_key: str | None = None, model: str = DEFAULT_MODEL) -> Callable[[str, str], str] | None:
+def anthropic_caller(
+    api_key: str | None = None,
+    model: str = DEFAULT_MODEL,
+) -> Callable[[str, str], str] | None:
     """Build a caller backed by the Anthropic SDK, or None if unavailable.
 
     Deliberately returns None rather than raising: an absent key must degrade to

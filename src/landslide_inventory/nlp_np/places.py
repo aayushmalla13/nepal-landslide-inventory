@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 
 from ..gazetteer import normalize_district
+from ..nlp_attribution import is_person_attribution
 from ..gazetteer_municipality import normalize_municipality
 from ..unify.location import (
     PlaceCandidate,
@@ -93,15 +94,26 @@ def _best_candidates(text: str) -> list[PlaceCandidate]:
 
 def _regex_candidates(text: str) -> list[PlaceCandidate]:
     candidates: list[PlaceCandidate] = []
+    # A place written inside a home-address attribution -- "सिन्धुपाल्चोक
+    # जिल्लाको मेलम्ची घर भएका चालक", the driver's home -- describes a person,
+    # not the event. Such mentions are not place candidates at all; admitting
+    # them let a victim's home district outrank the event district, which the
+    # rest of the pipeline cannot detect because the result is self-consistent.
     for match in NP_WARD_PATTERN.finditer(text):
+        if is_person_attribution(text, match.start(), match.end(), 'np'):
+            continue
         ward_text = _clean_name(match.group(0), admin_level='ward')
         municipality = _resolve_municipality_from_raw(match.group(0))
         candidates.append(_candidate(text, ward_text, 'ward', match.start(), municipality=municipality))
     for match in NP_MUNICIPALITY_PATTERN.finditer(text):
+        if is_person_attribution(text, match.start(), match.end(), 'np'):
+            continue
         municipality_raw = _clean_name(match.group(0), admin_level='municipality')
         municipality = _resolve_municipality_from_raw(match.group(0))
         candidates.append(_candidate(text, municipality_raw, 'municipality', match.start(), municipality=municipality))
     for match in NP_DISTRICT_PATTERN.finditer(text):
+        if is_person_attribution(text, match.start(1), match.end(1), 'np'):
+            continue
         district_name = _clean_name(match.group(1), admin_level='district')
         normalized = _normalize_np_district_name(district_name)
         candidates.append(_candidate(text, district_name, 'district', match.start(), district=normalized))
@@ -109,6 +121,8 @@ def _regex_candidates(text: str) -> list[PlaceCandidate]:
         district_name = _clean_name(match.group(0), admin_level='district')
         normalized = _normalize_np_district_name(district_name)
         if normalized is None:
+            continue
+        if is_person_attribution(text, match.start(), match.end(), 'np'):
             continue
         candidates.append(_candidate(text, district_name, 'district', match.start(), district=normalized))
     for match in NP_PROVINCE_PATTERN.finditer(text):

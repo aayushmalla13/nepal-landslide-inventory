@@ -51,6 +51,12 @@ def test_normalize_url_percent_encodes_spaces_in_paths() -> None:
     )
 
 
+def test_normalize_url_removes_nagarik_click_from_tracking() -> None:
+    assert normalize_url(
+        'https://nagariknews.nagariknetwork.com/social-affairs/123.html?click_from=category'
+    ) == 'https://nagariknews.nagariknetwork.com/social-affairs/123.html'
+
+
 def test_filter_article_url_rejects_onlinekhabar_content_pages() -> None:
     assert (
         filter_article_url(

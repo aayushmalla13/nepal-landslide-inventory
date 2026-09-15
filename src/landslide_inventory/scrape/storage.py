@@ -55,6 +55,17 @@ def discovered_urls_for_source(database_path: Path, source: str) -> set[str]:
     return {str(row['url']) for row in rows}
 
 
+def raw_article_urls_for_source(database_path: Path, source: str) -> set[str]:
+    """Return already fetched article URLs so interrupted crawls can resume."""
+
+    with connect_sqlite(database_path) as connection:
+        rows = connection.execute(
+            'SELECT url FROM raw_articles WHERE source = ?',
+            (source,),
+        ).fetchall()
+    return {str(row['url']) for row in rows}
+
+
 def count_discovered_urls_for_source(database_path: Path, source: str) -> int:
     """Return the total discovered URL count for a source."""
 
@@ -159,7 +170,7 @@ def coverage_rows(database_path: Path) -> list[dict[str, int | str]]:
             """
             SELECT source, year_hint AS year, COUNT(*) AS discovered_url_count
             FROM discovered_urls
-            WHERE year_hint BETWEEN 2015 AND 2024
+            WHERE year_hint BETWEEN 2015 AND 2026
             GROUP BY source, year_hint
             """
         ).fetchall()
@@ -175,7 +186,7 @@ def coverage_rows(database_path: Path) -> list[dict[str, int | str]]:
                 FROM raw_articles
                 GROUP BY source, CAST(SUBSTR(COALESCE(published_date_raw, fetched_at), 1, 4) AS INTEGER)
             )
-            WHERE year BETWEEN 2015 AND 2024
+            WHERE year BETWEEN 2015 AND 2026
             """
         ).fetchall()
     merged: dict[tuple[str, int], dict[str, int | str]] = {}

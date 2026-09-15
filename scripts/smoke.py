@@ -243,7 +243,9 @@ def stage_requires_external_inputs(stage_name: str, config: AppConfig) -> bool:
     """Return whether required external inputs for a stage are missing."""
 
     requirements = {
-        'analysis': [_resolve_external_path(config, config.raw['analysis']['chirps_district_month_path'])],
+        'analysis': [
+            _resolve_external_path(config, config.raw['analysis']['chirps_daily_district_path'])
+        ],
         'bipad': [_resolve_external_path(config, config.raw['bipad']['bipad_input_path'])],
     }
     required_paths = requirements.get(stage_name, [])

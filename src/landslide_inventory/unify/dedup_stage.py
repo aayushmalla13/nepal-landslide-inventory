@@ -1,14 +1,14 @@
-"""Safe dedup clustering for Class 1 in-scope article events."""
+"""Safe dedup clustering for typed, single, in-scope article events."""
 
 from __future__ import annotations
 
 import csv
+import json
 import logging
+import sqlite3
 from dataclasses import dataclass
 from datetime import date
-import json
 from pathlib import Path
-import sqlite3
 from typing import Any
 
 from rapidfuzz import fuzz
@@ -17,6 +17,8 @@ from ..config import AppConfig
 from ..db import connect_sqlite, initialize_sqlite
 from ..gazetteer import district_to_province
 from ..utils import ensure_directory, stable_hash, utc_now_iso
+from .event_typing import ROLE_FIRST_REPORT, classify_event_type
+from .reviewed_corrections import apply_reviewed_corrections
 from .similarity import (
     CasualtyVector,
     TfidfIndex,
@@ -25,6 +27,16 @@ from .similarity import (
 )
 
 LOGGER = logging.getLogger(__name__)
+
+# Multi-event extraction (docs/MULTIEVENT_EXTRACTION.md).
+EXTRACTION_PRIMARY = 'primary'
+EXTRACTION_SECONDARY = 'secondary_failure'
+
+# Date bases firm enough for a recovered record to found a canonical event on
+# its own. Mirrors multievent.FIRM_DATE_BASES; duplicated rather than imported
+# so dedup does not depend on the extractor module, and pinned by a test that
+# fails if the two drift apart.
+FIRM_DATE_BASES = frozenset({'explicit_bs_date', 'explicit_ad_date'})
 
 
 @dataclass(frozen=True)
@@ -42,7 +54,7 @@ class DedupConfig:
 
 @dataclass(frozen=True)
 class EventRecord:
-    """One in-scope Class 1 article event eligible for dedup."""
+    """One typed, in-scope article event eligible for dedup."""
 
     url: str
     source: str
@@ -69,12 +81,42 @@ class EventRecord:
     conf_place: float
     conf_fatalities: float
     conf_trigger: float
+    event_type: str = 'landslide'
+    hazard_type: str = 'landslide'
+    event_granularity: str = 'single'
+    article_role: str = ROLE_FIRST_REPORT
+    # Multi-event extraction. One article may now yield several records, one
+    # per district-day it supports. 'primary' is the article-level record the
+    # pipeline has always produced; 'secondary_failure' is one recovered from a
+    # further sentence, carrying that sentence as its evidence.
+    extraction_basis: str = EXTRACTION_PRIMARY
+    evidence_sentence: str | None = None
+    date_basis: str | None = None
 
     @property
     def event_date(self) -> date:
         """Return the parsed event date."""
 
         return date.fromisoformat(self.event_date_ad)
+
+    @property
+    def record_key(self) -> str:
+        """Return the identity of this *record*, which is no longer its URL.
+
+        Dedup keyed union-find on ``url``, which was sound while each article
+        produced exactly one event. Once an article can yield several
+        district-days, a URL key silently collapses them into one node and
+        every recovered district-day disappears into whichever cluster the
+        article's primary record joined.
+        """
+
+        return f'{self.url}#{self.district}@{self.event_date_ad}'
+
+    @property
+    def is_secondary(self) -> bool:
+        """Whether this record was recovered from a further sentence."""
+
+        return self.extraction_basis != EXTRACTION_PRIMARY
 
     @property
     def confidence_score(self) -> float:
@@ -115,9 +157,10 @@ def build_dedup_config(config: AppConfig) -> DedupConfig:
 
 
 def run_dedup_stage(config: AppConfig) -> int:
-    """Cluster in-scope Class 1 article events into canonical events."""
+    """Cluster typed, single, in-scope article events into canonical events."""
 
     initialize_sqlite(config.sqlite_path)
+    apply_reviewed_corrections(config)
     dedup_config = build_dedup_config(config)
     events = load_dedup_events(config.sqlite_path)
     # IDF is computed over the eligible corpus so monsoon boilerplate ("rescue
@@ -160,8 +203,9 @@ def run_dedup_stage(config: AppConfig) -> int:
             connection.execute(
                 """
                 INSERT INTO cluster_summary (
-                    cluster_id, district, date_min, date_max, size, sources, urls, inserted_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    cluster_id, district, date_min, date_max, size,
+                    record_count, secondary_record_count, sources, urls, inserted_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     summary['cluster_id'],
@@ -169,6 +213,8 @@ def run_dedup_stage(config: AppConfig) -> int:
                     summary['date_min'],
                     summary['date_max'],
                     summary['size'],
+                    summary['record_count'],
+                    summary['secondary_record_count'],
                     summary['sources'],
                     summary['urls'],
                     summary['inserted_at'],
@@ -221,7 +267,12 @@ def run_dedup_stage(config: AppConfig) -> int:
 
 
 def load_dedup_events(database_path: Path) -> list[EventRecord]:
-    """Load only Class 1, in-scope article events eligible for dedup."""
+    """Load headline-eligible single Nepal events for dedup.
+
+    ``class`` is an extraction-confidence bucket, not an event ontology. Class
+    2 contains many real road-obstruction reports and concrete follow-ups, so
+    eligibility is decided by canonical hazard/granularity/role typing instead.
+    """
 
     with connect_sqlite(database_path) as connection:
         rows = connection.execute(
@@ -238,16 +289,24 @@ def load_dedup_events(database_path: Path) -> list[EventRecord]:
                    COALESCE(e.conf_trigger, 0.0) AS conf_trigger
             FROM article_events e
             LEFT JOIN raw_articles r ON r.url = e.url
-            WHERE e.class = 1
+            LEFT JOIN reviewed_article_corrections correction ON correction.url = e.url
+            WHERE e.class IN (1, 2)
               AND COALESCE(e.in_nepal, 0) = 1
+              AND COALESCE(correction.exclude_from_canonical, 0) = 0
               AND e.event_date_ad IS NOT NULL
               AND e.district IS NOT NULL
             ORDER BY e.district ASC, e.event_date_ad ASC, COALESCE(e.municipality, '') ASC, e.url ASC
             """
         ).fetchall()
 
-    return [
-        EventRecord(
+    events: list[EventRecord] = []
+    for row in rows:
+        typing = classify_event_type(
+            row['title'], row['body_text'], row['deaths'], row['missing'], row['injured']
+        )
+        if not typing.in_headline_counts:
+            continue
+        events.append(EventRecord(
             url=str(row['url']),
             source=str(row['source']),
             title=row['title'],
@@ -271,9 +330,12 @@ def load_dedup_events(database_path: Path) -> list[EventRecord]:
             conf_place=float(row['conf_place']),
             conf_fatalities=float(row['conf_fatalities']),
             conf_trigger=float(row['conf_trigger']),
-        )
-        for row in rows
-    ]
+            event_type=typing.event_type,
+            hazard_type=typing.hazard_type,
+            event_granularity=typing.event_granularity,
+            article_role=typing.article_role,
+        ))
+    return events
 
 
 def structured_pair_similarity(left: EventRecord, right: EventRecord, tfidf: TfidfIndex | None):
@@ -322,7 +384,7 @@ def cluster_events(
     if not events:
         return [], {}
 
-    parents = {event.url: event.url for event in events}
+    parents = {event.record_key: event.record_key for event in events}
     grouped_by_district: dict[str, list[EventRecord]] = {}
     for event in events:
         grouped_by_district.setdefault(event.district, []).append(event)
@@ -335,6 +397,16 @@ def cluster_events(
                 day_diff = abs((right.event_date - left.event_date).days)
                 if day_diff > config.candidate_window_days:
                     break
+                # An article cannot corroborate itself. Two records from one
+                # URL are, by construction, two *distinct occasions* the
+                # extractor separated; merging them back would both undo that
+                # separation and inflate the cluster size, which is read
+                # downstream as "how many independent reports support this
+                # event". Their body text is identical, so the similarity path
+                # would merge them every time if allowed to try.
+                if left.url == right.url:
+                    observed.append((left.route_lang or '?', right.route_lang or '?', False))
+                    continue
                 similarity = compute_similarity(left, right)
                 merged = should_merge(left, right, similarity, config)
                 # Path 2 applies ONLY to cross-language pairs. That restriction
@@ -357,12 +429,12 @@ def cluster_events(
                     if structured.should_merge:
                         merged = True
                 if merged:
-                    union(parents, left.url, right.url)
+                    union(parents, left.record_key, right.record_key)
                 observed.append((left.route_lang or '?', right.route_lang or '?', merged))
 
     grouped: dict[str, list[EventRecord]] = {}
     for event in events:
-        grouped.setdefault(find(parents, event.url), []).append(event)
+        grouped.setdefault(find(parents, event.record_key), []).append(event)
 
     clusters = sorted(
         [sorted(cluster, key=event_sort_key) for cluster in grouped.values()],
@@ -429,7 +501,7 @@ def deaths_within_delta(left: int | None, right: int | None, delta: int) -> bool
 def build_cluster_summary(cluster: list[EventRecord], inserted_at: str, cluster_id: str | None = None) -> dict[str, Any]:
     """Build one cluster_summary row."""
 
-    urls = sorted(event.url for event in cluster)
+    urls = sorted({event.url for event in cluster})
     sources = sorted({event.source for event in cluster})
     dates = sorted(event.event_date_ad for event in cluster)
     return {
@@ -440,11 +512,45 @@ def build_cluster_summary(cluster: list[EventRecord], inserted_at: str, cluster_
         'district': cluster[0].district,
         'date_min': dates[0],
         'date_max': dates[-1],
-        'size': len(cluster),
+        # Distinct ARTICLES, not records. `size` is read as "how many
+        # independent reports support this event", and one article splitting
+        # into several district-days must not read as several reports. While
+        # every article produced exactly one record these were identical, so
+        # this changes nothing for a primary-only run.
+        'size': len(urls),
+        'record_count': len(cluster),
+        'secondary_record_count': sum(1 for event in cluster if event.is_secondary),
         'sources': json.dumps(sources, ensure_ascii=False, sort_keys=True),
         'urls': json.dumps(urls, ensure_ascii=False, sort_keys=True),
         'inserted_at': inserted_at,
     }
+
+
+def cluster_is_secondary_only(cluster: list[EventRecord]) -> bool:
+    """Whether every record in this cluster was recovered, none reported directly.
+
+    These are the district-days most likely to be wrong: no article named this
+    district-day as its subject, and the evidence is one sentence in an article
+    about somewhere or somewhen else. They are flagged so any analysis can
+    exclude them wholesale, and gated by :func:`secondary_only_cluster_admitted`.
+    """
+
+    return bool(cluster) and all(event.is_secondary for event in cluster)
+
+
+def secondary_only_cluster_admitted(cluster: list[EventRecord]) -> bool:
+    """Whether a cluster resting solely on recovered records may become an event.
+
+    A recovered record whose date came from a relative cue -- 'last night',
+    'today' -- is not enough on its own. Those cues are how a reporter refers to
+    the event already being reported, so a district-day resting on one is the
+    single most likely way a fabricated event enters a release. A firm anchor
+    (an explicit date, or a named weekday) is required.
+    """
+
+    if not cluster_is_secondary_only(cluster):
+        return True
+    return any((event.date_basis or '') in FIRM_DATE_BASES for event in cluster)
 
 
 def build_canonical_event(cluster: list[EventRecord], inserted_at: str, cluster_id: str | None = None) -> dict[str, Any]:
@@ -455,14 +561,21 @@ def build_canonical_event(cluster: list[EventRecord], inserted_at: str, cluster_
     municipalities = sorted({event.municipality for event in cluster if event.municipality})
     wards = sorted({event.ward for event in cluster if event.ward})
     place_names = sorted({event.place_name_raw for event in cluster if event.place_name_raw})
+    urls = sorted({event.url for event in cluster})
     payload = {
-        'urls': sorted(event.url for event in cluster),
+        'urls': urls,
         'sources': sorted({event.source for event in cluster}),
-        'size': len(cluster),
+        'size': len(urls),
+        'record_count': len(cluster),
         'representative_url': representative.url,
         'municipality_candidates': municipalities,
         'ward_candidates': wards,
         'place_name_candidates': place_names,
+        'extraction_basis': representative.extraction_basis,
+        'secondary_only': cluster_is_secondary_only(cluster),
+        'evidence_sentences': sorted(
+            {event.evidence_sentence for event in cluster if event.evidence_sentence}
+        ),
     }
     return {
         'event_id': f"event_{stable_hash('canonical', cluster_id)[:16]}",
@@ -485,6 +598,13 @@ def choose_representative(cluster: list[EventRecord]) -> EventRecord:
     return sorted(
         cluster,
         key=lambda event: (
+            # A directly reported record always represents the event over one
+            # recovered from a passing sentence, however confident the latter
+            # looks: the recovered record's municipality, casualties and
+            # trigger belong to the article's own subject, not to this
+            # district-day.
+            event.is_secondary,
+            event.article_role != ROLE_FIRST_REPORT,
             -event.confidence_score,
             event.event_date_ad,
             event.municipality or '',
@@ -578,7 +698,18 @@ def export_cluster_summary_csv(path: Path, clusters: list[list[EventRecord]], in
     with path.open('w', encoding='utf-8', newline='') as handle:
         writer = csv.DictWriter(
             handle,
-            fieldnames=['cluster_id', 'district', 'date_min', 'date_max', 'size', 'sources', 'urls', 'inserted_at'],
+            fieldnames=[
+                'cluster_id',
+                'district',
+                'date_min',
+                'date_max',
+                'size',
+                'record_count',
+                'secondary_record_count',
+                'sources',
+                'urls',
+                'inserted_at',
+            ],
         )
         writer.writeheader()
         for row in sorted(rows, key=lambda item: item['cluster_id']):

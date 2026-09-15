@@ -44,4 +44,14 @@ def test_config_example_is_valid_yaml() -> None:
     data = yaml.safe_load((REPO_ROOT / 'config.example.yaml').read_text(encoding='utf-8'))
     assert isinstance(data, dict)
     assert 'sources' in data
-    assert len(data['sources']) == 8
+    slugs = {source['slug'] for source in data['sources']}
+    assert {
+        'kathmandu-post',
+        'himalayan-times',
+        'myrepublica',
+        'rising-nepal',
+        'ekantipur',
+        'online-khabar',
+        'setopati',
+        'ratopati',
+    } <= slugs

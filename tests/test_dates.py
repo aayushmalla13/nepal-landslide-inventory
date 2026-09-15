@@ -21,6 +21,13 @@ def test_normalize_published_date_supports_english_formats() -> None:
     assert normalize_published_date('2021-07-14T08:00:00+05:45', 'en') == '2021-07-14'
 
 
+def test_year_hint_does_not_truncate_day_in_complete_english_date() -> None:
+    assert (
+        normalize_published_date('October 11, 2022', 'en', year_hint=2022)
+        == '2022-10-11'
+    )
+
+
 def test_devanagari_to_ascii_digits_converts_digits() -> None:
     assert devanagari_to_ascii_digits('२०८०-०१-०१') == '2080-01-01'
 

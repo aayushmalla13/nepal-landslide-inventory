@@ -1,0 +1,12 @@
+table,measure,value,ci95_lower,ci95_upper,notes
+inventory,canonical_events,3114,,,2015-03-07 to 2026-08-09
+inventory,districts,76,,,all Nepal districts represented
+inventory,representative_sources,17,,,
+inventory,road_obstruction_subtype,603,,,
+inventory,multi_event_aggregates,0,,,
+validation,precision,0.742,0.675,0.807,population-weighted locked-v6 headline classification
+validation,recall,0.822,0.744,0.910,population-weighted locked-v6 headline classification
+validation,f1,0.780,0.723,0.834,population-weighted locked-v6 headline classification
+validation,district_exact_accuracy,0.822,,,truth available n=123
+validation,district_coverage,0.927,,,truth available n=123
+validation,event_date_exact_accuracy,,,,not reportable; truth available n=18

@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from urllib.parse import urlparse
 from typing import Any
 
-from .config import AppConfig, EXPECTED_SOURCE_COUNT
+from .config import AppConfig, MINIMUM_SOURCE_COUNT
 
 
 @dataclass(frozen=True)
@@ -35,8 +35,13 @@ def load_sources(config: AppConfig) -> list[SourceDefinition]:
         )
         for source in config.sources
     ]
-    if len(sources) != EXPECTED_SOURCE_COUNT:
-        raise ValueError(f"Expected exactly {EXPECTED_SOURCE_COUNT} sources, found {len(sources)}.")
+    # Minimum, not exact -- see the note on MINIMUM_SOURCE_COUNT in config.py.
+    # config.validate() already enforces that the original eight are present;
+    # this is the second of the two places that used to block adding a source.
+    if len(sources) < MINIMUM_SOURCE_COUNT:
+        raise ValueError(
+            f"Expected at least {MINIMUM_SOURCE_COUNT} sources, found {len(sources)}."
+        )
     return sources
 
 

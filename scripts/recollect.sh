@@ -79,7 +79,7 @@ collect)
 rebuild)
   say "Rebuilding the inventory"
   for stage in normalize_dates lang extract event_specificity \
-               location_consistency filter_scope dedup event_typing export_final; do
+               location_consistency filter_scope corrections dedup event_typing export_final; do
     printf '   %-22s' "$stage"
     make run STAGE="$stage" >/tmp/stage_$stage.log 2>&1 \
       || { echo; die "$stage failed. Send me: tail -30 /tmp/stage_$stage.log"; }

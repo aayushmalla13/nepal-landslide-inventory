@@ -8,3 +8,4 @@ ruff
 pytest
 beautifulsoup4==4.14.3
 rapidfuzz==3.14.3
+pypdf==6.9.2

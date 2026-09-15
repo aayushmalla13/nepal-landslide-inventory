@@ -10,7 +10,16 @@ from typing import Any
 
 import yaml
 
-EXPECTED_SOURCE_COUNT = 8
+# MINIMUM, not exact. This was `EXPECTED_SOURCE_COUNT = 8` with an equality
+# check, which made the config validator refuse to start whenever a source was
+# added -- and adding sources is the project's highest-value remaining work.
+#
+# The validator's instinct was right (catch silent config drift) but its rule was
+# too strong. What actually needs protecting is that the ORIGINAL eight are still
+# present, because every coverage figure in docs/log.md is stated against them.
+# Extra sources are the intended direction of travel and are now allowed.
+MINIMUM_SOURCE_COUNT = 8
+EXPECTED_SOURCE_COUNT = MINIMUM_SOURCE_COUNT  # back-compat for existing imports
 EXPECTED_STUDY_PERIOD = (date(2015, 1, 1), date(2026, 12, 31))
 RUNTIME_ENV_OVERRIDES = {
     "LS_MAX_URLS_PER_SOURCE": ("max_urls_per_source", int),
@@ -96,6 +105,12 @@ class AppConfig:
 
         return dict(self.raw.get("doctor", {}))
 
+    @property
+    def external_sources(self) -> list[dict[str, Any]]:
+        """Return optional non-news and archive source definitions."""
+
+        return list(self.raw.get("external_sources", {}).get("sources", []))
+
     def resolve_path(self, key: str) -> Path:
         """Resolve a configured path relative to the config file."""
 
@@ -107,18 +122,24 @@ class AppConfig:
     def data_directories(self) -> list[Path]:
         """Return configured directories that should exist before runtime."""
 
-        return [
+        directories = [
             self.resolve_path("raw_sqlite_dir"),
             self.resolve_path("intermediate_dir"),
             self.resolve_path("outputs_dir"),
             self.resolve_path("caches_dir"),
             self.resolve_path("logs_dir"),
         ]
+        override = os.getenv("LS_SQLITE_PATH", "").strip()
+        if override:
+            directories.append(Path(override).expanduser().resolve().parent)
+        return directories
 
     @property
     def sqlite_path(self) -> Path:
         """Return the configured SQLite database file path."""
-
+        override = os.getenv("LS_SQLITE_PATH", "").strip()
+        if override:
+            return Path(override).expanduser().resolve()
         return self.resolve_path("raw_sqlite_dir") / "landslide_inventory.sqlite"
 
     @classmethod
@@ -187,13 +208,39 @@ def validate_config(data: dict[str, Any]) -> None:
         raise ConfigError("Study period must include the full 2015-01-01 to 2026-12-31 window.")
 
     sources = data["sources"]
-    if len(sources) != EXPECTED_SOURCE_COUNT:
-        raise ConfigError(f"Expected exactly 8 sources, found {len(sources)}.")
+    if len(sources) < MINIMUM_SOURCE_COUNT:
+        raise ConfigError(
+            f"Expected at least {MINIMUM_SOURCE_COUNT} sources, found {len(sources)}."
+        )
     _validate_sources(sources)
 
     missing_paths = sorted(REQUIRED_PATH_KEYS - set(data["paths"]))
     if missing_paths:
         raise ConfigError(f"Missing required config paths: {', '.join(missing_paths)}.")
+
+    _validate_external_sources(data.get("external_sources", {}))
+
+
+def _validate_external_sources(section: Any) -> None:
+    """Validate optional external sources without making them mandatory."""
+
+    if section in (None, {}):
+        return
+    if not isinstance(section, dict) or not isinstance(section.get("sources", []), list):
+        raise ConfigError("external_sources must be a mapping with a sources list.")
+    slugs: set[str] = set()
+    for index, source in enumerate(section.get("sources", []), start=1):
+        if not isinstance(source, dict):
+            raise ConfigError(f"External source #{index} must be a mapping.")
+        missing = {"slug", "adapter", "enabled"} - set(source)
+        if missing:
+            raise ConfigError(
+                f"External source #{index} missing keys: {', '.join(sorted(missing))}."
+            )
+        slug = str(source["slug"])
+        if slug in slugs:
+            raise ConfigError(f"Duplicate external source slug: {slug}.")
+        slugs.add(slug)
 
 
 def apply_runtime_env_overrides(data: dict[str, Any]) -> None:
@@ -236,15 +283,20 @@ def _validate_sources(sources: list[dict[str, Any]]) -> None:
                     )
         slugs.add(str(source["slug"]))
 
-    if slugs != EXPECTED_SOURCE_SLUGS:
-        missing = sorted(EXPECTED_SOURCE_SLUGS - slugs)
-        extra = sorted(slugs - EXPECTED_SOURCE_SLUGS)
-        details = []
-        if missing:
-            details.append(f"missing expected slugs: {', '.join(missing)}")
-        if extra:
-            details.append(f"unexpected slugs: {', '.join(extra)}")
-        raise ConfigError(f"Source set mismatch: {'; '.join(details)}.")
+    # Subset check, not equality. A missing original source silently invalidates
+    # every coverage figure recorded in docs/log.md, so that still hard-fails.
+    # An ADDED source is the intended direction of travel: the 2026-08-08
+    # prospecting found that Nepali-language coverage before 2023 barely exists,
+    # and no amount of tuning fixes a corpus that was never collected.
+    missing = sorted(EXPECTED_SOURCE_SLUGS - slugs)
+    if missing:
+        raise ConfigError(
+            f"Source set is missing expected slugs: {', '.join(missing)}. "
+            'Adding sources is fine; removing one of the original eight is not, '
+            'because the recorded coverage baselines assume they are present.'
+        )
+    if len(slugs) != len(sources):
+        raise ConfigError('Duplicate source slugs in config.')
 
 
 def _parse_iso_date(value: Any, field_name: str) -> date:

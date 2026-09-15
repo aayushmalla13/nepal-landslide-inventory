@@ -141,10 +141,122 @@ SCHEMA_STATEMENTS = (
         date_min TEXT NOT NULL,
         date_max TEXT NOT NULL,
         size INTEGER NOT NULL,
+        record_count INTEGER NOT NULL DEFAULT 0,
+        secondary_record_count INTEGER NOT NULL DEFAULT 0,
         sources TEXT NOT NULL,
         urls TEXT NOT NULL,
         inserted_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS reviewed_article_corrections (
+        url TEXT PRIMARY KEY,
+        reviewed_at TEXT NOT NULL,
+        reviewed_by TEXT NOT NULL,
+        evidence_url TEXT NOT NULL,
+        correction_action TEXT NOT NULL,
+        reason TEXT NOT NULL,
+        published_date_ad TEXT,
+        event_date_ad TEXT,
+        in_nepal INTEGER,
+        exclude_from_canonical INTEGER NOT NULL DEFAULT 0,
+        scope_reason TEXT,
+        before_json TEXT NOT NULL,
+        after_json TEXT NOT NULL,
+        corrections_sha256 TEXT NOT NULL,
+        applied_at TEXT NOT NULL,
+        FOREIGN KEY(url) REFERENCES raw_articles(url)
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS external_source_runs (
+        run_id TEXT PRIMARY KEY,
+        source TEXT NOT NULL,
+        adapter TEXT NOT NULL,
+        status TEXT NOT NULL,
+        started_at TEXT NOT NULL,
+        completed_at TEXT,
+        fetched_count INTEGER NOT NULL DEFAULT 0,
+        stored_count INTEGER NOT NULL DEFAULT 0,
+        error TEXT
+    )
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS external_records (
+        record_id TEXT PRIMARY KEY,
+        source TEXT NOT NULL,
+        source_family TEXT NOT NULL,
+        record_type TEXT NOT NULL,
+        source_record_id TEXT,
+        source_url TEXT,
+        title TEXT,
+        text TEXT,
+        published_at TEXT,
+        incident_date_raw TEXT,
+        incident_date_ad TEXT,
+        hazard_type TEXT,
+        country TEXT,
+        province TEXT,
+        district TEXT,
+        municipality TEXT,
+        ward TEXT,
+        latitude REAL,
+        longitude REAL,
+        deaths INTEGER,
+        missing INTEGER,
+        injured INTEGER,
+        retrieval_medium TEXT,
+        retrieved_at TEXT NOT NULL,
+        content_hash TEXT NOT NULL,
+        raw_json TEXT NOT NULL,
+        inserted_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )
+    """,
+    """
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_external_source_identity
+        ON external_records (source, source_record_id)
+        WHERE source_record_id IS NOT NULL
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_external_incident_lookup
+        ON external_records (incident_date_ad, district, municipality)
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_external_source_family
+        ON external_records (source_family, source, record_type)
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS external_news_candidates (
+        candidate_id TEXT PRIMARY KEY,
+        seed_id TEXT NOT NULL,
+        seed_match_status TEXT NOT NULL,
+        seed_event_date TEXT NOT NULL,
+        seed_district TEXT NOT NULL,
+        seed_municipality TEXT,
+        seed_deaths INTEGER,
+        provider TEXT NOT NULL,
+        query_scope TEXT NOT NULL,
+        query TEXT NOT NULL,
+        result_id TEXT NOT NULL,
+        result_url TEXT NOT NULL,
+        source_name TEXT,
+        source_home_url TEXT,
+        title TEXT,
+        published_at TEXT,
+        retrieved_at TEXT NOT NULL,
+        review_status TEXT NOT NULL DEFAULT 'unreviewed',
+        resolved_url TEXT,
+        review_notes TEXT,
+        ingest_status TEXT NOT NULL DEFAULT 'not_ingested',
+        ingested_url TEXT,
+        ingested_at TEXT,
+        ingest_error TEXT
+    )
+    """,
+    """
+    CREATE INDEX IF NOT EXISTS idx_external_news_candidates_seed
+        ON external_news_candidates (seed_id, review_status)
     """,
 )
 
@@ -175,6 +287,23 @@ REQUIRED_CANONICAL_EVENT_COLUMNS = {
     'place_name_candidates_json': 'TEXT',
     'event_payload': 'TEXT NOT NULL DEFAULT ""',
     'inserted_at': 'TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP',
+    'event_type': 'TEXT',
+    'hazard_type': 'TEXT',
+    'event_granularity': 'TEXT',
+    'article_role': 'TEXT',
+    'extraction_basis': 'TEXT',
+    'typing_reason': 'TEXT',
+    'typed_at': 'TEXT',
+}
+
+# Multi-event extraction (docs/MULTIEVENT_EXTRACTION.md). `size` counts
+# distinct ARTICLES, because it is read as "how many independent reports
+# support this event" and one article split across several district-days must
+# not read as several reports. These two carry the record-level counts that
+# `size` deliberately no longer reports.
+REQUIRED_CLUSTER_SUMMARY_COLUMNS = {
+    'record_count': 'INTEGER NOT NULL DEFAULT 0',
+    'secondary_record_count': 'INTEGER NOT NULL DEFAULT 0',
 }
 
 REQUIRED_ARTICLE_EVENT_COLUMNS = {
@@ -220,6 +349,13 @@ REQUIRED_ARTICLE_EVENT_COLUMNS = {
     'inserted_at': 'TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP',
 }
 
+REQUIRED_EXTERNAL_NEWS_CANDIDATE_COLUMNS = {
+    'ingest_status': "TEXT NOT NULL DEFAULT 'not_ingested'",
+    'ingested_url': 'TEXT',
+    'ingested_at': 'TEXT',
+    'ingest_error': 'TEXT',
+}
+
 
 def connect_sqlite(database_path: Path) -> sqlite3.Connection:
     """Create a SQLite connection with row access enabled."""
@@ -239,6 +375,8 @@ def initialize_sqlite(database_path: Path) -> None:
         _migrate_raw_articles(connection)
         _migrate_article_events(connection)
         _migrate_canonical_events(connection)
+        _migrate_cluster_summary(connection)
+        _migrate_external_news_candidates(connection)
         connection.commit()
 
 
@@ -255,7 +393,10 @@ def list_tables(database_path: Path) -> list[str]:
 def _migrate_raw_articles(connection: sqlite3.Connection) -> None:
     """Add required columns to raw_articles if an older schema exists."""
 
-    columns = {str(row['name']) for row in connection.execute('PRAGMA table_info(raw_articles)').fetchall()}
+    columns = {
+        str(row['name'])
+        for row in connection.execute('PRAGMA table_info(raw_articles)').fetchall()
+    }
     for column, definition in REQUIRED_RAW_ARTICLE_COLUMNS.items():
         if column in columns:
             continue
@@ -265,23 +406,60 @@ def _migrate_raw_articles(connection: sqlite3.Connection) -> None:
 def _migrate_article_events(connection: sqlite3.Connection) -> None:
     """Add required columns and indexes to article_events if an older schema exists."""
 
-    columns = {str(row['name']) for row in connection.execute('PRAGMA table_info(article_events)').fetchall()}
+    columns = {
+        str(row['name'])
+        for row in connection.execute('PRAGMA table_info(article_events)').fetchall()
+    }
     for column, definition in REQUIRED_ARTICLE_EVENT_COLUMNS.items():
         if column in columns:
             continue
         if 'PRIMARY KEY' in definition:
             continue
         connection.execute(f'ALTER TABLE article_events ADD COLUMN {column} {definition}')
-    connection.execute('CREATE UNIQUE INDEX IF NOT EXISTS idx_article_events_url ON article_events(url)')
+    connection.execute(
+        'CREATE UNIQUE INDEX IF NOT EXISTS idx_article_events_url ON article_events(url)'
+    )
 
 
 def _migrate_canonical_events(connection: sqlite3.Connection) -> None:
     """Add required columns to canonical_events if an older schema exists."""
 
-    columns = {str(row['name']) for row in connection.execute('PRAGMA table_info(canonical_events)').fetchall()}
+    columns = {
+        str(row['name'])
+        for row in connection.execute('PRAGMA table_info(canonical_events)').fetchall()
+    }
     for column, definition in REQUIRED_CANONICAL_EVENT_COLUMNS.items():
         if column in columns:
             continue
         if 'PRIMARY KEY' in definition:
             continue
         connection.execute(f'ALTER TABLE canonical_events ADD COLUMN {column} {definition}')
+
+
+def _migrate_cluster_summary(connection: sqlite3.Connection) -> None:
+    """Add the record-count columns to cluster_summary on an older schema."""
+
+    columns = {
+        str(row['name'])
+        for row in connection.execute('PRAGMA table_info(cluster_summary)').fetchall()
+    }
+    for column, definition in REQUIRED_CLUSTER_SUMMARY_COLUMNS.items():
+        if column in columns:
+            continue
+        connection.execute(f'ALTER TABLE cluster_summary ADD COLUMN {column} {definition}')
+
+
+def _migrate_external_news_candidates(connection: sqlite3.Connection) -> None:
+    """Add assisted-ingestion tracking columns to existing candidate tables."""
+
+    columns = {
+        str(row['name'])
+        for row in connection.execute(
+            'PRAGMA table_info(external_news_candidates)'
+        ).fetchall()
+    }
+    for column, definition in REQUIRED_EXTERNAL_NEWS_CANDIDATE_COLUMNS.items():
+        if column not in columns:
+            connection.execute(
+                f'ALTER TABLE external_news_candidates ADD COLUMN {column} {definition}'
+            )

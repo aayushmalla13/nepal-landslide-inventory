@@ -23,6 +23,7 @@ from landslide_inventory.unify.llm_adjudicator import (
 
 GOOD = json.dumps({
     'is_landslide_event': 'yes', 'hazard_type': 'landslide',
+    'in_nepal': 'yes',
     'event_granularity': 'single', 'article_role': 'first_report',
     'confidence': 0.9, 'reason': 'Three killed in a located landslide.',
 })
@@ -71,7 +72,8 @@ def test_cache_key_separates_models_and_articles(tmp_path) -> None:
 def test_out_of_vocabulary_response_is_rejected_not_coerced() -> None:
     """Silently mapping a bad label to a plausible one produced 'unkown'."""
 
-    bad = json.dumps({'is_landslide_event': 'probably', 'hazard_type': 'landslide',
+    bad = json.dumps({'is_landslide_event': 'probably', 'in_nepal': 'yes',
+                      'hazard_type': 'landslide',
                       'event_granularity': 'single', 'article_role': 'first_report'})
     assert parse_response(bad) is None
 
@@ -87,7 +89,7 @@ def test_code_fenced_json_is_tolerated() -> None:
 
 def test_headline_definition_matches_the_scorer() -> None:
     def make(**kw):
-        base = dict(is_landslide_event='yes', hazard_type='landslide',
+        base = dict(is_landslide_event='yes', in_nepal='yes', hazard_type='landslide',
                     event_granularity='single', article_role='first_report',
                     confidence=0.9, reason='', model=DEFAULT_MODEL, prompt_version='v1')
         base.update(kw)
@@ -95,6 +97,8 @@ def test_headline_definition_matches_the_scorer() -> None:
 
     assert make().is_headline_event is True
     assert make(hazard_type='avalanche').is_headline_event is False
+    assert make(in_nepal='no').is_headline_event is False
+    assert make(event_granularity='multi').is_headline_event is False
     assert make(event_granularity='roundup').is_headline_event is False
     assert make(is_landslide_event='no').is_headline_event is False
 
@@ -102,7 +106,7 @@ def test_headline_definition_matches_the_scorer() -> None:
 @pytest.mark.parametrize('reason,expected', [
     ('followup', True), ('context_only', True), ('risk_only', True),
     ('roundup', True), ('event_specific', True),
-    ('out_of_country', False), ('no_location_signal', False),
+    ('out_of_country', True), ('no_location_signal', True),
 ])
 def test_only_judgement_calls_are_sent(reason: str, expected: bool) -> None:
     """Rows the rules handle reliably must not cost a network call.

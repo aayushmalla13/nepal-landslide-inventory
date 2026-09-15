@@ -2,18 +2,26 @@
 
 from __future__ import annotations
 
+import logging
+import re
 from collections import Counter
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from datetime import date
-import logging
 from pathlib import Path
-import re
-from typing import Iterable, Sequence
 
 from ..config import AppConfig
 from ..db import connect_sqlite, initialize_sqlite
 from ..utils import utc_now_iso
 from .decisions import ensure_decisions_table, record_decision, snapshot_fields
+from .event_typing import (
+    GRANULARITY_MULTI,
+    GRANULARITY_ROUNDUP,
+    GRANULARITY_SINGLE,
+    ROLE_FOLLOW_UP,
+    classify_article_role,
+    classify_event_granularity,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -158,6 +166,11 @@ FOREIGN_TERMS = tuple(dict.fromkeys(FOREIGN_TERMS + FOREIGN_TERMS_EXTRA))
 NEPAL_TERMS = ('nepal', 'नेपाल')
 URL_NEPAL_MARKERS = ('/nepal', '/national', '/social')
 NEPAL_SIGNAL_PATTERN = re.compile(r'(?<![a-z])nepal(?![a-z])|नेपाल', re.IGNORECASE)
+FOREIGN_HAZARD_DEMONYM_PATTERN = re.compile(
+    r'\b(?:indian|chinese|pakistani|indonesian|bangladeshi|afghan|'
+    r'japanese|filipino|myanmarese)\s+(?:landslide|mudslide|avalanche|flood)',
+    re.IGNORECASE,
+)
 
 INCIDENT_NEAR_PATTERN = re.compile(
     r'(?:landslide|landslides|mudslide|mudslides|पहिरो|भूस्खलन).{0,80}'
@@ -185,6 +198,12 @@ REGIONAL_BREAKDOWN_PATTERN = re.compile(
 DIRECT_CASUALTY_TITLE_PATTERN = re.compile(
     r'(?:\blandslide\b|\bmudslide\b|\brockfall\b|पहिरो|भूस्खलन).{0,80}(?:killed|dead|died|missing|injured|buried)'
     r'|(?:killed|dead|died|missing|injured|buried).{0,80}(?:\blandslide\b|\bmudslide\b|\brockfall\b|पहिरो|भूस्खलन)',
+    re.IGNORECASE,
+)
+CONFIRMED_IMPACT_PATTERN = re.compile(
+    r'\b(?:killed|dead|died|missing|injured|buried|blocked|obstructed|'
+    r'damaged|destroyed|collapsed)\b'
+    r'|मृत्यु|मृतक|बेपत्ता|घाइते|पुरियो|पुरिए|अवरुद्ध|अवरूद्ध|क्षति|भत्कियो',
     re.IGNORECASE,
 )
 
@@ -355,12 +374,34 @@ def decide_specificity(
     has_metaphor = _has_metaphor_signal(combined_cf, extra_exclude_terms)
     has_relative_date_phrase = bool(DATE_PHRASE_PATTERN.search(combined) or NP_DATE_PHRASE_PATTERN.search(combined))
     title_cf = title.casefold()
+    title_event_signal = _has_title_event_signal(title_cf)
+    granularity = classify_event_granularity(title, text)
+    article_role = classify_article_role(title, text)
     direct_event_title = _has_direct_event_title(title_cf)
     if has_roundup and direct_event_title and has_location_anchor and (has_valid_date or has_relative_date_phrase or has_casualty_signal):
-        if not REGIONAL_BREAKDOWN_PATTERN.search(combined_cf) and 'separate incident' not in combined_cf and ROUNDUP_CONNECTOR_PATTERN.search(combined_cf) is None:
+        if not REGIONAL_BREAKDOWN_PATTERN.search(combined_cf) and not NATIONWIDE_ROUNDUP_PATTERN.search(combined_cf) and 'separate incident' not in combined_cf and ROUNDUP_CONNECTOR_PATTERN.search(combined_cf) is None:
             has_roundup = False
-    if has_risk_only and has_location_anchor and (has_valid_date or has_relative_date_phrase) and (has_casualty_signal or direct_event_title):
+    if has_risk_only and has_location_anchor and (has_valid_date or has_relative_date_phrase) and (
+        has_casualty_signal
+        or direct_event_title
+        or CONFIRMED_IMPACT_PATTERN.search(combined) is not None
+    ):
         has_risk_only = False
+
+    concrete_followup = (
+        has_followup
+        and granularity == GRANULARITY_SINGLE
+        and title_event_signal
+        and has_location_anchor
+        and (has_valid_date or has_relative_date_phrase)
+        and (has_incident_verb or has_casualty_signal or direct_event_title)
+        and not (
+            (has_context_only and article_role != ROLE_FOLLOW_UP)
+            or has_out_of_country
+            or has_metaphor
+            or has_risk_only
+        )
+    )
 
     score = 0.0
     if has_location_anchor:
@@ -387,9 +428,16 @@ def decide_specificity(
         score -= 0.7
     score = max(0.0, min(1.0, round(score, 3)))
 
-    title_event_signal = _has_title_event_signal(title_cf)
     strong_signal_present = has_location_anchor or has_valid_date or has_incident_verb or has_casualty_signal
-    hard_negative = has_roundup or has_risk_only or has_followup or has_context_only or has_out_of_country or has_metaphor
+    hard_negative = (
+        has_roundup
+        or has_risk_only
+        or (has_followup and not concrete_followup)
+        or has_context_only
+        or has_out_of_country
+        or has_metaphor
+        or granularity in {GRANULARITY_MULTI, GRANULARITY_ROUNDUP}
+    )
 
     if not title_event_signal and not has_incident_verb and not has_casualty_signal:
         if has_damage_only:
@@ -401,13 +449,16 @@ def decide_specificity(
         return SpecificityDecision(0, 'out_of_country', score, _downgraded_class(row.event_class, 'out_of_country'))
     if has_metaphor:
         return SpecificityDecision(0, 'metaphor', score, _downgraded_class(row.event_class, 'metaphor'))
-    if has_context_only and not has_casualty_signal:
+    if (
+        has_context_only
+        and not has_casualty_signal
+        and not concrete_followup
+        and not direct_event_title
+    ):
         return SpecificityDecision(0, 'context_only', score, _downgraded_class(row.event_class, 'context_only'))
     if has_risk_only:
         return SpecificityDecision(0, 'risk_only', score, _downgraded_class(row.event_class, 'risk_only'))
-    if has_followup:
-        return SpecificityDecision(0, 'followup', score, _downgraded_class(row.event_class, 'followup'))
-    if has_roundup:
+    if has_roundup or granularity == GRANULARITY_ROUNDUP:
         nationwide_roundup = (
             not has_location_anchor
             or NATIONWIDE_ROUNDUP_PATTERN.search(combined_cf) is not None
@@ -417,12 +468,31 @@ def decide_specificity(
         )
         reason = 'context_only' if nationwide_roundup else 'roundup'
         return SpecificityDecision(0, reason, score, _downgraded_class(row.event_class, reason))
+    if granularity == GRANULARITY_MULTI:
+        return SpecificityDecision(0, 'multi_event', score, _downgraded_class(row.event_class, 'multi_event'))
+    if has_followup and not concrete_followup:
+        return SpecificityDecision(0, 'followup', score, _downgraded_class(row.event_class, 'followup'))
+    if concrete_followup:
+        reason = 'event_specific_followup' if article_role == ROLE_FOLLOW_UP else 'event_specific'
+        return SpecificityDecision(1, reason, max(score, 0.6), None)
     if has_damage_only and not (has_location_anchor or has_valid_date or has_incident_verb or has_casualty_signal):
         return SpecificityDecision(0, 'damage_only', score, _downgraded_class(row.event_class, 'damage_only'))
     if not strong_signal_present:
+        if (
+            granularity == GRANULARITY_SINGLE
+            and title_event_signal
+            and direct_event_title
+        ):
+            return SpecificityDecision(1, 'event_specific_title', 0.6, None)
         return SpecificityDecision(0, 'no_location_signal', score, _downgraded_class(row.event_class, 'no_location_signal'))
     if score >= 0.6 and not hard_negative:
         return SpecificityDecision(1, 'event_specific', score, None)
+    if (
+        granularity == GRANULARITY_SINGLE
+        and title_event_signal
+        and (direct_event_title or has_incident_verb)
+    ):
+        return SpecificityDecision(1, 'event_specific_title', max(score, 0.6), None)
     return SpecificityDecision(0, 'insufficient_signal', score, _downgraded_class(row.event_class, 'insufficient_signal'))
 
 
@@ -530,9 +600,12 @@ def _has_roundup_signal(text_casefold: str) -> bool:
 
 def _has_risk_signal(text_casefold: str) -> bool:
     if ' at risk ' in f' {text_casefold} ' and ('landslide' in text_casefold or 'पहिरो' in text_casefold):
-        if any(term in text_casefold for term in ('killed', 'missing', 'injured', 'buried', 'occurred')):
+        if CONFIRMED_IMPACT_PATTERN.search(text_casefold) is not None:
             return False
-    return any(pattern.casefold() in text_casefold for pattern in RISK_PATTERNS)
+    risk_hit = any(pattern.casefold() in text_casefold for pattern in RISK_PATTERNS)
+    if risk_hit and CONFIRMED_IMPACT_PATTERN.search(text_casefold) is not None:
+        return False
+    return risk_hit
 
 
 def _has_followup_signal(text_casefold: str) -> bool:
@@ -597,7 +670,8 @@ def _has_title_event_signal(title_casefold: str) -> bool:
         term in title_casefold
         for term in (
             'landslide', 'landslides', 'mudslide', 'mudslides', 'rockfall',
-            'पहिरो', 'भूस्खलन', 'हिमपहिरो', 'ढिस्को', 'पुरिए', 'पुरिँदा', 'बेपत्ता', 'मृत्यु',
+            'पहिरो', 'भूस्खलन', 'हिमपहिरो', 'ढिस्को', 'पुरिए', 'पुरिँदा',
+            'बेपत्ता', 'वेपत्ता', 'मृत्यु',
             'अवरुद्ध', 'अवरूद्ध', 'blocked', 'obstructed', 'buried', 'killed', 'missing', 'injured',
         )
     )
@@ -606,25 +680,58 @@ def _has_title_event_signal(title_casefold: str) -> bool:
 def _has_direct_event_title(title_casefold: str) -> bool:
     if not title_casefold:
         return False
-    if any(pattern.casefold() in title_casefold for pattern in ROUNDUP_PATTERNS):
-        return False
     if DIRECT_CASUALTY_TITLE_PATTERN.search(title_casefold) is not None:
         return True
     has_landslide = any(term in title_casefold for term in ('landslide', 'landslides', 'mudslide', 'mudslides', 'पहिरो', 'भूस्खलन'))
-    has_road_incident = any(term in title_casefold for term in ('blocked', 'obstructed', 'disrupted', 'shut', 'closed', 'averted', 'buried'))
-    return has_landslide and has_road_incident
+    has_direct_impact = any(
+        term in title_casefold
+        for term in (
+            'block', 'blocks', 'blocked', 'obstruct', 'obstructs', 'obstructed',
+            'disrupt', 'disrupts', 'disrupted', 'shut', 'closed', 'buried',
+            'marred', 'inspection',
+            'death toll', 'dead', 'missing', 'identified', 'recovered',
+            'अवरुद्ध', 'अवरूद्ध', 'मृत्यु', 'मृतकको संख्या', 'बेपत्ता',
+            'वेपत्ता', 'पहिचान', 'शव फेला', 'पुरिए', 'बन्द', 'निरीक्षण',
+        )
+    )
+    return has_landslide and has_direct_impact
 
 
 def _has_out_of_country_signal(row: SpecificityRow, text_casefold: str) -> bool:
     title = _normalize_specificity_title(row.source, row.title).casefold()
-    if any(term.casefold() in title for term in FOREIGN_TERMS):
+    if _contains_foreign_term(title) or FOREIGN_HAZARD_DEMONYM_PATTERN.search(title):
         return True
     lead = text_casefold[:800]
-    foreign_hit = any(term.casefold() in lead for term in FOREIGN_TERMS)
+    foreign_hit = _contains_foreign_term(lead)
     if not foreign_hit:
+        return False
+    # A resolved Nepal administrative location outweighs a foreign background
+    # mention (Indian victims, a Chinese contractor, a border crossing). An
+    # explicitly foreign title was already rejected above.
+    if row.district or row.municipality:
         return False
     nepal_signal = NEPAL_SIGNAL_PATTERN.search(lead) is not None or any(marker in row.url.casefold() for marker in URL_NEPAL_MARKERS)
     return not nepal_signal
+
+
+def _contains_foreign_term(text_casefold: str) -> bool:
+    """Match foreign place names without treating demonyms as locations.
+
+    The old substring test matched ``india`` inside ``Indian nationals`` and
+    consequently discarded Nepal landslides whose victims or rescue teams were
+    Indian. Latin terms therefore require alphabetic boundaries; Devanagari
+    country names retain substring matching so case suffixes such as ``भारतमा``
+    continue to identify genuinely foreign reports.
+    """
+
+    for term in FOREIGN_TERMS:
+        folded = term.casefold()
+        if folded.isascii():
+            if re.search(rf'(?<![a-z]){re.escape(folded)}(?![a-z])', text_casefold):
+                return True
+        elif re.search(rf'{re.escape(folded)}(?!ीय)', text_casefold):
+            return True
+    return False
 
 
 def _is_date_in_window(value: str | None, study_start: date, study_end: date) -> bool:

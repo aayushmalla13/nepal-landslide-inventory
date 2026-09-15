@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import logging
+import os
+import re
 from pathlib import Path
 
 from ..config import AppConfig
@@ -22,6 +24,7 @@ from .parser import parse_article_html
 from .storage import (
     count_discovered_urls_for_source,
     discovered_urls_for_source,
+    raw_article_urls_for_source,
     stale_raw_article_urls_for_source,
     upsert_discovered_url,
     upsert_raw_article,
@@ -39,12 +42,14 @@ def run_collect_stage(config: AppConfig) -> None:
     database_path = config.sqlite_path
     initialize_sqlite(database_path)
     fetcher = HTTPFetcher.from_config(config)
-    sources = load_sources(config)
+    sources = _select_sources(load_sources(config))
 
     failed_sources: list[tuple[str, str]] = []
 
     for source in sources:
         total_before = count_discovered_urls_for_source(database_path, source.slug)
+        fetched_urls = raw_article_urls_for_source(database_path, source.slug)
+        stale_urls = set(stale_raw_article_urls_for_source(database_path, source.slug))
         LOGGER.info('Collecting source %s', source.slug)
         try:
             discoveries, new_discovered = _discover_source(config, source, fetcher, database_path)
@@ -62,9 +67,14 @@ def run_collect_stage(config: AppConfig) -> None:
         if stale_refreshes:
             LOGGER.info('Source %s stale refresh queue=%s', source.slug, len(stale_refreshes))
             discoveries.extend(stale_refreshes)
+        fetched_this_run = 0
+        skipped_existing = 0
         for discovered in discoveries:
             upsert_discovered_url(database_path, discovered)
             if discovered.method == 'googlenews':
+                continue
+            if discovered.url in fetched_urls and discovered.url not in stale_urls:
+                skipped_existing += 1
                 continue
             fetch_result = fetcher.fetch(discovered.url)
             parsed = parse_article_html(source, fetch_result.text, discovered.url)
@@ -77,12 +87,23 @@ def run_collect_stage(config: AppConfig) -> None:
                 method=discovered.method,
                 entry_point=discovered.entry_point,
             )
+            fetched_this_run += 1
+            if fetched_this_run % 50 == 0:
+                LOGGER.info(
+                    'Source %s fetch progress: fetched_this_run=%s queued=%s skipped_existing=%s',
+                    source.slug,
+                    fetched_this_run,
+                    len(discoveries),
+                    skipped_existing,
+                )
         total_after = count_discovered_urls_for_source(database_path, source.slug)
         LOGGER.info(
-            'Source %s summary: total discovered=%s, new discovered this run=%s',
+            'Source %s summary: total discovered=%s, new discovered this run=%s, fetched_this_run=%s, skipped_existing=%s',
             source.slug,
             total_after,
             max(total_after - total_before, new_discovered),
+            fetched_this_run,
+            skipped_existing,
         )
 
     report_path = config.resolve_path('outputs_dir') / 'coverage_report.csv'
@@ -110,8 +131,8 @@ def _discover_source(
     """Collect discoveries for a source and return discoveries plus new-url count."""
 
     runtime = dict(config.raw['runtime'])
-    max_pages = int(runtime['max_pages_per_entry_point'])
-    max_urls = int(runtime['max_urls_per_source'])
+    max_pages = int(source.discovery.get('max_pages', runtime['max_pages_per_entry_point']))
+    max_urls = int(source.discovery.get('max_urls', runtime['max_urls_per_source']))
     existing_urls = discovered_urls_for_source(database_path, source.slug)
     discoveries: list[DiscoveredUrl] = []
     discovered_url_set: set[str] = set()
@@ -120,6 +141,8 @@ def _discover_source(
 
     for entry_point in discovery_entry_points(source):
         method = str(entry_point['kind'])
+        if method == 'source_native':
+            continue
         if method == 'googlenews':
             for discovered in build_google_news_discoveries(config, source):
                 if discovered.url in discovered_url_set:
@@ -225,11 +248,28 @@ def _stale_refresh_discoveries(
 def _year_hint_from_url(url: str, year_hints: list[int]) -> int | None:
     """Choose a year hint from listing context or URL path."""
 
-    for year in range(2024, 2014, -1):
-        if f'/{year}/' in url or f'-{year}-' in url:
+    match = re.search(r'(?:/|-)(20\d{2})(?:/|-)', url)
+    if match is not None:
+        year = int(match.group(1))
+        if 2015 <= year <= 2026:
             return year
     if year_hints:
-        eligible = [year for year in year_hints if 2015 <= year <= 2024]
+        eligible = [year for year in year_hints if 2015 <= year <= 2026]
         if eligible:
             return max(eligible)
     return None
+
+
+def _select_sources(sources):
+    """Apply the optional comma-separated LS_SOURCE collection selector."""
+
+    raw_selector = os.getenv('LS_SOURCE', '').strip()
+    if not raw_selector:
+        return sources
+    requested = {slug.strip() for slug in raw_selector.split(',') if slug.strip()}
+    selected = [source for source in sources if source.slug in requested]
+    missing = sorted(requested - {source.slug for source in selected})
+    if missing:
+        raise ValueError(f"Unknown LS_SOURCE slug(s): {', '.join(missing)}")
+    LOGGER.info('Source selector active: %s', ', '.join(source.slug for source in selected))
+    return selected

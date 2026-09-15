@@ -12,6 +12,7 @@ from typing import Any, Callable
 from ..config import AppConfig
 from ..db import connect_sqlite, initialize_sqlite
 from ..gazetteer import all_districts, district_to_province, normalize_district, normalize_municipality, municipality_to_district
+from ..gazetteer_municipality import municipality_districts
 from ..nlp_en import extract_en
 from ..nlp_np import extract_np
 from ..utils import ensure_directory, stable_hash, utc_now_iso
@@ -205,9 +206,17 @@ def build_article_event_record(
         )
 
     canonical_districts = set(all_districts())
-    municipality = result.get('municipality')
-    district = _reconcile_district(result.get('district'), municipality, canonical_districts)
+    district, municipality, ward = _reconcile_place(
+        result.get('district'),
+        result.get('municipality'),
+        result.get('ward'),
+        canonical_districts,
+    )
     result['district'] = district
+    result['municipality'] = municipality
+    result['ward'] = ward
+    if municipality is None and result.get('place_admin_level') in ('municipality', 'ward'):
+        result['place_admin_level'] = 'district' if district else 'unknown'
     if municipality and district:
         result['province'] = district_to_province(district)
         result['conf_district'] = max(float(result.get('conf_district') or 0.0), 0.82)
@@ -325,15 +334,82 @@ def _effective_published_year_hint(published_date_ad: str | date | datetime | No
         return None
 
 
-def _reconcile_district(district: str | None, municipality: str | None, canonical_districts: set[str]) -> str | None:
-    if municipality:
-        mapped_district = municipality_to_district(municipality)
-        if mapped_district in canonical_districts:
-            if district is None or district not in canonical_districts or district != mapped_district:
-                return mapped_district
-    if district in canonical_districts:
-        return district
-    return None
+# Ablation switch for the conflict rule measured in
+# scripts/score_district_development.py. ``False`` is the chosen behaviour: an
+# already-established district is kept and the contradicting municipality is
+# dropped. Setting it to ``True`` restores the pre-2026-08-14 rule, in which a
+# municipality's district always won, so the two can be compared on the labelled
+# development set without editing code.
+MUNICIPALITY_OVERRIDES_DISTRICT = False
+
+
+def _reconcile_place(
+    district: str | None,
+    municipality: str | None,
+    ward: str | None,
+    canonical_districts: set[str],
+) -> tuple[str | None, str | None, str | None]:
+    """Make district, municipality and ward mutually consistent.
+
+    A stored record must never assert a municipality that the gazetteer places
+    outside its own district: district is the analysis unit for the rainfall
+    study, and an internally inconsistent record cannot be validated.
+
+    Two rules resolve a disagreement, and which one applies depends on whether
+    the district is already established:
+
+    * **No usable district.** The municipality supplies one. This is a pure
+      gain and is what the enlarged gazetteer is for.
+    * **A canonical district is already extracted.** Keep it and drop the
+      municipality and ward. The language extractors have already adjudicated
+      this exact conflict against the evidence in the text -- see
+      ``nlp_en.extract._district_is_near_municipality``, which moves the
+      district when the two names are written together, as in "Uttargaya rural
+      municipality - 4, Rasuwa" under a Nuwakot dateline. Reaching this point
+      means that adjudication declined, so the municipality is unsupported as
+      the event location; typically it is a victim's home address ("the
+      deceased ... of Chandrpur Municipality-1, Rautahat" in a story about a
+      landslide in Rasuwa). Moving the event to it would relocate a case.
+
+    This function previously let the municipality win unconditionally. That was
+    harmless while the gazetteer held 142 local units, because a municipality
+    rarely resolved at all; at 753 units it silently moved five of the first
+    400 class-1 articles into the wrong district, every one of them a
+    regression. The measurement is in ``scripts/measure_district_drift.py``.
+
+    Ambiguous names -- fifteen canonical names exist in more than one district
+    -- map to ``None`` through ``municipality_to_district``. They are consistent
+    when the extracted district is one of their candidates, so they are checked
+    against ``municipality_districts`` instead of being treated as a conflict.
+    """
+
+    established = district if district in canonical_districts else None
+    if not municipality:
+        return established, municipality, ward
+
+    if MUNICIPALITY_OVERRIDES_DISTRICT:
+        mapped = municipality_to_district(municipality)
+        if mapped in canonical_districts:
+            return mapped, municipality, ward
+        return established, municipality, ward
+
+    candidates = tuple(
+        name for name in municipality_districts(municipality) if name in canonical_districts
+    )
+    if not candidates:
+        mapped = municipality_to_district(municipality)
+        candidates = (mapped,) if mapped in canonical_districts else ()
+
+    if established is not None:
+        if established in candidates:
+            return established, municipality, ward
+        return established, None, None
+
+    # An unresolved district is filled from the municipality only when the name
+    # is unambiguous. A name shared across districts cannot pick one for itself.
+    if len(candidates) == 1:
+        return candidates[0], municipality, ward
+    return None, municipality, ward
 
 
 def _enforce_study_period(event_date_ad: str | None, study_start: date, study_end: date) -> str | None:

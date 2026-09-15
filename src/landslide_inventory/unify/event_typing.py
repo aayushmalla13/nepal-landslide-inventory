@@ -21,10 +21,11 @@ which Nepali verb the sub-editor happened to use.
 
 **Decision: keep them, typed.** ``event_type = 'road_obstruction'`` marks a
 slope failure reported only through its effect on a road, with no casualties and
-no settlement impact. They stay in the dataset -- they are real slope failures
-and excluding them silently would be its own bias -- but they are excluded from
-headline counts and from the BIPAD comparison, where the unit of analysis does
-not match.
+no settlement impact. A labelled development-set review subsequently confirmed
+that a real, single road landslide belongs in the article headline target. Such
+rows therefore count when ``event_granularity = 'single'``; the subtype remains
+available for impact-specific analyses and is still excluded from the BIPAD
+comparison, where the unit of analysis does not match.
 
 ``extraction_basis``
 --------------------
@@ -45,9 +46,9 @@ that outlet should convert a large share of ``title_only`` rows into full ones.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import logging
 import re
+from dataclasses import dataclass
 from typing import Any
 
 LOGGER = logging.getLogger(__name__)
@@ -55,6 +56,15 @@ LOGGER = logging.getLogger(__name__)
 EVENT_TYPE_LANDSLIDE = 'landslide'
 EVENT_TYPE_ROAD_OBSTRUCTION = 'road_obstruction'
 EVENT_TYPE_AGGREGATE_REPORT = 'aggregate_report'
+
+GRANULARITY_SINGLE = 'single'
+GRANULARITY_MULTI = 'multi'
+GRANULARITY_ROUNDUP = 'roundup'
+
+ROLE_FIRST_REPORT = 'first_report'
+ROLE_FOLLOW_UP = 'follow_up'
+ROLE_RETROSPECTIVE = 'retrospective'
+ROLE_FORECAST_OR_RISK = 'forecast_or_risk'
 
 # Hazard vocabulary, matching validation/locked_test_set.TRUTH_VOCABULARIES so
 # annotator labels and pipeline output are directly comparable.
@@ -87,7 +97,8 @@ HEADLINE_HAZARDS = frozenset({HAZARD_LANDSLIDE, HAZARD_DEBRIS_FLOW, HAZARD_ROCKF
 # is spelled हिमपहिरो, हिम पहिरो, हिउँपहिरो and हिउँ पहिरो interchangeably.
 AVALANCHE_PATTERN = re.compile(
     r'\bavalanche(?:s)?\b|\bsnow\s*slide\b|\bsnowslide\b'
-    r'|हिम\s*पहिरो|हिउँ\s*पहिरो|हिउ\s*पहिरो|हिमपात\s*पहिरो',
+    r'|हिम\s*पहिरो|हिउँ\s*पहिरो|हिउ\s*पहिरो|हिमपात\s*पहिरो'
+    r'|हिउँको\s+ढिस्को|हिउको\s+ढिस्को',
     re.IGNORECASE,
 )
 
@@ -168,10 +179,76 @@ NATIONAL_SCOPE_PATTERN = re.compile(
 # parliamentary statement. The article is about the response, not an event.
 INSTITUTIONAL_PATTERN = re.compile(
     r'\b(?:informs house|house of representatives|parliament|minister|ministry|'
-    r'prime minister|cabinet|review meeting|convenes|inspection|briefing|'
+    r'prime minister|cabinet|review meeting|convenes|briefing|'
     r'informs|urges|directs|discussion)\b'
     r'|गृहको समीक्षा|मन्त्रिपरिषद|प्रधानमन्त्री|प्रचण्ड|देउवा|ओली|संसद|मन्त्रालय|'
-    r'निरीक्षण|समीक्षा|बैठक|छलफल|बोलाए|निर्देशन',
+    r'समीक्षा|बैठक|छलफल|बोलाए|निर्देशन',
+    re.IGNORECASE,
+)
+
+RESPONSE_ONLY_TITLE_PATTERN = re.compile(
+    r'\b(?:relief|compensation|prevention|mitigation|control project|response team)\b'
+    r'|(?:राहत|क्षतिपूर्ति|रोकथाम|नियन्त्रण|नियंत्रण|उद्दारका लागि|उद्धारका लागि)',
+    re.IGNORECASE,
+)
+
+MULTI_EVENT_PATTERN = re.compile(
+    r'\b(?:several|various|multiple|different)\s+'
+    r'(?:places|locations|villages|districts|parts|vdc(?:s)?|sites)\b'
+    r'|\b(?:two|three|four|five|six|seven|eight|nine|ten|\d+)\s+'
+    r'(?:different\s+)?(?:places|locations|villages|districts|vdc(?:s)?|sites)\b'
+    r'|\b(?:separate|distinct)\s+(?:landslides|incidents)\b'
+    r'|\bmultiple\s+landslides?\b'
+    r'|ठाउँठाउँ|ठाउँ-ठाउँ|विभिन्न\s*(?:स्थान|ठाउँ|गाउँ|जिल्ला|वडा|भाग)'
+    r'|(?:दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|[२-९2-9])\s*'
+    r'(?:वटा\s*)?(?:स्थान|ठाउँ|गाउँ|जिल्ला|वडा|आयोजना)'
+    r'|यी\s+सडकखण्ड',
+    re.IGNORECASE,
+)
+
+MULTI_ADMIN_PATTERN = re.compile(
+    r'\b(?:municipality|rural municipality|vdc|ward)\b[^.\n]{0,140}'
+    r'\b(?:and|similarly|likewise)\b[^.\n]{0,140}'
+    r'\b(?:municipality|rural municipality|vdc|ward)\b'
+    r'|(?:नगरपालिका|गाउँपालिका|वडा)[^।\n]{0,140}'
+    r'(?:त्यसैगरी|यस्तै|र)[^।\n]{0,140}(?:नगरपालिका|गाउँपालिका|वडा)',
+    re.IGNORECASE,
+)
+
+REPEATED_EVENT_PATTERN = re.compile(
+    r'\b(?:again|repeatedly|another landslide|fresh landslide)\b'
+    r'|फेरि[^।\n]{0,20}पहिरो|पुनः[^।\n]{0,20}पहिरो|बारम्बार\s*पहिरो',
+    re.IGNORECASE,
+)
+
+FOLLOW_UP_TITLE_PATTERN = re.compile(
+    r'\b(?:update|death toll (?:reaches|rises|climbs)|bodies? recovered|'
+    r'identified|reopens?|reopened|resumes?|resumed|relief|compensation|'
+    r'inspection|search continues?)\b'
+    r'|अपडेट|मृतकको संख्या|मृत्यु हुनेको संख्या|पहिचान खुल्यो|सनाखत|'
+    r'खुल्यो|खुलेको|सञ्चालनमा|निरीक्षण|राहत|क्षतिपूर्ति|शव\s*(?:फेला|भेटियो)',
+    re.IGNORECASE,
+)
+
+FORECAST_TITLE_PATTERN = re.compile(
+    r'\b(?:at high risk|risk of|warning|forecast|could trigger|likely to|'
+    r'prevention|preparedness|monitoring)\b'
+    r'|उच्च जोखिम|पहिरोको जोखिम|चेतावनी|पूर्वानुमान|रोकथाम|तयारी|'
+    r'हुन नदिइने|जान सक्ने',
+    re.IGNORECASE,
+)
+
+RETROSPECTIVE_TITLE_PATTERN = re.compile(
+    r'\b(?:years? (?:after|since)|anniversary|history of|over the years)\b'
+    r'|वर्षपछि|वर्षदेखि|इतिहास|विगत',
+    re.IGNORECASE,
+)
+
+OBSERVED_EVENT_PATTERN = re.compile(
+    r'\b(?:occurred|triggered|hit|fell|collapsed|blocked|obstructed|washed away|'
+    r'buried|damaged|killed|missing|injured|mud slip)\b'
+    r'|पहिरो\s*(?:गयो|खस्यो|आयो)|बगायो|पुरियो|पुरिए|अवरुद्ध|क्षति|मृत्यु|'
+    r'बेपत्ता|घाइते|विस्थापित',
     re.IGNORECASE,
 )
 
@@ -182,9 +259,9 @@ INSTITUTIONAL_PATTERN = re.compile(
 DIRECT_INCIDENT_TITLE_PATTERN = re.compile(
     r'(?:landslide|landslides|mudslide|rockfall|पहिरो|भूस्खलन)[^\n]{0,60}'
     r'(?:kill|kills|killed|dead|die|dies|died|buri|swept|missing|injur|'
-    r'मृत्यु|पुरिए|पुरिँदा|बेपत्ता|घाइते|बगायो)'
+    r'मृत्यु|मृतक|शव|पुरिए|पुरिँदा|बेपत्ता|वेपत्ता|घाइते|बगायो)'
     r'|(?:kill|kills|killed|dead|die|dies|died|buri|swept|missing|injur|'
-    r'मृत्यु|पुरिए|पुरिँदा|बेपत्ता|घाइते|बगायो)[^\n]{0,60}'
+    r'मृत्यु|मृतक|शव|पुरिए|पुरिँदा|बेपत्ता|वेपत्ता|घाइते|बगायो)[^\n]{0,60}'
     r'(?:landslide|landslides|mudslide|rockfall|पहिरो|भूस्खलन)',
     re.IGNORECASE,
 )
@@ -205,14 +282,15 @@ def is_aggregate_report(title: str | None) -> bool:
     multi = MULTI_HAZARD_PATTERN.search(heading) is not None
     national = NATIONAL_SCOPE_PATTERN.search(heading) is not None
     institutional = INSTITUTIONAL_PATTERN.search(heading) is not None
+    response_only = RESPONSE_ONLY_TITLE_PATTERN.search(heading) is not None
     # A title reporting a specific incident with its own casualties is an
     # event even if a minister appears in it ("Minister visits site where three
     # died"). Everything else that is institutional is about the response, not
     # the event.
     direct_incident = DIRECT_INCIDENT_TITLE_PATTERN.search(heading) is not None
-    if direct_incident and not (period or national):
+    if direct_incident and not (period or national or multi):
         return False
-    return period or national or institutional or multi
+    return period or national or institutional or multi or response_only
 
 
 # Road/highway infrastructure vocabulary, EN and NP.
@@ -261,18 +339,23 @@ class EventTyping:
     extraction_basis: str
     reason: str
     hazard_type: str = HAZARD_LANDSLIDE
+    event_granularity: str = GRANULARITY_SINGLE
+    article_role: str = ROLE_FIRST_REPORT
 
     @property
     def in_headline_counts(self) -> bool:
         """Whether this row belongs in the paper's headline event count.
 
-        Both conditions: it must be a landslide-family hazard (not an avalanche
-        or a pure flood) AND not a road-obstruction-only report.
+        A road obstruction caused by a real, single landslide is still a
+        landslide observation. ``event_type`` remains available as an impact
+        subtype; granularity and hazard decide headline eligibility.
         """
 
         return (
             self.hazard_type in HEADLINE_HAZARDS
-            and self.event_type == EVENT_TYPE_LANDSLIDE
+            and self.event_type in {EVENT_TYPE_LANDSLIDE, EVENT_TYPE_ROAD_OBSTRUCTION}
+            and self.event_granularity == GRANULARITY_SINGLE
+            and self.article_role != ROLE_FORECAST_OR_RISK
         )
 
     @property
@@ -283,7 +366,7 @@ class EventTyping:
         comparing them against a landslide inventory would inflate both sides.
         """
 
-        return self.in_headline_counts
+        return self.in_headline_counts and self.event_type == EVENT_TYPE_LANDSLIDE
 
 
 def classify_hazard_type(title: str | None, text: str | None) -> str:
@@ -318,6 +401,80 @@ def classify_hazard_type(title: str | None, text: str | None) -> str:
     return HAZARD_OTHER
 
 
+def classify_event_granularity(title: str | None, text: str | None) -> str:
+    """Classify one article as a single event, multiple events, or a roundup."""
+
+    heading = (title or '').strip()
+    body = (text or '').strip()
+    lead = body[:250]
+    combined = f'{heading}\n{lead}'
+    if is_aggregate_report(heading):
+        return GRANULARITY_ROUNDUP
+    if MULTI_EVENT_PATTERN.search(heading) or MULTI_ADMIN_PATTERN.search(heading):
+        return GRANULARITY_MULTI
+    if (
+        ROAD_TERMS_PATTERN.search(heading)
+        and OBSTRUCTION_TERMS_PATTERN.search(heading)
+        and (
+            re.search(r'\blandslides\b|\bmost roads\b', heading, re.IGNORECASE)
+            or re.search(r'विभिन्न\s*सडक|सडक[^।\n]{0,50}\sर\s[^।\n]{0,50}सडक', heading)
+        )
+    ):
+        return GRANULARITY_MULTI
+    # Road reports use the blockage as their observation unit. Later prose
+    # often lists other unstable spots along the corridor as context; that
+    # does not turn the reported blockage into a roundup.
+    if ROAD_TERMS_PATTERN.search(heading) and OBSTRUCTION_TERMS_PATTERN.search(heading):
+        return GRANULARITY_SINGLE
+    # "Again"/"fresh" describes a newly observed occurrence, not multiple
+    # events inside this article.
+    if REPEATED_EVENT_PATTERN.search(heading):
+        return GRANULARITY_SINGLE
+    if MULTI_EVENT_PATTERN.search(lead) or MULTI_ADMIN_PATTERN.search(lead):
+        return GRANULARITY_MULTI
+    # A singular, direct-incident headline remains the unit of analysis even
+    # when the final paragraph mentions other affected places as context.
+    if (
+        DIRECT_INCIDENT_TITLE_PATTERN.search(heading)
+        and re.search(r'\blandslides\b', heading, re.IGNORECASE) is None
+    ):
+        return GRANULARITY_SINGLE
+    if (
+        MULTI_EVENT_PATTERN.search(combined)
+        or MULTI_ADMIN_PATTERN.search(combined)
+    ):
+        return GRANULARITY_MULTI
+    if (
+        len(body) < TITLE_ONLY_BODY_CHARS
+        and re.search(r'\blandslides\b', heading, re.IGNORECASE)
+        and DIRECT_INCIDENT_TITLE_PATTERN.search(heading)
+    ):
+        return GRANULARITY_MULTI
+    return GRANULARITY_SINGLE
+
+
+def classify_article_role(title: str | None, text: str | None) -> str:
+    """Classify the article's relationship to the reported event."""
+
+    heading = (title or '').strip()
+    if re.search(
+        r'\b(?:prevention|preparedness|monitoring)\b|रोकथाम|हुन नदिइने|जान नदिइने',
+        heading,
+        re.IGNORECASE,
+    ):
+        return ROLE_FORECAST_OR_RISK
+    if (
+        FORECAST_TITLE_PATTERN.search(heading)
+        and OBSERVED_EVENT_PATTERN.search(heading) is None
+    ):
+        return ROLE_FORECAST_OR_RISK
+    if RETROSPECTIVE_TITLE_PATTERN.search(heading):
+        return ROLE_RETROSPECTIVE
+    if FOLLOW_UP_TITLE_PATTERN.search(heading):
+        return ROLE_FOLLOW_UP
+    return ROLE_FIRST_REPORT
+
+
 def classify_event_type(
     title: str | None,
     text: str | None,
@@ -336,6 +493,8 @@ def classify_event_type(
     body = (text or '').strip()
     combined = f'{heading}\n{body}'
     hazard = classify_hazard_type(title, text)
+    granularity = classify_event_granularity(title, text)
+    role = classify_article_role(title, text)
 
     basis = (
         EXTRACTION_BASIS_TITLE_ONLY
@@ -347,23 +506,44 @@ def classify_event_type(
     # count -- that is what makes it dangerous. Letting the casualty branch win
     # would keep every roundup in the headline inventory.
     if is_aggregate_report(title):
-        return EventTyping(EVENT_TYPE_AGGREGATE_REPORT, basis, 'aggregate_report', hazard)
+        return EventTyping(
+            EVENT_TYPE_AGGREGATE_REPORT, basis, 'aggregate_report', hazard,
+            granularity, role,
+        )
     if any(value for value in (deaths, missing, injured) if value):
-        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'casualties_recorded', hazard)
+        return EventTyping(
+            EVENT_TYPE_LANDSLIDE, basis, 'casualties_recorded', hazard,
+            granularity, role,
+        )
     if HUMAN_IMPACT_PATTERN.search(combined):
-        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'human_impact_language', hazard)
+        return EventTyping(
+            EVENT_TYPE_LANDSLIDE, basis, 'human_impact_language', hazard,
+            granularity, role,
+        )
     if SETTLEMENT_IMPACT_PATTERN.search(combined):
-        return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'settlement_impact_language', hazard)
+        return EventTyping(
+            EVENT_TYPE_LANDSLIDE, basis, 'settlement_impact_language', hazard,
+            granularity, role,
+        )
 
     # No human or settlement impact anywhere. Is the road the whole story?
     # Require both signals in the TITLE: a body that merely mentions a highway
     # in passing is not a road-obstruction report.
     if ROAD_TERMS_PATTERN.search(heading) and OBSTRUCTION_TERMS_PATTERN.search(heading):
-        return EventTyping(EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_title', hazard)
+        return EventTyping(
+            EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_title', hazard,
+            granularity, role,
+        )
     if ROAD_TERMS_PATTERN.search(combined) and OBSTRUCTION_TERMS_PATTERN.search(combined):
-        return EventTyping(EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_body', hazard)
+        return EventTyping(
+            EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_body', hazard,
+            granularity, role,
+        )
 
-    return EventTyping(EVENT_TYPE_LANDSLIDE, basis, 'default_landslide', hazard)
+    return EventTyping(
+        EVENT_TYPE_LANDSLIDE, basis, 'default_landslide', hazard,
+        granularity, role,
+    )
 
 
 def confidence_penalty(basis: str) -> float:
@@ -384,13 +564,27 @@ def summarize_typing(records: list[dict[str, Any]]) -> dict[str, Any]:
     types: dict[str, int] = {}
     bases: dict[str, int] = {}
     hazards: dict[str, int] = {}
+    granularities: dict[str, int] = {}
+    roles: dict[str, int] = {}
     headline = 0
     for record in records:
         types[record['event_type']] = types.get(record['event_type'], 0) + 1
         bases[record['extraction_basis']] = bases.get(record['extraction_basis'], 0) + 1
         hazard = record.get('hazard_type', HAZARD_LANDSLIDE)
         hazards[hazard] = hazards.get(hazard, 0) + 1
-        if hazard in HEADLINE_HAZARDS and record['event_type'] == EVENT_TYPE_LANDSLIDE:
+        granularity = record.get('event_granularity', GRANULARITY_SINGLE)
+        role = record.get('article_role', ROLE_FIRST_REPORT)
+        granularities[granularity] = granularities.get(granularity, 0) + 1
+        roles[role] = roles.get(role, 0) + 1
+        if (
+            hazard in HEADLINE_HAZARDS
+            and record['event_type'] in {
+                EVENT_TYPE_LANDSLIDE,
+                EVENT_TYPE_ROAD_OBSTRUCTION,
+            }
+            and granularity == GRANULARITY_SINGLE
+            and role != ROLE_FORECAST_OR_RISK
+        ):
             headline += 1
     return {
         'total': len(records),
@@ -399,5 +593,9 @@ def summarize_typing(records: list[dict[str, Any]]) -> dict[str, Any]:
         'non_landslide_hazard': sum(n for h, n in hazards.items() if h not in HEADLINE_HAZARDS),
         'by_event_type': dict(sorted(types.items(), key=lambda kv: -kv[1])),
         'by_hazard_type': dict(sorted(hazards.items(), key=lambda kv: -kv[1])),
+        'by_event_granularity': dict(
+            sorted(granularities.items(), key=lambda kv: -kv[1])
+        ),
+        'by_article_role': dict(sorted(roles.items(), key=lambda kv: -kv[1])),
         'by_extraction_basis': dict(sorted(bases.items(), key=lambda kv: -kv[1])),
     }

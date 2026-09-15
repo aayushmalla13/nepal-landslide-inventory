@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import csv
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 import re
@@ -25,6 +25,8 @@ class MunicipalityGazetteers:
     en_alias_to_canonical: dict[str, str]
     np_alias_to_canonical: dict[str, str]
     district_by_canonical: dict[str, str]
+    districts_by_canonical: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    ambiguous_canonicals: frozenset[str] = frozenset()
 
 
 def load_municipality_gazetteers() -> MunicipalityGazetteers:
@@ -41,13 +43,17 @@ def _load_municipality_gazetteers() -> MunicipalityGazetteers:
     en_alias_to_canonical: dict[str, str] = {}
     np_alias_to_canonical: dict[str, str] = {}
     district_by_canonical: dict[str, str] = {}
+    all_districts_by_canonical: dict[str, list[str]] = {}
 
     for row in _load_csv(MUNICIPALITIES_EN_CSV):
         canonical = row['municipality_en_canonical'].strip()
         district = row['district_canonical'].strip()
         if district not in districts:
             raise ValueError(f'Unknown district in municipalities_en.csv: {district}')
-        district_by_canonical[canonical] = district
+        district_by_canonical.setdefault(canonical, district)
+        all_districts_by_canonical.setdefault(canonical, [])
+        if district not in all_districts_by_canonical[canonical]:
+            all_districts_by_canonical[canonical].append(district)
         for alias in _split_variants(canonical, row['municipality_en_variants']):
             en_alias_to_canonical[_normalize_key(alias)] = canonical
 
@@ -57,13 +63,23 @@ def _load_municipality_gazetteers() -> MunicipalityGazetteers:
         if district not in districts:
             raise ValueError(f'Unknown district in municipalities_np.csv: {district}')
         district_by_canonical.setdefault(canonical, district)
+        all_districts_by_canonical.setdefault(canonical, [])
+        if district not in all_districts_by_canonical[canonical]:
+            all_districts_by_canonical[canonical].append(district)
         for alias in _split_variants(row['municipality_np_canonical'], row['municipality_np_variants']):
             np_alias_to_canonical[_normalize_key(alias)] = canonical
 
+    ambiguous = frozenset(
+        name for name, districts in all_districts_by_canonical.items() if len(districts) > 1
+    )
     return MunicipalityGazetteers(
         en_alias_to_canonical=en_alias_to_canonical,
         np_alias_to_canonical=np_alias_to_canonical,
         district_by_canonical=district_by_canonical,
+        districts_by_canonical={
+            name: tuple(sorted(districts)) for name, districts in all_districts_by_canonical.items()
+        },
+        ambiguous_canonicals=ambiguous,
     )
 
 
@@ -89,9 +105,35 @@ def normalize_municipality(name: str, lang: str) -> str | None:
 
 
 def municipality_to_district(municipality_en_canonical: str) -> str | None:
-    """Return the canonical district for a canonical municipality name."""
+    """Return the canonical district for a canonical municipality name.
 
-    return load_municipality_gazetteers().district_by_canonical.get(municipality_en_canonical)
+    Fifteen local-unit names are shared by more than one district -- Godawari
+    Municipality exists in both Lalitpur and Kailali, Malika Rural Municipality
+    in both Gulmi and Myagdi, and so on. Inferring a district from one of those
+    names alone is a coin flip, so this returns ``None`` for them rather than
+    silently picking whichever row was loaded first. Callers that already know
+    the district should use :func:`municipality_districts` to check membership
+    instead.
+    """
+
+    gazetteers = load_municipality_gazetteers()
+    if municipality_en_canonical in gazetteers.ambiguous_canonicals:
+        return None
+    return gazetteers.district_by_canonical.get(municipality_en_canonical)
+
+
+def municipality_districts(municipality_en_canonical: str) -> tuple[str, ...]:
+    """Return every district that has a local unit with this canonical name."""
+
+    return load_municipality_gazetteers().districts_by_canonical.get(
+        municipality_en_canonical, ()
+    )
+
+
+def is_ambiguous_municipality(municipality_en_canonical: str) -> bool:
+    """True when the name does not identify a single district."""
+
+    return municipality_en_canonical in load_municipality_gazetteers().ambiguous_canonicals
 
 
 def _lookup_keys(value: str, lang: str) -> list[str]:

@@ -48,7 +48,7 @@ EN_MONTH_PATTERN = (
 )
 EN_LEAD_MONTH_DAY_PATTERN = re.compile(
     rf'(?:^|[\s,.;:])(?:[A-Z][A-Za-z.\'-]*(?:\s+[A-Z][A-Za-z.\'-]*)*,\s+)?'
-    rf'({EN_MONTH_PATTERN})\s+(\d{{1,2}})(?!,\s*\d{{4}})',
+    rf'({EN_MONTH_PATTERN})\s+(\d{{1,2}})(?!\d|,\s*\d{{4}})',
 )
 BS_DAY_MONTH_PATTERN = re.compile(
     r'(?<!\d)(\d{1,2})\s*(बैशाख|वैशाख|जेठ|असार|साउन|भदौ|असोज|कात्तिक|कार्तिक|मंसिर|पुष|पुस|माघ|फागुन|चैत)(?=(?:,|\s|$))'
@@ -152,7 +152,13 @@ def normalize_published_date(
 
     bs_date = detect_bs_date(text) if source_lang == 'np' else None
     if bs_date is not None:
-        return bs_to_ad(bs_date).isoformat()
+        # Some publishers emit impossible BS dates (for example day 32).
+        # Treat those as unparseable metadata and continue with the normal
+        # fallback parsers instead of aborting the entire date stage.
+        try:
+            return bs_to_ad(bs_date).isoformat()
+        except (TypeError, ValueError):
+            pass
 
     if year_hint is not None:
         hinted = _extract_no_year_date(text, source_lang, year_hint)

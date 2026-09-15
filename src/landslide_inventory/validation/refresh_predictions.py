@@ -34,7 +34,6 @@ from __future__ import annotations
 import csv
 import json
 import logging
-from pathlib import Path
 from typing import Any
 
 from ..config import AppConfig
@@ -42,9 +41,9 @@ from ..db import connect_sqlite
 from ..utils import ensure_directory
 from .common import write_csv
 from .locked_test_set import (
-    OUTPUT_STEM,
     PREDICTION_COLUMNS,
     classify_decision,
+    locked_output_stem,
     verify_locked_manifest,
 )
 
@@ -81,9 +80,10 @@ def run_refresh_predictions_stage(config: AppConfig) -> dict[str, Any]:
 
     outputs_dir = config.resolve_path('outputs_dir')
     ensure_directory(outputs_dir)
-    labels_path = outputs_dir / f'{OUTPUT_STEM}_labels.csv'
-    predictions_path = outputs_dir / f'{OUTPUT_STEM}_predictions.csv'
-    manifest_path = outputs_dir / f'{OUTPUT_STEM}_manifest.json'
+    stem = locked_output_stem(config)
+    labels_path = outputs_dir / f'{stem}_labels.csv'
+    predictions_path = outputs_dir / f'{stem}_predictions.csv'
+    manifest_path = outputs_dir / f'{stem}_manifest.json'
 
     if not verify_locked_manifest(manifest_path, labels_path):
         raise ValueError(
@@ -93,6 +93,15 @@ def run_refresh_predictions_stage(config: AppConfig) -> dict[str, Any]:
         )
 
     manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+    settings = config.raw.get('validation', {}).get('locked_test_set', {})
+    if manifest.get('predictions_sha256') and not settings.get(
+        'allow_prediction_refresh', False
+    ):
+        raise ValueError(
+            'This locked set freezes the prediction snapshot at draw time. '
+            'Refreshing it would change the evaluated system. Draw a new version '
+            'or explicitly set allow_prediction_refresh only for a legacy design.'
+        )
     strata = manifest['strata']
 
     with labels_path.open(encoding='utf-8', newline='') as handle:

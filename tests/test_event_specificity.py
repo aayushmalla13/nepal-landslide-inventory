@@ -6,7 +6,6 @@ from datetime import date
 
 from landslide_inventory.unify.event_specificity import SpecificityRow, decide_specificity
 
-
 STUDY_START = date(2015, 1, 1)
 STUDY_END = date(2026, 12, 31)
 
@@ -37,6 +36,22 @@ def test_real_event_article_is_specificity_ok() -> None:
     decision = decide_specificity(build_row(), STUDY_START, STUDY_END)
     assert decision.specificity_ok == 1
     assert decision.specificity_reason == 'event_specific'
+
+
+def test_event_detection_does_not_require_successful_location_extraction() -> None:
+    row = build_row(
+        title='पहिरोले पासाङ ल्हामु राजमार्ग बन्द',
+        text='पहिरोका कारण राजमार्ग बन्द भएको छ।',
+        district=None,
+        municipality=None,
+        event_date_ad=None,
+        deaths=None,
+        missing=None,
+        injured=None,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 1
+    assert decision.specificity_reason == 'event_specific_title'
 
 
 def test_monsoon_roundup_is_rejected() -> None:
@@ -80,6 +95,7 @@ def test_out_of_country_with_nepali_victims_is_rejected() -> None:
     decision = decide_specificity(row, STUDY_START, STUDY_END)
     assert decision.specificity_ok == 0
     assert decision.specificity_reason == 'out_of_country'
+    assert decision.updated_class == 3
     assert decision.updated_class == 3
 
 
@@ -134,7 +150,7 @@ def test_multi_district_nepali_roundup_is_rejected() -> None:
 
 
 
-def test_followup_recovery_piece_is_rejected() -> None:
+def test_concrete_followup_recovery_piece_is_retained() -> None:
     row = build_row(
         title='बझाङमा पहिरोमा बेपत्ता युवकको २८ दिनपछि शव फेला',
         text='बझाङमा पहिरोमा बेपत्ता भएका युवकको २८ दिनपछि शव फेला परेको प्रहरीले जनाएको छ।',
@@ -144,12 +160,12 @@ def test_followup_recovery_piece_is_rejected() -> None:
         deaths=1,
     )
     decision = decide_specificity(row, STUDY_START, STUDY_END)
-    assert decision.specificity_ok == 0
-    assert decision.specificity_reason == 'followup'
-    assert decision.updated_class == 2
+    assert decision.specificity_ok == 1
+    assert decision.specificity_reason == 'event_specific_followup'
+    assert decision.updated_class is None
 
 
-def test_relief_followup_piece_is_rejected() -> None:
+def test_concrete_relief_followup_piece_is_retained() -> None:
     row = build_row(
         title='सिन्धुपाल्चोक पहिरो: १८ जनाको शव भेटियो, मृतकका परिवारलाई १ लाख राहत दिइने',
         text='मृतकका परिवारलाई राहत दिइने र क्षतिपूर्ति उपलब्ध गराइने सरकारले जनाएको छ।',
@@ -159,9 +175,9 @@ def test_relief_followup_piece_is_rejected() -> None:
         deaths=18,
     )
     decision = decide_specificity(row, STUDY_START, STUDY_END)
-    assert decision.specificity_ok == 0
-    assert decision.specificity_reason == 'followup'
-    assert decision.updated_class == 2
+    assert decision.specificity_ok == 1
+    assert decision.specificity_reason == 'event_specific_followup'
+    assert decision.updated_class is None
 
 
 
@@ -253,7 +269,23 @@ def test_nepali_new_zealand_landslide_is_rejected_as_out_of_country() -> None:
     decision = decide_specificity(row, STUDY_START, STUDY_END)
     assert decision.specificity_ok == 0
     assert decision.specificity_reason == 'out_of_country'
-    assert decision.updated_class == 3
+
+
+def test_nepali_demonym_does_not_make_nepal_event_out_of_country() -> None:
+    row = build_row(
+        title='पहिरोले बगाउँदा कपिलवस्तुमा दुई भारतीय नागरिक बेपत्ता',
+        text='कपिलवस्तुमा गएको पहिरोमा दुई भारतीय नागरिक बेपत्ता भएका छन्।',
+        district='Kapilvastu',
+        municipality=None,
+        event_date_ad='2021-07-20',
+        deaths=None,
+        missing=2,
+        injured=None,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 1
+    assert decision.specificity_reason == 'event_specific'
+    assert decision.updated_class is None
 
 
 
@@ -264,7 +296,7 @@ def test_regional_damage_summary_is_rejected_as_roundup() -> None:
         title='बाढी पहिरोको कारण कोशी, मधेस र बागमती प्रदेशमा कहाँ कस्तो छ क्षति?',
         text='विभिन्न प्रदेशमा बाढी पहिरोका कारण भएको क्षतिको समग्र विवरण प्रस्तुत गरिएको छ।',
         district='Ilam',
-        municipality='Ilam Municipality',
+        municipality='Illam Municipality',
         event_date_ad='2025-10-05',
         deaths=None,
         missing=None,
@@ -276,12 +308,12 @@ def test_regional_damage_summary_is_rejected_as_roundup() -> None:
     assert decision.updated_class == 2
 
 
-def test_road_reopening_followup_is_rejected() -> None:
+def test_multiple_landslide_road_reopening_is_rejected_as_multi_event() -> None:
     row = build_row(
         title='Narayangadh-Muglin road reopens after multiple landslides',
         text='The road reopened after crews cleared landslide debris from the highway.',
         district='Chitwan',
-        municipality='Ichhakamana Rural Municipality',
+        municipality='Ichchhyakamana Rural Municipality',
         event_date_ad='2025-09-16',
         deaths=None,
         missing=None,
@@ -289,7 +321,7 @@ def test_road_reopening_followup_is_rejected() -> None:
     )
     decision = decide_specificity(row, STUDY_START, STUDY_END)
     assert decision.specificity_ok == 0
-    assert decision.specificity_reason == 'followup'
+    assert decision.specificity_reason == 'multi_event'
     assert decision.updated_class == 2
 
 
@@ -511,7 +543,7 @@ def test_parbat_single_incident_is_not_roundup_just_because_followup_sentence_st
         title='Landslide kills five in Parbat, four still missing - myRepublica - The New York Times Partner',
         text='PARBAT, June 14: Five people were killed and four are still missing in a landslide at Durlung, Kusma Municipality-3, Parbat. Three bodies were found buried in the landslide debris after the incident on Saturday evening. Similarly, Samrat Thapa, Bibek Thapa, Janesh BK and Pramish BK are still missing in the landslide.',
         district='Parbat',
-        municipality='Kusma Municipality',
+        municipality='Kushma Municipality',
         event_date_ad='2020-06-13',
         deaths=5,
         missing=4,
@@ -546,7 +578,7 @@ def test_missing_family_title_is_not_downgraded_by_generic_likewise_sentence() -
         title='Two of a family missing in Taplejung landslide - myRepublica - The New York Times Partner',
         text='TAPLEJUNG, June 17: Two persons of a family have gone missing in a landslide that occurred last night at Khewang village in Sirijunga Rural Municipality-7, Taplejung. Tulasa Adhikari and her daughter-in-law Yashoda Adhikari are missing in the landslide. Likewise, heavy landslides have occurred at different places in the district following the torrential rainfall.',
         district='Taplejung',
-        municipality='Sirijunga Rural Municipality',
+        municipality='Sirijangha Rural Municipality',
         event_date_ad='2022-06-16',
         deaths=None,
         missing=2,
@@ -598,7 +630,7 @@ def test_myrepublica_single_road_event_is_not_roundup_just_because_it_says_since
         title='Vehicular movement along Prithvi Highway disturbed following dry landslides - myRepublica - The New York Times Partner',
         text='By Republica TANAHU, June 23: Vehicular movement along the Prithvi Highway has been obstructed since last night following dry landslides at Aina cliff of Abukhaireni Rural Municipality-2 of Tanahu district.',
         district='Tanahu',
-        municipality='Abukhaireni Rural Municipality',
+        municipality='Anbukhaireni Rural Municipality',
         event_date_ad='2020-06-22',
         deaths=None,
         missing=None,
@@ -627,7 +659,7 @@ def test_setopati_five_year_summary_is_roundup() -> None:
     assert decision.updated_class == 2
 
 
-def test_setopati_update_title_is_followup() -> None:
+def test_setopati_specific_update_title_is_retained() -> None:
     row = build_row(
         source='setopati',
         title='तनहुँमा पहिरोले दुईको मृत्यु, पाँच जना बेपत्ता (अपडेट)',
@@ -640,12 +672,12 @@ def test_setopati_update_title_is_followup() -> None:
         injured=None,
     )
     decision = decide_specificity(row, STUDY_START, STUDY_END)
-    assert decision.specificity_ok == 0
-    assert decision.specificity_reason == 'followup'
-    assert decision.updated_class == 2
+    assert decision.specificity_ok == 1
+    assert decision.specificity_reason == 'event_specific_followup'
+    assert decision.updated_class is None
 
 
-def test_setopati_long_running_road_closure_is_followup() -> None:
+def test_setopati_specific_long_running_road_closure_is_retained() -> None:
     row = build_row(
         source='setopati',
         title='जाजरकोटमा पहिरोले १२ दिनदेखि यातायात अवरुद्ध',
@@ -658,9 +690,9 @@ def test_setopati_long_running_road_closure_is_followup() -> None:
         injured=None,
     )
     decision = decide_specificity(row, STUDY_START, STUDY_END)
-    assert decision.specificity_ok == 0
-    assert decision.specificity_reason == 'followup'
-    assert decision.updated_class == 2
+    assert decision.specificity_ok == 1
+    assert decision.specificity_reason == 'event_specific'
+    assert decision.updated_class is None
 
 
 def test_setopati_ministry_briefing_is_context_only() -> None:

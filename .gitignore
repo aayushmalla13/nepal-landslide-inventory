@@ -9,3 +9,10 @@ __pycache__/
 .DS_Store
 data/
 src/*.egg-info
+
+# Local transfer and review workspaces; authoritative artifacts live under data/.
+/_xfer/
+/_to_delete_xfer_unpack/
+/Claude outputs/
+/output/*
+!/output/.gitkeep

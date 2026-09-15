@@ -22,10 +22,13 @@ def test_initialize_sqlite_creates_expected_tables(tmp_path: Path) -> None:
         'canonical_events',
         'cluster_summary',
         'discovered_urls',
-        'pipeline_runs',
-        'raw_articles',
-    ]
-
+        'external_news_candidates',
+        'external_records',
+        'external_source_runs',
+            'pipeline_runs',
+            'raw_articles',
+            'reviewed_article_corrections',
+        ]
 
 
 def test_article_events_schema_contains_place_columns(tmp_path: Path) -> None:
@@ -36,7 +39,26 @@ def test_article_events_schema_contains_place_columns(tmp_path: Path) -> None:
             str(row['name'])
             for row in connection.execute('PRAGMA table_info(article_events)').fetchall()
         }
-    assert {'url', 'source', 'route_lang', 'mixed_flag', 'class', 'district', 'municipality', 'ward', 'place_name_raw', 'place_candidates_json', 'conf_place', 'extracted_at', 'specificity_ok', 'specificity_reason', 'specificity_score', 'location_consistent', 'location_reason', 'dedup_cluster_id'} <= columns
+    assert {
+        'url',
+        'source',
+        'route_lang',
+        'mixed_flag',
+        'class',
+        'district',
+        'municipality',
+        'ward',
+        'place_name_raw',
+        'place_candidates_json',
+        'conf_place',
+        'extracted_at',
+        'specificity_ok',
+        'specificity_reason',
+        'specificity_score',
+        'location_consistent',
+        'location_reason',
+        'dedup_cluster_id',
+    } <= columns
 
 
 def test_canonical_events_schema_contains_location_evidence_columns(tmp_path: Path) -> None:
@@ -47,4 +69,8 @@ def test_canonical_events_schema_contains_location_evidence_columns(tmp_path: Pa
             str(row['name'])
             for row in connection.execute('PRAGMA table_info(canonical_events)').fetchall()
         }
-    assert {'municipality_candidates_json', 'ward_candidates_json', 'place_name_candidates_json'} <= columns
+    assert {
+        'municipality_candidates_json',
+        'ward_candidates_json',
+        'place_name_candidates_json',
+    } <= columns

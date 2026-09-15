@@ -9,6 +9,8 @@ from typing import Any, Callable
 
 from ..gazetteer import district_to_province, normalize_district
 from ..gazetteer_municipality import municipality_to_district, normalize_municipality
+from ..nlp_attribution import is_person_attribution
+from ..nlp_counts import explicit_zero_is_safe
 from .places import EN_DISTRICT_ALIASES_PATTERN, extract_place_en
 
 MONTH_NAMES = (
@@ -32,6 +34,9 @@ WARD_PATTERN = re.compile(r'\bWard\s*(?:No\.?)?\s*(\d+)\b', re.IGNORECASE)
 MUNICIPALITY_PATTERN = re.compile(
     r'\b([A-Z][A-Za-z.-]*(?:\s+[A-Z][A-Za-z.-]*){0,3})\s+'
     r'(?:Municipality|Rural Municipality|Metropolitan City|Sub-Metropolitan City|municipality|rural municipality|metropolitan city|sub-metropolitan city)(?:-\d+)?\b'
+)
+MULTIPLE_MUNICIPALITIES_PATTERN = re.compile(
+    r'\b(?:municipalities|metropolitan cities)\b', re.IGNORECASE
 )
 WARD_MUNICIPALITY_PATTERN = re.compile(r'\b([A-Z][A-Za-z.-]*(?:\s+[A-Z][A-Za-z.-]*){0,3})-\d+\b')
 QUALIFIER_PATTERN = re.compile(r'\b(?:at least|more than|over|around|about|approximately|feared|at most)\b', re.IGNORECASE)
@@ -195,9 +200,31 @@ def extract_en(
             district = None
             conf_district = 0.0
 
+    # A municipality may correct an explicitly extracted district -- a dateline
+    # is often not the event district -- but only when the two are written
+    # together.
+    #
+    # This guard used to accept the mapped district appearing anywhere in the
+    # lead search text. That is unsound: for several publishers the lead window
+    # is dominated by site chrome (nav menus, section lists, related-article
+    # rails), so an unrelated district name is almost always present somewhere.
+    # With the previous 142-unit gazetteer the branch rarely fired because few
+    # municipalities resolved; at 753 units it fired on incidental mentions and
+    # silently moved events between districts ("Pilgrim dies in Rasuwa
+    # landslide" became Rautahat via a Chandrapur Municipality mention).
+    #
+    # Requiring the district name to sit near the municipality mention keeps the
+    # genuine case -- "Uttargaya rural municipality - 4, Rasuwa" under a NUWAKOT
+    # dateline -- and rejects boilerplate co-occurrence.
     if explicit_district is not None and municipality is not None:
         mapped_district = municipality_mapper(municipality)
-        if mapped_district is not None and mapped_district != explicit_district and mapped_district.casefold() in _lead_search_text(combined).casefold():
+        if (
+            mapped_district is not None
+            and mapped_district != explicit_district
+            and _district_is_near_municipality(
+                combined, municipality, mapped_district, district_normalizer
+            )
+        ):
             explicit_district = mapped_district
             conf_district = max(conf_district, 0.88)
             if place_admin_level == 'district':
@@ -325,11 +352,20 @@ def _normalize_municipality_en(name: str) -> str | None:
     return normalize_municipality(name, 'en')
 
 
+# Ablation switch for the district-evidence ordering measured in
+# scripts/score_district_development.py. ``True`` is the chosen behaviour: an
+# explicit "<X> district" phrase in the body outranks the dateline. Setting it
+# to ``False`` restores the pre-2026-08-14 ordering so the two can be compared
+# on the labelled development set without editing code.
+BODY_DISTRICT_OUTRANKS_DATELINE = True
+
+
 def _find_explicit_district(text: str, district_normalizer: GazetteerFunc) -> str | None:
     lead_text = _lead_search_text(text)
     route_stripped_lead = _strip_route_destination_clause(lead_text)
     lines = [line.strip() for line in text.splitlines() if line.strip()]
     dateline_fallback: str | None = None
+    dateline_district: str | None = None
     for line in lines[:4]:
         for dateline_match in list(DATELINE_DISTRICT_PATTERN.finditer(line)) + list(DATELINE_DISTRICT_INLINE_PATTERN.finditer(line)):
             district_candidates = [
@@ -342,12 +378,43 @@ def _find_explicit_district(text: str, district_normalizer: GazetteerFunc) -> st
                 if normalized == 'Kathmandu':
                     dateline_fallback = normalized
                     continue
-                return normalized
-    district_pattern = re.compile(r'\b([A-Z][A-Za-z.-]*(?:\s+[A-Z][A-Za-z.-]*)*)\s+District\b')
+                dateline_district = normalized
+                break
+            if dateline_district is not None:
+                break
+        if dateline_district is not None:
+            break
+
+    # An explicit "<X> District" phrase in the body outranks the dateline
+    # (switchable for ablation; see BODY_DISTRICT_OUTRANKS_DATELINE).
+    #
+    # A dateline names the bureau that filed the story, not where the event
+    # happened; the function already distrusts it enough to veto a Kathmandu
+    # dateline outright (see the closing comment). Nepali wire copy routinely
+    # files a district story from the neighbouring regional bureau -- "SURKHET,
+    # Aug 30: A landslide swept away five houses and killed one person in
+    # Kalikot district", "DHANKUTA, July 12: ... in Silongchong Rural
+    # Municipality in Sankhuwasabha district", "KAILALI, July 28: ... in
+    # Darchula district". Returning the dateline in those cases put the event in
+    # the wrong district, and the error was invisible because the record was
+    # internally consistent.
+    #
+    # The body phrase is the stronger evidence: the writer attached the word
+    # "district" to a name while describing the event. Route destination
+    # clauses ("the Surkhet-bound road") are stripped first, which is what
+    # `route_stripped_lead` is for.
+    # Lower-case "district" is the common house style ("in Kalikot district"),
+    # so the qualifier is matched case-insensitively; the district name itself
+    # must still be capitalised.
+    district_pattern = re.compile(r'\b([A-Z][A-Za-z.-]*(?:\s+[A-Z][A-Za-z.-]*)*)\s+[Dd]istrict\b')
+    if not BODY_DISTRICT_OUTRANKS_DATELINE and dateline_district is not None:
+        return dateline_district
     for match in district_pattern.finditer(route_stripped_lead):
         normalized = district_normalizer(match.group(1))
         if normalized is not None:
             return normalized
+    if dateline_district is not None:
+        return dateline_district
     for match in EN_DISTRICT_ALIASES_PATTERN.finditer(route_stripped_lead):
         normalized = district_normalizer(match.group(0))
         if normalized is None:
@@ -474,8 +541,26 @@ def _resolve_municipality_for_district(
         candidates.extend(json.loads(place.place_candidates_json))
     except Exception:
         pass
-    for match in MUNICIPALITY_PATTERN.finditer(_lead_search_text(text)):
-        candidates.append(match.group(0).rsplit('-', 1)[0].strip().title())
+    lead_text = _lead_search_text(text)
+    attributed_only: set[str] = set()
+    event_mentions: set[str] = set()
+    for match in MUNICIPALITY_PATTERN.finditer(lead_text):
+        candidate = match.group(0).rsplit('-', 1)[0].strip().title()
+        normalized = municipality_normalizer(candidate)
+        # "The deceased has been identified as Namrata Karki of Chandrpur
+        # Municipality-1, Rautahat" gives the victim's home, not the event site.
+        if is_person_attribution(lead_text, match.start(), match.end(), 'en'):
+            if normalized is not None:
+                attributed_only.add(normalized)
+            continue
+        if normalized is not None:
+            event_mentions.add(normalized)
+        candidates.append(candidate)
+
+    # A place candidate can enter through NER or an alias even when the
+    # municipality regex correctly rejected the same mention as a person's
+    # home address. Keep it only if the article also uses it in event context.
+    attributed_only.difference_update(event_mentions)
 
     matches: list[str] = []
     seen: set[str] = set()
@@ -483,22 +568,118 @@ def _resolve_municipality_for_district(
         if not isinstance(candidate, str):
             continue
         normalized = municipality_normalizer(candidate)
-        if normalized is None or municipality_mapper(normalized) != district or normalized in seen:
+        if (
+            normalized is None
+            or normalized in attributed_only
+            or municipality_mapper(normalized) != district
+            or normalized in seen
+        ):
             continue
         seen.add(normalized)
         matches.append(normalized)
 
     if not matches:
-        if municipality is not None:
+        if municipality is not None and municipality not in attributed_only:
             mapped = municipality_mapper(municipality)
             if mapped is not None and mapped != district and mapped.casefold() in _lead_search_text(text).casefold():
                 if road_disruption_title:
                     return None
                 return municipality
         return None
-    if road_disruption_title and len(matches) > 1:
+    if road_disruption_title and (
+        len(matches) > 1 or MULTIPLE_MUNICIPALITIES_PATTERN.search(lead_text)
+    ):
         return None
     return matches[0]
+
+
+# Local-unit type suffixes, longest first so that "Sub-Metropolitan City" is
+# stripped before "Metropolitan City" would match its tail.
+_MUNICIPALITY_UNIT_SUFFIXES = (
+    'sub-metropolitan city',
+    'sub metropolitan city',
+    'submetropolitan city',
+    'metropolitan city',
+    'rural municipality',
+    'municipality',
+)
+
+# How far a district name may sit from a municipality mention and still be read
+# as qualifying it. Nepali news writes the pair adjacently -- "Uttargaya rural
+# municipality - 4, Rasuwa", "Rasuwa's Uttargaya Rural Municipality" -- so a
+# short window captures the genuine construction while excluding a district name
+# that merely happens to appear in the same lead window.
+_DISTRICT_NEAR_MUNICIPALITY_CHARS = 60
+
+_NEAR_TOKEN_PATTERN = re.compile(r"[A-Za-z][A-Za-z'’.-]*")
+
+
+def _municipality_stem(municipality: str) -> str:
+    """The distinctive part of a canonical local-unit name.
+
+    ``Uttargaya Rural Municipality`` -> ``Uttargaya``. The unit type carries no
+    identifying information and is written inconsistently in news text, so
+    locating a mention has to key on the stem.
+    """
+
+    stem = municipality.strip()
+    lowered = stem.casefold()
+    for suffix in _MUNICIPALITY_UNIT_SUFFIXES:
+        if lowered.endswith(suffix):
+            stem = stem[: len(stem) - len(suffix)]
+            break
+    return stem.strip(' \t-–—')
+
+
+def _district_is_near_municipality(
+    text: str,
+    municipality: str,
+    district: str,
+    district_normalizer: GazetteerFunc,
+    window: int = _DISTRICT_NEAR_MUNICIPALITY_CHARS,
+) -> bool:
+    """True when ``district`` is written next to a mention of ``municipality``.
+
+    This guards the rule that a municipality may override an explicitly
+    extracted district. The override is needed because a dateline names the
+    reporting town, not always the event district -- "NUWAKOT, August 9: ... at
+    Pairebensi of Uttargaya rural municipality - 4, Rasuwa" is genuinely a
+    Rasuwa event.
+
+    The guard used to accept the mapped district appearing anywhere in the lead
+    search window. For several publishers that window is dominated by site
+    chrome -- nav menus, section lists, related-article rails -- so an unrelated
+    district name is almost always present somewhere, and the override then
+    moved events between districts on pure co-occurrence.
+
+    Requiring adjacency keeps the genuine construction, in which the district
+    qualifies the municipality, and rejects boilerplate. The district is matched
+    through the gazetteer normaliser rather than by literal string so that
+    accepted spelling variants (Sindhupalchowk / Sindhupalchok) still count.
+
+    Returns ``False`` when the municipality mention cannot be located at all --
+    the municipality may have been resolved from an alias not present verbatim
+    in the text -- which leaves the explicitly extracted district in place. That
+    is the conservative direction: it declines to move an event.
+    """
+
+    stem = _municipality_stem(municipality)
+    if len(stem) < 4 or not district:
+        return False
+    lead = _lead_search_text(text)
+    mention_pattern = re.compile(r'\b' + re.escape(stem) + r'\b', re.IGNORECASE)
+    for match in mention_pattern.finditer(lead):
+        before = lead[max(0, match.start() - window) : match.start()]
+        after = lead[match.end() : match.end() + window]
+        tokens = _NEAR_TOKEN_PATTERN.findall(before) + ['\x00'] + _NEAR_TOKEN_PATTERN.findall(after)
+        for size in (1, 2):
+            for index in range(len(tokens) - size + 1):
+                gram = tokens[index : index + size]
+                if '\x00' in gram:
+                    continue
+                if district_normalizer(' '.join(gram)) == district:
+                    return True
+    return False
 
 
 def _find_explicit_municipality(text: str, municipality_normalizer: GazetteerFunc) -> str | None:
@@ -514,11 +695,15 @@ def _find_explicit_municipality(text: str, municipality_normalizer: GazetteerFun
             if normalized is not None:
                 return normalized
     for match in MUNICIPALITY_PATTERN.finditer(lead_text):
+        if is_person_attribution(lead_text, match.start(), match.end(), 'en'):
+            continue
         candidate = match.group(0).rsplit('-', 1)[0].strip().title()
         normalized = municipality_normalizer(candidate)
         if normalized is not None:
             return normalized
     for match in WARD_MUNICIPALITY_PATTERN.finditer(lead_text):
+        if is_person_attribution(lead_text, match.start(1), match.end(1), 'en'):
+            continue
         normalized = municipality_normalizer(match.group(1).title())
         if normalized is not None:
             return normalized
@@ -590,6 +775,64 @@ def _is_aggregate_context(text: str, start: int, end: int, window: int = 90) -> 
     """Whether a numeric match sits in running-total context."""
 
     return AGGREGATE_CONTEXT_PATTERN.search(text[max(0, start - window):end + window]) is not None
+
+
+# AGE VETO -- the second casualty failure mode, found 2026-08-08.
+#
+# The aggregate-context veto handles "90 died nationwide since the monsoon
+# began". It does nothing about the other number that sits next to a death verb
+# in Nepali reporting convention: the victim's AGE.
+#
+#     "Tikaram BK, 65, Ramu Kumari BK, 55, ... and Nanda Kali Parajuli, 65
+#      were killed in Bhadaure"
+#
+# The lead pattern reads "65 ... were killed" and records 65 deaths, in an
+# article headlined "Death toll in Kaski landslides climbs to 20". Measured
+# across the 60 deadliest events, 38 carried a deaths value that appears
+# nowhere in their own title, and ages were the single largest cause.
+#
+# Two English forms, both unambiguous:
+#   - explicit:    "aged 65", "65-year-old", "65 years old"
+#   - apposition:  a capitalised name, a comma, then the number -- "Parajuli, 65"
+#
+# The apposition branch is the dangerous one, because a dateline produces the
+# same shape: "Landslide buries two houses in Gulmi, 4 dead" is a real count.
+# Three conditions keep it honest, and the third is what separates the two:
+#
+#   1. the number is written in digits (word numerals are never ages here);
+#   2. it is preceded by a capitalised token and a comma;
+#   3. a COMPLETE apposition -- "Name, NN," -- appears nearby, either because
+#      this number is itself followed by a comma or because an earlier victim in
+#      the same list was. One name-then-number is a place and a count; a run of
+#      them is a casualty list with ages.
+#
+# "at least 3, including 2 children, were killed" fails condition 2 (lowercase),
+# and "in Gulmi, 4 dead" fails condition 3.
+AGE_SUFFIX_PATTERN = re.compile(r'^\s*[-–]?\s*years?[-\s]old\b', re.IGNORECASE)
+AGE_PREFIX_PATTERN = re.compile(r'\b(?:aged|age)\s*$', re.IGNORECASE)
+NAME_APPOSITION_PATTERN = re.compile(
+    r"(?:^|\s)[A-Z][\w.'’-]*(?:\s+[A-Z][\w.'’-]*){0,3}\s*,\s*$"
+)
+COMPLETE_AGE_APPOSITION_PATTERN = re.compile(
+    r"\b[A-Z][\w.'’-]*(?:\s+[A-Z][\w.'’-]*){0,3}\s*,\s*\d{1,3}\s*,"
+)
+
+
+def _is_age_context(text: str, start: int, end: int) -> bool:
+    """Whether a numeric match is a person's age rather than a count."""
+
+    after = text[end:end + 16]
+    if AGE_SUFFIX_PATTERN.search(after):
+        return True
+    before = text[max(0, start - 200):start]
+    if AGE_PREFIX_PATTERN.search(before):
+        return True
+    if not text[start:end].isdigit():
+        return False
+    if NAME_APPOSITION_PATTERN.search(before[-60:]) is None:
+        return False
+    followed_by_comma = after.lstrip().startswith(',')
+    return followed_by_comma or COMPLETE_AGE_APPOSITION_PATTERN.search(before) is not None
 
 
 def _casualty_scope(text: str, lead_chars: int = 400) -> str:
@@ -669,6 +912,8 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
                 for match in pattern.finditer(search_text):
                     if _is_aggregate_context(search_text, match.start(), match.end()):
                         continue
+                    if _is_age_context(search_text, match.start('num'), match.end('num')):
+                        continue
                     value = _parse_count(match.group('num'))
                     if value is None:
                         continue
@@ -715,6 +960,44 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
             values['deaths'] = 2
             confidence = max(confidence, 0.72)
     if values['deaths'] is None:
+        # "Four persons of a single family were buried to death", "Three members
+        # of the same family have died", "Two Nepal Police personnel were
+        # killed". The main patterns require the death term close behind the
+        # count, so an apposition between the two hid these entirely. The
+        # intervening span is bounded and may not cross a sentence, and a person
+        # noun is mandatory, which is what keeps a stray number out.
+        appositive_match = re.search(
+            r'\b(?P<num>\d+|[A-Za-z-]+)\s+'
+            r'(?:persons?|people|members?|personnel|individuals?|villagers?|'
+            r'labou?rers?|workers?|students?|passengers?|police\s+personnel|'
+            r'policemen|policeman|policewomen|policewoman|tourists?|pilgrims?)\b'
+            r'[^.;]{0,60}?\b(?:were|was|have\s+been|has\s+been|had\s+been)\s+'
+            r'(?:killed|buried\s+to\s+death|buried\s+alive|found\s+dead|died|'
+            r'swept\s+to\s+death|crushed\s+to\s+death)\b'
+            r'|\b(?P<num2>\d+|[A-Za-z-]+)\s+'
+            r'(?:persons?|people|members?|personnel|individuals?)\b'
+            r'[^.;]{0,60}?\b(?:died|have\s+died|has\s+died)\b'
+            r'|\bbodies\s+of\s+(?:all\s+)?(?:the\s+)?(?P<num3>\d+|[A-Za-z-]+)\s+'
+            r'(?:persons?|people|individuals?|members?)\b',
+            text,
+            re.IGNORECASE,
+        )
+        if appositive_match is not None:
+            groups = appositive_match.groupdict()
+            raw = groups.get('num') or groups.get('num2') or groups.get('num3') or ''
+            span = appositive_match.span()
+            if not _is_aggregate_context(text, span[0], span[1]):
+                appositive_count = _parse_count(raw)
+                # An age reads as a count here -- "Thirty five year Babiran
+                # Khatun was killed" is one death, not thirty-five -- so the
+                # age veto has to run on the number's own span.
+                number_span = appositive_match.span(
+                    'num' if groups.get('num') else ('num2' if groups.get('num2') else 'num3')
+                )
+                if appositive_count is not None and not _is_age_context(text, *number_span):
+                    values['deaths'] = appositive_count
+                    confidence = max(confidence, 0.86)
+    if values['deaths'] is None:
         singular_death_match = re.search(
             r'\b(?:a|one)\s+'
             r'(?:person|woman|man|worker|labou?rer|child|youth|motorcyclist|driver|passenger)\s+'
@@ -727,6 +1010,12 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         if singular_death_match is not None:
             values['deaths'] = 1
             confidence = max(confidence, 0.76)
+    if not any(value is not None for value in values.values()):
+        # Only with nothing counted anywhere may an explicit statement that
+        # nobody was harmed be recorded as a zero. See nlp_counts for the guards
+        # and for why the phrase alone is never enough.
+        if explicit_zero_is_safe(text, 'en', extracted_any_count=False):
+            return 0, None, None, 0.88
     return values['deaths'], values['missing'], values['injured'], confidence
 
 

@@ -13,6 +13,11 @@ from landslide_inventory.unify.event_typing import (
     EVENT_TYPE_ROAD_OBSTRUCTION,
     EXTRACTION_BASIS_FULL,
     EXTRACTION_BASIS_TITLE_ONLY,
+    GRANULARITY_MULTI,
+    GRANULARITY_ROUNDUP,
+    GRANULARITY_SINGLE,
+    ROLE_FOLLOW_UP,
+    ROLE_FORECAST_OR_RISK,
     classify_event_type,
     confidence_penalty,
     summarize_typing,
@@ -62,7 +67,8 @@ def test_house_damage_disqualifies_road_obstruction() -> None:
 def test_pure_road_stories_are_typed_road_obstruction(title: str) -> None:
     typing = classify_event_type(title=title, text=LONG_BODY)
     assert typing.event_type == EVENT_TYPE_ROAD_OBSTRUCTION
-    assert typing.in_headline_counts is False
+    if typing.hazard_type == 'landslide':
+        assert typing.in_headline_counts is True
     assert typing.eligible_for_bipad is False
 
 
@@ -119,7 +125,45 @@ def test_event_type_and_extraction_basis_are_independent() -> None:
     assert typing.extraction_basis == EXTRACTION_BASIS_TITLE_ONLY
 
 
-def test_summarize_separates_headline_from_road() -> None:
+def test_granularity_distinguishes_multi_roundup_and_single_road_event() -> None:
+    multi = classify_event_type(
+        title='Landslides obstruct roads at several places across Nepal',
+        text=LONG_BODY,
+    )
+    roundup = classify_event_type(
+        title='Floods and landslides killed 90 people so far this monsoon',
+        text=LONG_BODY,
+    )
+    single = classify_event_type(
+        title='Landslide blocks Prithvi Highway in Chitwan',
+        text=LONG_BODY,
+    )
+    assert multi.event_granularity == GRANULARITY_MULTI
+    assert multi.in_headline_counts is False
+    assert roundup.event_granularity == GRANULARITY_ROUNDUP
+    assert roundup.in_headline_counts is False
+    assert single.event_granularity == GRANULARITY_SINGLE
+    assert single.in_headline_counts is True
+
+
+def test_article_role_keeps_specific_followup_but_excludes_pure_forecast() -> None:
+    followup = classify_event_type(
+        title='Death toll reaches 29 in Lidi landslide',
+        text='The single Lidi landslide buried homes on Friday. ' + LONG_BODY,
+        deaths=29,
+    )
+    forecast = classify_event_type(
+        title="Landslide monitoring will prevent Narayangadh road obstruction",
+        text='Officials discussed preparedness before the monsoon.',
+    )
+    assert followup.article_role == ROLE_FOLLOW_UP
+    assert followup.event_granularity == GRANULARITY_SINGLE
+    assert followup.in_headline_counts is True
+    assert forecast.article_role == ROLE_FORECAST_OR_RISK
+    assert forecast.in_headline_counts is False
+
+
+def test_summarize_keeps_road_as_a_subtype_of_headline_landslide() -> None:
     records = [
         {'event_type': EVENT_TYPE_LANDSLIDE, 'extraction_basis': EXTRACTION_BASIS_FULL},
         {'event_type': EVENT_TYPE_LANDSLIDE, 'extraction_basis': EXTRACTION_BASIS_TITLE_ONLY},
@@ -127,7 +171,7 @@ def test_summarize_separates_headline_from_road() -> None:
     ]
     summary = summarize_typing(records)
     assert summary['total'] == 3
-    assert summary['headline_events'] == 2
+    assert summary['headline_events'] == 3
     assert summary['road_obstruction'] == 1
     assert summary['by_extraction_basis'][EXTRACTION_BASIS_TITLE_ONLY] == 1
 
@@ -154,6 +198,7 @@ from landslide_inventory.unify.event_typing import (  # noqa: E402
     'मनास्लुमा हिउँ पहिरो, १० जनाभन्दा बढी घाइते',
     'बझाङमा हिम पहिरोमा परी एक महिलाको मृत्यु',
     'दार्चुलामा हिमपहिरो: यार्सा टिप्न गएका कम्तीमा ८ जना पुरिएको आशंका',
+    "हिउँको ढिस्को खस्दा पर्वतारोही पुरिए",
     'Avalanches disrupt efforts to rescue bodies from landslide-hit Langtang',
 ])
 def test_avalanches_are_not_landslides(title: str) -> None:
@@ -216,7 +261,7 @@ def test_summarize_counts_non_landslide_hazards() -> None:
          'hazard_type': HAZARD_LANDSLIDE},
     ]
     summary = summarize_typing(records)
-    assert summary['headline_events'] == 1
+    assert summary['headline_events'] == 2
     assert summary['non_landslide_hazard'] == 1
     assert summary['by_hazard_type'][HAZARD_AVALANCHE] == 1
 

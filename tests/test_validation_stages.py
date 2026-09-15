@@ -114,7 +114,7 @@ def test_manual_score_normalizes_location_fields() -> None:
         {
             'class_pred': '2', 'class_true': '2',
             'district_pred': 'Sindhupalchowk', 'district_true': 'Sindhupalchok',
-            'municipality_pred': 'Ichchakamana Rural Municipality', 'municipality_true': 'Ichhakamana Rural Municipality',
+            'municipality_pred': 'Ichchakamana Rural Municipality', 'municipality_true': 'Ichchhyakamana Rural Municipality',
             'event_date_pred': '2024-07-16', 'date_true': '2024-07-16',
             'deaths_pred': '0', 'deaths_true': '0',
             'trigger_pred': 'rainfall', 'trigger_true': 'rainfall',
@@ -399,7 +399,7 @@ def test_manual_refresh_normalizes_display_aliases_for_locations(tmp_path) -> No
         (
             'event-2', 'https://example.com/alias-article', 2, '{}',
             'https://example.com/alias-article', 'myrepublica', 'Alias title', 'en', 2, '2024-08-13',
-            'Nawalpur', 'Ichhakamana Rural Municipality', '', None, None, None, 'rainfall',
+            'Nawalpur', 'Ichchhyakamana Rural Municipality', '', None, None, None, 'rainfall',
             'event_specific', 0.9,
         ),
     )
@@ -436,8 +436,8 @@ def test_manual_refresh_normalizes_display_aliases_for_locations(tmp_path) -> No
     refreshed = refresh_manual_rows(database_path, rows)
     assert refreshed[0]['district_pred'] == 'Nawalpur'
     assert refreshed[0]['district_true'] == 'Nawalpur'
-    assert refreshed[0]['municipality_pred'] == 'Ichhakamana Rural Municipality'
-    assert refreshed[0]['municipality_true'] == 'Ichhakamana Rural Municipality'
+    assert refreshed[0]['municipality_pred'] == 'Ichchhyakamana Rural Municipality'
+    assert refreshed[0]['municipality_true'] == 'Ichchhyakamana Rural Municipality'
 
 
 def test_manual_audit_prefers_refreshed_file_when_available(tmp_path) -> None:

@@ -56,25 +56,31 @@ Usage
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from pathlib import Path
+import hashlib
 import json
 import logging
-from typing import Any, Iterable, Sequence
+from collections.abc import Iterable, Sequence
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
 
 from ..config import AppConfig
 from ..db import connect_sqlite
+from ..unify.event_typing import classify_event_type
 from ..utils import ensure_directory, stable_hash
 from .common import derive_year, iso_now, normalize_whitespace, write_csv
+from .evaluation_exclusions import collect_prior_evaluation_urls
 
 LOGGER = logging.getLogger(__name__)
 
-# Bump this (and the output name) if the design ever changes. Never edit a
-# frozen set in place -- draw a new one.
-DESIGN_VERSION = 'v1'
-DEFAULT_SEED = 20260806
+# v1 and v2 have already been scored and are spent. v3 is drawn only after the
+# final development pass and excludes every URL used in earlier evaluation.
+DEFAULT_DESIGN_VERSION = 'v3'
+DEFAULT_SEED = 20260810
 DEFAULT_TARGET_SIZE = 400
-OUTPUT_STEM = f'locked_test_set_{DESIGN_VERSION}'
+# Compatibility aliases for code importing the historical module constants.
+DESIGN_VERSION = DEFAULT_DESIGN_VERSION
+OUTPUT_STEM = f'locked_test_set_{DEFAULT_DESIGN_VERSION}'
 
 # Deliberately non-proportional. Dropped strata are oversampled so that the
 # false-negative rate is estimable; inclusion_weight restores population scale.
@@ -110,6 +116,9 @@ PREDICTION_COLUMNS = [
     'event_date_pred', 'deaths_pred', 'missing_pred', 'injured_pred', 'trigger_pred',
     'specificity_ok', 'specificity_reason', 'specificity_score',
     'scope_reason', 'location_consistent', 'location_reason',
+    'event_type_pred', 'hazard_type_pred', 'typing_reason_pred',
+    'event_granularity_pred', 'article_role_pred',
+    'extraction_basis_pred', 'headline_pred',
 ]
 
 # Controlled vocabularies. ``manual_score`` historically accepted anything,
@@ -146,6 +155,46 @@ class FrameRow:
     @property
     def stratum(self) -> str:
         return f'{self.pipeline_decision}|{self.route_lang or "unknown"}'
+
+
+@dataclass(frozen=True)
+class LockedSetSettings:
+    """Config-selected identity and sampling design for one immutable draw."""
+
+    version: str
+    seed: int
+    allocation: dict[str, int]
+
+    @property
+    def stem(self) -> str:
+        return f'locked_test_set_{self.version}'
+
+    @property
+    def target_size(self) -> int:
+        return sum(self.allocation.values())
+
+
+def locked_set_settings(config: AppConfig) -> LockedSetSettings:
+    """Return and validate ``validation.locked_test_set`` configuration."""
+
+    raw = dict(config.raw.get('validation', {}).get('locked_test_set', {}))
+    version = str(raw.get('version', DEFAULT_DESIGN_VERSION)).strip()
+    if not version or '/' in version or '\\' in version or version in {'.', '..'}:
+        raise ValueError(f'Unsafe locked-test version: {version!r}')
+    seed = int(raw.get('seed', DEFAULT_SEED))
+    allocation = {
+        str(key): int(value)
+        for key, value in dict(raw.get('allocation', DECISION_ALLOCATION)).items()
+    }
+    if not allocation or any(value < 0 for value in allocation.values()):
+        raise ValueError('Locked-test allocation must contain non-negative quotas.')
+    return LockedSetSettings(version=version, seed=seed, allocation=allocation)
+
+
+def locked_output_stem(config: AppConfig) -> str:
+    """Return the output stem selected by the current config."""
+
+    return locked_set_settings(config).stem
 
 
 def classify_decision(
@@ -209,6 +258,7 @@ def load_frame(connection) -> list[FrameRow]:
             e.location_reason   AS location_reason
         FROM raw_articles AS r
         LEFT JOIN article_events AS e ON e.url = r.url
+        WHERE COALESCE(r.method, '') NOT LIKE 'external_seed_bipad%'
         ORDER BY r.url
     """
     rows: list[FrameRow] = []
@@ -219,6 +269,13 @@ def load_frame(connection) -> list[FrameRow]:
             event_class=item['class_pred'],
             in_nepal=item['in_nepal_pred'],
             specificity_ok=item['specificity_ok'],
+        )
+        typing = classify_event_type(
+            title=item.get('title'),
+            text=item.get('text'),
+            deaths=item.get('deaths_pred'),
+            missing=item.get('missing_pred'),
+            injured=item.get('injured_pred'),
         )
         rows.append(
             FrameRow(
@@ -235,7 +292,18 @@ def load_frame(connection) -> list[FrameRow]:
                     'trigger_pred', 'specificity_ok', 'specificity_reason',
                     'specificity_score', 'scope_reason', 'location_consistent',
                     'location_reason',
-                )},
+                )} | {
+                    'event_type_pred': typing.event_type,
+                    'hazard_type_pred': typing.hazard_type,
+                    'typing_reason_pred': typing.reason,
+                    'event_granularity_pred': typing.event_granularity,
+                    'article_role_pred': typing.article_role,
+                    'extraction_basis_pred': typing.extraction_basis,
+                    'headline_pred': int(
+                        decision in {'kept_class1', 'kept_class2'}
+                        and typing.in_headline_counts
+                    ),
+                },
             )
         )
     return rows
@@ -300,7 +368,10 @@ def systematic_draw(rows: Sequence[FrameRow], count: int, seed: int) -> list[Fra
 
     if count <= 0 or not rows:
         return []
-    ordered = sorted(rows, key=lambda row: (row.source, row.year, stable_hash(seed, row.url), row.url))
+    ordered = sorted(
+        rows,
+        key=lambda row: (row.source, row.year, stable_hash(seed, row.url), row.url),
+    )
     if count >= len(ordered):
         return list(ordered)
     step = len(ordered) / count
@@ -331,7 +402,9 @@ def build_locked_sample(
     quotas = dict(allocation or DECISION_ALLOCATION)
     by_decision: dict[str, dict[str, list[FrameRow]]] = {}
     for row in frame:
-        by_decision.setdefault(row.pipeline_decision, {}).setdefault(row.route_lang or 'unknown', []).append(row)
+        by_decision.setdefault(row.pipeline_decision, {}).setdefault(
+            row.route_lang or 'unknown', []
+        ).append(row)
 
     sampled: list[FrameRow] = []
     bookkeeping: dict[str, dict[str, Any]] = {}
@@ -356,16 +429,25 @@ def build_locked_sample(
     return sampled, bookkeeping
 
 
-def compute_lock_hash(rows: Sequence[FrameRow]) -> str:
+def compute_lock_hash(
+    rows: Sequence[FrameRow],
+    version: str = DEFAULT_DESIGN_VERSION,
+) -> str:
     """SHA-256 over the ordered URL list. This is the identity of the test set."""
 
-    return stable_hash('locked_test_set', DESIGN_VERSION, [row.url for row in sorted(rows, key=lambda r: r.url)])
+    return stable_hash(
+        'locked_test_set',
+        version,
+        [row.url for row in sorted(rows, key=lambda item: item.url)],
+    )
 
 
-def _label_records(rows: Sequence[FrameRow]) -> Iterable[dict[str, Any]]:
+def _label_records(
+    rows: Sequence[FrameRow], version: str = DEFAULT_DESIGN_VERSION
+) -> Iterable[dict[str, Any]]:
     for index, row in enumerate(rows, start=1):
         yield {
-            'row_id': f'{DESIGN_VERSION}-{index:04d}',
+            'row_id': f'{version}-{index:04d}',
             'url': row.url,
             'source': row.source,
             'year': row.year,
@@ -378,10 +460,11 @@ def _label_records(rows: Sequence[FrameRow]) -> Iterable[dict[str, Any]]:
 def _prediction_records(
     rows: Sequence[FrameRow],
     bookkeeping: dict[str, dict[str, Any]],
+    version: str = DEFAULT_DESIGN_VERSION,
 ) -> Iterable[dict[str, Any]]:
     for index, row in enumerate(rows, start=1):
         record: dict[str, Any] = {
-            'row_id': f'{DESIGN_VERSION}-{index:04d}',
+            'row_id': f'{version}-{index:04d}',
             'url': row.url,
             'stratum': row.stratum,
             'pipeline_decision': row.pipeline_decision,
@@ -412,50 +495,101 @@ def run_locked_test_set_stage(config: AppConfig) -> dict[str, Any]:
 
     outputs_dir = config.resolve_path('outputs_dir')
     ensure_directory(outputs_dir)
-    labels_path = outputs_dir / f'{OUTPUT_STEM}_labels.csv'
-    predictions_path = outputs_dir / f'{OUTPUT_STEM}_predictions.csv'
-    manifest_path = outputs_dir / f'{OUTPUT_STEM}_manifest.json'
+    settings = locked_set_settings(config)
+    labels_path = outputs_dir / f'{settings.stem}_labels.csv'
+    working_path = outputs_dir / f'{settings.stem}_LABEL_HERE.csv'
+    predictions_path = outputs_dir / f'{settings.stem}_predictions.csv'
+    manifest_path = outputs_dir / f'{settings.stem}_manifest.json'
 
     if manifest_path.exists():
         # Refusing to overwrite is the entire point of a locked set.
         LOGGER.warning(
             'Locked test set already exists at %s; refusing to redraw. '
-            'Bump DESIGN_VERSION if you genuinely need a new set.', manifest_path,
+            'Bump validation.locked_test_set.version if you genuinely need a new set.',
+            manifest_path,
         )
         return json.loads(manifest_path.read_text(encoding='utf-8'))
 
+    excluded_urls, exclusion_audit = collect_prior_evaluation_urls(config)
     with connect_sqlite(config.sqlite_path) as connection:
         frame = load_frame(connection)
 
-    sampled, bookkeeping = build_locked_sample(frame)
-    lock_hash = compute_lock_hash(sampled)
+    frame_urls = {row.url for row in frame}
+    eligible = [row for row in frame if row.url not in excluded_urls]
+    sampled, bookkeeping = build_locked_sample(
+        eligible,
+        seed=settings.seed,
+        allocation=settings.allocation,
+    )
+    sampled_urls = {row.url for row in sampled}
+    overlap = sampled_urls & excluded_urls
+    if overlap:
+        raise RuntimeError(
+            f'Locked-test contamination guard failed for {len(overlap)} URLs.'
+        )
+    lock_hash = compute_lock_hash(sampled, settings.version)
+    decision_populations: dict[str, int] = {}
+    for row in eligible:
+        decision_populations[row.pipeline_decision] = (
+            decision_populations.get(row.pipeline_decision, 0) + 1
+        )
+    allocation_shortfall = {
+        decision: quota - min(quota, decision_populations.get(decision, 0))
+        for decision, quota in settings.allocation.items()
+        if decision_populations.get(decision, 0) < quota
+    }
 
-    write_csv(labels_path, LABEL_COLUMNS, _label_records(sampled))
-    write_csv(predictions_path, PREDICTION_COLUMNS, _prediction_records(sampled, bookkeeping))
+    label_rows = list(_label_records(sampled, settings.version))
+    prediction_rows = list(
+        _prediction_records(sampled, bookkeeping, settings.version)
+    )
+    write_csv(labels_path, LABEL_COLUMNS, label_rows)
+    write_csv(working_path, LABEL_COLUMNS, label_rows)
+    write_csv(predictions_path, PREDICTION_COLUMNS, prediction_rows)
 
     manifest = {
-        'design_version': DESIGN_VERSION,
+        'design_version': settings.version,
         'created_at': iso_now(),
-        'seed': DEFAULT_SEED,
+        'seed': settings.seed,
         'frame_table': 'raw_articles',
-        'frame_size': len(frame),
+        'frame_size_after_assisted_exclusion': len(frame),
+        'prior_evaluation_urls_found': len(excluded_urls),
+        'prior_evaluation_urls_in_frame': len(excluded_urls & frame_urls),
+        'eligible_frame_size': len(eligible),
         'sample_size': len(sampled),
-        'target_size': DEFAULT_TARGET_SIZE,
-        'decision_allocation': DECISION_ALLOCATION,
+        'target_size': settings.target_size,
+        'allocation_shortfall_n': settings.target_size - len(sampled),
+        'allocation_shortfall_by_decision': allocation_shortfall,
+        'decision_allocation': settings.allocation,
         'strata': bookkeeping,
+        'exclusion_sources': exclusion_audit,
+        'overlap_with_prior_evaluation': len(overlap),
         'lock_hash': lock_hash,
         'truth_vocabularies': {key: list(value) for key, value in TRUTH_VOCABULARIES.items()},
         'labels_file': labels_path.name,
+        'working_labels_file': working_path.name,
         'predictions_file': predictions_path.name,
+        'labels_sha256': hashlib.sha256(labels_path.read_bytes()).hexdigest(),
+        'predictions_sha256': hashlib.sha256(predictions_path.read_bytes()).hexdigest(),
         'notes': (
-            'Held-out test set. Draw once, label once, never tune against it. '
+            'Held-out post-development test set. Draw once, label once, never tune '
+            'against it. Prior evaluation URLs and BIPAD-assisted articles were '
+            'excluded before sampling. '
             'Metrics MUST be weighted by inclusion_weight to describe the inventory '
             'rather than the sample.'
         ),
     }
-    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    manifest_path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + '\n',
+        encoding='utf-8',
+    )
     LOGGER.info(
-        'Locked test set written: %d rows from a frame of %d (hash %s)',
-        len(sampled), len(frame), lock_hash[:12],
+        'Locked test set %s written: %d rows from %d eligible articles; '
+        'prior-evaluation overlap=%d (hash %s)',
+        settings.version,
+        len(sampled),
+        len(eligible),
+        len(overlap),
+        lock_hash[:12],
     )
     return manifest

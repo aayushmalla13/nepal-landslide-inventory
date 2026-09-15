@@ -27,11 +27,11 @@ from __future__ import annotations
 import csv
 import logging
 import re
-from pathlib import Path
-from typing import Any, Iterable, Mapping, Sequence
+from collections.abc import Mapping, Sequence
+from typing import Any
 
 from ..config import AppConfig
-from .locked_test_set import OUTPUT_STEM, TRUTH_VOCABULARIES
+from .locked_test_set import TRUTH_VOCABULARIES, locked_output_stem
 
 LOGGER = logging.getLogger(__name__)
 
@@ -84,7 +84,7 @@ def check(rows: Sequence[Mapping[str, str]], expected_ids: set[str]) -> dict[str
     problems: dict[str, list[str]] = {
         'bad_value': [], 'mojibake': [], 'bad_date': [], 'bad_deaths': [],
         'missing_rows': [], 'unknown_rows': [], 'duplicate_rows': [],
-        'trigger_freetext': [],
+        'missing_primary': [], 'missing_controlled': [], 'trigger_freetext': [],
     }
     seen: set[str] = set()
 
@@ -99,8 +99,15 @@ def check(rows: Sequence[Mapping[str, str]], expected_ids: set[str]) -> dict[str
         if row_id not in expected_ids:
             problems['unknown_rows'].append(row_id)
 
+        if not _norm(row.get('is_landslide_event_true')):
+            problems['missing_primary'].append(
+                f'{row_id}: is_landslide_event_true is blank'
+            )
+
         for field, allowed in TRUTH_VOCABULARIES.items():
             value = _norm(row.get(field))
+            if not value:
+                problems['missing_controlled'].append(f'{row_id}: {field} is blank')
             if value and value not in allowed:
                 problems['bad_value'].append(
                     f'{row_id}: {field} = "{value}" — allowed: {" / ".join(allowed)}'
@@ -125,7 +132,9 @@ def check(rows: Sequence[Mapping[str, str]], expected_ids: set[str]) -> dict[str
 
         deaths = _norm(row.get('deaths_true'))
         if deaths and not re.fullmatch(r'\d+', deaths):
-            problems['bad_deaths'].append(f'{row_id}: deaths_true = "{deaths}" — needs a whole number or blank')
+            problems['bad_deaths'].append(
+                f'{row_id}: deaths_true = "{deaths}" — needs a whole number or blank'
+            )
 
         for field in ('district_true', 'municipality_true', 'notes', 'title'):
             value = _norm(row.get(field))
@@ -156,13 +165,14 @@ def run_check_labels_stage(config: AppConfig) -> dict[str, Any]:
     """Validate the hand-edited label file and report anything wrong."""
 
     outputs_dir = config.resolve_path('outputs_dir')
-    edited = outputs_dir / f'{OUTPUT_STEM}_LABEL_HERE.csv'
-    fallback = outputs_dir / f'{OUTPUT_STEM}_labels_filled.csv'
+    stem = locked_output_stem(config)
+    edited = outputs_dir / f'{stem}_LABEL_HERE.csv'
+    fallback = outputs_dir / f'{stem}_labels_filled.csv'
     target = edited if edited.exists() else fallback
     if not target.exists():
         raise FileNotFoundError(f'No label file found at {edited} or {fallback}.')
 
-    reference = outputs_dir / f'{OUTPUT_STEM}_labels.csv'
+    reference = outputs_dir / f'{stem}_labels.csv'
     with reference.open(encoding='utf-8', newline='') as handle:
         expected = {row['row_id'] for row in csv.DictReader(handle)}
 

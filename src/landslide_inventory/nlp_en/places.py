@@ -8,6 +8,7 @@ import re
 import spacy
 
 from ..gazetteer import normalize_district
+from ..nlp_attribution import is_person_attribution
 from ..gazetteer_municipality import normalize_municipality
 from ..unify.location import (
     PlaceCandidate,
@@ -77,16 +78,26 @@ def _best_candidates(text: str) -> list[PlaceCandidate]:
 
 def _regex_candidates(text: str) -> list[PlaceCandidate]:
     candidates: list[PlaceCandidate] = []
+    # A place inside a home-address attribution -- "the deceased has been
+    # identified as Namrata Karki of Chandrpur Municipality-1, Rautahat" --
+    # belongs to a person, not to the event, and must not become a place
+    # candidate. See nlp_attribution for why this matters at district scale.
     for match in EN_WARD_PATTERN.finditer(text):
+        if is_person_attribution(text, match.start(), match.end(), 'en'):
+            continue
         municipality_match = EN_MUNICIPALITY_PATTERN.search(match.group(0))
         municipality_raw = municipality_match.group(0) if municipality_match else None
         municipality = normalize_municipality(municipality_raw, 'en') if municipality_raw else None
         candidates.append(_candidate(text, match.group(0), 'ward', match.start(), municipality=municipality))
     for match in EN_MUNICIPALITY_PATTERN.finditer(text):
+        if is_person_attribution(text, match.start(), match.end(), 'en'):
+            continue
         municipality_raw = match.group(0)
         municipality = normalize_municipality(municipality_raw, 'en')
         candidates.append(_candidate(text, municipality_raw, 'municipality', match.start(), municipality=municipality))
     for match in EN_DISTRICT_PATTERN.finditer(text):
+        if is_person_attribution(text, match.start(1), match.end(1), 'en'):
+            continue
         district_name = match.group(1)
         normalized = normalize_district(district_name, 'en')
         candidates.append(_candidate(text, district_name, 'district', match.start(), district=normalized))
@@ -94,6 +105,8 @@ def _regex_candidates(text: str) -> list[PlaceCandidate]:
         district_name = match.group(0)
         normalized = normalize_district(district_name, 'en')
         if normalized is None:
+            continue
+        if is_person_attribution(text, match.start(), match.end(), 'en'):
             continue
         candidates.append(_candidate(text, district_name, 'district', match.start(), district=normalized))
     for match in EN_PROVINCE_PATTERN.finditer(text):

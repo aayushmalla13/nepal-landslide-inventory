@@ -1,0 +1,604 @@
+paper_metadata:
+  study_area: Nepal, 77 districts
+  study_period: 2015-2026
+  version: 0.4.0
+study_period:
+  start: '2015-01-01'
+  end: '2026-12-31'
+paths:
+  raw_sqlite_dir: data/raw_sqlite
+  intermediate_dir: data/intermediate
+  outputs_dir: data/sensitivity/product/imerg
+  caches_dir: data/caches
+  logs_dir: data/logs
+runtime:
+  rate_limit_seconds: 3.0
+  retries: 5
+  timeout_seconds: 30
+  user_agent: landslide-inventory/0.3.0 (+research; contact-user-to-customize)
+  max_pages_per_entry_point: 100
+  max_urls_per_source: 5000
+language_detection:
+  devanagari_threshold: 0.3
+  mixed_lower: 0.1
+  mixed_upper: 0.3
+dedup:
+  candidate_window_days: 7
+  primary_window_days: 3
+  headline_sim_threshold: 0.82
+  body_sim_threshold: 0.88
+  high_body_sim_threshold: 0.96
+  guard_deaths_delta: 1
+  prefer_same_municipality: true
+geocode:
+  district_shapefile_path: /absolute/path/to/ocha_districts.shp
+  centroid_cache_path: data/caches/district_centroids.csv
+  nominatim_cache_db_path: data/caches/nominatim_cache.sqlite
+validation:
+  article_corrections_path: corrections/article_corrections.csv
+  final_release_date: '2026-08-10'
+  manual_sample_total: 150
+  manual_en: 75
+  manual_np: 75
+  random_seed: 42
+  locked_test_set:
+    version: v7
+    seed: 20260903
+    allocation:
+      kept_class1: 130
+      kept_class2: 50
+      dropped_specificity: 130
+      dropped_scope: 70
+      dropped_other: 15
+      no_extraction: 5
+  development_set:
+    version: v1
+    seed: 20260810
+    allocation:
+      kept_class1: 60
+      kept_class2: 50
+      dropped_specificity: 120
+      dropped_scope: 60
+      dropped_other: 10
+bipad:
+  bipad_input_path: /absolute/path/to/bipad_landslides.csv
+  match_windows_days:
+  - 1
+  - 3
+  - 7
+analysis:
+  release_version: sensitivity-imerg
+  release_date: '20260904'
+  chirps_daily_district_path: data/external/imerg_daily_districts.csv
+  district_boundaries_path: data/reference/nepal_districts_77.geojson
+  canonical_events_path: data/outputs/canonical_events_final.csv
+  rainfall_product: NASA IMERG Final Run v07 (GPM_3IMERGDF)
+  antecedent_windows_days:
+  - 1
+  - 3
+  - 5
+  - 7
+  min_date_confidence: 0.78
+  high_date_confidence: 0.8
+  controls_per_event: 5
+  control_exclusion_buffer_days: 7
+  development_end: '2022-12-31'
+  bootstrap_iterations: 1000
+  random_seed: 20260813
+  balanced_panel_min_events: 30
+  correlation_method: spearman
+keywords:
+  terms:
+    en:
+    - landslide
+    - mudslide
+    - debris flow
+    - slope failure
+    np:
+    - पहिरो
+    - भूस्खलन
+    - ढिस्को
+    - माटो खस्नु
+  exclude:
+    en:
+    - political landslide
+    - electoral landslide
+    - stock slide
+    - stock market slide
+    np:
+    - राजनीतिक पहिरो
+    - निर्वाचनमा पहिरो
+    - सेयर बजार
+    - शेयर बजार
+    - नेप्से परिसूचक
+  trigger_terms:
+    rainfall:
+      en:
+      - rain
+      - rainfall
+      - heavy rain
+      - monsoon
+      - cloudburst
+      np:
+      - वर्षा
+      - अविरल वर्षा
+      - भारी वर्षा
+      - मनसुन
+    earthquake:
+      en:
+      - earthquake
+      - tremor
+      np:
+      - भूकम्प
+      - कम्पन
+    road_construction:
+      en:
+      - road expansion
+      - excavator
+      - construction
+      np:
+      - सडक विस्तार
+      - डोजर
+      - निर्माण
+  casualty_terms:
+    deaths:
+      en:
+      - killed
+      - dead
+      - deaths
+      np:
+      - मृत्यु
+      - मृत
+      - ज्यान गुमायो
+    missing:
+      en:
+      - missing
+      - disappeared
+      np:
+      - बेपत्ता
+      - हराइरहेका
+    injured:
+      en:
+      - injured
+      - hurt
+      - wounded
+      np:
+      - घाइते
+      - घाइते भएका
+doctor:
+  spacy_model: en_core_web_sm
+external_sources:
+  output_csv: data/outputs/external_records.csv
+  matching:
+    permutations: 100
+    seed_discovery:
+      endpoint: https://news.google.com/rss/search
+      seed_file: external_search_seeds.csv
+      output_csv: external_news_candidates.csv
+      max_seeds: 50
+      max_results_per_query: 20
+      statuses:
+      - unmatched
+      priorities:
+      - high
+      timeout_seconds: 30
+      retries: 3
+      rate_limit_seconds: 1.0
+    candidate_ingest:
+      max_candidates: 25
+      min_text_chars: 200
+  timeout_seconds: 45
+  retries: 3
+  rate_limit_seconds: 0.5
+  sources:
+  - slug: bipad
+    adapter: bipad
+    enabled: false
+    endpoint: https://bipadportal.gov.np/api/v1/incident/
+    public_url: https://bipadportal.gov.np/
+    source_family: government_incident
+    landslide_only: true
+    paginate: true
+    max_pages: 100
+    params:
+      limit: 100
+      hazard: 17
+      expand: loss,wards,wards.municipality,wards.municipality.district,wards.municipality.district.province
+  - slug: drr-portal
+    adapter: html_documents
+    enabled: false
+    listing_urls:
+    - https://drrportal.gov.np/
+    allowed_domains:
+    - drrportal.gov.np
+    max_documents: 200
+    source_family: government_archive
+  - slug: ndrrma-bulletins
+    adapter: ndrrma_bulletins
+    enabled: false
+    listing_urls:
+    - https://ndrrma.gov.np/en/daily-bulletin
+    allowed_domains:
+    - ndrrma.gov.np
+    max_documents: 500
+    source_family: government_bulletin
+  - slug: nepal-police
+    adapter: nepal_police
+    enabled: false
+    listing_urls:
+    - https://nepalpolice.gov.np/news/
+    - https://koshi.nepalpolice.gov.np/news/trending-news/landslide/
+    allowed_domains:
+    - nepalpolice.gov.np
+    - koshi.nepalpolice.gov.np
+    max_documents: 500
+    source_family: official_response_report
+  - slug: armed-police-force
+    adapter: armed_police
+    enabled: false
+    listing_urls:
+    - https://www.apf.gov.np/news
+    allowed_domains:
+    - www.apf.gov.np
+    - apf.gov.np
+    max_documents: 500
+    source_family: official_response_report
+  - slug: police-road-notices
+    adapter: road_notices
+    enabled: false
+    listing_urls:
+    - https://nepalpolice.gov.np/notices/
+    allowed_domains:
+    - nepalpolice.gov.np
+    record_type: road_obstruction_notice
+    max_documents: 500
+    source_family: official_road_notice
+  - slug: dor-navigate
+    adapter: road_closures
+    enabled: false
+    endpoint: https://navigate-dor-api.rimes.int/Road_closure_history_api/getHistoryPaginated
+    public_url: https://navigate.dor.gov.np/app/road-closure-history
+    source_family: official_road_database
+    record_type: road_obstruction
+    landslide_only: true
+    max_pages: 50
+    params:
+      year: 0
+      month: 0
+  - slug: kantipur-epaper
+    adapter: kantipur_epaper
+    enabled: false
+    start: '2024-09-16'
+    end: '2026-12-31'
+    publications:
+    - kantipur
+    - kathmandupost
+    monsoon_only: true
+    months:
+    - 6
+    - 7
+    - 8
+    - 9
+    max_documents: 100
+    cookie_env: KANTIPUR_EPAPER_COOKIE
+    url_templates:
+    - https://epaper.ekantipur.com/{publication}/download/{date}
+  - slug: wayback-ekantipur
+    adapter: wayback_cdx
+    enabled: false
+    endpoint: https://web.archive.org/cdx/search/cdx
+    url_pattern: ekantipur.com/*
+    from: '2015'
+    to: '2026'
+    limit: 5000
+    fetch_bodies: false
+    max_body_fetches: 200
+  - slug: common-crawl-ekantipur
+    adapter: common_crawl
+    enabled: false
+    index_url: https://index.commoncrawl.org/CC-MAIN-2023-50-index
+    url_pattern: '*.ekantipur.com/*'
+    limit: 5000
+    fetch_bodies: false
+    max_body_fetches: 200
+  - slug: media-cloud
+    adapter: media_cloud
+    enabled: false
+    endpoint: https://search.mediacloud.org/api/search/story-list
+    token_env: MEDIACLOUD_API_KEY
+    query: landslide Nepal OR पहिरो
+    start: '2015-01-01'
+    end: '2026-12-31'
+    max_pages: 100
+    page_delay_seconds: 30
+  - slug: nasa-coolr
+    adapter: coolr
+    enabled: false
+    endpoint: https://gis.earthdata.nasa.gov/gis05/rest/services/Landslides/COOLR_Events_Polygons/FeatureServer/0
+    public_url: https://gpm.nasa.gov/applications/landslides/coolr
+    where: country_name = 'Nepal'
+    batch_size: 2000
+    max_pages: 10
+  - slug: reliefweb
+    adapter: reliefweb
+    enabled: false
+    endpoint: https://api.reliefweb.int/v2/reports
+    appname_env: RELIEFWEB_APPNAME
+    query: Nepal landslide
+    max_pages: 20
+  - slug: desinventar
+    adapter: desinventar
+    enabled: false
+    input_path: data/external/desinventar_nepal.csv
+    source_family: historical_disaster_database
+    record_type: disaster_loss_record
+    landslide_only: true
+    mapping:
+      id:
+      - serial
+      - id
+      title:
+      - event
+      - disaster
+      text:
+      - comments
+      - description
+      incident_date:
+      - date
+      - event_date
+      hazard_type:
+      - event
+      - hazard
+      district:
+      - district
+      - level1
+      municipality:
+      - municipality
+      - level2
+      deaths:
+      - deaths
+      - killed
+      injured:
+      - injured
+      missing:
+      - missing
+  - slug: official-social-feed
+    adapter: rss
+    enabled: false
+    endpoint: https://example.invalid/official-landslide-feed.xml
+    probe_enabled: false
+    source_family: official_social_feed
+    record_type: official_alert
+sources:
+- name: Kathmandu Post
+  slug: kathmandu-post
+  language: en
+  base_url: https://kathmandupost.com
+  discovery:
+    primary: googlenews
+    secondary: tag
+  entry_points:
+  - kind: googlenews
+    url: https://news.google.com/rss/search?q=site:kathmandupost.com+landslide+Nepal
+    pagination: rss
+  - kind: tag
+    url: https://kathmandupost.com/tag/monsoon-floods
+    pagination: next_link
+- name: The Himalayan Times
+  slug: himalayan-times
+  language: en
+  base_url: https://thehimalayantimes.com
+  discovery:
+    primary: googlenews
+  entry_points:
+  - kind: googlenews
+    url: https://news.google.com/rss/search?q=site:thehimalayantimes.com+landslide+Nepal
+    pagination: rss
+- name: MyRepublica
+  slug: myrepublica
+  language: en
+  base_url: https://myrepublica.nagariknetwork.com
+  discovery:
+    primary: tag
+  entry_points:
+  - kind: tag
+    url: https://myrepublica.nagariknetwork.com/tag/Landslide?page=1
+    pagination: page
+- name: The Rising Nepal
+  slug: rising-nepal
+  language: en
+  base_url: https://risingnepaldaily.com
+  discovery:
+    primary: googlenews
+  entry_points:
+  - kind: googlenews
+    url: https://news.google.com/rss/search?q=site:risingnepaldaily.com+landslide+Nepal
+    pagination: rss
+- name: eKantipur
+  slug: ekantipur
+  language: np
+  base_url: https://ekantipur.com
+  discovery:
+    primary: googlenews
+    secondary: archive_home
+    notes: Archive and homepage entry points may include metaphorical uses of landslide
+      terms.
+  entry_points:
+  - kind: googlenews
+    url: https://news.google.com/rss/search?q=site:ekantipur.com+%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B
+    pagination: rss
+  - kind: archive_home
+    url: https://ekantipur.com/
+    pagination: date_archive
+- name: Online Khabar
+  slug: online-khabar
+  language: np
+  base_url: https://www.onlinekhabar.com
+  discovery:
+    primary: trend
+  entry_points:
+  - kind: trend
+    url: https://www.onlinekhabar.com/trend/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B
+    pagination: /page/{page}
+- name: Setopati
+  slug: setopati
+  language: np
+  base_url: https://www.setopati.com
+  discovery:
+    primary: tag
+  entry_points:
+  - kind: tag
+    url: https://www.setopati.com/tag/577
+    pagination: next_link
+- name: Ratopati
+  slug: ratopati
+  language: np
+  base_url: https://www.ratopati.com
+  discovery:
+    primary: tag
+  entry_points:
+  - kind: tag
+    url: https://www.ratopati.com/tag/797?page=1
+    pagination: page
+- name: Deshsanchar
+  slug: deshsanchar
+  language: np
+  base_url: https://deshsanchar.com
+  discovery:
+    primary: wordpress_search
+    native_mode: wordpress_search
+    query_terms:
+    - पहिरो
+    order: oldest_first
+    max_pages: 300
+    max_urls: 1200
+  entry_points:
+  - kind: source_native
+    url: https://deshsanchar.com/search/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B/page/1/
+    pagination: next_link
+- name: Rajdhani Daily
+  slug: rajdhani
+  language: np
+  base_url: https://rajdhanidaily.com
+  discovery:
+    primary: wordpress_search
+    native_mode: wordpress_search
+    query_terms:
+    - पहिरो
+    order: oldest_first
+    max_pages: 220
+    max_urls: 800
+  entry_points:
+  - kind: source_native
+    url: https://rajdhanidaily.com/search/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B/page/1/
+    pagination: next_link
+- name: Nagarik News
+  slug: nagarik
+  language: np
+  base_url: https://nagariknews.nagariknetwork.com
+  discovery:
+    primary: year_search
+    native_mode: nagarik_year_search
+    query_terms:
+    - पहिरो
+    max_pages: 100
+    max_urls: 3000
+  entry_points:
+  - kind: source_native
+    url: https://nagariknews.nagariknetwork.com/search
+    pagination: offset
+- name: English OnlineKhabar
+  slug: onlinekhabar-en
+  language: en
+  base_url: https://english.onlinekhabar.com
+  discovery:
+    primary: wordpress_rest_search
+    native_mode: wordpress_rest_search
+    api_endpoint: https://english.onlinekhabar.com/wp-json/wp/v2/posts
+    api_per_page: 100
+    allow_single_segment_urls: true
+    query_terms:
+    - landslide
+    - mudslide
+    - debris flow
+    - slope failure
+    - rockfall
+    max_pages: 100
+    max_urls: 600
+  entry_points:
+  - kind: source_native
+    url: https://english.onlinekhabar.com/wp-json/wp/v2/posts
+    pagination: api
+- name: Nepali Times
+  slug: nepali-times
+  language: en
+  base_url: https://nepalitimes.com
+  discovery:
+    primary: sitemap_keyword_urls
+    native_mode: sitemap_keyword_urls
+    sitemap_url: https://nepalitimes.com/__sitemap__/articles.xml
+    allow_single_segment_urls: true
+    query_terms:
+    - landslide
+    - mudslide
+    - debris flow
+    - slope failure
+    - rockfall
+    max_urls: 800
+  entry_points:
+  - kind: source_native
+    url: https://nepalitimes.com/__sitemap__/articles.xml
+    pagination: sitemap
+- name: Ujyaalo Online
+  slug: ujyaalo
+  language: np
+  base_url: https://www.ujyaaloonline.com
+  discovery:
+    primary: ujyaalo_search
+    native_mode: ujyaalo_search
+    query_terms:
+    - पहिरो
+    max_pages: 80
+    max_urls: 1500
+  entry_points:
+  - kind: source_native
+    url: https://www.ujyaaloonline.com/search?keyword=%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B
+    pagination: next_link
+- name: Nepal Press
+  slug: nepalpress
+  language: np
+  base_url: https://nepalpress.com
+  discovery:
+    primary: wordpress_rest_search
+    native_mode: wordpress_rest_search
+    api_endpoint: https://nepalpress.com/wp-json/wp/v2/posts
+    api_per_page: 100
+    api_search_columns:
+    - post_title
+    query_terms:
+    - पहिरो
+    max_pages: 20
+    max_urls: 1000
+  entry_points:
+  - kind: source_native
+    url: https://nepalpress.com/wp-json/wp/v2/posts
+    pagination: api
+- name: Nepal Press English
+  slug: nepalpress-en
+  language: en
+  base_url: https://english.nepalpress.com
+  discovery:
+    primary: wordpress_rest_search
+    native_mode: wordpress_rest_search
+    api_endpoint: https://english.nepalpress.com/wp-json/wp/v2/posts
+    api_per_page: 100
+    api_search_columns:
+    - post_title
+    query_terms:
+    - landslide
+    max_pages: 5
+    max_urls: 200
+  entry_points:
+  - kind: source_native
+    url: https://english.nepalpress.com/wp-json/wp/v2/posts
+    pagination: api

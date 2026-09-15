@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import http.cookiejar
+import json
 import logging
 import re
 import socket
@@ -13,7 +14,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from html.parser import HTMLParser
 from urllib.error import HTTPError, URLError
-from urllib.parse import parse_qs, quote_plus, urlencode, urlparse, urlunparse
+from urllib.parse import parse_qs, quote, quote_plus, urlencode, urlparse, urlunparse
 
 from ..config import AppConfig
 from ..sources import SourceDefinition, allowed_domains
@@ -47,6 +48,7 @@ class ListingLink:
     href: str
     text: str
     rel: str
+    in_article: bool
 
 
 @dataclass(frozen=True)
@@ -70,13 +72,23 @@ class ListingHTMLParser(HTMLParser):
         self._current_href: str | None = None
         self._link_text_parts: list[str] = []
         self._current_rel: str = ""
+        self._current_in_article = False
+        self._article_depth = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attributes = dict(attrs)
+        if tag == "article":
+            self._article_depth += 1
         if tag == "a" and attributes.get("href"):
             self._current_href = str(attributes["href"])
-            self._link_text_parts = []
+            # Search-result cards often put the headline in ``title`` or
+            # ``aria-label`` while the anchor itself only contains an image.
+            # Keeping that text lets opaque article URLs be filtered by the
+            # requested keyword without fetching every navigation link.
+            accessible_text = attributes.get("title") or attributes.get("aria-label")
+            self._link_text_parts = [str(accessible_text)] if accessible_text else []
             self._current_rel = str(attributes.get("rel") or "")
+            self._current_in_article = self._article_depth > 0
 
     def handle_data(self, data: str) -> None:
         if self._current_href is not None:
@@ -92,11 +104,15 @@ class ListingHTMLParser(HTMLParser):
                     href=self._current_href,
                     text=text.casefold(),
                     rel=self._current_rel.casefold(),
+                    in_article=self._current_in_article,
                 )
             )
             self._current_href = None
             self._link_text_parts = []
             self._current_rel = ""
+            self._current_in_article = False
+        if tag == "article" and self._article_depth > 0:
+            self._article_depth -= 1
 
 
 def parse_listing_page(
@@ -121,6 +137,46 @@ def parse_listing_page(
     next_url, next_method = _detect_next_url(parser.links, entry_point, current_url)
     return ListingParseResult(
         urls=filtered_urls,
+        next_url=next_url,
+        year_hints=sorted(set(parser.year_hints)),
+        next_method=next_method,
+    )
+
+
+def parse_keyword_search_page(
+    html: str,
+    source: SourceDefinition,
+    current_url: str,
+    query_term: str,
+) -> ListingParseResult:
+    """Parse only result links whose anchor headline contains the search term.
+
+    Rajdhani and Deshsanchar use opaque numeric article URLs. URL-keyword
+    filtering therefore returns nothing, while accepting every article-shaped
+    link pulls in menus, tickers, and unrelated homepage cards. Search-result
+    cards are structural ``article`` elements, including full-text matches whose
+    headlines do not repeat the term. If that structure is absent, headline
+    matching remains a conservative fallback.
+    """
+
+    entry_point = {"kind": "search_archive", "url": current_url, "pagination": "next_link"}
+    parser = ListingHTMLParser(current_url=current_url, mode="next_link")
+    parser.feed(html)
+    domains = allowed_domains(source)
+    needle = query_term.casefold()
+    urls: list[str] = []
+    seen: set[str] = set()
+    article_links = [link for link in parser.links if link.in_article]
+    candidate_links = article_links or [link for link in parser.links if needle in link.text]
+    for link in candidate_links:
+        normalized = filter_article_url(link.href, domains, base_url=current_url)
+        if normalized is None or normalized in seen:
+            continue
+        seen.add(normalized)
+        urls.append(normalized)
+    next_url, next_method = _detect_next_url(parser.links, entry_point, current_url)
+    return ListingParseResult(
+        urls=urls,
         next_url=next_url,
         year_hints=sorted(set(parser.year_hints)),
         next_method=next_method,
@@ -159,6 +215,10 @@ def build_google_news_discoveries(
 def source_native_discovery_mode(source: SourceDefinition) -> str | None:
     """Return the source-specific supplemental discovery mode, if any."""
 
+    configured = source.discovery.get("native_mode")
+    if configured:
+        return str(configured)
+
     modes = {
         "myrepublica": "sitemap_news",
         "setopati": "search",
@@ -191,7 +251,481 @@ def build_source_native_discoveries(
             return discover_ratopati_search(config, source, fetcher, seen_urls, max_pages, max_urls)
     if mode == "search_post":
         return discover_rising_nepal_search(config, source, fetcher, seen_urls, max_pages, max_urls)
+    if mode == "wordpress_search":
+        return discover_wordpress_search(config, source, fetcher, seen_urls, max_pages, max_urls)
+    if mode == "nagarik_year_search":
+        return discover_nagarik_year_search(config, source, fetcher, seen_urls, max_pages, max_urls)
+    if mode == "wordpress_rest_search":
+        return discover_wordpress_rest_search(
+            config, source, fetcher, seen_urls, max_pages, max_urls
+        )
+    if mode == "ujyaalo_search":
+        return discover_ujyaalo_search(
+            config, source, fetcher, seen_urls, max_pages, max_urls
+        )
+    if mode == "sitemap_keyword_urls":
+        return discover_sitemap_keyword_urls(config, source, fetcher, seen_urls, max_urls)
     return []
+
+
+def configured_search_terms(config: AppConfig, source: SourceDefinition) -> list[str]:
+    """Return a source-specific bounded term list or the project defaults."""
+
+    configured = source.discovery.get("query_terms")
+    if isinstance(configured, list) and configured:
+        return [str(term) for term in configured]
+    return [str(term) for term in config.raw["keywords"]["terms"][source.language]]
+
+
+def build_wordpress_search_urls(config: AppConfig, source: SourceDefinition) -> list[tuple[str, str]]:
+    """Build WordPress pretty-permalink search URLs for opaque-URL outlets."""
+
+    base = source.base_url.rstrip("/")
+    return [
+        (term, f"{base}/search/{quote(term, safe='')}/page/1/")
+        for term in configured_search_terms(config, source)
+    ]
+
+
+def discover_wordpress_search(
+    config: AppConfig,
+    source: SourceDefinition,
+    fetcher,
+    seen_urls: set[str],
+    max_pages: int,
+    max_urls: int,
+) -> list[DiscoveredUrl]:
+    """Walk WordPress search results and retain headline-matched articles."""
+
+    if str(source.discovery.get("order", "newest_first")) == "oldest_first":
+        return discover_wordpress_search_oldest_first(
+            config, source, fetcher, seen_urls, max_pages, max_urls
+        )
+
+    discoveries: list[DiscoveredUrl] = []
+    pages_used = 0
+    for query_term, search_url in build_wordpress_search_urls(config, source):
+        current_url: str | None = search_url
+        consecutive_empty_pages = 0
+        while current_url and pages_used < max_pages and len(discoveries) < max_urls:
+            pages_used += 1
+            fetch_result = fetcher.fetch(current_url)
+            listing = parse_keyword_search_page(fetch_result.text, source, current_url, query_term)
+            page_new_urls = 0
+            for url in listing.urls:
+                if url in seen_urls:
+                    continue
+                seen_urls.add(url)
+                discoveries.append(
+                    DiscoveredUrl(
+                        url=url,
+                        source=source.slug,
+                        method="search_archive",
+                        entry_point=search_url,
+                        query_term=query_term,
+                        year_hint=_year_from_url(url),
+                    )
+                )
+                page_new_urls += 1
+                if len(discoveries) >= max_urls:
+                    break
+            consecutive_empty_pages = consecutive_empty_pages + 1 if page_new_urls == 0 else 0
+            LOGGER.info(
+                "Supplemental discovery page source=%s method=search_archive query=%s page=%s current_url=%s urls_found=%s new_urls_added=%s next_method=%s",
+                source.slug,
+                query_term,
+                pages_used,
+                current_url,
+                len(listing.urls),
+                page_new_urls,
+                listing.next_method,
+            )
+            if consecutive_empty_pages >= 3:
+                break
+            current_url = listing.next_url
+    return discoveries
+
+
+def discover_wordpress_search_oldest_first(
+    config: AppConfig,
+    source: SourceDefinition,
+    fetcher,
+    seen_urls: set[str],
+    max_pages: int,
+    max_urls: int,
+) -> list[DiscoveredUrl]:
+    """Walk WordPress search from the final page to prioritize old coverage."""
+
+    discoveries: list[DiscoveredUrl] = []
+    pages_used = 0
+    for query_term, search_url in build_wordpress_search_urls(config, source):
+        first_result = fetcher.fetch(search_url)
+        pages_used += 1
+        last_page = _wordpress_last_page(first_result.text, search_url)
+        consecutive_empty_pages = 0
+        for page_number in range(last_page, 0, -1):
+            if len(discoveries) >= max_urls:
+                break
+            current_url = _wordpress_page_url(search_url, page_number)
+            if page_number == 1:
+                fetch_result = first_result
+            else:
+                if pages_used >= max_pages:
+                    break
+                fetch_result = fetcher.fetch(current_url)
+                pages_used += 1
+            listing = parse_keyword_search_page(fetch_result.text, source, current_url, query_term)
+            page_new_urls = 0
+            for url in listing.urls:
+                if url in seen_urls:
+                    continue
+                seen_urls.add(url)
+                discoveries.append(
+                    DiscoveredUrl(
+                        url=url,
+                        source=source.slug,
+                        method="search_archive",
+                        entry_point=search_url,
+                        query_term=query_term,
+                        year_hint=_year_from_url(url),
+                    )
+                )
+                page_new_urls += 1
+                if len(discoveries) >= max_urls:
+                    break
+            consecutive_empty_pages = consecutive_empty_pages + 1 if page_new_urls == 0 else 0
+            LOGGER.info(
+                "Supplemental discovery page source=%s method=search_archive_oldest query=%s page=%s/%s urls_found=%s new_urls_added=%s",
+                source.slug,
+                query_term,
+                page_number,
+                last_page,
+                len(listing.urls),
+                page_new_urls,
+            )
+            if consecutive_empty_pages >= 3:
+                break
+    return discoveries
+
+
+def _wordpress_last_page(html: str, current_url: str) -> int:
+    """Read the largest numbered WordPress search page link."""
+
+    parser = ListingHTMLParser(current_url=current_url, mode="next_link")
+    parser.feed(html)
+    page_numbers = [
+        page
+        for link in parser.links
+        if (page := _extract_page_number(normalize_url(link.href, base_url=current_url))) is not None
+    ]
+    return max(page_numbers, default=1)
+
+
+def _wordpress_page_url(search_url: str, page_number: int) -> str:
+    """Replace the page component in a WordPress pretty search URL."""
+
+    return re.sub(r"/page/\d+/?$", f"/page/{page_number}/", search_url)
+
+
+def build_nagarik_search_url(
+    source: SourceDefinition,
+    query_term: str,
+    year: int,
+    offset: int = 0,
+) -> str:
+    """Build Nagarik's public year-filtered search URL."""
+
+    params: list[tuple[str, str | int]] = [
+        ("s", query_term),
+        ("ayear", year),
+        ("arch_dates", year),
+        ("isfl", "true"),
+        ("dfrom", f"{year}-01-01"),
+        ("dto", f"{year}-12-31"),
+    ]
+    if offset:
+        params.append(("offset", offset))
+    return f"{source.base_url.rstrip('/')}/search?{urlencode(params)}"
+
+
+def discover_nagarik_year_search(
+    config: AppConfig,
+    source: SourceDefinition,
+    fetcher,
+    seen_urls: set[str],
+    max_pages: int,
+    max_urls: int,
+) -> list[DiscoveredUrl]:
+    """Collect Nagarik search results year by year, oldest first."""
+
+    study_start, study_end = config.study_period
+    start_year = int(source.discovery.get("start_year", study_start))
+    end_year = int(source.discovery.get("end_year", study_end))
+    discoveries: list[DiscoveredUrl] = []
+    pages_used = 0
+    for year in range(start_year, end_year + 1):
+        for query_term in configured_search_terms(config, source):
+            offset = 0
+            entry_point = build_nagarik_search_url(source, query_term, year)
+            while pages_used < max_pages and len(discoveries) < max_urls:
+                current_url = build_nagarik_search_url(source, query_term, year, offset)
+                pages_used += 1
+                fetch_result = fetcher.fetch(current_url)
+                listing = parse_keyword_search_page(fetch_result.text, source, current_url, query_term)
+                page_new_urls = 0
+                for url in listing.urls:
+                    if url in seen_urls:
+                        continue
+                    seen_urls.add(url)
+                    discoveries.append(
+                        DiscoveredUrl(
+                            url=url,
+                            source=source.slug,
+                            method="year_search",
+                            entry_point=entry_point,
+                            query_term=query_term,
+                            year_hint=year,
+                        )
+                    )
+                    page_new_urls += 1
+                    if len(discoveries) >= max_urls:
+                        break
+                has_next, next_offset = _nagarik_next_page(fetch_result.text)
+                LOGGER.info(
+                    "Supplemental discovery page source=%s method=year_search query=%s year=%s offset=%s urls_found=%s new_urls_added=%s has_next=%s",
+                    source.slug,
+                    query_term,
+                    year,
+                    offset,
+                    len(listing.urls),
+                    page_new_urls,
+                    has_next,
+                )
+                if not has_next or next_offset <= offset:
+                    break
+                offset = next_offset
+            if pages_used >= max_pages or len(discoveries) >= max_urls:
+                break
+        if pages_used >= max_pages or len(discoveries) >= max_urls:
+            break
+    return discoveries
+
+
+def discover_wordpress_rest_search(
+    config: AppConfig,
+    source: SourceDefinition,
+    fetcher,
+    seen_urls: set[str],
+    max_pages: int,
+    max_urls: int,
+) -> list[DiscoveredUrl]:
+    """Discover a WordPress site's keyword-search results through its public API."""
+
+    endpoint = str(
+        source.discovery.get(
+            "api_endpoint", f"{source.base_url.rstrip('/')}/wp-json/wp/v2/posts"
+        )
+    )
+    per_page = min(100, max(1, int(source.discovery.get("api_per_page", 100))))
+    discoveries: list[DiscoveredUrl] = []
+    pages_used = 0
+    domains = allowed_domains(source)
+    allow_single_segment = bool(source.discovery.get("allow_single_segment_urls", False))
+    search_columns = source.discovery.get("api_search_columns", [])
+    if not isinstance(search_columns, list):
+        search_columns = [search_columns]
+    for query_term in configured_search_terms(config, source):
+        page = 1
+        while pages_used < max_pages and len(discoveries) < max_urls:
+            query_items: list[tuple[str, object]] = [
+                ("search", query_term),
+                ("per_page", per_page),
+                ("page", page),
+            ]
+            query_items.extend(
+                ("search_columns[]", str(column))
+                for column in search_columns
+                if str(column).strip()
+            )
+            query = urlencode(query_items)
+            current_url = f"{endpoint}?{query}"
+            result = fetcher.fetch(current_url)
+            try:
+                rows = json.loads(result.text)
+            except json.JSONDecodeError:
+                LOGGER.warning("WordPress API response is not JSON: %s", current_url)
+                break
+            if not isinstance(rows, list) or not rows:
+                break
+            pages_used += 1
+            added = 0
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                link = row.get("link")
+                if not isinstance(link, str):
+                    continue
+                normalized = filter_article_url(
+                    link, domains, allow_single_segment=allow_single_segment
+                )
+                if normalized is None or normalized in seen_urls:
+                    continue
+                seen_urls.add(normalized)
+                date_text = str(row.get("date") or "")
+                year = int(date_text[:4]) if date_text[:4].isdigit() else None
+                discoveries.append(
+                    DiscoveredUrl(
+                        url=normalized,
+                        source=source.slug,
+                        method="wordpress_rest_search",
+                        entry_point=endpoint,
+                        query_term=query_term,
+                        year_hint=year,
+                    )
+                )
+                added += 1
+                if len(discoveries) >= max_urls:
+                    break
+            LOGGER.info(
+                "Supplemental discovery page source=%s method=wordpress_rest_search "
+                "query=%s page=%s rows=%s new_urls_added=%s",
+                source.slug, query_term, page, len(rows), added,
+            )
+            if len(rows) < per_page:
+                break
+            page += 1
+    return discoveries
+
+
+def discover_ujyaalo_search(
+    config: AppConfig,
+    source: SourceDefinition,
+    fetcher,
+    seen_urls: set[str],
+    max_pages: int,
+    max_urls: int,
+) -> list[DiscoveredUrl]:
+    """Walk Ujyaalo's native keyword search with numbered pagination."""
+
+    search_urls = [
+        (
+            term,
+            f"{source.base_url.rstrip('/')}/search?{urlencode({'keyword': term})}",
+        )
+        for term in configured_search_terms(config, source)
+    ]
+    return discover_paginated_search(
+        config,
+        source,
+        fetcher,
+        seen_urls,
+        max_pages,
+        max_urls,
+        search_urls=search_urls,
+        method="ujyaalo_search",
+    )
+
+
+def discover_sitemap_keyword_urls(
+    config: AppConfig,
+    source: SourceDefinition,
+    fetcher,
+    seen_urls: set[str],
+    max_urls: int,
+) -> list[DiscoveredUrl]:
+    """Discover keyword-bearing URLs from a configured plain sitemap.
+
+    Some historical sites expose a complete sitemap but no usable server-side
+    search. Their ``lastmod`` is often an edit date, not publication date, so
+    it is deliberately not used to filter the study period; article parsing
+    extracts the publisher date after the bounded candidate set is fetched.
+    """
+
+    index_url = str(source.discovery.get("sitemap_url", f"{source.base_url.rstrip('/')}/sitemap.xml"))
+    index_result = fetcher.fetch(index_url)
+    if index_result.status_code != 200:
+        LOGGER.warning("Sitemap %s returned HTTP %s; skipping", index_url, index_result.status_code)
+        return []
+    sitemap_urls = (
+        parse_sitemap_index(index_result.text)
+        if "sitemapindex" in index_result.text[:1000].casefold()
+        else []
+    )
+    if not sitemap_urls:
+        sitemap_urls = [index_url]
+    include_pattern = str(source.discovery.get("sitemap_include", ""))
+    if include_pattern:
+        matcher = re.compile(include_pattern)
+        sitemap_urls = [url for url in sitemap_urls if matcher.search(url)]
+    discoveries: list[DiscoveredUrl] = []
+    domains = allowed_domains(source)
+    include_terms = list(config.raw["keywords"]["terms"][source.language])
+    exclude_terms = list(config.raw["keywords"]["exclude"][source.language])
+    allow_single_segment = bool(source.discovery.get("allow_single_segment_urls", False))
+    for sitemap_url in sitemap_urls:
+        if len(discoveries) >= max_urls:
+            break
+        result = fetcher.fetch(sitemap_url)
+        if result.status_code != 200:
+            LOGGER.warning("Sitemap %s returned HTTP %s; skipping", sitemap_url, result.status_code)
+            continue
+        try:
+            articles = parse_plain_sitemap(result.text)
+        except ET.ParseError:
+            LOGGER.warning("Sitemap %s is not a readable URL set; skipping", sitemap_url)
+            continue
+        added = 0
+        for article in articles:
+            if len(discoveries) >= max_urls:
+                break
+            if not keyword_match(article.url, include_terms, exclude_terms):
+                continue
+            normalized = filter_article_url(
+                article.url,
+                domains,
+                allow_single_segment=allow_single_segment,
+            )
+            if normalized is None or normalized in seen_urls:
+                continue
+            seen_urls.add(normalized)
+            discoveries.append(
+                DiscoveredUrl(
+                    url=normalized,
+                    source=source.slug,
+                    method="sitemap_keyword_urls",
+                    entry_point=index_url,
+                    year_hint=_year_from_url(normalized),
+                )
+            )
+            added += 1
+        LOGGER.info(
+            "Supplemental discovery source=%s method=sitemap_keyword_urls "
+            "sitemap=%s new_urls_added=%s",
+            source.slug, sitemap_url, added,
+        )
+    return discoveries
+
+
+def _nagarik_next_page(html: str) -> tuple[bool, int]:
+    """Return Nagarik's load-more flag and next offset from a result page."""
+
+    tag_match = re.search(r"<a\b[^>]*\bid=[\"']loadmore[\"'][^>]*>", html, flags=re.IGNORECASE)
+    if tag_match is None:
+        return False, 0
+    tag = tag_match.group(0)
+    next_match = re.search(r"\bdata-next=[\"']?([01])", tag, flags=re.IGNORECASE)
+    offset_match = re.search(r"\bdata-offset=[\"']?(\d+)", tag, flags=re.IGNORECASE)
+    if next_match is None or next_match.group(1) != "1" or offset_match is None:
+        return False, 0
+    return True, int(offset_match.group(1))
+
+
+def _year_from_url(url: str) -> int | None:
+    match = re.search(r"/(20\d{2})/", urlparse(url).path)
+    if match is None:
+        return None
+    year = int(match.group(1))
+    return year if 2015 <= year <= 2026 else None
 
 
 def build_setopati_search_urls(config: AppConfig, source: SourceDefinition) -> list[tuple[str, str]]:

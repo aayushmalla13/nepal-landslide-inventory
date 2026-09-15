@@ -6,7 +6,7 @@ from pathlib import Path
 
 from landslide_inventory.config import load_config
 from landslide_inventory.scrape.parser import parse_article_html
-from landslide_inventory.sources import load_sources
+from landslide_inventory.sources import SourceDefinition, load_sources
 
 
 def test_parse_kathmandu_post_fixture(config_file) -> None:
@@ -293,3 +293,39 @@ def test_parse_ratopati_trims_navigation_noise_from_article_text(config_file) ->
     assert "समाचार अदालत/प्रशासन सुरक्षा/अपराध" not in article.text
     assert "थप समाचार" not in article.text
     assert "‘सबैको, सबैभन्दा राम्रो’ रातोपाटी डटकम" not in article.text
+
+
+def test_parse_ujyaalo_uses_visible_bs_date_and_editor_body() -> None:
+    source = SourceDefinition(
+        name='Ujyaalo Online', slug='ujyaalo', language='np',
+        base_url='https://www.ujyaaloonline.com', discovery={}, entry_points=[]
+    )
+    html = """
+    <html><head><title>पहिरोले सडक अवरुद्ध</title></head><body>
+      <div class="editor-box"><p>धादिङमा पहिरो खस्दा पृथ्वी राजमार्ग अवरुद्ध भएको छ।</p></div>
+      <div class="published-box"><span class="date-line">सोमबार, साउन ४, २०८३ ११:४७</span></div>
+      <p>असम्बन्धित पुछार सामग्री</p>
+    </body></html>
+    """
+    article = parse_article_html(source, html, 'https://www.ujyaaloonline.com/detail/101')
+    assert article.parse_success is True
+    assert article.published_date_raw == 'सोमबार, साउन ४, २०८३ ११:४७'
+    assert article.text == 'धादिङमा पहिरो खस्दा पृथ्वी राजमार्ग अवरुद्ध भएको छ।'
+
+
+def test_parse_nepalpress_prefers_post_date_over_template_dates() -> None:
+    source = SourceDefinition(
+        name='Nepal Press', slug='nepalpress', language='np',
+        base_url='https://nepalpress.com', discovery={}, entry_points=[]
+    )
+    html = """
+    <html><head><title>पहिरोले पुरिँदा बालकको मृत्यु – Nepal Press</title></head><body>
+      <img src="/uploads/2026/08/template-ad.jpg">
+      <div class="news-detail-header"><div class="post-date">२०८१ असार १७ गते ८:५६</div></div>
+      <div class="news-content-area"><p>गुल्मीमा पहिरोले घर पुर्दा एक बालकको मृत्यु भएको छ।</p></div>
+    </body></html>
+    """
+    article = parse_article_html(source, html, 'https://nepalpress.com/2024/07/01/100/story/')
+    assert article.parse_success is True
+    assert article.published_date_raw == '२०८१ असार १७ गते ८:५६'
+    assert article.text == 'गुल्मीमा पहिरोले घर पुर्दा एक बालकको मृत्यु भएको छ।'

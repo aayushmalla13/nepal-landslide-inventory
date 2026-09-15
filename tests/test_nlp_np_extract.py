@@ -304,3 +304,109 @@ def test_extract_np_backshifts_gayeratidekhi_for_direct_road_closure_event() -> 
     )
     assert result['event_date_ad'] == '2020-07-09'
     assert result['conf_date'] >= 0.78
+
+
+def test_extract_np_victims_home_district_does_not_relocate_the_event() -> None:
+    """Regression: an excavator driver's home district became the event district.
+
+    "गोरखाको सिरानचोक गाउँपालिका–१ केराबारीमा ... पहिरो" places the landslide in
+    Gorkha. "सिन्धुपाल्चोक जिल्लाको मेलम्ची घर भएका चालक" is where the driver
+    lived. Reading the second as the event location moved the event two
+    districts away, and the resulting record was self-consistent, so nothing
+    downstream could detect it.
+    """
+
+    result = extract_np(
+        'गोरखामा पहिरोले पुरिएर स्काभेटरसहित चालक बेपत्ता',
+        'गोरखाको सिरानचोक गाउँपालिका–१ केराबारीमा शुक्रबार बिहान गएको पहिरोले स्काभेटरसहित '
+        'चालक पुरिएर बेपत्ता भएका छन् । गुप्चेखोला नजिकै बाटो खन्दै गरेको बेला सिन्धुपाल्चोक '
+        'जिल्लाको मेलम्ची घर भएका चालक रमेश तामाङसहित स्काभेटरलाई माथिबाट खसेको माटोको '
+        'ढिस्कोले पुरेको हो ।',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert result['district'] == 'Gorkha'
+
+
+def test_extract_np_still_reads_a_plain_district_qualifier() -> None:
+    """The guard must not suppress an ordinary "<X> जिल्ला" event mention."""
+
+    result = extract_np(
+        'सिन्धुपाल्चोकमा पहिरो',
+        'सिन्धुपाल्चोक जिल्लाको जुगल गाउँपालिका–२ लिडीमा पहिरो खस्दा तीन जनाको मृत्यु भयो ।',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert result['district'] == 'Sindhupalchok'
+
+
+def test_extract_np_reads_a_word_form_death_count() -> None:
+    """Nepali writes small tolls as words; the patterns matched digits only."""
+
+    result = extract_np(
+        'बैतडीमा पहिरोले घर पुरिँदा तीन जनाको मृत्यु',
+        'कैलाली । बैतडीमा पहिरोले घर पुरिदा तीन जनाको मृत्यु भएको छ । जिल्लाको '
+        'शिवनाथ गाउँपालिका–६ मा पहिरोले घर पुरिदा तीन वर्षीया बालिकासहित तीन जनाको '
+        'मृत्यु भएको हो ।',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert result['deaths'] == 3
+
+
+def test_extract_np_reads_a_toll_from_a_body_recovery_sentence() -> None:
+    """"शव फेला परेको" confirms a death without using any death term."""
+
+    result = extract_np(
+        'पहिराेमा बेपत्ता पाँचै जनाको शव भेटियो',
+        'पाल्पा । रम्भा गाउँपालिका–२ बेलौजामा बिहीबार बिहान पहिराले घर पुरिँदा '
+        'बेपत्ता भएका पाँच जनाको शव भेटिएको छ ।',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert result['deaths'] == 5
+
+
+def test_extract_np_does_not_read_the_verb_cha_as_the_numeral_six() -> None:
+    """`छ` is both "six" and the verb "is", so it needs a person classifier."""
+
+    result = extract_np(
+        'पहिरोले सडक अवरुद्ध',
+        'पहिरोले सडक अवरुद्ध भएको छ । यातायात ठप्प छ । स्थानीय प्रशासन खटिएको छ ।',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert result['deaths'] is None
+
+
+def test_extract_np_records_an_explicit_zero_but_never_imputes_one() -> None:
+    stated = extract_np(
+        'कर्णाली राजमार्गमा पहिरो, सयौं सवारीसाधन अलपत्र',
+        'कर्णाली राजमार्गको कालिकोट खण्डमा पहिरो जाँदा सयौँ सवारीसाधन अलपत्र परेका '
+        'छन् । पहिरोबाट मानवीय क्षति भएको छैन । उद्धारका लागि सुरक्षा निकाय खटिएका छन् ।',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert stated['deaths'] == 0
+
+    silent = extract_np(
+        'पहिरोले सडक अवरुद्ध',
+        'पहिरोका कारण सडक अवरुद्ध भएको छ । सवारी साधन जाममा परेका छन् ।',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert silent['deaths'] is None

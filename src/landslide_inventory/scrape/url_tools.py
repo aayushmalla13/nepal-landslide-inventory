@@ -5,7 +5,7 @@ from __future__ import annotations
 from urllib.parse import parse_qsl, quote, unquote, urlencode, urljoin, urlparse, urlunparse
 
 TRACKING_QUERY_PREFIXES = ("utm_",)
-TRACKING_QUERY_KEYS = {"fbclid", "gclid", "amp", "output"}
+TRACKING_QUERY_KEYS = {"fbclid", "gclid", "amp", "output", "click_from"}
 REJECT_PATH_PARTS = {
     "page",
     "tag",
@@ -61,12 +61,12 @@ def is_allowed_domain(url: str, allowed_domains: list[str]) -> bool:
     return any(hostname == domain or hostname.endswith(f".{domain}") for domain in allowed_domains)
 
 
-def looks_like_article_url(url: str) -> bool:
+def looks_like_article_url(url: str, *, allow_single_segment: bool = False) -> bool:
     """Heuristic article URL filter."""
 
     parsed = urlparse(url)
     path_parts = [part for part in parsed.path.split("/") if part]
-    if len(path_parts) < 2:
+    if len(path_parts) < 2 and not allow_single_segment:
         return False
     if path_parts[0].casefold() == 'cdn-cgi':
         return False
@@ -77,12 +77,18 @@ def looks_like_article_url(url: str) -> bool:
     return True
 
 
-def filter_article_url(url: str, allowed_domains: list[str], base_url: str | None = None) -> str | None:
+def filter_article_url(
+    url: str,
+    allowed_domains: list[str],
+    base_url: str | None = None,
+    *,
+    allow_single_segment: bool = False,
+) -> str | None:
     """Normalize and validate a candidate article URL."""
 
     normalized = normalize_url(url, base_url=base_url)
     if not is_allowed_domain(normalized, allowed_domains):
         return None
-    if not looks_like_article_url(normalized):
+    if not looks_like_article_url(normalized, allow_single_segment=allow_single_segment):
         return None
     return normalized

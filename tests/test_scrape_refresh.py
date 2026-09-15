@@ -5,9 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 
 from landslide_inventory.db import connect_sqlite, initialize_sqlite
-from landslide_inventory.scrape.collect import _stale_refresh_discoveries
+from landslide_inventory.scrape.collect import _select_sources, _stale_refresh_discoveries, _year_hint_from_url
 from landslide_inventory.scrape.models import DiscoveredUrl
-from landslide_inventory.scrape.storage import stale_raw_article_urls_for_source
+from landslide_inventory.scrape.storage import raw_article_urls_for_source, stale_raw_article_urls_for_source
 from landslide_inventory.sources import SourceDefinition
 
 
@@ -47,6 +47,10 @@ def test_stale_raw_article_urls_for_source_returns_parser_noise_rows(tmp_path: P
 
     stale_urls = stale_raw_article_urls_for_source(database_path, "himalayan-times")
     assert stale_urls == ["https://thehimalayantimes.com/nepal/example-noise"]
+    assert raw_article_urls_for_source(database_path, "himalayan-times") == {
+        "https://thehimalayantimes.com/nepal/example-noise",
+        "https://thehimalayantimes.com/nepal/example-clean",
+    }
 
 
 def test_stale_refresh_discoveries_adds_missing_stale_urls(tmp_path: Path) -> None:
@@ -116,3 +120,17 @@ def test_stale_raw_article_urls_for_source_returns_ratopati_nav_noise_rows(tmp_p
 
     stale_urls = stale_raw_article_urls_for_source(database_path, "ratopati")
     assert stale_urls == ["https://www.ratopati.com/story/123/example-noise"]
+
+
+def test_year_hint_from_url_supports_current_and_historical_years() -> None:
+    assert _year_hint_from_url('https://deshsanchar.com/2026/08/10/1214111/', []) == 2026
+    assert _year_hint_from_url('https://deshsanchar.com/2017/12/02/545/', []) == 2017
+
+
+def test_select_sources_accepts_comma_separated_slugs(monkeypatch) -> None:
+    sources = [
+        SourceDefinition('A', 'a', 'np', 'https://a.test', {'primary': 'x'}, []),
+        SourceDefinition('B', 'b', 'np', 'https://b.test', {'primary': 'x'}, []),
+    ]
+    monkeypatch.setenv('LS_SOURCE', 'b,a')
+    assert [source.slug for source in _select_sources(sources)] == ['a', 'b']

@@ -6,10 +6,11 @@ from datetime import date
 from pathlib import Path
 
 from landslide_inventory.db import connect_sqlite, initialize_sqlite
-from landslide_inventory.gazetteer import district_to_province, normalize_district, normalize_municipality, municipality_to_district
+from landslide_inventory.gazetteer import all_districts, district_to_province, normalize_district, normalize_municipality, municipality_to_district
 from landslide_inventory.unify.extract_stage import (
     ArticleRow,
     _effective_published_year_hint,
+    _reconcile_place,
     build_article_event_record,
     merge_extractor_outputs,
     upsert_article_event,
@@ -152,10 +153,77 @@ def test_build_article_event_record_enforces_study_period_and_municipality_distr
         study_end=date(2024, 12, 31),
         en_extractor=fake_en,
     )
-    assert record['district'] == 'Sindhupalchok'
-    assert record['province'] == 'Bagmati'
+    # The record must not assert a municipality outside its own district. Since
+    # 2026-08-14 that is resolved by keeping the established district and
+    # dropping the contradicting municipality, rather than by moving the event
+    # to the municipality's district.
+    #
+    # The reason is measured, not stylistic. With the 753-unit gazetteer, a
+    # municipality that disagrees with an already-extracted district is usually
+    # a person's home address ("the deceased ... of Chandrpur Municipality-1,
+    # Rautahat" in a story about a landslide in Rasuwa), and letting it win
+    # relocated events to the wrong district. The language extractors already
+    # adjudicate the genuine case -- a dateline that is not the event district
+    # -- before the record reaches this stage. See
+    # scripts/score_district_development.py for the ablation on the labelled
+    # development set.
+    assert record['district'] == 'Manang'
+    assert record['province'] == 'Gandaki'
+    assert record['municipality'] is None
+    assert record['ward'] is None
+    assert record['place_admin_level'] == 'district'
     assert record['event_date_ad'] is None
     assert record['class'] == 2
+
+
+def test_reconcile_place_fills_a_missing_district_from_an_unambiguous_municipality() -> None:
+    """The enlarged gazetteer is allowed to *add* a district, never to move one."""
+
+    canonical = set(all_districts())
+    district, municipality, ward = _reconcile_place(
+        None, 'Melamchi Municipality', 'Ward 3', canonical
+    )
+    assert (district, municipality, ward) == ('Sindhupalchok', 'Melamchi Municipality', 'Ward 3')
+
+
+def test_reconcile_place_keeps_a_municipality_that_agrees_with_the_district() -> None:
+    canonical = set(all_districts())
+    assert _reconcile_place('Sindhupalchok', 'Melamchi Municipality', 'Ward 3', canonical) == (
+        'Sindhupalchok',
+        'Melamchi Municipality',
+        'Ward 3',
+    )
+
+
+def test_reconcile_place_accepts_an_ambiguous_municipality_that_matches_the_district() -> None:
+    """Godawari Municipality exists in both Lalitpur and Kailali."""
+
+    canonical = set(all_districts())
+    assert _reconcile_place('Lalitpur', 'Godawari Municipality', None, canonical) == (
+        'Lalitpur',
+        'Godawari Municipality',
+        None,
+    )
+    assert _reconcile_place('Kailali', 'Godawari Municipality', None, canonical) == (
+        'Kailali',
+        'Godawari Municipality',
+        None,
+    )
+    # With no district to disambiguate it, a shared name cannot pick one.
+    assert _reconcile_place(None, 'Godawari Municipality', None, canonical) == (
+        None,
+        'Godawari Municipality',
+        None,
+    )
+
+
+def test_reconcile_place_drops_a_contradicting_municipality_rather_than_moving_the_event() -> None:
+    canonical = set(all_districts())
+    assert _reconcile_place('Rasuwa', 'Chandrapur Municipality', 'Ward 1', canonical) == (
+        'Rasuwa',
+        None,
+        None,
+    )
 
 
 def test_article_event_upsert_is_idempotent(tmp_path: Path) -> None:
@@ -620,11 +688,11 @@ def test_build_article_event_record_trims_myrepublica_title_suffix_before_extrac
             'missing': 4,
             'injured': None,
             'trigger': 'rainfall',
-            'municipality': 'Kusma Municipality',
+            'municipality': 'Kushma Municipality',
             'ward': None,
             'place_admin_level': 'municipality',
-            'place_name_raw': 'Kusma Municipality',
-            'place_candidates_json': '["Kusma Municipality"]',
+            'place_name_raw': 'Kushma Municipality',
+            'place_candidates_json': '["Kushma Municipality"]',
             'conf_place': 0.9,
             'conf_class': 0.8,
             'conf_date': 0.88,

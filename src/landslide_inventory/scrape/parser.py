@@ -16,8 +16,16 @@ SOURCE_CONTENT_CLASSES = {
     "kathmandu-post": {"story-element-text", "story-body", "story__content"},
     "himalayan-times": {"entry-content", "post-content", "content-inner", "jeg_inner_content"},
     "online-khabar": {"ok18-single-post-content-wrap", "ok18-post-content-wrap", "entry-content"},
+    "onlinekhabar-en": {"ok18-single-post-content-wrap", "ok18-post-content-wrap", "entry-content", "post-content"},
     "myrepublica": {"news-detail-content", "news-description"},
     "setopati": {"editor-box", "news-content"},
+    "deshsanchar": {"entry-content", "post-content", "single-post-content"},
+    "rajdhani": {"entry-content", "post-content", "elementor-widget-theme-post-content"},
+    "nagarik": {"news-content", "content", "content-detail"},
+    "nepali-times": {"article-content", "entry-content", "post-content", "prose"},
+    "ujyaalo": {"editor-box", "detail-content-box"},
+    "nepalpress": {"news-content-area", "news-post-content"},
+    "nepalpress-en": {"news-content-area", "news-post-content"},
 }
 META_PUBLISHED_NAMES = {
     "article:published_time",
@@ -145,6 +153,9 @@ def parse_article_html(source: SourceDefinition, html: str, url: str) -> ParsedA
     parser.feed(html)
     published_date_raw = parser.published_date_raw or _extract_published_date(source.slug, html, url)
     paragraphs = list(parser.paragraphs)
+    source_paragraphs = _source_container_paragraphs(source.slug, html)
+    if source_paragraphs:
+        paragraphs = source_paragraphs
     if not paragraphs or _looks_like_parser_noise(paragraphs):
         fallback_paragraphs = _fallback_extract_paragraphs(source.slug, html)
         if fallback_paragraphs:
@@ -156,6 +167,35 @@ def parse_article_html(source: SourceDefinition, html: str, url: str) -> ParsedA
         text=text,
         parse_success=bool(text and parser.title),
     )
+
+
+def _source_container_paragraphs(source_slug: str, html: str) -> list[str]:
+    """Prefer the verified article container for sources with page-wide article tags."""
+
+    selectors = {
+        "ujyaalo": (".editor-box",),
+        "nepalpress": (".news-content-area", ".news-post-content"),
+        "nepalpress-en": (".news-content-area", ".news-post-content"),
+    }
+    if source_slug not in selectors:
+        return []
+    soup = BeautifulSoup(html, "html.parser")
+    for selector in selectors[source_slug]:
+        container = soup.select_one(selector)
+        if container is None:
+            continue
+        paragraphs = [
+            _sanitize_paragraph(
+                source_slug, _clean_text(paragraph.get_text(" ", strip=True))
+            )
+            for paragraph in container.find_all("p")
+        ]
+        cleaned = [
+            paragraph for paragraph in paragraphs if paragraph and not _is_noise_paragraph(paragraph)
+        ]
+        if cleaned:
+            return cleaned
+    return []
 
 
 def _sanitize_paragraph(source_slug: str, paragraph: str) -> str:
@@ -225,6 +265,11 @@ def _clean_text(value: str) -> str:
 def _extract_published_date(source_slug: str, html: str, url: str) -> str | None:
     """Extract a publication date from common HTML patterns."""
 
+    if source_slug in {"ujyaalo", "nepalpress", "nepalpress-en"}:
+        source_date = _extract_source_visible_date(source_slug, html)
+        if source_date:
+            return source_date
+
     if source_slug == 'myrepublica':
         candidates = (
             _extract_json_ld_date(html),
@@ -245,6 +290,31 @@ def _extract_published_date(source_slug: str, html: str, url: str) -> str | None
     for candidate in candidates:
         if candidate:
             return candidate
+    return None
+
+
+def _extract_source_visible_date(source_slug: str, html: str) -> str | None:
+    """Read publisher-visible dates before unrelated template or advert dates."""
+
+    soup = BeautifulSoup(html, "html.parser")
+    selectors = {
+        "ujyaalo": (".published-box .date-line", ".published-box"),
+        "nepalpress": (".news-detail-header .post-date", ".post-header .post-date", ".post-date"),
+        "nepalpress-en": (".news-detail-header .post-date", ".post-header .post-date", ".post-date"),
+    }
+    for selector in selectors.get(source_slug, ()):
+        for node in soup.select(selector):
+            text = _clean_text(node.get_text(" ", strip=True))
+            date_value = _date_from_visible_text(text)
+            if date_value:
+                return date_value
+            has_bs_year = re.search(r"[०-९]{4}", text)
+            has_bs_month = re.search(
+                r"(?:बैशाख|वैशाख|जेठ|असार|साउन|भदौ|असोज|कात्तिक|कार्तिक|मंसिर|पुष|पुस|माघ|फागुन|चैत)",
+                text,
+            )
+            if source_slug in {"ujyaalo", "nepalpress"} and has_bs_year and has_bs_month:
+                return text
     return None
 
 

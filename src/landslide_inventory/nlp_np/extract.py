@@ -8,6 +8,14 @@ from datetime import date, timedelta
 from typing import Any, Callable
 
 from ..gazetteer import district_to_province, normalize_district
+from ..nlp_attribution import is_person_attribution
+from ..nlp_counts import (
+    NEPALI_BODY_RECOVERY_VERBS,
+    NEPALI_NUMBER_ALTERNATION,
+    NEPALI_PERSON_NOUN_ALTERNATION,
+    explicit_zero_is_safe,
+    parse_nepali_number,
+)
 from ..gazetteer_municipality import municipality_to_district, normalize_municipality
 from ..preprocess.dates import bs_to_ad, detect_bs_date, devanagari_to_ascii_digits
 from .places import extract_place_np
@@ -187,8 +195,15 @@ def _normalize_municipality_np(name: str) -> str | None:
 def _find_explicit_district_np(text: str, district_normalizer: GazetteerFunc) -> str | None:
     for match in NP_DISTRICT_PATTERN.finditer(text):
         normalized = district_normalizer(match.group(1))
-        if normalized is not None:
-            return normalized
+        if normalized is None:
+            continue
+        # "सिन्धुपाल्चोक जिल्लाको मेलम्ची घर भएका चालक" names the driver's home,
+        # not the landslide site. Skipping the attributed mention lets a later
+        # "<X> जिल्ला" -- or the place extractor below -- supply the event
+        # district instead of relocating the event to a victim's home.
+        if is_person_attribution(text, match.start(1), match.end(1), 'np'):
+            continue
+        return normalized
     place = extract_place_np(text)
     if place.place_admin_level == 'district' and place.district is not None:
         if place.district == 'Kathmandu':
@@ -344,6 +359,33 @@ def _is_aggregate_context(text: str, start: int, end: int, window: int = 90) -> 
     return AGGREGATE_CONTEXT_PATTERN.search(text[max(0, start - window):end + window]) is not None
 
 
+# AGE VETO -- see the longer note in nlp_en/extract.py.
+#
+# The reverse casualty pattern here is deliberately loose::
+#
+#     (?:मृत्यु|मृत|...)[^0-9]{0,8}(?P<num>\d+)
+#
+# so any digit within eight characters of a death word is read as a toll. Nepali
+# reporting puts the victim's family's ages exactly there::
+#
+#     "मृतककी ९० वर्षीया सासू टुलकीमाया"   (the deceased's 90-year-old mother-in-law)
+#
+# which recorded 90 deaths for an article headlined "पहिरोले घर पुरिँदा
+# महिलाको मृत्यु" -- one woman. It was the single largest fatality figure in the
+# whole inventory.
+#
+# An age in Nepali is marked by the word that follows it, वर्ष / बर्ष and their
+# adjectival forms (वर्षीय, वर्षीया, बर्षे). That suffix is unambiguous: a count
+# of dead people is never followed by "years".
+NP_AGE_SUFFIX_PATTERN = re.compile(r'^\s*(?:वर्ष|बर्ष|वर्ष्|बर्ष्)')
+
+
+def _is_age_context(text: str, start: int, end: int) -> bool:
+    """Whether a numeric match is a person's age rather than a count."""
+
+    return NP_AGE_SUFFIX_PATTERN.search(text[end:end + 12]) is not None
+
+
 def _casualty_scope(text: str, lead_chars: int = 400) -> str:
     """Restrict casualty search to the headline and lead.
 
@@ -374,8 +416,26 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         if not terms:
             continue
         term_group = '|'.join(terms)
+        # A count of people is written either as digits or as a numeral word,
+        # and the word form dominates for small tolls -- "तीन जनाको मृत्यु".
+        # The numeral must be followed by a person classifier or a person noun,
+        # which is what keeps `छ` (both "six" and the verb "is") from firing on
+        # every sentence.
+        number = rf'\d+|{NEPALI_NUMBER_ALTERNATION}'
+        person = NEPALI_PERSON_NOUN_ALTERNATION
         patterns = (
-            re.compile(rf'(?P<qual>कम्तीमा|कम्तिमा|करिब|झण्डै|कम्तिमा)?\s*(?P<num>\d+)\s*(?:जनाको|जना|जन)\s*(?:{term_group})'),
+            re.compile(
+                rf'(?P<qual>कम्तीमा|कम्तिमा|करिब|झण्डै)?\s*(?P<num>{number})\s*'
+                rf'(?:{person})\w*\s*(?:{term_group})'
+            ),
+            # The death term is often separated from the count by a short
+            # descriptive clause -- "दुई जनाको ढिस्को खसेर मृत्यु" (two people
+            # died when a mound collapsed). The gap is bounded and may not
+            # cross a danda, so it cannot reach into the next sentence.
+            re.compile(
+                rf'(?P<qual>कम्तीमा|कम्तिमा|करिब|झण्डै)?\s*(?P<num>{number})\s*'
+                rf'(?:{person})\w*[^।\n]{{0,40}}?(?:{term_group})'
+            ),
             re.compile(rf'(?:{term_group})[^0-9]{{0,8}}(?P<num>\d+)'),
         )
         best_value = None
@@ -391,26 +451,123 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
                 for match in pattern.finditer(search_text):
                     if _is_aggregate_context(search_text, match.start(), match.end()):
                         continue
-                    value = int(match.group('num'))
+                    if _is_age_context(search_text, match.start('num'), match.end('num')):
+                        continue
+                    raw = match.group('num')
+                    value = int(raw) if raw.isdigit() else parse_nepali_number(raw)
+                    if value is None:
+                        continue
                     qualifier = match.groupdict().get('qual') or ''
                     best_value = value
+                    # A word-form numeral is as reliable as a digit here,
+                    # because the pattern already required a person classifier
+                    # after it; an approximate qualifier is what lowers trust.
                     best_conf = 0.75 if qualifier else 0.92
                     break
         values[label] = best_value
         confidence = max(confidence, best_conf)
+
+    if values['deaths'] is None:
+        recovered, recovered_conf = _deaths_from_body_recovery(normalized_text, casualty_scope)
+        if recovered is not None:
+            values['deaths'] = recovered
+            confidence = max(confidence, recovered_conf)
+
     if not any(value is not None for value in values.values()):
+        # Only now, with nothing counted anywhere, may an explicit statement
+        # that nobody was harmed be recorded as a zero. See nlp_counts.
+        if explicit_zero_is_safe(text, 'np', extracted_any_count=False):
+            return 0, None, None, 0.88
         confidence = 0.0
     return values['deaths'], values['missing'], values['injured'], confidence
+
+
+# "शव फेला परेको छ" -- a body has been found -- confirms a death without using
+# any death term, so a toll written this way was invisible to the casualty
+# patterns above. It is the standard construction in recovery reporting and
+# accounts for a large share of the Nepali articles that carried death language
+# but no extracted count.
+NP_BODY_RECOVERY_VERB_GROUP = '|'.join(NEPALI_BODY_RECOVERY_VERBS)
+
+
+def _deaths_from_body_recovery(text: str, scope: str) -> tuple[int | None, float]:
+    """Read a confirmed death toll from a body-recovery sentence."""
+
+    pattern = re.compile(
+        rf'(?P<num>\d+|{NEPALI_NUMBER_ALTERNATION})\s*'
+        rf'(?:{NEPALI_PERSON_NOUN_ALTERNATION})\w*\s*'
+        rf'(?:को|का|के)?\s*शव\s*[^।.]{{0,20}}?(?:{NP_BODY_RECOVERY_VERB_GROUP})'
+    )
+    for search_text in (scope, text):
+        for match in pattern.finditer(search_text):
+            if _is_aggregate_context(search_text, match.start(), match.end()):
+                continue
+            if _is_age_context(search_text, match.start('num'), match.end('num')):
+                continue
+            raw = match.group('num')
+            value = int(raw) if raw.isdigit() else parse_nepali_number(raw)
+            if value is None:
+                continue
+            return value, 0.86
+    return None, 0.0
 
 
 def _extract_trigger(text: str, trigger_terms: dict[str, list[str]]) -> tuple[str, float]:
     if _contains_any(text, trigger_terms.get('earthquake', [])):
         return 'earthquake', 0.95
-    if _contains_any(text, trigger_terms.get('road_construction', [])):
+    if _has_anthropogenic_trigger_np(text, trigger_terms.get('road_construction', [])):
         return 'anthropogenic', 0.88
     if _contains_any(text, trigger_terms.get('rainfall', [])):
         return 'rainfall', 0.9
     return 'unknown', 0.3
+
+
+# Phrases in which earthworks are the SETTING OF THE FAILURE rather than its
+# aftermath. The English route has required a confirming phrase like this since
+# it was written (`_has_anthropogenic_trigger`); the Nepali route did not, and
+# matched its three bare configured terms directly.
+#
+# That asymmetry was expensive. `डोजर` is the machine that *clears* a landslide,
+# and `निर्माण` appears in every "निर्माणाधीन सडक" -- a road under construction
+# is where landslides happen, not a reason the slope moved. Between them they
+# tagged 452 canonical events `anthropogenic`, which the analysis then dropped;
+# 416 were Nepali-route, and reading them shows the great majority are ordinary
+# rainfall-triggered landslides ("कालीखोलामा पहिरो, मुग्लिन सडक अवरुद्ध",
+# "एकैदिन तीस ठाउँमा पहिरो").
+#
+# Deliberately absent: मजदुर and कामदार. Labourers are killed by real landslides
+# too, and their presence says nothing about what moved the slope.
+NP_ANTHROPOGENIC_CONTEXT = (
+    # Burial by *placed* earth -- a spoil heap, a sand pile.
+    'माटोको ढिस्को',
+    'बालुवाको ढिस्को',
+    'ढिस्कोले पुरि',
+    'ढिस्कोमा पुरि',
+    'ढिस्काले पुरि',
+    # Extraction and earthmoving as the site of the failure.
+    'प्लटिङ',
+    'क्रसर',
+    'उत्खनन',
+    'खन्दै गरेको ठाउँ',
+    'खन्ने क्रम',
+    'खनेको ठाउँ',
+    'पर्खाल लगाउँदा',
+    'सडक विस्तारका क्रम',
+    'सुरुङमार्ग निर्माण',
+)
+
+
+def _has_anthropogenic_trigger_np(text: str, terms: list[str]) -> bool:
+    """Return whether human earthworks caused the failure, not merely followed it.
+
+    Mirrors the English route's two-part test: a configured term must appear
+    *and* a phrase placing the earthworks at the failure itself. Either half
+    alone is not evidence.
+    """
+
+    if not _contains_any(text, terms):
+        return False
+    return any(phrase in text for phrase in NP_ANTHROPOGENIC_CONTEXT)
 
 
 def _classify_event(

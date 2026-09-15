@@ -219,7 +219,7 @@ def test_extract_en_recovers_split_doramba_shailung_municipality() -> None:
         KEYWORDS_CFG,
         published_year_hint=2024,
     )
-    assert result['municipality'] == 'Doramba Shailung Rural Municipality'
+    assert result['municipality'] == 'Doramba Rural Municipality'
     assert result['district'] == 'Ramechhap'
     assert result['trigger'] == 'unknown'
 
@@ -452,7 +452,7 @@ def test_extract_en_malikarjun_rural_municipality_maps_to_darchula() -> None:
         published_year_hint=2024,
     )
     assert result['district'] == 'Darchula'
-    assert result['municipality'] == 'Malikarjun Rural Municipality'
+    assert result['municipality'] == 'Malikaarjun Rural Municipality'
     assert result['trigger'] == 'unknown'
     assert result['class'] == 2
 
@@ -543,7 +543,7 @@ def test_extract_en_parenthesized_dateline_and_last_night_shift_date() -> None:
         published_year_hint=2024,
     )
     assert result['district'] == 'Nawalpur'
-    assert result['municipality'] == 'Binayi Triveni Rural Municipality'
+    assert result['municipality'] == 'Binayee Rural Municipality'
     assert result['event_date_ad'] == '2024-08-13'
     assert result['trigger'] == 'rainfall'
 
@@ -610,7 +610,7 @@ def test_extract_en_prefers_same_district_municipality_over_victim_home_municipa
         published_year_hint=2022,
     )
     assert result['district'] == 'Surkhet'
-    assert result['municipality'] == 'Panchapuri Municipality'
+    assert result['municipality'] == 'Panchpuri Municipality'
 
 
 def test_extract_en_road_articles_with_multiple_municipalities_leave_municipality_blank() -> None:
@@ -636,7 +636,7 @@ def test_extract_en_ward_form_bare_municipality_name_resolves() -> None:
         KEYWORDS_CFG,
         published_year_hint=2022,
     )
-    assert result['municipality'] == 'Ichhakamana Rural Municipality'
+    assert result['municipality'] == 'Ichchhyakamana Rural Municipality'
 
 
 def test_extract_en_supports_uppercase_dateline_month_day_without_year() -> None:
@@ -650,3 +650,157 @@ def test_extract_en_supports_uppercase_dateline_month_day_without_year() -> None
     assert result['event_date_ad'] == '2021-06-19'
     assert result['conf_date'] >= 0.88
     assert result['class'] == 1
+
+
+def test_extract_en_body_district_phrase_outranks_a_neighbouring_bureau_dateline() -> None:
+    """A dateline names the filing bureau, not necessarily the event district.
+
+    Regression: "SURKHET, Aug 30: ... in Kalikot district" was stored as
+    Surkhet. The error was invisible because the record was self-consistent.
+    """
+
+    result = extract_en(
+        'Five houses swept away by landslide in Kalikot',
+        'By Republica SURKHET, Aug 30: A landslide swept away five houses and killed one '
+        'person in Kalikot district on Sunday morning. The landslide that occurred at Nagam '
+        'Bazar of Tilagufa Municipality-1 at around 7:30 this morning killed one person, '
+        'according to the District Police Office, Kalikot.',
+        '2020-08-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2020,
+    )
+    assert result['district'] == 'Kalikot'
+    assert result['municipality'] == 'Tilagufa Municipality'
+
+
+def test_extract_en_lower_case_district_qualifier_is_recognised() -> None:
+    """House style is "in Kalikot district"; requiring a capital D missed it."""
+
+    result = extract_en(
+        'Landslide kills one',
+        'By Republica SURKHET, Aug 30: A landslide killed one person in Kalikot district '
+        'on Sunday morning.',
+        '2020-08-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2020,
+    )
+    assert result['district'] == 'Kalikot'
+
+
+def test_extract_en_victims_home_municipality_does_not_relocate_the_event() -> None:
+    """Regression: "Pilgrim dies in Rasuwa landslide" was stored as Rautahat.
+
+    Chandrapur Municipality is in Rautahat, but it is the deceased's home
+    address, not where the landslide happened.
+    """
+
+    result = extract_en(
+        'Pilgrim dies in Rasuwa landslide',
+        'By Republica RASUWA, Aug 3: A pilgrim heading toward Gosainkunda died on the way '
+        'after being buried by a landslide. The deceased has been identified as Namrata '
+        'Karki of Chandrpur Municipality-1, Rautahat. DSP Santosh Tamang confirmed that the '
+        '35-year-old died during the incident at Mini-Gosainkunda-6 of Rasuwa district.',
+        '2024-08-03',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2024,
+    )
+    assert result['district'] == 'Rasuwa'
+    assert result['municipality'] != 'Chandrapur Municipality'
+
+
+def test_district_near_municipality_guard_separates_qualification_from_co_occurrence() -> None:
+    from landslide_inventory.gazetteer import normalize_district
+    from landslide_inventory.nlp_en.extract import (
+        _district_is_near_municipality,
+        _municipality_stem,
+    )
+
+    normalizer = lambda name: normalize_district(name, 'en')  # noqa: E731
+
+    assert _municipality_stem('Uttargaya Rural Municipality') == 'Uttargaya'
+    assert _municipality_stem('Kathmandu Metropolitan City') == 'Kathmandu'
+    assert _municipality_stem('Birgunj Sub-Metropolitan City') == 'Birgunj'
+
+    qualifying = (
+        'The bodies were recovered at Pairebensi of Uttargaya rural municipality - 4, '
+        'Rasuwa on Wednesday.'
+    )
+    assert _district_is_near_municipality(
+        qualifying, 'Uttargaya Rural Municipality', 'Rasuwa', normalizer
+    ) is True
+
+    boilerplate = (
+        'Subscribe Login Politics Economy Society Rautahat Sports Republica Watch. '
+        + 'Filler sentence. ' * 8
+        + 'A landslide struck Chandrapur Municipality on Sunday.'
+    )
+    assert _district_is_near_municipality(
+        boilerplate, 'Chandrapur Municipality', 'Rautahat', normalizer
+    ) is False
+
+    # A municipality whose name is not written in the text at all cannot be
+    # judged; the guard declines rather than moving the event.
+    assert _district_is_near_municipality(
+        qualifying, 'Melamchi Municipality', 'Sindhupalchok', normalizer
+    ) is False
+
+
+def test_extract_en_reads_a_count_separated_from_the_death_verb() -> None:
+    """"Four persons of a single family were buried to death" -- the apposition
+    between the count and the verb hid these counts entirely."""
+
+    result = extract_en(
+        'Four of a single family killed in Syangja landslide',
+        'POKHARA: Four persons of a single family were buried to death after '
+        'torrential rain triggered a landslide at Kyarebhanjyang-7 of Syangja '
+        'district on Saturday.',
+        '2020-08-01',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2020,
+    )
+    assert result['deaths'] == 4
+
+
+def test_extract_en_does_not_read_an_age_as_a_death_count() -> None:
+    """"Thirty five year Babiran Khatun was killed" is one death, not thirty-five."""
+
+    result = extract_en(
+        "Woman crossing Baglung's landslide crushed by boulder",
+        'BAGLUNG, Sept 17: Thirty five year Babiran Khatun was killed after a '
+        'falling boulder crushed her while she was crossing the landslide at '
+        'Turture of Badigad Rural Municipality.',
+        '2020-09-17',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2020,
+    )
+    assert result['deaths'] != 35
+
+
+def test_extract_en_records_an_explicit_zero_but_never_imputes_one() -> None:
+    stated = extract_en(
+        'Panchthar landslide destroys house',
+        'PHIDIM: A house has been destroyed due to a landslide in Subhang of '
+        'Panchthar district on Wednesday. The house is reported to be of local '
+        'Gopal Bhandari. No human casualty has been reported, informed police.',
+        '2019-07-10',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2019,
+    )
+    assert stated['deaths'] == 0
+
+    silent = extract_en(
+        'Landslide blocks highway',
+        'PHIDIM: A landslide blocked the Mechi Highway on Wednesday. Traffic '
+        'remains disrupted.',
+        '2019-07-10',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2019,
+    )
+    assert silent['deaths'] is None

@@ -60,6 +60,7 @@ def test_scope_ambiguous_without_signals_is_out() -> None:
 def test_scope_foreign_article_with_noisy_nepal_district_is_out() -> None:
     decision = decide_scope(
         _row(
+            title='Landslides kill 167 people in the Philippines',
             text='Landslides and floods killed 167 people in the Philippines after Tropical Storm Megi.',
             district='Kathmandu',
         ),
@@ -136,3 +137,33 @@ def test_scope_foreign_term_word_boundary_does_not_match_inside_name() -> None:
     )
     assert decision.in_nepal == 1
     assert decision.scope_reason == 'district_match'
+
+
+def test_scope_nepali_demonym_does_not_override_nepal_event_location() -> None:
+    decision = decide_scope(
+        _row(
+            title='पहिरोले बगाउँदा कपिलवस्तुमा दुई भारतीय नागरिक बेपत्ता',
+            text='कपिलवस्तुमा गएको पहिरोमा दुई भारतीय नागरिक बेपत्ता भएका छन्।',
+            district='Kapilvastu',
+            route_lang='np',
+            devanagari_ratio=0.95,
+        ),
+        0.3,
+    )
+    assert decision.in_nepal == 1
+    assert decision.scope_reason == 'district_match'
+
+
+def test_scope_foreign_headline_still_overrides_noisy_nepal_district() -> None:
+    decision = decide_scope(
+        _row(
+            title='पहिरोमा परी अफगानिस्तानमा चार जनाको मृत्यु',
+            text='अफगानिस्तानमा वर्षापछि पहिरो गएको हो।',
+            district='Parbat',
+            route_lang='np',
+            devanagari_ratio=0.95,
+        ),
+        0.3,
+    )
+    assert decision.in_nepal == 0
+    assert decision.scope_reason == 'out_of_country'

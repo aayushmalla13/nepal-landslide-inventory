@@ -153,18 +153,39 @@ def test_dedup_stage_is_idempotent(config_file: Path) -> None:
     assert article_cluster_count == 1
 
 
-def test_cluster_events_uses_only_scope_filtered_class_one_rows(config_file: Path) -> None:
+def test_cluster_events_includes_typed_single_class_two_road_rows(config_file: Path) -> None:
     config = load_config(config_file)
     initialize_sqlite(config.sqlite_path)
     with connect_sqlite(config.sqlite_path) as connection:
-        _insert_raw_article(connection, 'https://a.test/1', 'source-a', 'Dhading landslide kills 3', 'A landslide in Dhading district killed 3 people after heavy rain.')
-        _insert_article_event(connection, url='https://a.test/1', source='source-a', title='Dhading landslide kills 3', event_class=2, in_nepal=1, event_date_ad='2024-07-16', district='Dhading', municipality='Nilkantha Municipality', deaths=3)
+        _insert_raw_article(connection, 'https://a.test/1', 'source-a', 'Landslide blocks Dhading highway', 'A landslide blocked the highway in Dhading district after heavy rain.')
+        _insert_article_event(connection, url='https://a.test/1', source='source-a', title='Landslide blocks Dhading highway', event_class=2, in_nepal=1, event_date_ad='2024-07-16', district='Dhading', municipality='Nilkantha Municipality')
         connection.commit()
 
     events = load_dedup_events(config.sqlite_path)
     clusters, _ = cluster_events(events, build_dedup_config(config))
-    assert events == []
-    assert clusters == []
+    assert len(events) == 1
+    assert events[0].event_class == 2
+    assert events[0].event_type == 'road_obstruction'
+    assert len(clusters) == 1
+
+
+def test_cluster_events_excludes_multi_event_class_two_rows(config_file: Path) -> None:
+    config = load_config(config_file)
+    initialize_sqlite(config.sqlite_path)
+    with connect_sqlite(config.sqlite_path) as connection:
+        title = 'Landslides block roads in several districts'
+        _insert_raw_article(
+            connection, 'https://a.test/multi', 'source-a', title,
+            'Separate landslides blocked roads in several districts after rain.',
+        )
+        _insert_article_event(
+            connection, url='https://a.test/multi', source='source-a', title=title,
+            event_class=2, in_nepal=1, event_date_ad='2024-07-16',
+            district='Dhading', municipality=None,
+        )
+        connection.commit()
+
+    assert load_dedup_events(config.sqlite_path) == []
 
 
 def test_canonical_events_preserve_location_evidence(config_file: Path) -> None:

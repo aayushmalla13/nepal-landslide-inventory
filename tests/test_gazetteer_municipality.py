@@ -62,7 +62,7 @@ def test_english_municipality_variant_resolves_to_correct_district() -> None:
 
 def test_nepali_municipality_variant_resolves_to_canonical_district() -> None:
     municipality = normalize_municipality("बाह्रविसे न.पा.", "np")
-    assert municipality == "Bahrabise Municipality"
+    assert municipality == "Barhabise Municipality"
     assert municipality_to_district(municipality) == "Sindhupalchok"
 
 
@@ -79,24 +79,24 @@ def test_mapping_returns_none_when_municipality_not_resolved() -> None:
 
 def test_fuzzy_english_municipality_match_is_deterministic() -> None:
     municipality = normalize_municipality("Ichchakamana Rural Municipality", "en")
-    assert municipality == "Ichhakamana Rural Municipality"
+    assert municipality == "Ichchhyakamana Rural Municipality"
 
 
 def test_abukhaireni_rural_municipality_maps_to_tanahu() -> None:
-    municipality = normalize_municipality("Abukhaireni Rural Municipality", "en")
-    assert municipality == "Abukhaireni Rural Municipality"
+    municipality = normalize_municipality("Anbukhaireni Rural Municipality", "en")
+    assert municipality == "Anbukhaireni Rural Municipality"
     assert municipality_to_district(municipality) == "Tanahu"
 
 
 def test_binayi_triveni_rural_municipality_maps_to_nawalpur() -> None:
-    municipality = normalize_municipality("Binayi Triveni Rural Municipality", "en")
-    assert municipality == "Binayi Triveni Rural Municipality"
+    municipality = normalize_municipality("Binayee Rural Municipality", "en")
+    assert municipality == "Binayee Rural Municipality"
     assert municipality_to_district(municipality) == "Nawalpur"
 
 
 def test_prefixed_nepali_municipality_string_resolves_to_canonical() -> None:
     municipality = normalize_municipality("काठमाडौंको तारकेश्वर नगरपालिका", "np")
-    assert municipality == "Tarakeshwar Municipality"
+    assert municipality == "Tarakeshwor Municipality"
 
 
 def test_missing_true_municipality_entries_resolve_after_gazetteer_update() -> None:
@@ -111,3 +111,55 @@ def test_fuzzy_municipality_match_does_not_cross_unrelated_names() -> None:
 
 def test_nepali_ward_form_resolves_to_dilasaini_rural_municipality() -> None:
     assert normalize_municipality('डिलाशैनी–६ बांगाबगर', 'np') == 'Dilasaini Rural Municipality'
+
+
+def test_every_legacy_canonical_name_still_resolves() -> None:
+    """The rebuilt gazetteer must not orphan any name already in the inventory.
+
+    Municipality strings written into the frozen v0.4.0 release use the previous
+    canonical spellings. If any of them stopped resolving, that release would
+    stop being reproducible.
+    """
+
+    import csv as _csv
+    from pathlib import Path as _Path
+
+    root = _Path(__file__).resolve().parents[1]
+    legacy = root / "data" / "reference" / "sources" / "legacy_municipalities_en.csv"
+    with legacy.open(encoding="utf-8", newline="") as handle:
+        rows = list(_csv.DictReader(handle))
+    unresolved = [
+        row["municipality_en_canonical"]
+        for row in rows
+        if normalize_municipality(row["municipality_en_canonical"], "en") is None
+    ]
+    assert unresolved == []
+
+
+def test_district_names_do_not_resolve_to_municipalities() -> None:
+    """Eight districts share a name with a unit inside them.
+
+    A bare district name must stay a district; otherwise "Ramechhap" in a
+    dateline would be read as Ramechhap Municipality.
+    """
+
+    for name in ("Ramechhap", "Gorkha", "Kathmandu", "Bhaktapur", "Ilam", "Siraha"):
+        assert normalize_municipality(name, "en") is None, name
+    # The full form is still resolvable.
+    assert normalize_municipality("Ramechhap Municipality", "en") == "Ramechhap Municipality"
+
+
+def test_shared_names_refuse_to_infer_a_district() -> None:
+    from landslide_inventory.gazetteer_municipality import (
+        is_ambiguous_municipality,
+        municipality_districts,
+        municipality_to_district,
+    )
+
+    assert is_ambiguous_municipality("Godawari Municipality")
+    assert municipality_to_district("Godawari Municipality") is None
+    assert municipality_districts("Godawari Municipality") == ("Kailali", "Lalitpur")
+    assert is_ambiguous_municipality("Kaligandaki Rural Municipality")
+    assert municipality_to_district("Kaligandaki Rural Municipality") is None
+    assert municipality_districts("Kaligandaki Rural Municipality") == ("Gulmi", "Syangja")
+    assert municipality_to_district("Ichchhyakamana Rural Municipality") == "Chitwan"

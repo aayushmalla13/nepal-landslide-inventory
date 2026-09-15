@@ -55,7 +55,7 @@ def test_nepali_municipality_variant_resolves_canonical_municipality_and_distric
     text = 'बाह्रविसे नगरपालिका क्षेत्रमा पहिरो जाँदा सडक अवरुद्ध भएको छ।'
     result = extract_place_np(text)
     assert result.place_admin_level == 'municipality'
-    assert result.municipality == 'Bahrabise Municipality'
+    assert result.municipality == 'Barhabise Municipality'
     assert result.district == 'Sindhupalchok'
 
 

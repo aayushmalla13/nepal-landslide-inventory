@@ -39,8 +39,9 @@ from __future__ import annotations
 import csv
 import json
 import logging
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 from .config import AppConfig
 from .db import connect_sqlite
@@ -52,7 +53,8 @@ FINAL_COLUMNS = [
     'event_id', 'dedup_cluster_id', 'event_date_ad', 'district', 'province', 'municipality',
     # Operator decisions, recorded per event so the methods section can state
     # them. See unify/event_typing.py.
-    'event_type', 'hazard_type', 'extraction_basis',
+    'event_type', 'hazard_type', 'event_granularity', 'article_role',
+    'extraction_basis',
     'cluster_size', 'sources_json', 'representative_url', 'representative_source',
     'representative_title', 'trigger', 'deaths', 'missing', 'injured',
     'conf_date', 'conf_class', 'specificity_reason', 'in_nepal', 'scope_reason',
@@ -123,6 +125,14 @@ def build_final_rows(connection) -> list[dict[str, Any]]:
         "COALESCE(ce.extraction_basis, 'full_text') AS extraction_basis,"
         if 'extraction_basis' in typed else "'full_text' AS extraction_basis,"
     )
+    granularity_select = (
+        "COALESCE(ce.event_granularity, 'single') AS event_granularity,"
+        if 'event_granularity' in typed else "'single' AS event_granularity,"
+    )
+    role_select = (
+        "COALESCE(ce.article_role, 'first_report') AS article_role,"
+        if 'article_role' in typed else "'first_report' AS article_role,"
+    )
 
     query = f"""
         SELECT ce.event_id                     AS event_id,
@@ -137,6 +147,8 @@ def build_final_rows(connection) -> list[dict[str, Any]]:
                ce.event_payload                AS event_payload,
                {type_select}
                {hazard_select}
+               {granularity_select}
+               {role_select}
                {basis_select}
                cs.size                         AS cluster_size,
                cs.sources                      AS sources_json,

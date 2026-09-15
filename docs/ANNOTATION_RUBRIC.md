@@ -78,6 +78,22 @@ headline     = is_landslide_event=yes and in_nepal=yes
 paper should report. The other two exist so the older numbers remain
 comparable.
 
+### Locked-set scoring implementation
+
+The scorer applies the definition above literally: only `single` is a positive
+granularity. `multi`, `roundup`, and `not_applicable` are negatives, while
+`unclear` is excluded. A pipeline prediction is positive only when the article
+was retained as Class 1 or Class 2 **and** the inventory's event-typing rules
+classify it as a landslide-family event rather than a road-only obstruction,
+aggregate report, avalanche, flood, or other hazard.
+
+District and event-date extraction are reported separately among true headline
+articles for which the corresponding truth field is available. They are not
+prerequisites for event-detection truth. Weighted precision, recall, and F1 use
+the locked inclusion weights; uncertainty is estimated by a deterministic
+within-stratum weighted bootstrap over the decision-by-language sampling
+strata.
+
 ---
 
 ## The four judgements that actually matter
@@ -119,6 +135,11 @@ nationwide this monsoon", the answer is 3.
 - **Do not skip rows you find hard.** Hard rows are where precision is decided.
   If a row is genuinely undecidable after two minutes, mark every field
   `unclear`, note why, and move on.
+- **No event means no event location.** If an article is about an exhibition,
+  meeting, institution, or person in a named place but no hazard occurred,
+  do not copy that place into district/municipality. Leave event-specific
+  location, date, casualty, and trigger fields blank; still fill all five
+  controlled judgements and the annotator ID.
 - **Never revise a label after seeing a metric.** That is what burned the
   previous 200-row set.
 
