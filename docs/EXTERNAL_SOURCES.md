@@ -50,7 +50,9 @@ PYTHONPATH=src .venv/bin/python -m landslide_inventory.run \
 ```
 
 This stage uses the latest available BIPAD incident date as the common
-comparison cutoff. It writes:
+comparison cutoff. Canonical news events are loaded from the frozen CSV at
+`analysis.canonical_events_path`, not from the mutable SQLite canonical table;
+the input path and SHA-256 are recorded in the outputs. It writes:
 
 - `external_match_report.md`: compact input and candidate-overlap summary.
 - `external_agreement.json`: six-layer harmonisation, tiered overlap,

@@ -221,5 +221,11 @@ def test_final_report_writes_verified_release_bundle(config_file: Path) -> None:
         / 'data/releases/nepal_landslide_inventory_v0.1.0_v3-test_20260810'
     )
     assert (release_dir / 'release_manifest.json').exists()
-    assert (release_dir / 'landslide_inventory.sqlite').exists()
+    canonical_db = release_dir / 'canonical_inventory.sqlite'
+    assert canonical_db.exists()
+    with connect_sqlite(canonical_db) as connection:
+        assert connection.execute('SELECT COUNT(*) FROM canonical_events').fetchone()[0] == 1
+        assert connection.execute(
+            "SELECT value FROM release_metadata WHERE key = 'canonical_csv_sha256'"
+        ).fetchone()[0] == manifest['canonical_summary']['sha256']
     assert (release_dir / f'{stem}_validation_report.md').exists()

@@ -1,7 +1,7 @@
 paper_metadata:
   study_area: Nepal, 77 districts
   study_period: 2015-2026
-  version: 0.5.0
+  version: 0.6.0
 study_period:
   start: '2015-01-01'
   end: '2026-12-31'
@@ -44,6 +44,7 @@ geocode:
 validation:
   article_corrections_path: corrections/article_corrections.csv
   final_release_date: '2026-09-15'
+  supersedes_release: nepal_landslide_inventory_v0.5.0_v7_20260915
   manual_sample_total: 150
   manual_en: 75
   manual_np: 75
@@ -78,7 +79,7 @@ bipad:
   - 3
   - 7
 analysis:
-  release_version: 0.7.0
+  release_version: 0.8.0
   release_date: '20260915'
   # v0.1.0 and v0.2.0 stay on disk as historical baselines. v0.3.0 is the first
   # release built on the 753-unit municipality gazetteer and the corrected
@@ -90,8 +91,8 @@ analysis:
   # 45.4 mm to 51.6 mm -- a shift well inside the bootstrap interval of either
   # estimate. See docs/RAINFALL_CHANGELOG.md and
   # docs/DISTRICT_ASSIGNMENT_2026-09-03.md.
-  supersedes_release: nepal_landslide_rainfall_v0.6.0_20260904
-  inventory_release_id: nepal_landslide_inventory_v0.5.0_v7_20260915
+  supersedes_release: nepal_landslide_rainfall_v0.7.0_20260915
+  inventory_release_id: nepal_landslide_inventory_v0.6.0_v7_20260915
   # Daily district means downloaded reproducibly from NASA SERVIR ClimateSERV.
   # R1/R3/R5/R7 windows include the reported event day.
   chirps_daily_district_path: data/external/chirps_daily_districts.csv

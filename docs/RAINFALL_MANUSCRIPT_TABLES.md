@@ -5,7 +5,7 @@
 `rainfall_release`. Every number is read from the analysis outputs, so these
 tables cannot drift away from the analysis the way a hand-maintained copy did.
 
-Analysis version 0.7.0. Threshold confidence intervals are estimated in the
+Analysis version 0.8.0. Threshold confidence intervals are estimated in the
 development split; performance intervals in the untouched temporal test split.
 
 ## Table 1. Primary exposure — concurrent windows, including the reported event day

@@ -4,9 +4,9 @@
 
 ## Current frozen results
 
-- Inventory release: `nepal_landslide_inventory_v0.4.0_v6_20260810`
-- Rainfall release: `nepal_landslide_rainfall_v0.6.0_20260904`
-- Inventory events: 3,114
+- Inventory release: `nepal_landslide_inventory_v0.6.0_v7_20260915`
+- Rainfall release: `nepal_landslide_rainfall_v0.8.0_20260915`
+- Inventory events: 2,885
 - Primary CHIRPS result: R5 threshold 51.6 mm; temporal-test AUC 0.675
 - IMERG sensitivity: completed and released with v0.6.0
 - Automated secondary extraction: failed its utility gate and is frozen out of
@@ -23,13 +23,12 @@ reportable sources.
 
 Repository-side consolidation completed:
 
-1. Manuscript declarations and the submission index reference rainfall v0.6.0.
+1. Manuscript declarations reference rainfall v0.8.0.
 2. The rainfall manuscript carries the IMERG sensitivity result and its
    Bhaktapur/Kathmandu spatial-support caveat.
 3. Automated secondary extraction is recorded as excluded exploratory work and
    is protected by a production-boundary regression test.
-4. All ten frozen release bundles and the current v0.6.0 working outputs verify,
-   and the submission index lists both current bundles.
+4. All frozen release bundles and the current v0.8.0 working outputs verify.
 
 Author decisions still needed before submission:
 
@@ -41,7 +40,7 @@ Author decisions still needed before submission:
 
 ## Preserved checkpoints
 
-- Inventory: `data/releases/nepal_landslide_inventory_v0.4.0_v6_20260810/`
-- Rainfall: `data/releases/nepal_landslide_rainfall_v0.6.0_20260904/`
+- Inventory: `data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/`
+- Rainfall: `data/releases/nepal_landslide_rainfall_v0.8.0_20260915/`
 - Secondary diagnostic score: `data/outputs/secondary_locked_v8_score.json`
 - Secondary decision: `docs/SECONDARY_EXTRACTION_DECISION.md`

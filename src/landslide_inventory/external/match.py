@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import logging
 from collections.abc import Iterable
@@ -162,6 +163,64 @@ def load_canonical_news(
             url=row["url"],
             missing=_integer(row["missing"]),
             injured=_integer(row["injured"]),
+        )
+    return events, details
+
+
+def load_frozen_canonical_news(
+    canonical_path: Path,
+    database_path: Path,
+    study_start: date,
+    comparison_end: date,
+) -> tuple[list[InventoryEvent], dict[str, EventDetail]]:
+    """Load the released CSV, never the mutable canonical database table."""
+
+    with connect_sqlite(database_path) as connection:
+        assisted_urls = {
+            str(row[0])
+            for row in connection.execute(
+                "SELECT url FROM raw_articles WHERE method LIKE 'external_seed_bipad%'"
+            )
+        }
+    events: list[InventoryEvent] = []
+    details: dict[str, EventDetail] = {}
+    with canonical_path.open("r", encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    for row in rows:
+        raw_date = (row.get("event_date_ad") or "").strip()
+        raw_district = (row.get("district") or "").strip()
+        if not raw_date or not raw_district:
+            continue
+        event_date = date.fromisoformat(raw_date)
+        if not study_start <= event_date <= comparison_end:
+            continue
+        try:
+            payload = json.loads(row.get("event_payload") or "{}")
+        except json.JSONDecodeError:
+            payload = {}
+        member_urls = set(payload.get("urls") or []) if isinstance(payload, dict) else set()
+        representative_url = (row.get("representative_url") or "").strip()
+        if representative_url:
+            member_urls.add(representative_url)
+        if member_urls & assisted_urls:
+            continue
+        district = normalize_district(raw_district, "en") or raw_district
+        event_id = str(row["event_id"])
+        events.append(
+            InventoryEvent(
+                event_id=event_id,
+                district=district,
+                event_date=event_date,
+                municipality=_municipality(row.get("municipality"), district),
+                deaths=_integer(row.get("deaths")),
+                source="news",
+            )
+        )
+        details[event_id] = EventDetail(
+            title=row.get("representative_title"),
+            url=row.get("representative_url"),
+            missing=_integer(row.get("missing")),
+            injured=_integer(row.get("injured")),
         )
     return events, details
 
@@ -402,6 +461,8 @@ def write_summary_report(
     path: Path,
     *,
     generated_at: str,
+    canonical_path: Path,
+    canonical_sha256: str,
     comparison_end: date,
     news_count: int,
     bipad_raw_count: int,
@@ -421,6 +482,8 @@ def write_summary_report(
         f"Common comparison cutoff: {comparison_end.isoformat()}",
         "",
         "## Inputs",
+        f"- Frozen canonical CSV: {canonical_path}",
+        f"- Frozen canonical CSV SHA-256: {canonical_sha256}",
         f"- Canonical news events: {news_count}",
         f"- BIPAD rows in the study window: {bipad_raw_count}",
         f"- Harmonized BIPAD incident clusters: {bipad_cluster_count}",
@@ -464,7 +527,22 @@ def run_external_match_stage(config: AppConfig) -> None:
     if not bipad:
         raise RuntimeError("No in-window BIPAD external records found; run external_collect first.")
     comparison_end = min(study_end, max(event.event_date for event in bipad))
-    news, news_details = load_canonical_news(config.sqlite_path, study_start, comparison_end)
+    canonical_value = config.raw.get("analysis", {}).get("canonical_events_path")
+    if not canonical_value:
+        raise ValueError("analysis.canonical_events_path is required for external matching")
+    canonical_path = Path(str(canonical_value))
+    if not canonical_path.is_absolute():
+        canonical_path = config.config_path.parent / canonical_path
+    if not canonical_path.exists():
+        raise FileNotFoundError(f"Frozen canonical CSV not found: {canonical_path}")
+    news, news_details = load_frozen_canonical_news(
+        canonical_path, config.sqlite_path, study_start, comparison_end
+    )
+    canonical_sha256 = hashlib.sha256(canonical_path.read_bytes()).hexdigest()
+    try:
+        canonical_reference = canonical_path.relative_to(config.config_path.parent)
+    except ValueError:
+        canonical_reference = canonical_path
     collapsed_bipad, collapse_summary = collapse_to_incidents(bipad)
     matches, overlap_summary = match_inventories(news, collapsed_bipad)
     settings = config.raw.get("external_sources", {}).get("matching", {})
@@ -475,6 +553,10 @@ def run_external_match_stage(config: AppConfig) -> None:
         "generated_at": generated_at,
         "comparison_start": study_start.isoformat(),
         "comparison_end": comparison_end.isoformat(),
+        "canonical_input": {
+            "path": str(canonical_reference),
+            "sha256": canonical_sha256,
+        },
         "external_sources": ["bipad", "nasa-coolr"],
         **agreement,
     }
@@ -504,6 +586,8 @@ def run_external_match_stage(config: AppConfig) -> None:
     write_summary_report(
         output_dir / "external_match_report.md",
         generated_at=generated_at,
+        canonical_path=canonical_reference,
+        canonical_sha256=canonical_sha256,
         comparison_end=comparison_end,
         news_count=len(news),
         bipad_raw_count=len(bipad),

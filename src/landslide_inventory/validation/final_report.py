@@ -274,10 +274,45 @@ def build_validation_report(
     return '\n'.join(lines)
 
 
-def _backup_database(source_path: Path, target_path: Path) -> None:
+def _write_canonical_database(source_csv: Path, target_path: Path) -> int:
+    """Create a compact SQLite snapshot whose sole data source is the final CSV.
+
+    The working database continues to evolve and may contain a different dedup
+    snapshot. Copying it into a release falsely implies that its canonical table
+    generated the released CSV. This delivery database is deliberately narrow
+    and mechanically identical to the CSV.
+    """
+
     ensure_directory(target_path.parent)
-    with sqlite3.connect(source_path) as source, sqlite3.connect(target_path) as target:
-        source.backup(target)
+    if target_path.exists():
+        target_path.unlink()
+    with source_csv.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        fieldnames = list(reader.fieldnames or [])
+        rows = list(reader)
+    if not fieldnames or "event_id" not in fieldnames:
+        raise ValueError("Canonical CSV has no event_id column")
+    definitions = [
+        f'"{name}" TEXT' + (" PRIMARY KEY" if name == "event_id" else "")
+        for name in fieldnames
+    ]
+    placeholders = ", ".join("?" for _ in fieldnames)
+    columns = ", ".join(f'"{name}"' for name in fieldnames)
+    with sqlite3.connect(target_path) as connection:
+        connection.execute(f"CREATE TABLE canonical_events ({', '.join(definitions)})")
+        connection.executemany(
+            f"INSERT INTO canonical_events ({columns}) VALUES ({placeholders})",
+            [[row.get(name, "") for name in fieldnames] for row in rows],
+        )
+        connection.execute(
+            "CREATE TABLE release_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL)"
+        )
+        connection.executemany(
+            "INSERT INTO release_metadata (key, value) VALUES (?, ?)",
+            [("canonical_csv_sha256", _sha256(source_csv)), ("canonical_rows", str(len(rows)))],
+        )
+        connection.commit()
+    return len(rows)
 
 
 def run_final_report_stage(config: AppConfig) -> dict[str, Any]:
@@ -358,8 +393,10 @@ def run_final_report_stage(config: AppConfig) -> dict[str, Any]:
     )
     release_dir = config.config_path.parent / 'data' / 'releases' / release_id
     ensure_directory(release_dir)
-    database_snapshot = release_dir / 'landslide_inventory.sqlite'
-    _backup_database(config.sqlite_path, database_snapshot)
+    database_snapshot = release_dir / 'canonical_inventory.sqlite'
+    snapshot_rows = _write_canonical_database(canonical_path, database_snapshot)
+    if snapshot_rows != canonical['rows']:
+        raise ValueError("Canonical SQLite snapshot row count does not match the CSV")
 
     artifacts = [
         canonical_path,
@@ -400,12 +437,14 @@ def run_final_report_stage(config: AppConfig) -> dict[str, Any]:
             key: score['weighted'][key] for key in ('precision', 'recall', 'f1')
         },
         'corrections': corrections,
+        'supersedes': config.raw.get('validation', {}).get('supersedes_release'),
         'checks': {
             'locked_url_hash_valid': True,
             'frozen_labels_hash_valid': True,
             'frozen_predictions_hash_valid': True,
             'canonical_unique_event_ids': True,
             'canonical_rows_after_release_cutoff': 0,
+            'canonical_sqlite_rows_match_csv': True,
         },
         'files': bundle_files,
         'bundle_lock_hash': stable_hash(
@@ -413,6 +452,8 @@ def run_final_report_stage(config: AppConfig) -> dict[str, Any]:
             [(item['file'], item['sha256']) for item in bundle_files],
         ),
         'notes': (
+            'The included canonical_inventory.sqlite is generated directly from '
+            'canonical_events_final.csv; it is not a copy of the mutable working database. '
             f'Locked {settings.version} metrics describe the pre-correction article '
             f'classifier. The {correction_count}-row reviewed correction layer is '
             f'release QA and does not alter or rescore frozen {settings.version} '

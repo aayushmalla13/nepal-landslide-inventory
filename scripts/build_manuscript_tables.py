@@ -298,7 +298,6 @@ def main() -> int:
         f"({fmt(diagnostics.get('strata_without_controls_fraction'))}) |",
         f"| Duplicate control rows | {fmt(diagnostics.get('duplicate_control_row_fraction'))} |",
         f"| Maximum reuse of one control district-day | {diagnostics.get('max_control_reuse')} |",
-        "",
     ]
 
     out_path = ROOT / args.out

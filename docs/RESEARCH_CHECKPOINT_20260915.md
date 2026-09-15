@@ -1,23 +1,27 @@
 # Research source checkpoint — 2026-09-15
 
 This document identifies the exact source and ignored data state associated with
-Git tag `research-state-20260915`. The Git commit contains code, tests,
+Git tag `research-state-20260915.2`. The Git commit contains code, tests,
 configuration, correction provenance, gazetteers, scripts, and manuscript
 documentation. Large and source-text-bearing data remain outside Git and are
 identified by checksummed release bundles.
 
 ## Current linked releases
 
-- Inventory: `nepal_landslide_inventory_v0.5.0_v7_20260915`
-  - bundle lock: `c3a3679afbef226a57e4dda721e7d4ac1ea2379acea5b63f13b9512d0da15f55`
+- Inventory: `nepal_landslide_inventory_v0.6.0_v7_20260915`
+  - bundle lock: `3a6faabc734c5410324530668c8e4cc529342d5dec39838c4a720bc545b57a91`
   - canonical CSV SHA-256: `3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8`
   - 2,885 canonical events and a SQLite snapshot
   - human locked-v7 validation and reviewed-correction provenance
-- Rainfall: `nepal_landslide_rainfall_v0.7.0_20260915`
-  - bundle lock: `b90aca466257103880770ee7bbb361ba5e390ffaac6a559f0749e035cec079bf`
+- Rainfall: `nepal_landslide_rainfall_v0.8.0_20260915`
+  - bundle lock: `5fc21229bb73125d0eaa807778a6a5a4f51e969a3336a953c0d39ebca3b3de2d`
   - provenance-only successor to v0.6.0; numerical results are unchanged
   - its manifest verifies that the canonical-input hash matches the inventory
     release above
+
+The earlier `research-state-20260915` tag remains immutable. It is superseded
+because its inventory bundle copied a mutable working database whose canonical
+table did not match the frozen CSV. No numerical rainfall result changed.
 
 ## Human-validation evidence outside the release bundles
 
@@ -44,7 +48,12 @@ git diff --check
 
 At checkpoint creation, the full test suite passed with only the two intentional
 data-dependent skips, every historical and current bundle lock verified, and
-the working rainfall outputs matched v0.7.0.
+the working rainfall outputs matched v0.8.0.
+
+The refreshed BIPAD comparison is tied to the canonical CSV hash above. At the
+common 2026-08-08 cutoff it includes 2,880 eligible news events and 5,345 BIPAD
+rows collapsed to 4,095 incident clusters; 561 BIPAD clusters have a strong
+Tier A/B candidate link. These are overlap statistics, not precision or recall.
 
 ## Scope boundary
 

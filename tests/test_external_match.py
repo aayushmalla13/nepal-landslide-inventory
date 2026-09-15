@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import csv
 from datetime import date
 from pathlib import Path
 
@@ -76,6 +77,23 @@ def _insert_news(config) -> None:
                 json.dumps({"representative_url": "https://example.test/news-1"}),
             ),
         )
+        # This mutable-DB-only event must never enter the released comparison.
+        connection.execute(
+            """
+            INSERT INTO canonical_events (
+                event_id, dedup_cluster_id, event_date_ad, district, municipality,
+                event_payload
+            ) VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                "db-only",
+                "cluster-db-only",
+                "2024-07-11",
+                "Dhading",
+                "Gajuri Rural Municipality",
+                json.dumps({"representative_url": "https://example.test/db-only"}),
+            ),
+        )
         connection.execute(
             """
             INSERT INTO article_events (
@@ -107,6 +125,33 @@ def test_external_match_stage_writes_gaps_and_groups_coolr(config_file: Path) ->
     config.raw["external_sources"] = {"matching": {"permutations": 2}}
     initialize_sqlite(config.sqlite_path)
     _insert_news(config)
+    canonical_path = config.resolve_path("outputs_dir") / "canonical_events_final.csv"
+    canonical_path.parent.mkdir(parents=True, exist_ok=True)
+    with canonical_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=[
+                "event_id", "event_date_ad", "district", "municipality", "deaths",
+                "missing", "injured", "representative_title", "representative_url",
+                "event_payload",
+            ],
+        )
+        writer.writeheader()
+        writer.writerow(
+            {
+                "event_id": "news-1",
+                "event_date_ad": "2024-07-10",
+                "district": "Dhading",
+                "municipality": "Benighat Rorang",
+                "deaths": 1,
+                "representative_title": "Dhading landslide",
+                "representative_url": "https://example.test/news-1",
+                "event_payload": json.dumps(
+                    {"urls": ["https://example.test/news-1"]}
+                ),
+            }
+        )
+    config.raw.setdefault("analysis", {})["canonical_events_path"] = str(canonical_path)
     records = [
         ExternalRecord(
             source="bipad",
@@ -192,10 +237,14 @@ def test_external_match_stage_writes_gaps_and_groups_coolr(config_file: Path) ->
     assert "Automated Nepal inventory" in coolr
     assert ",2," in coolr
     report = (output_dir / "external_match_report.md").read_text(encoding="utf-8")
+    assert "Canonical news events: 1" in report
+    assert "Frozen canonical CSV SHA-256:" in report
     assert "BIPAD clusters with a strong A/B match: 1" in report
     assert "Mapped polygon features: 2" in report
     agreement = json.loads((output_dir / "external_agreement.json").read_text(encoding="utf-8"))
     assert agreement["comparison_end"] == "2024-08-20"
+    assert agreement["layer2_overlap"]["news_total"] == 1
+    assert agreement["canonical_input"]["path"] == "data/outputs/canonical_events_final.csv"
 
 
 def test_external_match_stage_is_registered() -> None:

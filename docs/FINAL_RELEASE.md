@@ -1,14 +1,15 @@
 # Final inventory releases
 
-## Current release — v0.5.0 / locked v7
+## Current release — v0.6.0 / locked v7
 
-Release ID: `nepal_landslide_inventory_v0.5.0_v7_20260915`
+Release ID: `nepal_landslide_inventory_v0.6.0_v7_20260915`
 
 Bundle lock:
-`c3a3679afbef226a57e4dda721e7d4ac1ea2379acea5b63f13b9512d0da15f55`
+`3a6faabc734c5410324530668c8e4cc529342d5dec39838c4a720bc545b57a91`
 
-This release freezes the 2,885-event canonical inventory, the current SQLite
-snapshot, reviewed-correction provenance, audit outputs, and the human-labelled
+This release freezes the 2,885-event canonical inventory, a canonical-only
+SQLite snapshot generated directly from that CSV, reviewed-correction
+provenance, audit outputs, and the human-labelled
 locked-v7 evaluation. The canonical CSV SHA-256 is
 `3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8`.
 
@@ -19,9 +20,10 @@ accuracy is 0.824 with 0.976 coverage (n=83).
 
 The release is stored under:
 
-`data/releases/nepal_landslide_inventory_v0.5.0_v7_20260915/`
+`data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/`
 
-It supersedes the model-labelled v0.4.0/v6 release below without modifying it.
+It supersedes v0.5.0/v7, whose copied working database did not correspond to its
+canonical CSV, and the model-labelled v0.4.0/v6 release below.
 
 ## Historical release — v0.4.0 / locked v6
 
@@ -75,11 +77,11 @@ scored once and is now spent; it is not bundled retroactively into v0.4.0.
 
 ## Canonical release
 
-- Events: 3,114 unique IDs
+- Events: 2,885 unique IDs
 - Date range: 2015-03-07 through 2026-08-09
 - Districts represented: 76
 - Representative sources: 17
-- Road-obstruction subtype: 603
+- Road-obstruction subtype: 587
 - Non-single records: 0
 - Canonical CSV SHA-256:
   See the v0.4.0 release manifest for the current SHA-256.
@@ -116,10 +118,10 @@ labels or prediction artifacts is not.
 
 ## Linked analysis releases
 
-- `nepal_landslide_rainfall_v0.7.0_20260915` — current provenance-linked
+- `nepal_landslide_rainfall_v0.8.0_20260915` — current provenance-linked
   rainfall analysis. It preserves v0.6.0 numerical results and verifies that
-  its canonical input matches the v0.5.0/v7 inventory release. The bundle lock
-  is recorded in its release manifest.
+  its canonical input matches the v0.6.0/v7 inventory release. The bundle lock
+  is `5fc21229bb73125d0eaa807778a6a5a4f51e969a3336a953c0d39ebca3b3de2d`.
 - `nepal_landslide_rainfall_v0.1.0_20260813` — original rainfall analysis,
   retained as the historical baseline.
 - `nepal_landslide_rainfall_v0.2.0_20260814` — first expanded validation release.
@@ -135,7 +137,7 @@ labels or prediction artifacts is not.
 ```bash
 python3 - <<'EOF'
 import json, hashlib, os
-rel = "data/releases/nepal_landslide_inventory_v0.5.0_v7_20260915"
+rel = "data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915"
 m = json.load(open(os.path.join(rel, "release_manifest.json")))
 bad = [f["file"] for f in m["files"]
        if hashlib.sha256(open(os.path.join(rel, f["file"]), "rb").read()).hexdigest()

@@ -1,5 +1,15 @@
 # Rainfall analysis changelog
 
+## v0.8.0 — 2026-09-15
+
+Supersedes `nepal_landslide_rainfall_v0.7.0_20260915`. Numerical outputs are
+unchanged. The linked inventory is now
+`nepal_landslide_inventory_v0.6.0_v7_20260915`, whose SQLite deliverable is
+generated directly from its 2,885-row canonical CSV. This supersedes the v0.5
+inventory snapshot, which copied a later mutable working database containing a
+different 3,114-row dedup state even though its manifest correctly pinned the
+2,885-row CSV. The corrected release builder tests row and source-hash identity.
+
 ## v0.7.0 — 2026-09-15
 
 Supersedes `nepal_landslide_rainfall_v0.6.0_20260904`. All earlier releases are

@@ -108,8 +108,8 @@ and their families. Two consequences:
 > checksums, tests, joined case–control tables, threshold metrics, conditional
 > model estimates, resampled validation results and machine-readable analysis
 > reports are contained in the frozen release bundles
-> `nepal_landslide_inventory_v0.5.0_v7_20260915` and
-> `nepal_landslide_rainfall_v0.7.0_20260915`, each with a recorded bundle
+> `nepal_landslide_inventory_v0.6.0_v7_20260915` and
+> `nepal_landslide_rainfall_v0.8.0_20260915`, each with a recorded bundle
 > checksum. Earlier releases are retained unchanged as historical baselines.
 > Rainfall data are from UCSB CHIRPS v2.0 Final, obtained through the NASA SERVIR
 > ClimateSERV API; the acquisition script is included. The inventory records the

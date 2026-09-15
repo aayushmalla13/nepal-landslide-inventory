@@ -3,18 +3,18 @@
 > **Historical guide warning (2026-09-14):** This document describes the earlier
 > rainfall v0.2.0 result and repeatedly reports the superseded 45.4 mm threshold.
 > Do not cite its rainfall numbers. The current frozen rainfall release is
-> `nepal_landslide_rainfall_v0.6.0_20260904`, with a primary CHIRPS R5 threshold
-> of 51.6 mm and temporal-test AUC 0.675. Use the v0.6.0 release documents.
+> `nepal_landslide_rainfall_v0.8.0_20260915`, with a primary CHIRPS R5 threshold
+> of 51.6 mm and temporal-test AUC 0.675. Use the v0.8.0 release documents.
 
 ## Complete project explanation in plain language
 
 **Project status:** Complete for the frozen research scope
-**Inventory release:** `nepal_landslide_inventory_v0.4.0_v6_20260810`
-**Rainfall-analysis release:** `nepal_landslide_rainfall_v0.2.0_20260814`
-(supersedes `v0.1.0_20260813`, which is retained as the baseline)
+**Inventory release:** `nepal_landslide_inventory_v0.6.0_v7_20260915`
+**Rainfall-analysis release:** `nepal_landslide_rainfall_v0.8.0_20260915`
+(earlier releases are retained as historical baselines)
 **Study area:** Nepal
 **Inventory period:** 7 March 2015 to 9 August 2026
-**Rainfall period:** 1 January 2015 to 30 June 2026
+**Rainfall period:** 1 January 2015 to 31 July 2026
 
 ---
 
@@ -25,7 +25,7 @@ Nepali-language news reports and then tested whether rainfall before the
 reported events could help distinguish landslide days from ordinary days.
 The system collected 10,203 news articles, extracted information such as the
 event date and district, removed irrelevant reports and duplicates, and
-produced 3,114 unique landslide-related event records. The inventory was
+produced 2,885 unique landslide-related event records. The inventory was
 checked using a manually labelled test set that was kept separate from system
 development. The project then linked suitable event-days to CHIRPS satellite
 rainfall for all 77 districts. A five-day rainfall accumulation of about
@@ -74,7 +74,7 @@ Check locations and apply reviewed corrections
 Merge duplicate reports of the same event
           |
           v
-Final inventory: 3,114 unique event records
+Final inventory: 2,885 unique event records
           |
           +-----------------------+
           |                       |
@@ -286,8 +286,8 @@ such as:
 - the victim’s home district; or
 - the office issuing a statement.
 
-The final records all have a district. Municipality is present for 926 of the
-3,114 events; it remains blank when the article did not provide enough reliable
+The final records all have a district. Municipality is present for 1,447 of the
+2,885 events; it remains blank when the article did not provide enough reliable
 detail. The inventory contains events from 76 of Nepal’s 77 districts. This is
 coverage of represented media events, not evidence that the remaining district
 had no landslides.
@@ -302,11 +302,11 @@ The deduplication stage compared date, location, title/body similarity,
 municipality, casualties, and other evidence. Reports judged to describe the
 same event were placed in one cluster. The final inventory contains:
 
-- 3,114 duplicate clusters, one per canonical event;
-- 336 clusters supported by more than one source; and
+- 2,885 duplicate clusters, one per canonical event;
+- 411 clusters supported by more than one source; and
 - a largest cluster containing 49 related reports.
 
-Of the final events, 2,649 had a single supporting article and the rest had two
+Of the final events, 2,371 had a single supporting article and the rest had two
 or more related reports.
 
 ## 11. Reviewed corrections
@@ -322,25 +322,25 @@ the reported validation score.
 
 ## 12. What is in the final inventory?
 
-The frozen inventory contains **3,114 unique event records** from 7 March 2015
+The frozen inventory contains **2,885 unique event records** from 7 March 2015
 through 9 August 2026.
 
 ### 12.1 Events by year
 
 | Year | Events |
 |---|---:|
-| 2015 | 87 |
-| 2016 | 139 |
-| 2017 | 127 |
-| 2018 | 184 |
-| 2019 | 157 |
-| 2020 | 326 |
-| 2021 | 368 |
-| 2022 | 370 |
-| 2023 | 292 |
-| 2024 | 539 |
-| 2025 | 341 |
-| 2026 | 184 |
+| 2015 | 88 |
+| 2016 | 133 |
+| 2017 | 123 |
+| 2018 | 180 |
+| 2019 | 138 |
+| 2020 | 271 |
+| 2021 | 334 |
+| 2022 | 347 |
+| 2023 | 254 |
+| 2024 | 504 |
+| 2025 | 334 |
+| 2026 | 179 |
 
 These values must not be interpreted directly as a trend in physical
 landslides. Older articles are harder to recover, publishers differ in archive
@@ -350,12 +350,12 @@ depth, and 2026 is incomplete.
 
 | Category | Events |
 |---|---:|
-| Landslide | 2,950 |
-| Debris flow | 134 |
+| Landslide | 2,720 |
+| Debris flow | 135 |
 | Rockfall | 30 |
-| **Total** | **3,114** |
+| **Total** | **2,885** |
 
-The event-use classification contains 2,511 general landslide records and 603
+The event-use classification contains 2,298 general landslide records and 587
 road-obstruction records. Road-obstruction records were retained because road
 blockages are an important way landslides are reported in Nepal, but a
 sensitivity analysis also tested the result after removing them.
@@ -364,10 +364,10 @@ sensitivity analysis also tested the result after removing them.
 
 | Extracted trigger | Events |
 |---|---:|
-| Rainfall | 1,099 |
-| Anthropogenic activity | 457 |
-| Earthquake | 215 |
-| Unknown or not stated | 1,343 |
+| Rainfall | 1,014 |
+| Anthropogenic activity | 452 |
+| Earthquake | 219 |
+| Unknown or not stated | 1,200 |
 
 “Unknown” is intentionally preserved. The system does not assume that every
 monsoon landslide was caused by rainfall merely because it happened during the
@@ -471,17 +471,19 @@ news access between remote and urban districts.
 
 ## 16. Comparison with BIPAD and COOLR
 
-External matching was performed as a separate triangulation exercise. At the
-time of that comparison, 3,079 canonical news events were compared with 5,345
-BIPAD rows. Repeated BIPAD rows were harmonized into 4,092 incident clusters.
-The matching produced 344 BIPAD clusters with a strong Tier A or Tier B news
-link. Weaker district-and-date candidates were retained as leads rather than
-declared matches.
+External matching was performed as a separate triangulation exercise against
+the frozen v0.6.0 inventory. At the common 8 August 2026 cutoff, 2,880 eligible
+canonical news events were compared with 5,345 BIPAD rows. Repeated BIPAD rows
+were harmonized into 4,095 incident clusters. The matching produced 561 BIPAD
+clusters with a strong Tier A or Tier B news link. Weaker district-and-date
+candidates were retained as leads rather than declared matches.
 
 BIPAD is also incomplete and may itself use media reports. Therefore BIPAD was
 not treated as perfect ground truth, and the project does not call news/BIPAD
 overlap “precision” or “recall.” COOLR was treated as spatial scientific
 evidence; its polygons were not counted as independent reported events.
+The exact canonical CSV hash is recorded in `external_agreement.json` so this
+comparison cannot silently drift to a different working-database snapshot.
 
 ---
 
@@ -545,12 +547,12 @@ Collapsing same-district, same-day events prevents a heavily reported day from
 receiving extra statistical weight merely because several articles or event
 records describe it.
 
-The pipeline read all 3,114 events. There were 2,050 events meeting the primary
-event/date/trigger rules before the rainfall join. Eighty-four otherwise
-eligible events occurred after the available rainfall end date of 30 June
-2026; they were excluded rather than assigned made-up rainfall. After joining,
-collapsing district-days, and requiring complete windows, the primary analysis
-contained 1,514 case-days.
+The pipeline read all 2,885 events. There were 1,846 events meeting the primary
+event/date/trigger rules before the rainfall join. Eighteen otherwise eligible
+events occurred after the available rainfall end date of 31 July 2026; they
+were excluded rather than assigned made-up rainfall. After joining, collapsing
+district-days, and requiring complete windows, the primary analysis contained
+1,508 case-days.
 
 ## 20. What was rainfall exposure?
 
@@ -813,7 +815,7 @@ discrimination.
 
 ## 38. Trigger uncertainty
 
-Many articles did not state a trigger, leaving 1,343 final records labelled
+Many articles did not state a trigger, leaving 1,200 final records labelled
 unknown. The primary analysis removed events explicitly known to be caused by
 earthquakes or human activity, but some unknown events may also have had
 non-rainfall causes.
@@ -826,19 +828,19 @@ non-rainfall causes.
 
 The final inventory release is:
 
-`data/releases/nepal_landslide_inventory_v0.4.0_v6_20260810/`
+`data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/`
 
 It contains the canonical CSV, validation labels and predictions, audit
 reports, reviewed correction provenance, release manifest, and a database
 snapshot. Important release facts are:
 
-- 3,114 rows and 3,114 unique event IDs;
+- 2,885 rows and 2,885 unique event IDs;
 - no canonical event after the 10 August 2026 release cutoff;
 - all locked URL, label, prediction, and uniqueness checks passed;
 - canonical CSV SHA-256:
-  `5a8010a2c7c95e4bbae9e5f0655cd01e1bba6c1c623492cf87677c09d628e2b8`;
+  `3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8`;
 - bundle lock:
-  `3ed1d90c21e4bc8bf5efad1e56f163e80d40c11c1b317251787417f3e574bcb3`.
+  `3a6faabc734c5410324530668c8e4cc529342d5dec39838c4a720bc545b57a91`.
 
 A SHA-256 hash is a digital fingerprint. If the file changes, its fingerprint
 changes. The bundle lock therefore helps demonstrate which exact files belong
@@ -848,7 +850,7 @@ to the frozen release.
 
 The final analysis release is:
 
-`data/releases/nepal_landslide_rainfall_v0.1.0_20260813/`
+`data/releases/nepal_landslide_rainfall_v0.8.0_20260915/`
 
 It contains the rainfall input, district boundaries, joined case and control
 tables, complete metrics, ROC coordinates, sensitivity results, figure,
@@ -861,20 +863,17 @@ Its checks confirm:
 - no incomplete rainfall days; and
 - a nonempty independent temporal test period.
 
-The v0.1.0 rainfall release bundle lock is:
+The v0.8.0 rainfall release bundle lock is:
 
-`b22e9008a3cb96ce355fcf59c8b7b0a8b372a4810ff6e1a0744dc4cac1e273d1`
-
-The current v0.2.0 lock is recorded in
-`data/releases/nepal_landslide_rainfall_v0.2.0_20260814/release_manifest.json`.
+`5fc21229bb73125d0eaa807778a6a5a4f51e969a3336a953c0d39ebca3b3de2d`
 
 ## 41. Main files and what they mean
 
 | File | Purpose |
 |---|---|
-| `data/outputs/canonical_events_final.csv` | Final working copy of the 3,114-event inventory |
+| `data/outputs/canonical_events_final.csv` | Final working copy of the 2,885-event inventory |
 | `data/outputs/inventory_audit_report.md` | Inventory quality summary |
-| `data/outputs/locked_test_set_v6_score.json` | Final held-out extraction/classification evaluation |
+| `data/outputs/locked_test_set_v7_score.json` | Final held-out extraction/classification evaluation |
 | `data/external/chirps_daily_districts.csv` | Daily rainfall for 77 districts |
 | `data/outputs/event_antecedent_rainfall.csv` | Primary case-days and their rainfall windows |
 | `data/outputs/rainfall_controls.csv` | Matched non-event control days |
@@ -931,7 +930,7 @@ Yes. The project is complete for the agreed scope:
 - external evidence collection is documented;
 - bilingual extraction and filtering are complete;
 - duplicates and corrections are resolved;
-- the final 3,114-event inventory is released;
+- the final 2,885-event inventory is released;
 - independent manual validation is complete;
 - CHIRPS rainfall collection and quality checks are complete;
 - threshold, temporal-test, bootstrap, sensitivity, and secondary analyses are
@@ -956,7 +955,7 @@ scientific analyses.
 
 Thousands of news reports were searched to find accounts of real landslides in
 Nepal. After removing unrelated articles and merging multiple reports of the
-same incident, the project produced 3,114 unique records. A separate human
+same incident, the project produced 2,885 unique records. A separate human
 check showed that the automated system found most relevant articles, although
 some incorrect inclusions and missed events remain.
 
@@ -1002,7 +1001,7 @@ as a landslide trend.
 
 ## 46. One-sentence final takeaway
 
-**A validated bilingual media inventory of 3,114 Nepal landslide-related records
+**A validated bilingual media inventory of 2,885 Nepal landslide-related records
 reveals a reproducible but moderate three-to-five-day antecedent rainfall signal,
 with a development-selected five-day monsoon threshold of about 45.4 mm — around
 0.65 discrimination once year-to-year variation is accounted for, and lower still

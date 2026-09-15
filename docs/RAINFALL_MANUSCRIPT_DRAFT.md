@@ -3,10 +3,11 @@
 **Authors:** [add authors, affiliations, contributions, funding, competing
 interests and any ethics or data-sharing declarations before submission]
 
-**Analysis version:** 0.7.0 (2026-09-15). Supersedes v0.6.0, v0.5.0, v0.4.0,
-v0.3.0, v0.2.0 and v0.1.0, all preserved as historical baselines. Version 0.7.0
-is a provenance-only release: it links the unchanged v0.6.0 numerical analysis
-to the checksummed human-v7 inventory release that supplied its canonical input.
+**Analysis version:** 0.8.0 (2026-09-15). Supersedes v0.7.0, v0.6.0, v0.5.0,
+v0.4.0, v0.3.0, v0.2.0 and v0.1.0, all preserved as historical baselines.
+Version 0.8.0 is a provenance-only release: it links the unchanged v0.6.0
+numerical analysis to the checksummed human-v7 inventory release whose compact
+SQLite snapshot is generated directly from the canonical CSV.
 Between v0.2.0 and
 v0.5.0 the event inventory was corrected in two independent respects (district
 assignment and casualty extraction) and the rainfall record was extended by one
@@ -89,10 +90,10 @@ structure of the matched control sample.
 
 ### 2.1 Media-derived landslide inventory
 
-We used release v0.5.0 of the Nepal landslide inventory. It contains 2,885
+We used release v0.6.0 of the Nepal landslide inventory. It contains 2,885
 canonical records from 17 publishers between 7 March 2015 and 9 August 2026,
 spanning 76 of 77 districts; Siraha had no media-derived event but was retained
-in rainfall quality control. The release contains 603 records typed as road
+in rainfall quality control. The release contains 587 records typed as road
 obstructions caused by landslides, and 926 records carry a municipality.
 
 Canonical records are deduplicated *report clusters*, not verified distinct
@@ -652,9 +653,9 @@ assignment, spatial scale, season and threshold interpretation.
 
 ## Data and code availability
 
-The frozen inventory release is `nepal_landslide_inventory_v0.5.0_v7_20260915`.
-The frozen analysis release is `nepal_landslide_rainfall_v0.7.0_20260915`, which
-supersedes v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0 and v0.1.0; all are retained. Rainfall
+The frozen inventory release is `nepal_landslide_inventory_v0.6.0_v7_20260915`.
+The frozen analysis release is `nepal_landslide_rainfall_v0.8.0_20260915`, which
+supersedes v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0 and v0.1.0; all are retained. Rainfall
 acquisition and analysis are implemented in
 `scripts/download_chirps_climateserv.py` and
 `src/landslide_inventory/analysis/`. Configuration, input checksums, tests, joined

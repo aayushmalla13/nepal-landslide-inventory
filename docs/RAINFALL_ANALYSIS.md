@@ -1,12 +1,13 @@
 # Rainfall-threshold analysis protocol
 
-This is the second phase of the project. The frozen v0.5.0 human-v7 media
+This is the second phase of the project. The frozen v0.6.0 human-v7 media
 inventory is the event source; the analysis does not alter its 2,885 canonical
 records.
 
-Analysis version 0.7.0 (2026-09-15). Versions 0.1.0 through 0.6.0 remain on disk
-as historical baselines. Version 0.7.0 preserves the v0.6.0 numerical results
-and corrects the named inventory-release linkage. See `RAINFALL_CHANGELOG.md`.
+Analysis version 0.8.0 (2026-09-15). Versions 0.1.0 through 0.7.0 remain on disk
+as historical baselines. Version 0.8.0 preserves the v0.6.0 numerical results
+and links them to the internally consistent canonical-only inventory snapshot.
+See `RAINFALL_CHANGELOG.md`.
 
 ## Inputs and provenance
 
@@ -21,7 +22,7 @@ and corrects the named inventory-release linkage. See `RAINFALL_CHANGELOG.md`.
   https://localboundries.oknp.org/data/district/nepal.geojson and pinned with
   SHA-256 `2c77e563c9df54270744f2e2b19a69f91dc5ca0ce7800025c0323d8b01c00c2f`.
 - Canonical events: `data/outputs/canonical_events_final.csv`, generated from
-  the active local SQLite database and frozen separately in the v0.5.0/v7
+  the active pipeline and frozen separately in the v0.6.0/v7
   release. Its SHA-256 must match the inventory release manifest before a
   rainfall release can be created.
 
