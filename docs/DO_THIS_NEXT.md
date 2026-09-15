@@ -16,24 +16,20 @@ pack drawn on 2026-09-16.
 Do not rebuild or overwrite either frozen release. Any scientific change now
 requires new evidence, a new locked evaluation, and a new release version.
 
-## Current validation stage
+## Completed first-human audit
 
-Complete the 150-row canonical event audit described in
-`docs/CANONICAL_EVENT_AUDIT_GUIDE.md`. This is validation of the frozen v0.6.0
-inventory, not extractor development. Do not use the confidence, specificity,
-scope, or location-consistency fields while reviewing.
+The 150-row canonical event audit is complete and scored. See
+`docs/CANONICAL_EVENT_AUDIT_RESULT.md`. Preliminary population-weighted event
+existence precision is 0.874 (95% CI 0.820-0.924), but strict usable-record
+precision is 0.403 (0.321-0.486). This is validation of the frozen v0.6.0
+inventory, not extractor development.
 
-Open:
+## Next validation gate
 
-1. `data/outputs/canonical_event_audit_LABEL_HERE.csv`
-2. `data/outputs/canonical_event_audit_reading_pack.csv`
-
-Save the completed first file as
-`data/outputs/canonical_event_audit_COMPLETED.csv`, then run:
-
-```bash
-PYTHONPATH=src .venv/bin/python scripts/score_canonical_event_audit.py
-```
+Obtain an independent second review and adjudicate disagreements before
+changing the inventory or manuscript headline claims. Do not apply the first
+reviewer's corrections directly: event granularity, onset date, road-event
+typing, and cluster identity involve judgement and need a reliability check.
 
 The frozen releases remain the only current reportable data sources. Audit
 findings do not modify them automatically. Corrections, if justified, require a
