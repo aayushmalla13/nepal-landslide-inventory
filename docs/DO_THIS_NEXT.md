@@ -39,25 +39,24 @@ events and reconstructs the other 29 into 100 physical-event candidates. All
 124 frozen article memberships are accounted for and no cluster decision
 remains unresolved. See `docs/CANONICAL_EVENT_RECONSTRUCTION_RESULT.md`.
 
+## Completed identity plan
+
+Date resolution and final collision review are complete. The validated identity
+plan removes 55 superseded records, adds 85 new physical events, merges 12
+candidates into distinct existing events, and excludes 3 reconstruction
+candidates. The provisional inventory size is 2,915, a net increase of 30.
+
+See `docs/CANONICAL_EVENT_IDENTITY_PLAN_RESULT.md`. The plan remains unapplied.
+
 ## Next scientific stage
 
-The preliminary collision gate is complete for 91 dated candidates. It found
-199 broad candidate pairs: 3 high tier, 36 medium tier, and 160 low tier, with
-no source-URL overlaps.
+Complete the 37-row true-value review:
 
-The nine-row date review is complete: eight dates were resolved and one
-candidate was excluded. Final collision screening now covers 99 candidates and
-found 4 high-tier, 40 medium-tier, and 166 low-tier pairs; no source URLs
-overlap.
+`data/outputs/canonical_event_correction_BATCH_TRUE_VALUE_REVIEW.csv`
 
-Complete the 99-row final decision sheet by following
-`docs/CANONICAL_EVENT_COLLISION_REVIEW_GUIDE.md`:
-
-`data/outputs/canonical_event_reconstruction_FINAL_COLLISION_DECISIONS.csv`
-
-Save it as
-`data/outputs/canonical_event_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv`.
-Rows marked `unclear` will block correction application.
+These records have a real event identity but need evidence-backed date,
+district, or municipality values. Do not apply the 27 structured attribute
+corrections until these identity-linked values are stable.
 
 Do not insert the 100 candidates directly. Their provisional +45 event-count
 delta can shrink after collision review.
