@@ -56,6 +56,7 @@ LOGGER = logging.getLogger(__name__)
 EVENT_TYPE_LANDSLIDE = 'landslide'
 EVENT_TYPE_ROAD_OBSTRUCTION = 'road_obstruction'
 EVENT_TYPE_AGGREGATE_REPORT = 'aggregate_report'
+EVENT_TYPE_OTHER = 'other'
 
 GRANULARITY_SINGLE = 'single'
 GRANULARITY_MULTI = 'multi'
@@ -133,6 +134,12 @@ EXTRACTION_BASIS_TITLE_ONLY = 'title_only'
 # Bodies at or below this are too thin to have supported extraction. Matches
 # MIN_BODY_CHARS in validation/article_quality.py -- keep them in step.
 TITLE_ONLY_BODY_CHARS = 200
+
+# Impact language is only reliable in the headline and article lead. Scraped
+# pages often append related stories, navigation, and a second district event;
+# treating every later mention as part of the headline event caused systematic
+# road-obstruction false negatives in the adjudicated audit.
+IMPACT_LEAD_CHARS = 600
 
 # AGGREGATE REPORTS -- articles that state a running total, not an event.
 #
@@ -296,7 +303,7 @@ def is_aggregate_report(title: str | None) -> bool:
 # Road/highway infrastructure vocabulary, EN and NP.
 ROAD_TERMS_PATTERN = re.compile(
     r'\b(?:highway|high\s*way|road|roadway|road\s*section|carriageway|track)\b'
-    r'|सडक|राजमार्ग|मार्ग|बाटो|सडकखण्ड|खण्ड',
+    r'|सडक|राजमार्ग|मार्ग|बाटो|सडकखण्ड|खण्ड|करिडोर|आवागमन',
     re.IGNORECASE,
 )
 
@@ -310,7 +317,7 @@ OBSTRUCTION_TERMS_PATTERN = re.compile(
     r'halt|halts|halted|strand|strands|stranded|clear|clears|cleared|clearing|'
     r'reopen|reopens|reopened|resume|resumes|resumed|one-way|traffic)\b'
     r'|अवरुद्ध|अवरूद्ध|अवरोध|ठप्प|बन्द|हटाइयो|पन्छाइयो|पन्छाएपछि|सुचारु|'
-    r'सञ्चालनमा|खुल्यो|खुलेको|खुलेन|एकतर्फी|यातायात',
+    r'पन्छाउन|सञ्चालनमा|खुल्यो|खुलेको|खुलेन|एकतर्फी|यातायात',
     re.IGNORECASE,
 )
 
@@ -326,9 +333,33 @@ HUMAN_IMPACT_PATTERN = re.compile(
 # Damage to dwellings/land also disqualifies road_obstruction: the event had
 # impact beyond the carriageway even if nobody was hurt.
 SETTLEMENT_IMPACT_PATTERN = re.compile(
+    r'\b(?:house|houses|homes|household|households|'
+    r'school|shed|cowshed|farmland|cattle)\b'
+    r'|घर|घरहरू|बस्ती|विद्यालय|गोठ|खेत|पशु',
+    re.IGNORECASE,
+)
+
+# Outside an explicit road-obstruction headline, preserve the conservative
+# full-text rule used by earlier releases. These broad locality terms are only
+# unsafe when a headline already establishes that the observation unit is the
+# road blockage itself.
+SETTLEMENT_MENTION_PATTERN = re.compile(
     r'\b(?:house|houses|home|homes|household|households|village|settlement|'
     r'school|shed|cowshed|farmland|cattle)\b'
     r'|घर|घरहरू|बस्ती|गाउँ|विद्यालय|गोठ|खेत|पशु',
+    re.IGNORECASE,
+)
+
+# Directly work-induced collapses are occupational/construction accidents, not
+# natural slope-failure observations. Keep this deliberately phrase-based so a
+# natural landslide that merely hits workers or a construction site is not
+# removed from the inventory.
+WORK_INDUCED_COLLAPSE_PATTERN = re.compile(
+    r'\bwhile\s+(?:digging|excavating|widening)\b'
+    r'|\bduring\s+(?:excavation|road\s+widening|construction\s+work)\b'
+    r'|\bdigging\s+(?:the\s+)?foundation\b'
+    r'|(?:सडक\s*फराकिलो|ढुंगा\s*फुटाउने|सडक\s*खन्ने|सडक\s*खन्‍ने)'
+    r'[^।\n]{0,60}क्रममा',
     re.IGNORECASE,
 )
 
@@ -492,6 +523,20 @@ def classify_event_type(
     heading = (title or '').strip()
     body = (text or '').strip()
     combined = f'{heading}\n{body}'
+    lead_scope = f'{heading}\n{body[:IMPACT_LEAD_CHARS]}'
+    heading_has_road = bool(ROAD_TERMS_PATTERN.search(heading))
+    heading_has_obstruction = bool(OBSTRUCTION_TERMS_PATTERN.search(heading))
+    road_obstruction_title = heading_has_road and heading_has_obstruction
+    road_obstruction_focus = road_obstruction_title or (
+        heading_has_road and bool(OBSTRUCTION_TERMS_PATTERN.search(lead_scope))
+    ) or (
+        heading_has_obstruction and bool(ROAD_TERMS_PATTERN.search(lead_scope))
+    )
+    impact_scope = (
+        lead_scope
+        if road_obstruction_focus
+        else combined
+    )
     hazard = classify_hazard_type(title, text)
     granularity = classify_event_granularity(title, text)
     role = classify_article_role(title, text)
@@ -510,28 +555,40 @@ def classify_event_type(
             EVENT_TYPE_AGGREGATE_REPORT, basis, 'aggregate_report', hazard,
             granularity, role,
         )
+    if WORK_INDUCED_COLLAPSE_PATTERN.search(impact_scope):
+        return EventTyping(
+            EVENT_TYPE_OTHER, basis, 'construction_induced_slope_collapse', hazard,
+            granularity, role,
+        )
     if any(value for value in (deaths, missing, injured) if value):
         return EventTyping(
             EVENT_TYPE_LANDSLIDE, basis, 'casualties_recorded', hazard,
             granularity, role,
         )
-    if HUMAN_IMPACT_PATTERN.search(combined):
+    if HUMAN_IMPACT_PATTERN.search(impact_scope):
         return EventTyping(
             EVENT_TYPE_LANDSLIDE, basis, 'human_impact_language', hazard,
             granularity, role,
         )
-    if SETTLEMENT_IMPACT_PATTERN.search(combined):
+    settlement_pattern = (
+        SETTLEMENT_IMPACT_PATTERN
+        if road_obstruction_focus
+        else SETTLEMENT_MENTION_PATTERN
+    )
+    if settlement_pattern.search(impact_scope):
         return EventTyping(
             EVENT_TYPE_LANDSLIDE, basis, 'settlement_impact_language', hazard,
             granularity, role,
         )
 
-    # No human or settlement impact anywhere. Is the road the whole story?
-    # Require both signals in the TITLE: a body that merely mentions a highway
-    # in passing is not a road-obstruction report.
-    if ROAD_TERMS_PATTERN.search(heading) and OBSTRUCTION_TERMS_PATTERN.search(heading):
+    # No human or settlement impact in the relevant event scope. Anchor at
+    # least one road/obstruction signal in the title; a body that merely
+    # mentions a highway in passing is not a road-obstruction report.
+    if road_obstruction_focus:
         return EventTyping(
-            EVENT_TYPE_ROAD_OBSTRUCTION, basis, 'road_obstruction_title', hazard,
+            EVENT_TYPE_ROAD_OBSTRUCTION, basis,
+            'road_obstruction_title' if road_obstruction_title else 'road_obstruction_body',
+            hazard,
             granularity, role,
         )
     if ROAD_TERMS_PATTERN.search(combined) and OBSTRUCTION_TERMS_PATTERN.search(combined):

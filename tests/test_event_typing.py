@@ -10,6 +10,7 @@ import pytest
 
 from landslide_inventory.unify.event_typing import (
     EVENT_TYPE_LANDSLIDE,
+    EVENT_TYPE_OTHER,
     EVENT_TYPE_ROAD_OBSTRUCTION,
     EXTRACTION_BASIS_FULL,
     EXTRACTION_BASIS_TITLE_ONLY,
@@ -55,6 +56,94 @@ def test_house_damage_disqualifies_road_obstruction() -> None:
     )
     assert typing.event_type == EVENT_TYPE_LANDSLIDE
     assert typing.reason == 'settlement_impact_language'
+
+
+@pytest.mark.parametrize('title,text', [
+    (
+        'पहिरोले बिहानैदेखि नारायणगढ-मुग्लिन सडकखण्ड अवरूद्ध',
+        'इच्छाकामना गाउँपालिका वडा नम्बर ६ मा पहिरोले सडक अवरुद्ध भएको छ। ' * 12,
+    ),
+    (
+        'Landslide obstructs Beni-Jomsom road',
+        'Home » Society » The road has remained blocked since this morning. ' * 12,
+    ),
+    (
+        'पहिरोले बेंसीशहर-चामे सडक अवरुद्ध',
+        'मर्स्याङ्दी गाउँपालिका वडा नम्बर ४ मा सडक अवरुद्ध भएको हो। ' * 12,
+    ),
+])
+def test_locality_and_navigation_words_do_not_imply_settlement_damage(
+    title: str, text: str,
+) -> None:
+    typing = classify_event_type(title=title, text=text)
+    assert typing.event_type == EVENT_TYPE_ROAD_OBSTRUCTION
+    assert typing.reason == 'road_obstruction_title'
+
+
+def test_late_related_incident_does_not_retype_headline_road_event() -> None:
+    text = ('The highway was blocked by debris. ' * 25) + (
+        'Elsewhere, a separate landslide damaged a house and injured one person.'
+    )
+    typing = classify_event_type(
+        title='Landslide blocks Prithvi Highway', text=text,
+    )
+    assert typing.event_type == EVENT_TYPE_ROAD_OBSTRUCTION
+
+
+def test_body_only_road_signal_keeps_full_text_impact_safeguard() -> None:
+    text = ('Debris blocked the highway. ' * 25) + (
+        'The landslide also damaged a house and injured one person.'
+    )
+    typing = classify_event_type(title='Slope failure reported', text=text)
+    assert typing.event_type == EVENT_TYPE_LANDSLIDE
+    assert typing.reason == 'human_impact_language'
+
+
+@pytest.mark.parametrize('title,lead', [
+    (
+        'घाँसीकुवाको पहिरो पन्छाउन सुरु, आज दिनभर लाग्नसक्ने',
+        'मुग्लिन-पोखरा सडकखण्डको पहिरोले सडक ढाकेको थियो।',
+    ),
+    (
+        'मुग्लिन-नारायणगढ सडक विस्तारपछि सुरू भएको पहिरोको सास्ती',
+        'नाम्सी पुलनजिक आएको पहिरोका कारण सडक १८ घण्टा अवरुद्ध भयो।',
+    ),
+])
+def test_headline_and_lead_can_supply_complementary_road_signals(
+    title: str, lead: str,
+) -> None:
+    text = (lead * 20) + ' भूकम्पले घर भत्किएको पुरानो सन्दर्भ हो।'
+    typing = classify_event_type(title=title, text=text)
+    assert typing.event_type == EVENT_TYPE_ROAD_OBSTRUCTION
+    assert typing.reason == 'road_obstruction_body'
+
+
+@pytest.mark.parametrize('title,text', [
+    (
+        'Worker buried under mudslide rescued alive in Dhankuta',
+        'A worker was buried under a mound of soil while digging the foundation '
+        'of a house and was rescued alive.',
+    ),
+    (
+        'सडक खन्ने क्रममा एक्स्काभेटरसहित चालक पुरिए',
+        'सडक फराकिलो बनाउन ढुंगा फुटाउने क्रममा पहरा खस्दा चालक च्यापिए।',
+    ),
+])
+def test_work_induced_slope_collapse_is_other(title: str, text: str) -> None:
+    typing = classify_event_type(title=title, text=text)
+    assert typing.event_type == EVENT_TYPE_OTHER
+    assert typing.reason == 'construction_induced_slope_collapse'
+    assert typing.in_headline_counts is False
+
+
+def test_natural_landslide_hitting_construction_workers_stays_landslide() -> None:
+    typing = classify_event_type(
+        title='Rain-triggered landslide kills two road construction workers',
+        text='The workers were resting when a natural landslide struck the camp.',
+        deaths=2,
+    )
+    assert typing.event_type == EVENT_TYPE_LANDSLIDE
+    assert typing.reason == 'casualties_recorded'
 
 
 @pytest.mark.parametrize('title', [
