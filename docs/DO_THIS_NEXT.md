@@ -75,9 +75,14 @@ implemented with regression tests. The casualty replay reproduces 12 of 17
 reviewed death corrections directly; five evidence-dependent cases remain
 intentionally plan-driven. See `docs/CANONICAL_EVENT_PIPELINE_FIXES_RESULT.md`.
 
-1. Assemble all unapplied plans into a new versioned inventory release.
-2. Re-run rainfall linkage against the corrected release.
-3. Validate the corrected release with a fresh locked sample.
+The unapplied plans have now been assembled into the checksummed candidate
+release `nepal_landslide_inventory_v0.7.0_candidate_20260916`. It contains
+2,904 unique events and remains explicitly pending post-correction validation.
+See `docs/CORRECTED_INVENTORY_CANDIDATE_RESULT.md`.
+
+1. Validate the corrected candidate release with a fresh locked sample.
+2. Promote the candidate to a final inventory release only if that gate passes.
+3. Re-run rainfall linkage against the promoted corrected release.
 
 Do not claim that the audited corrections alone establish the precision of the
 future corrected release. That release needs a fresh locked audit or a clearly
@@ -92,6 +97,7 @@ labelled post-correction verification sample.
 - Definitive score: `data/outputs/canonical_event_audit_adjudicated_score.json`
 - Agreement report: `data/outputs/canonical_event_audit_interannotator_agreement.md`
 - Final manual-gate plan: `data/outputs/canonical_event_structured_attribute_plan_manifest.json`
+- Corrected candidate: `data/releases/nepal_landslide_inventory_v0.7.0_candidate_20260916/`
 
 ## Submission decisions still needed
 
