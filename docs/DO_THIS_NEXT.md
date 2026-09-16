@@ -52,11 +52,15 @@ See `docs/CANONICAL_EVENT_IDENTITY_PLAN_RESULT.md`. The plan remains unapplied.
 
 Complete the 37-row true-value review:
 
-`data/outputs/canonical_event_correction_BATCH_TRUE_VALUE_REVIEW.csv`
+`data/outputs/canonical_event_true_value_REVIEW.csv`
 
 These records have a real event identity but need evidence-backed date,
-district, or municipality values. Do not apply the 27 structured attribute
-corrections until these identity-linked values are stable.
+district, event-type, hazard, or casualty values. Follow
+`docs/CANONICAL_EVENT_TRUE_VALUE_REVIEW_GUIDE.md` and save the result as
+`data/outputs/canonical_event_true_value_REVIEW_COMPLETED.csv`.
+
+Do not apply the 27 remaining structured attribute corrections until these
+identity-linked values are stable.
 
 Do not insert the 100 candidates directly. Their provisional +45 event-count
 delta can shrink after collision review.
