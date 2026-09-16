@@ -105,13 +105,14 @@ AVALANCHE_PATTERN = re.compile(
 
 ROCKFALL_PATTERN = re.compile(
     r'\brock\s*fall(?:s)?\b|\brockslide\b|\bboulder\b'
-    r'|चट्टान|ढुंगा\s*खस|पहरा\s*खस',
+    r'|(?:ढुंगा|चट्टान|पहरा)\s*(?:खस|झर)'
+    r'|(?:खसेको|झरेको)\s*(?:ढुंगा|चट्टान|पहरा)',
     re.IGNORECASE,
 )
 
 DEBRIS_FLOW_PATTERN = re.compile(
     r'\bdebris\s*flow\b|\bmudflow\b|\bmudslide(?:s)?\b'
-    r'|बाढी\s*पहिरो|थेग्रो|डेब्रिज',
+    r'|बाढी\s*पहिरो|थेग्रो|डेब्रिज|लेदो\s*(?:माटो|सहित(?:को)?)?',
     re.IGNORECASE,
 )
 
@@ -410,25 +411,43 @@ def classify_hazard_type(title: str | None, text: str | None) -> str:
     the same containment reason.
     """
 
-    combined = f'{(title or "").strip()}\n{(text or "").strip()}'
+    heading = (title or '').strip()
+    body = (text or '').strip()
+    combined = f'{heading}\n{body}'
     if not combined.strip():
         return HAZARD_LANDSLIDE
 
-    # Title carries the hazard far more reliably than the body, which often
-    # mentions several hazards in background paragraphs.
-    for scope in ((title or '').strip(), combined):
-        if not scope:
-            continue
-        if AVALANCHE_PATTERN.search(scope):
-            return HAZARD_AVALANCHE
-        if DEBRIS_FLOW_PATTERN.search(scope):
+    lead = f'{heading}\n{body[:IMPACT_LEAD_CHARS]}'
+    if WORK_INDUCED_COLLAPSE_PATTERN.search(lead):
+        return HAZARD_OTHER
+
+    # A specific title is authoritative. A generic landslide title may be
+    # refined by mud/debris or direct falling-rock language in the lead, but a
+    # background avalanche/flood mention must not override the headline event.
+    if AVALANCHE_PATTERN.search(heading):
+        return HAZARD_AVALANCHE
+    if DEBRIS_FLOW_PATTERN.search(heading):
+        return HAZARD_DEBRIS_FLOW
+    if ROCKFALL_PATTERN.search(heading):
+        return HAZARD_ROCKFALL
+    if LANDSLIDE_PATTERN.search(heading):
+        if DEBRIS_FLOW_PATTERN.search(lead):
             return HAZARD_DEBRIS_FLOW
-        if ROCKFALL_PATTERN.search(scope):
+        if ROCKFALL_PATTERN.search(lead):
             return HAZARD_ROCKFALL
-        if LANDSLIDE_PATTERN.search(scope):
-            return HAZARD_LANDSLIDE
-        if FLOOD_PATTERN.search(scope):
-            return HAZARD_FLOOD
+        return HAZARD_LANDSLIDE
+    if FLOOD_PATTERN.search(heading):
+        return HAZARD_FLOOD
+
+    for pattern, hazard in (
+        (AVALANCHE_PATTERN, HAZARD_AVALANCHE),
+        (DEBRIS_FLOW_PATTERN, HAZARD_DEBRIS_FLOW),
+        (ROCKFALL_PATTERN, HAZARD_ROCKFALL),
+        (LANDSLIDE_PATTERN, HAZARD_LANDSLIDE),
+        (FLOOD_PATTERN, HAZARD_FLOOD),
+    ):
+        if pattern.search(lead):
+            return hazard
     return HAZARD_OTHER
 
 

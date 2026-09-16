@@ -340,6 +340,46 @@ def test_title_hazard_beats_body_background_mentions() -> None:
     assert typing.hazard_type == HAZARD_LANDSLIDE
 
 
+@pytest.mark.parametrize('title,text,expected', [
+    (
+        'नागढुंगा सुरुङमार्ग नजिकै पहिरो जाँदा राजमार्ग अवरुद्ध',
+        'खत्रीपौवामा लेदोसहितको पहिरो खसेको हो।',
+        HAZARD_DEBRIS_FLOW,
+    ),
+    (
+        'पहिरोले पृथ्वी राजमार्ग अवरुद्ध',
+        'वर्षाका कारण लेदो माटो झरेर सडक ढाकिएको छ।',
+        HAZARD_DEBRIS_FLOW,
+    ),
+    (
+        'Dumre-Besisahar road obstructed due to landslide',
+        'A mudslide occurred at Dalal and blocked the road.',
+        HAZARD_DEBRIS_FLOW,
+    ),
+    (
+        'भीरबाट खसेको ढुंगाले लाग्दा आमाछोरीको मृत्यु',
+        'भीरबाट खसेको ढुंगाले लागेर मृत्यु भएको हो।',
+        HAZARD_ROCKFALL,
+    ),
+    (
+        'अवरुद्ध रिडी-तम्घास सडक खुल्यो',
+        'चट्टान सहितको सुख्खा पहिरो खसेपछि सडक अवरुद्ध भएको थियो।',
+        HAZARD_LANDSLIDE,
+    ),
+])
+def test_audit_driven_hazard_refinements(
+    title: str, text: str, expected: str,
+) -> None:
+    assert classify_hazard_type(title, text) == expected
+
+
+def test_work_induced_collapse_has_other_hazard() -> None:
+    assert classify_hazard_type(
+        'Worker buried under mudslide rescued alive',
+        'The worker was buried while digging the foundation of a house.',
+    ) == 'other_hazard'
+
+
 def test_summarize_counts_non_landslide_hazards() -> None:
     records = [
         {'event_type': EVENT_TYPE_LANDSLIDE, 'extraction_basis': EXTRACTION_BASIS_FULL,

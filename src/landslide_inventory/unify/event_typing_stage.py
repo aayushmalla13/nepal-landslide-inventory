@@ -11,13 +11,24 @@ out of the inventory. Both labels are re-derivable, and the stage is idempotent.
 from __future__ import annotations
 
 import logging
+from collections import defaultdict
+from dataclasses import replace
 from typing import Any
 
 from ..config import AppConfig
 from ..db import connect_sqlite
 from ..utils import ensure_directory, utc_now_iso
 from ..validation.common import iso_now, write_csv
-from .event_typing import classify_event_type, confidence_penalty, summarize_typing
+from .event_typing import (
+    HAZARD_DEBRIS_FLOW,
+    HAZARD_LANDSLIDE,
+    HAZARD_ROCKFALL,
+    EventTyping,
+    classify_event_type,
+    classify_hazard_type,
+    confidence_penalty,
+    summarize_typing,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -46,6 +57,19 @@ def ensure_typing_columns(connection) -> None:
             connection.execute(statement)
         except Exception:  # noqa: BLE001 - column already exists
             pass
+
+
+def refine_hazard_from_members(
+    typing: EventTyping, member_hazards: set[str],
+) -> EventTyping:
+    """Use one unambiguous specific subtype reported by any cluster member."""
+
+    if typing.hazard_type != HAZARD_LANDSLIDE:
+        return typing
+    specific = member_hazards & {HAZARD_DEBRIS_FLOW, HAZARD_ROCKFALL}
+    if len(specific) != 1:
+        return typing
+    return replace(typing, hazard_type=next(iter(specific)))
 
 
 def run_event_typing_stage(config: AppConfig) -> dict[str, Any]:
@@ -77,6 +101,24 @@ def run_event_typing_stage(config: AppConfig) -> dict[str, Any]:
             """
         ).fetchall()
 
+        member_rows = connection.execute(
+            """
+            SELECT ce.event_id AS event_id,
+                   ae.title AS title,
+                   COALESCE(r.text, '') AS text
+            FROM canonical_events AS ce
+            JOIN article_events AS ae
+              ON ae.dedup_cluster_id = ce.dedup_cluster_id
+            LEFT JOIN raw_articles AS r ON r.url = ae.url
+            ORDER BY ce.event_id, ae.url
+            """
+        ).fetchall()
+        member_hazards: dict[str, set[str]] = defaultdict(set)
+        for member in member_rows:
+            member_hazards[str(member['event_id'])].add(
+                classify_hazard_type(member['title'], member['text'])
+            )
+
         records: list[dict[str, Any]] = []
         for row in rows:
             item = dict(row)
@@ -86,6 +128,9 @@ def run_event_typing_stage(config: AppConfig) -> dict[str, Any]:
                 deaths=item.get('deaths'),
                 missing=item.get('missing'),
                 injured=item.get('injured'),
+            )
+            typing = refine_hazard_from_members(
+                typing, member_hazards.get(str(item['event_id']), set())
             )
             connection.execute(
                 """
