@@ -192,6 +192,8 @@ def metric(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("completed", nargs="?", type=Path, default=DEFAULT_COMPLETED)
+    parser.add_argument("--json-output", type=Path, default=JSON_OUTPUT)
+    parser.add_argument("--report-output", type=Path, default=REPORT_OUTPUT)
     args = parser.parse_args()
     completed = read_csv(args.completed)
     template = read_csv(TEMPLATE)
@@ -236,7 +238,7 @@ def main() -> None:
             "Unclear labels are excluded from point estimates and reported separately."
         ),
     }
-    JSON_OUTPUT.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    args.json_output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     lines = [
         "# Canonical event-level audit",
@@ -264,9 +266,9 @@ def main() -> None:
             "",
         ]
     )
-    REPORT_OUTPUT.write_text("\n".join(lines), encoding="utf-8")
-    print(f"Wrote {JSON_OUTPUT}")
-    print(f"Wrote {REPORT_OUTPUT}")
+    args.report_output.write_text("\n".join(lines), encoding="utf-8")
+    print(f"Wrote {args.json_output}")
+    print(f"Wrote {args.report_output}")
 
 
 if __name__ == "__main__":
