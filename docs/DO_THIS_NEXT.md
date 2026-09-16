@@ -24,17 +24,29 @@ The audit-derived candidate queue is complete. It contains 119 candidate rows:
 90 P0 identity/linkage candidates, 27 P1 attribute candidates, and 2 P2
 uncertain candidates. See `docs/CANONICAL_EVENT_CORRECTION_PLAN.md`.
 
+## Completed article provenance mapping
+
+The 55 identity/linkage candidates are mapped to all 124 frozen source-article
+members. The pack contains 18 proposed whole-cluster exclusions, 19 singleton
+article decompositions, 16 re-cluster/decomposition cases, and 2 manual
+membership reviews. Mutable working-database cluster IDs were not substituted
+for frozen v0.6 memberships.
+
 ## Next scientific stage
 
-Resolve the 55-row article-mapping batch first:
+Complete the cluster decision sheet using
+`docs/CANONICAL_EVENT_ARTICLE_MAPPING_GUIDE.md`:
 
-`data/outputs/canonical_event_correction_BATCH_ARTICLE_MAPPING.csv`
+`data/outputs/canonical_event_article_mapping_DECISIONS.csv`
 
-For each row, map all source article URLs and decide the final membership action:
-exclude all non-events, split aggregate records into physical events, and
-separate articles that were incorrectly merged. Do not apply date, location,
-type, hazard, or casualty changes until event identity and cluster membership
-are stable.
+Read evidence in:
+
+`data/outputs/canonical_event_article_membership_MAP.csv`
+
+Save the result as
+`data/outputs/canonical_event_article_mapping_DECISIONS_COMPLETED.csv`. The
+review must define evidence-backed physical-event groups; the proposed
+resolution alone is not an applied correction.
 
 After article mapping:
 
