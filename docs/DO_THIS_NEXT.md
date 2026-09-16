@@ -48,31 +48,33 @@ candidates. The provisional inventory size is 2,915, a net increase of 30.
 
 See `docs/CANONICAL_EVENT_IDENTITY_PLAN_RESULT.md`. The plan remains unapplied.
 
+## Completed true-value plan
+
+The 37-row true-value review is complete and release-safe. It retains and
+corrects 26 existing events, excludes 11 unusable records, and has no overlap
+with the identity plan. The provisional corrected inventory now contains 2,904
+events, a net increase of 19 from the frozen 2,885-event release.
+
+See `docs/CANONICAL_EVENT_TRUE_VALUE_RESULT.md`. The plan remains unapplied.
+
 ## Next scientific stage
 
-Complete the 37-row true-value review:
+Complete the final 27-row structured-attribute review:
 
-`data/outputs/canonical_event_true_value_REVIEW.csv`
+`data/outputs/canonical_event_structured_attribute_REVIEW.csv`
 
-These records have a real event identity but need evidence-backed date,
-district, event-type, hazard, or casualty values. Follow
-`docs/CANONICAL_EVENT_TRUE_VALUE_REVIEW_GUIDE.md` and save the result as
-`data/outputs/canonical_event_true_value_REVIEW_COMPLETED.csv`.
+These records have stable identity, date, and district but need evidence-backed
+event type, hazard type, or death-count corrections. Follow
+`docs/CANONICAL_EVENT_STRUCTURED_ATTRIBUTE_REVIEW_GUIDE.md` and save the result
+as `data/outputs/canonical_event_structured_attribute_REVIEW_COMPLETED.csv`.
 
-Do not apply the 27 remaining structured attribute corrections until these
-identity-linked values are stable.
+Then:
 
-Do not insert the 100 candidates directly. Their provisional +45 event-count
-delta can shrink after collision review.
-
-After article mapping:
-
-1. Complete the 37-row true-value batch with evidence-backed replacement dates
-   and locations.
-2. Apply the 27 structured attribute candidates against stable events.
-3. Convert recurring patterns into pipeline fixes and regression tests.
-4. Rebuild into a new versioned inventory release.
-5. Re-run rainfall linkage and validate the new release with a fresh sample.
+1. Validate and materialize the structured-attribute decisions.
+2. Convert recurring correction patterns into pipeline fixes and regression tests.
+3. Assemble all unapplied plans into a new versioned inventory release.
+4. Re-run rainfall linkage against the corrected release.
+5. Validate the corrected release with a fresh locked sample.
 
 Do not claim that the audited corrections alone establish the precision of the
 future corrected release. That release needs a fresh locked audit or a clearly
