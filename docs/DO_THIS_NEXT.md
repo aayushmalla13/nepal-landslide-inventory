@@ -45,15 +45,19 @@ The preliminary collision gate is complete for 91 dated candidates. It found
 199 broad candidate pairs: 3 high tier, 36 medium tier, and 160 low tier, with
 no source-URL overlaps.
 
-Resolve the nine unclear-date candidates first by following
-`docs/CANONICAL_EVENT_DATE_COLLISION_GUIDE.md` and completing:
+The nine-row date review is complete: eight dates were resolved and one
+candidate was excluded. Final collision screening now covers 99 candidates and
+found 4 high-tier, 40 medium-tier, and 166 low-tier pairs; no source URLs
+overlap.
 
-`data/outputs/canonical_event_reconstruction_DATE_REVIEW.csv`
+Complete the 99-row final decision sheet by following
+`docs/CANONICAL_EVENT_COLLISION_REVIEW_GUIDE.md`:
+
+`data/outputs/canonical_event_reconstruction_FINAL_COLLISION_DECISIONS.csv`
 
 Save it as
-`data/outputs/canonical_event_reconstruction_DATE_REVIEW_COMPLETED.csv`. Then
-validate the dates and regenerate collision matching for the final retained
-candidate set. Do not complete the current preliminary collision sheet.
+`data/outputs/canonical_event_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv`.
+Rows marked `unclear` will block correction application.
 
 Do not insert the 100 candidates directly. Their provisional +45 event-count
 delta can shrink after collision review.

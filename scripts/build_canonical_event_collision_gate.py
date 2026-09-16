@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import json
@@ -25,6 +26,13 @@ COLLISION_PAIRS = OUTPUT / "canonical_event_reconstruction_COLLISION_PAIRS.csv"
 COLLISION_DECISIONS = OUTPUT / "canonical_event_reconstruction_COLLISION_DECISIONS.csv"
 MANIFEST_OUTPUT = OUTPUT / "canonical_event_collision_gate_manifest.json"
 REPORT_OUTPUT = OUTPUT / "canonical_event_collision_gate_report.md"
+DATE_REVIEW_COLUMNS = [
+    "candidate_event_id", "candidate_id", "old_event_id", "district",
+    "municipality", "event_type", "hazard_type", "deaths",
+    "article_mapping_ids_json", "article_urls_json", "event_evidence",
+    "source_evidence", "final_action", "resolved_event_date", "reviewed_by",
+    "review_notes",
+]
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -174,8 +182,21 @@ def build_date_review(
 
 
 def main() -> None:
-    reconstruction = json.loads(RECONSTRUCTION_MANIFEST.read_text(encoding="utf-8"))
-    if sha256(GROUPS) != reconstruction["outputs"][GROUPS.name]:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--groups", type=Path, default=GROUPS)
+    parser.add_argument("--groups-manifest", type=Path, default=RECONSTRUCTION_MANIFEST)
+    parser.add_argument("--output-tag", default="")
+    args = parser.parse_args()
+    tag = f"_{args.output_tag.strip()}" if args.output_tag.strip() else ""
+    date_review_path = OUTPUT / f"canonical_event_reconstruction{tag}_DATE_REVIEW.csv"
+    collision_pairs_path = OUTPUT / f"canonical_event_reconstruction{tag}_COLLISION_PAIRS.csv"
+    collision_decisions_path = OUTPUT / f"canonical_event_reconstruction{tag}_COLLISION_DECISIONS.csv"
+    manifest_output = OUTPUT / f"canonical_event_collision_gate{tag}_manifest.json"
+    report_output = OUTPUT / f"canonical_event_collision_gate{tag}_report.md"
+
+    reconstruction = json.loads(args.groups_manifest.read_text(encoding="utf-8"))
+    expected_groups_hash = reconstruction["outputs"].get(args.groups.name)
+    if not expected_groups_hash or sha256(args.groups) != expected_groups_hash:
         raise ValueError("Reconstruction groups differ from their manifest.")
     release = json.loads(RELEASE_MANIFEST.read_text(encoding="utf-8"))
     frozen_hash = next(
@@ -184,13 +205,13 @@ def main() -> None:
     if sha256(FROZEN_CANONICAL) != frozen_hash:
         raise ValueError("Frozen canonical CSV differs from its release manifest.")
 
-    groups = read_csv(GROUPS)
+    groups = read_csv(args.groups)
     decisions = read_csv(COMPLETED_DECISIONS)
     old_event_ids = {row["event_id"] for row in decisions}
     unaffected = [row for row in read_csv(FROZEN_CANONICAL) if row["event_id"] not in old_event_ids]
     mapping_by_id = {row["mapping_id"]: row for row in read_csv(ARTICLE_MAP)}
     date_review = build_date_review(groups, mapping_by_id)
-    write_csv(DATE_REVIEW, date_review, list(date_review[0]))
+    write_csv(date_review_path, date_review, list(date_review[0]) if date_review else DATE_REVIEW_COLUMNS)
 
     pair_rows: list[dict[str, object]] = []
     pairs_by_candidate: dict[str, list[dict[str, object]]] = defaultdict(list)
@@ -223,7 +244,7 @@ def main() -> None:
             pairs_by_candidate[candidate["candidate_event_id"]].append(pair)
     pair_rows.sort(key=lambda row: (str(row["candidate_event_id"]), -float(row["collision_score"]), str(row["existing_event_id"])))
     pair_columns = list(pair_rows[0]) if pair_rows else ["candidate_event_id"]
-    write_csv(COLLISION_PAIRS, pair_rows, pair_columns)
+    write_csv(collision_pairs_path, pair_rows, pair_columns)
 
     decision_rows: list[dict[str, object]] = []
     for candidate in groups:
@@ -269,7 +290,7 @@ def main() -> None:
                 "collision_review_notes": "",
             }
         )
-    write_csv(COLLISION_DECISIONS, decision_rows, list(decision_rows[0]))
+    write_csv(collision_decisions_path, decision_rows, list(decision_rows[0]))
 
     tier_counts = Counter(row["collision_tier"] for row in pair_rows)
     candidates_with_pairs = len(pairs_by_candidate)
@@ -282,21 +303,21 @@ def main() -> None:
         "collision_pairs": len(pair_rows),
         "collision_pair_tiers": dict(tier_counts),
         "inputs": {
-            GROUPS.name: sha256(GROUPS),
-            RECONSTRUCTION_MANIFEST.name: sha256(RECONSTRUCTION_MANIFEST),
+            args.groups.name: sha256(args.groups),
+            args.groups_manifest.name: sha256(args.groups_manifest),
             COMPLETED_DECISIONS.name: sha256(COMPLETED_DECISIONS),
             ARTICLE_MAP.name: sha256(ARTICLE_MAP),
             str(FROZEN_CANONICAL.relative_to(ROOT)): sha256(FROZEN_CANONICAL),
         },
         "outputs": {
-            DATE_REVIEW.name: sha256(DATE_REVIEW),
-            COLLISION_PAIRS.name: sha256(COLLISION_PAIRS),
-            COLLISION_DECISIONS.name: sha256(COLLISION_DECISIONS),
+            date_review_path.name: sha256(date_review_path),
+            collision_pairs_path.name: sha256(collision_pairs_path),
+            collision_decisions_path.name: sha256(collision_decisions_path),
         },
         "status": "review_packs_only_no_production_changes",
     }
-    MANIFEST_OUTPUT.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    REPORT_OUTPUT.write_text(
+    manifest_output.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    report_output.write_text(
         "\n".join(
             [
                 "# Canonical event reconstruction collision gate",
@@ -310,18 +331,21 @@ def main() -> None:
                 f"Medium-tier pairs: {tier_counts.get('medium', 0)}",
                 f"Low-tier pairs: {tier_counts.get('low', 0)}",
                 "",
-                "No collision has been merged automatically. Unclear-date candidates are",
-                "blocked until the separate date review is completed.",
+                "No collision has been merged automatically.",
+                (
+                    "Unclear-date candidates are blocked until the separate date review is completed."
+                    if date_review else "All retained candidates have a resolved event date."
+                ),
                 "",
             ]
         ),
         encoding="utf-8",
     )
-    print(f"Wrote {len(date_review)} rows to {DATE_REVIEW}")
-    print(f"Wrote {len(pair_rows)} pairs to {COLLISION_PAIRS}")
-    print(f"Wrote {len(decision_rows)} rows to {COLLISION_DECISIONS}")
-    print(f"Wrote {MANIFEST_OUTPUT}")
-    print(f"Wrote {REPORT_OUTPUT}")
+    print(f"Wrote {len(date_review)} rows to {date_review_path}")
+    print(f"Wrote {len(pair_rows)} pairs to {collision_pairs_path}")
+    print(f"Wrote {len(decision_rows)} rows to {collision_decisions_path}")
+    print(f"Wrote {manifest_output}")
+    print(f"Wrote {report_output}")
 
 
 if __name__ == "__main__":
