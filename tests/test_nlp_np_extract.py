@@ -410,3 +410,40 @@ def test_extract_np_records_an_explicit_zero_but_never_imputes_one() -> None:
         published_year_hint=2021,
     )
     assert silent['deaths'] is None
+
+
+def test_extract_np_audit_driven_death_phrases() -> None:
+    cases = (
+        ('पहिरोमा आमाछोरीको मृत्यु भएको छ ।', 2),
+        ('पहिरोमा आमा-छोरीको मृत्यु भएको छ ।', 2),
+        ('पहिरोमा चालकको मृत्यु भएको छ ।', 1),
+    )
+    for statement, expected in cases:
+        result = extract_np(
+            statement,
+            statement,
+            '2021-07-30',
+            None,
+            KEYWORDS_CFG,
+            published_year_hint=2021,
+        )
+        assert result['deaths'] == expected, statement
+
+
+def test_extract_np_audit_driven_explicit_zero_phrases() -> None:
+    cases = (
+        'पहिरोबाट मानवीय क्षति भने गरेको छैन ।',
+        'पहिरोबाट मानविय क्षति भने भएको छैन ।',
+        'पहिरोमा परेका चालक र यात्रुहरू सबै सकुशल छन् ।',
+        'कारका यात्रु र चालक भने सकुशल छन् ।',
+    )
+    for statement in cases:
+        result = extract_np(
+            'पहिरो गएको छ',
+            statement,
+            '2021-07-30',
+            None,
+            KEYWORDS_CFG,
+            published_year_hint=2021,
+        )
+        assert result['deaths'] == 0, statement

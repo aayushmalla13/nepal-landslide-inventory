@@ -188,3 +188,13 @@ def test_english_dateline_before_a_count_is_not_an_age() -> None:
         '2024-08-05', None, KEYWORDS, published_year_hint=2024,
     )
     assert result['deaths'] == 4
+
+
+def test_uncertain_casualty_status_blocks_explicit_zero() -> None:
+    result = extract_np(
+        'सिन्धुपाल्चोकमा पहिरो',
+        'प्रहरीले मानवीय क्षति भएको छैन भनेको छ तर मानवीय क्षति भए नभएको '
+        'अहिले यकिन गर्न नसकिने स्थानीय संवाददाताले बताए ।',
+        '2021-07-30', None, KEYWORDS, published_year_hint=2021,
+    )
+    assert result['deaths'] is None

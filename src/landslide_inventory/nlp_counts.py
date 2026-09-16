@@ -98,12 +98,15 @@ NEPALI_BODY_RECOVERY_VERBS = ('फेला', 'भेटिए', 'भेटि�
 
 EXPLICIT_NO_CASUALTY = {
     'np': re.compile(
-        r'(?:मानवीय\s*क्षति\s*(?:भएको\s*छैन|नभएको|छैन|भएन)'
-        r'|कुनै\s*(?:प्रकारको\s*)?(?:मानवीय\s*)?क्षति\s*(?:भएको\s*छैन|नभएको|छैन|भएन)'
+        r'(?:(?:मानवीय|मानविय)\s*क्षति\s*(?:भने\s*)?(?:भएको\s*छैन|गरेको\s*छैन|नभएको|छैन|भएन)'
+        r'|कुनै\s*(?:प्रकारको\s*)?(?:(?:मानवीय|मानविय)\s*)?क्षति\s*(?:भने\s*)?(?:भएको\s*छैन|गरेको\s*छैन|नभएको|छैन|भएन)'
         r'|हताहत\s*(?:भएको\s*छैन|नभएको|छैन)'
         r'|कोही\s*(?:पनि\s*)?(?:हताहत|घाइते)\s*(?:भएको\s*छैन|छैन)'
         r'|कसैको\s*ज्यान\s*(?:गएको\s*छैन|गएन)'
-        r'|ज्यानको\s*क्षति\s*(?:भएको\s*छैन|छैन))'
+        r'|ज्यानको\s*क्षति\s*(?:भएको\s*छैन|छैन)'
+        r'|(?:कारका\s*)?(?:चालक|यात्रु|कामदार|श्रमिक|स्थानीय)(?:हरू)?'
+        r'(?:\s*र\s*(?:चालक|यात्रु|कामदार|श्रमिक|स्थानीय)(?:हरू)?)?'
+        r'\s*(?:भने\s*)?(?:सबै\s*)?सकुशल\s*(?:छन्|रहेका\s*छन्)?)'
     ),
     'en': re.compile(
         r'(?:no\s+(?:human\s+)?(?:casualt\w*|loss\s+of\s+life|deaths?|fatalit\w*)'
@@ -111,7 +114,23 @@ EXPLICIT_NO_CASUALTY = {
         r'|nobody\s+was\s+(?:hurt|injured|killed)'
         r'|there\s+(?:was|were)\s+no\s+(?:human\s+)?(?:loss\w*|casualt\w*)'
         r'|caused\s+no\s+human\s+casualt\w*'
-        r'|escaped\s+unhurt)',
+        r'|escaped\s+unhurt'
+        r'|rescued\s+alive)',
+        re.IGNORECASE,
+    ),
+}
+
+# A preliminary "no loss" report is not an observed zero when the same article
+# explicitly says that casualty status is still unknown or cannot be verified.
+UNCERTAIN_CASUALTY_STATUS = {
+    'np': re.compile(
+        r'(?:मानवीय|मानविय)\s*क्षति[^।\n]{0,80}'
+        r'(?:भए\s*नभएको|भएको\s*नभएको|भन्न\s*नसकिने|यकिन\s*गर्न\s*नसकिने)'
+        r'|क्षतिको\s*विवरण\s*(?:आउन|प्राप्त\s*हुन)\s*बाँकी'
+    ),
+    'en': re.compile(
+        r'(?:casualty|casualties|loss\s+of\s+life)[^.\n]{0,80}'
+        r'(?:unknown|unclear|not\s+yet\s+known|could\s+not\s+be\s+confirmed)',
         re.IGNORECASE,
     ),
 }
@@ -214,6 +233,8 @@ def explicit_zero_is_safe(
     key = language if language in EXPLICIT_NO_CASUALTY else 'en'
     text = fold_devanagari_vowel_signs(text)
     if not EXPLICIT_NO_CASUALTY[key].search(text):
+        return False
+    if UNCERTAIN_CASUALTY_STATUS[key].search(text):
         return False
     if extracted_any_count:
         return False

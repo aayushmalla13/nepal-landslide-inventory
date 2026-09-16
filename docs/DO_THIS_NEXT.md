@@ -70,10 +70,14 @@ See `docs/CANONICAL_EVENT_STRUCTURED_ATTRIBUTE_RESULT.md`.
 
 ## Next scientific stage
 
-1. Convert recurring correction patterns into pipeline fixes and regression tests.
-2. Assemble all unapplied plans into a new versioned inventory release.
-3. Re-run rainfall linkage against the corrected release.
-4. Validate the corrected release with a fresh locked sample.
+Audit-driven event-type, hazard-type, and casualty-extraction fixes are now
+implemented with regression tests. The casualty replay reproduces 12 of 17
+reviewed death corrections directly; five evidence-dependent cases remain
+intentionally plan-driven. See `docs/CANONICAL_EVENT_PIPELINE_FIXES_RESULT.md`.
+
+1. Assemble all unapplied plans into a new versioned inventory release.
+2. Re-run rainfall linkage against the corrected release.
+3. Validate the corrected release with a fresh locked sample.
 
 Do not claim that the audited corrections alone establish the precision of the
 future corrected release. That release needs a fresh locked audit or a clearly

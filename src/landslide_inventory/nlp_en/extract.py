@@ -1010,6 +1010,61 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         if singular_death_match is not None:
             values['deaths'] = 1
             confidence = max(confidence, 0.76)
+    if values['deaths'] is None:
+        # Reviewed articles frequently state the toll without a person noun:
+        # "death toll hits nine" and "landslide claims two".
+        reviewed_toll_match = re.search(
+            r'\bdeath\s+toll\s+(?:hits?|reaches?|rises?\s+to|climbs?\s+to|stood\s+at)\s+'
+            r'(?P<toll>\d+|[A-Za-z-]+)\b'
+            r'|\blandslides?\s+claims?\s+(?P<claimed>\d+|[A-Za-z-]+)\b',
+            casualty_scope,
+            re.IGNORECASE,
+        )
+        if reviewed_toll_match is not None:
+            raw = reviewed_toll_match.group('toll') or reviewed_toll_match.group('claimed') or ''
+            toll = _parse_count(raw)
+            if toll is not None:
+                values['deaths'] = toll
+                confidence = max(confidence, 0.88)
+    if values['deaths'] is None:
+        family_loss_match = re.search(
+            r'\bfamily\b[^.;]{0,40}?\b(?:lost|loses)\s+(?:their\s+)?'
+            r'(?P<num>\d+|[A-Za-z-]+)\s+'
+            r'(?:members?|relatives?)\b',
+            casualty_scope,
+            re.IGNORECASE,
+        )
+        if family_loss_match is not None:
+            family_count = _parse_count(family_loss_match.group('num'))
+            if family_count is not None:
+                values['deaths'] = family_count
+                confidence = max(confidence, 0.82)
+    if values['deaths'] is None:
+        # "Mother and daughter died" identifies two people even without a
+        # numeral. Keep this to explicit kinship pairs joined by "and".
+        kinship_pair_death = re.search(
+            r'\b(?:mother|father|woman|man)\s+and\s+(?:(?:her|his|their)\s+)?'
+            r'(?:(?:\d+|[A-Za-z-]+)[ -]year[ -]old\s+)?'
+            r'(?:daughter|son|mother|father|wife|husband|sister|brother)\s+'
+            r'(?:died|were\s+killed|were\s+found\s+dead)\b',
+            casualty_scope,
+            re.IGNORECASE,
+        )
+        if kinship_pair_death is not None:
+            values['deaths'] = 2
+            confidence = max(confidence, 0.8)
+    if values['deaths'] is None:
+        # Headlines such as "Man injured in landslide dies" omit the article
+        # required by the earlier singular pattern but still assert one death.
+        bare_role_death = re.search(
+            r'\b(?:man|woman|worker|labou?rer|driver|rider|motorcyclist|passenger|child|youth)\b'
+            r'[^.;\n]{0,80}\b(?:dies|died|was\s+killed)\b',
+            casualty_scope,
+            re.IGNORECASE,
+        )
+        if bare_role_death is not None:
+            values['deaths'] = 1
+            confidence = max(confidence, 0.76)
     if not any(value is not None for value in values.values()):
         # Only with nothing counted anywhere may an explicit statement that
         # nobody was harmed be recorded as a zero. See nlp_counts for the guards

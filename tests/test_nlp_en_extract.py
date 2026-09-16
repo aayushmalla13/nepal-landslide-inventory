@@ -804,3 +804,37 @@ def test_extract_en_records_an_explicit_zero_but_never_imputes_one() -> None:
         published_year_hint=2019,
     )
     assert silent['deaths'] is None
+
+
+def test_extract_en_audit_driven_death_phrases() -> None:
+    cases = (
+        ('Death toll hits nine in Sindhupalchok landslide', 9),
+        ('Landslide claims two in Sindhupalchok', 2),
+        ('A family lost three members when the landslide buried their home.', 3),
+        ('The Lama family, who lost their three members after a landslide, received relief.', 3),
+        ('A mother and daughter died in the landslide.', 2),
+        ('A mother and her two-year-old daughter died after being buried by a landslide.', 2),
+        ('Man injured in landslide dies during treatment.', 1),
+    )
+    for statement, expected in cases:
+        result = extract_en(
+            statement,
+            statement,
+            '2021-07-30',
+            None,
+            KEYWORDS_CFG,
+            published_year_hint=2021,
+        )
+        assert result['deaths'] == expected, statement
+
+
+def test_extract_en_rescued_alive_is_an_explicit_zero() -> None:
+    result = extract_en(
+        'Worker rescued alive after landslide',
+        'A worker buried by a landslide was rescued alive by local residents.',
+        '2021-07-30',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2021,
+    )
+    assert result['deaths'] == 0

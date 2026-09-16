@@ -473,6 +473,29 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
             values['deaths'] = recovered
             confidence = max(confidence, recovered_conf)
 
+    if values['deaths'] is None:
+        # Nepali headlines often compress an explicit two-person relationship
+        # into one compound: "आमाछोरीको मृत्यु" / "आमा-छोरीको मृत्यु".
+        kinship_pair_death = re.search(
+            r'(?:आमा\s*[-–—]?\s*छोरी|बाबु\s*[-–—]?\s*छोरा|'
+            r'आमा\s*[-–—]?\s*छोरा|बाबु\s*[-–—]?\s*छोरी)को\s*मृत्यु',
+            normalized_text,
+        )
+        if kinship_pair_death is not None:
+            values['deaths'] = 2
+            confidence = max(confidence, 0.82)
+
+    if values['deaths'] is None:
+        # "चालकको मृत्यु" identifies one victim without an overt numeral.
+        singular_role_death = re.search(
+            r'(?:चालक|कामदार|श्रमिक|मजदुर|यात्रु|महिला|पुरुष|बालक|बालिका|युवक|युवती)को'
+            r'[^।\n]{0,30}?मृत्यु',
+            casualty_scope,
+        )
+        if singular_role_death is not None:
+            values['deaths'] = 1
+            confidence = max(confidence, 0.78)
+
     if not any(value is not None for value in values.values()):
         # Only now, with nothing counted anywhere, may an explicit statement
         # that nobody was harmed be recorded as a zero. See nlp_counts.
