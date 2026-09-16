@@ -32,21 +32,25 @@ article decompositions, 16 re-cluster/decomposition cases, and 2 manual
 membership reviews. Mutable working-database cluster IDs were not substituted
 for frozen v0.6 memberships.
 
+## Completed reconstruction decisions
+
+The 55-row decision sheet is complete and valid. It excludes 26 old canonical
+events and reconstructs the other 29 into 100 physical-event candidates. All
+124 frozen article memberships are accounted for and no cluster decision
+remains unresolved. See `docs/CANONICAL_EVENT_RECONSTRUCTION_RESULT.md`.
+
 ## Next scientific stage
 
-Complete the cluster decision sheet using
-`docs/CANONICAL_EVENT_ARTICLE_MAPPING_GUIDE.md`:
+Run a collision and date-resolution gate before applying reconstruction:
 
-`data/outputs/canonical_event_article_mapping_DECISIONS.csv`
+1. Resolve or exclude the nine candidates whose event date is `unclear`.
+2. Match the 100 reconstruction candidates against the 2,830 unaffected frozen
+   events using date windows, district, municipality, source URLs, and evidence.
+3. Review possible collisions as new event, merge with existing event, or
+   exclude duplicate.
 
-Read evidence in:
-
-`data/outputs/canonical_event_article_membership_MAP.csv`
-
-Save the result as
-`data/outputs/canonical_event_article_mapping_DECISIONS_COMPLETED.csv`. The
-review must define evidence-backed physical-event groups; the proposed
-resolution alone is not an applied correction.
+Do not insert the 100 candidates directly. Their provisional +45 event-count
+delta can shrink after collision review.
 
 After article mapping:
 
