@@ -57,24 +57,23 @@ events, a net increase of 19 from the frozen 2,885-event release.
 
 See `docs/CANONICAL_EVENT_TRUE_VALUE_RESULT.md`. The plan remains unapplied.
 
+## Completed structured-attribute plan
+
+The final 27-row structured-attribute review is complete and release-safe. All
+27 events are retained with 15 event-type changes, 7 hazard-type changes, and
+10 death-count changes. There are no exclusions, unresolved values, or overlaps
+with earlier correction gates.
+
+All manual correction gates are now complete. The consolidated provisional
+inventory contains 2,904 events, a net increase of 19 from the frozen release.
+See `docs/CANONICAL_EVENT_STRUCTURED_ATTRIBUTE_RESULT.md`.
+
 ## Next scientific stage
 
-Complete the final 27-row structured-attribute review:
-
-`data/outputs/canonical_event_structured_attribute_REVIEW.csv`
-
-These records have stable identity, date, and district but need evidence-backed
-event type, hazard type, or death-count corrections. Follow
-`docs/CANONICAL_EVENT_STRUCTURED_ATTRIBUTE_REVIEW_GUIDE.md` and save the result
-as `data/outputs/canonical_event_structured_attribute_REVIEW_COMPLETED.csv`.
-
-Then:
-
-1. Validate and materialize the structured-attribute decisions.
-2. Convert recurring correction patterns into pipeline fixes and regression tests.
-3. Assemble all unapplied plans into a new versioned inventory release.
-4. Re-run rainfall linkage against the corrected release.
-5. Validate the corrected release with a fresh locked sample.
+1. Convert recurring correction patterns into pipeline fixes and regression tests.
+2. Assemble all unapplied plans into a new versioned inventory release.
+3. Re-run rainfall linkage against the corrected release.
+4. Validate the corrected release with a fresh locked sample.
 
 Do not claim that the audited corrections alone establish the precision of the
 future corrected release. That release needs a fresh locked audit or a clearly
@@ -88,6 +87,7 @@ labelled post-correction verification sample.
 - Adjudication provenance: `data/outputs/canonical_event_audit_adjudication_manifest.json`
 - Definitive score: `data/outputs/canonical_event_audit_adjudicated_score.json`
 - Agreement report: `data/outputs/canonical_event_audit_interannotator_agreement.md`
+- Final manual-gate plan: `data/outputs/canonical_event_structured_attribute_plan_manifest.json`
 
 ## Submission decisions still needed
 
