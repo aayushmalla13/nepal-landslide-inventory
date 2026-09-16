@@ -18,26 +18,32 @@ See `docs/CANONICAL_EVENT_ADJUDICATED_RESULT.md` for all agreement and accuracy
 metrics. The first-review result remains historical evidence; manuscript claims
 must use the adjudicated result.
 
+## Completed correction triage
+
+The audit-derived candidate queue is complete. It contains 119 candidate rows:
+90 P0 identity/linkage candidates, 27 P1 attribute candidates, and 2 P2
+uncertain candidates. See `docs/CANONICAL_EVENT_CORRECTION_PLAN.md`.
+
 ## Next scientific stage
 
-Create a correction-candidate table from the adjudicated 150-row audit before
-changing production data. For every rejected or inaccurate record, encode a
-specific action such as exclude event, split cluster, correct district, correct
-date, correct event/hazard type, correct deaths, or re-cluster duplicates.
+Resolve the 55-row article-mapping batch first:
 
-Then:
+`data/outputs/canonical_event_correction_BATCH_ARTICLE_MAPPING.csv`
 
-1. Apply only evidence-supported corrections through a reviewed correction
-   layer, preserving immutable source provenance.
-2. Investigate whether each audited error exposes a systematic rule that should
-   be fixed across the full inventory rather than only in sampled records.
-3. Add regression tests for every accepted systematic fix.
-4. Re-run extraction, scope filtering, specificity, location consistency,
-   deduplication, and canonical export into a new versioned release.
-5. Re-run rainfall linkage and sensitivity analyses because corrected dates and
-   event identities can change rainfall results.
-6. Keep v0.6.0 and rainfall v0.8.0 frozen and publish all new outputs under new
-   release identifiers.
+For each row, map all source article URLs and decide the final membership action:
+exclude all non-events, split aggregate records into physical events, and
+separate articles that were incorrectly merged. Do not apply date, location,
+type, hazard, or casualty changes until event identity and cluster membership
+are stable.
+
+After article mapping:
+
+1. Complete the 37-row true-value batch with evidence-backed replacement dates
+   and locations.
+2. Apply the 27 structured attribute candidates against stable events.
+3. Convert recurring patterns into pipeline fixes and regression tests.
+4. Rebuild into a new versioned inventory release.
+5. Re-run rainfall linkage and validate the new release with a fresh sample.
 
 Do not claim that the audited corrections alone establish the precision of the
 future corrected release. That release needs a fresh locked audit or a clearly
