@@ -41,13 +41,19 @@ remains unresolved. See `docs/CANONICAL_EVENT_RECONSTRUCTION_RESULT.md`.
 
 ## Next scientific stage
 
-Run a collision and date-resolution gate before applying reconstruction:
+The preliminary collision gate is complete for 91 dated candidates. It found
+199 broad candidate pairs: 3 high tier, 36 medium tier, and 160 low tier, with
+no source-URL overlaps.
 
-1. Resolve or exclude the nine candidates whose event date is `unclear`.
-2. Match the 100 reconstruction candidates against the 2,830 unaffected frozen
-   events using date windows, district, municipality, source URLs, and evidence.
-3. Review possible collisions as new event, merge with existing event, or
-   exclude duplicate.
+Resolve the nine unclear-date candidates first by following
+`docs/CANONICAL_EVENT_DATE_COLLISION_GUIDE.md` and completing:
+
+`data/outputs/canonical_event_reconstruction_DATE_REVIEW.csv`
+
+Save it as
+`data/outputs/canonical_event_reconstruction_DATE_REVIEW_COMPLETED.csv`. Then
+validate the dates and regenerate collision matching for the final retained
+candidate set. Do not complete the current preliminary collision sheet.
 
 Do not insert the 100 candidates directly. Their provisional +45 event-count
 delta can shrink after collision review.
