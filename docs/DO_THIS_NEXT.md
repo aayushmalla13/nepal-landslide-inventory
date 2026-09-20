@@ -80,9 +80,17 @@ release `nepal_landslide_inventory_v0.7.0_candidate_20260916`. It contains
 2,904 unique events and remains explicitly pending post-correction validation.
 See `docs/CORRECTED_INVENTORY_CANDIDATE_RESULT.md`.
 
-1. Validate the corrected candidate release with a fresh locked sample.
-2. Promote the candidate to a final inventory release only if that gate passes.
-3. Re-run rainfall linkage against the promoted corrected release.
+The post-correction validation draw is now locked. It contains a 150-row fresh
+probability sample from 2,723 untouched eligible events and a separate 50-row
+correction challenge. Prior audit labels and article evidence are excluded from
+the fresh frame. See `docs/POST_CORRECTION_VALIDATION_GUIDE.md`.
+
+1. Complete `post_correction_fresh_audit_LABEL_HERE.csv` and save it as
+   `post_correction_fresh_audit_COMPLETED.csv`.
+2. Complete `post_correction_challenge_LABEL_HERE.csv` and save it as
+   `post_correction_challenge_COMPLETED.csv`.
+3. Score the samples separately, promote the candidate only if the gate passes,
+   then rerun rainfall linkage against the promoted release.
 
 Do not claim that the audited corrections alone establish the precision of the
 future corrected release. That release needs a fresh locked audit or a clearly
