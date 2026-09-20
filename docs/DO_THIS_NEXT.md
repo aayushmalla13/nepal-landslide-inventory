@@ -1,7 +1,8 @@
 # Do this next - audit-driven corrected release
 
-**Status:** the frozen pipeline, independent canonical-event review, and
-third-reviewer adjudication are complete as of 2026-09-16.
+**Status:** the frozen pipeline, independent canonical-event review,
+third-reviewer adjudication, corrected candidate, and locked post-correction
+validation are complete as of 2026-09-21. The candidate did not advance.
 
 ## Definitive validation result
 
@@ -68,33 +69,41 @@ All manual correction gates are now complete. The consolidated provisional
 inventory contains 2,904 events, a net increase of 19 from the frozen release.
 See `docs/CANONICAL_EVENT_STRUCTURED_ATTRIBUTE_RESULT.md`.
 
+## Post-correction validation decision
+
+The locked 150-row fresh probability sample and separate 50-row correction
+challenge are complete and reproducibly scored. The fresh sample estimated:
+
+- Event existence precision: 0.833 (95% CI 0.774-0.888)
+- Strict usable-record precision: 0.358 (0.284-0.437)
+- Single-event accuracy: 0.704 (0.623-0.779)
+- District accuracy: 0.799 (0.731-0.864)
+- Date accuracy: 0.743 (0.658-0.824)
+- Event-type accuracy: 0.683 (0.616-0.752)
+
+The correction challenge passed 0.977 of 43 decisive targeted checks, with
+seven unclear rows. It confirms that the reviewed correction plans were mostly
+applied correctly, but it cannot replace the fresh probability estimate.
+
+No numeric promotion threshold was prespecified. The candidate is not promoted
+because the fresh sample directly contains 23 confirmed non-events and 43
+multi-event failures among 126 confirmed events, alongside material attribute
+errors. See `docs/POST_CORRECTION_VALIDATION_RESULT.md`.
+
 ## Next scientific stage
 
-Audit-driven event-type, hazard-type, and casualty-extraction fixes are now
-implemented with regression tests. The casualty replay reproduces 12 of 17
-reviewed death corrections directly; five evidence-dependent cases remain
-intentionally plan-driven. See `docs/CANONICAL_EVENT_PIPELINE_FIXES_RESULT.md`.
+1. Build a frozen remediation queue from the confirmed fresh-sample failures.
+2. Diagnose errors by source and root cause, prioritizing false events and
+   multi-event decomposition before event type, date, and district.
+3. Fix the confirmed Akkarebhir challenge hazard error and review the seven
+   unclear identity-add cases.
+4. Add generalizable parser, specificity, and deduplication fixes with
+   regression tests, then apply event-level corrections.
+5. Assemble a new checksummed candidate and draw a newly locked probability
+   sample excluding every previously reviewed event and article.
 
-The unapplied plans have now been assembled into the checksummed candidate
-release `nepal_landslide_inventory_v0.7.0_candidate_20260916`. It contains
-2,904 unique events and remains explicitly pending post-correction validation.
-See `docs/CORRECTED_INVENTORY_CANDIDATE_RESULT.md`.
-
-The post-correction validation draw is now locked. It contains a 150-row fresh
-probability sample from 2,723 untouched eligible events and a separate 50-row
-correction challenge. Prior audit labels and article evidence are excluded from
-the fresh frame. See `docs/POST_CORRECTION_VALIDATION_GUIDE.md`.
-
-1. Complete `post_correction_fresh_audit_LABEL_HERE.csv` and save it as
-   `post_correction_fresh_audit_COMPLETED.csv`.
-2. Complete `post_correction_challenge_LABEL_HERE.csv` and save it as
-   `post_correction_challenge_COMPLETED.csv`.
-3. Score the samples separately, promote the candidate only if the gate passes,
-   then rerun rainfall linkage against the promoted release.
-
-Do not claim that the audited corrections alone establish the precision of the
-future corrected release. That release needs a fresh locked audit or a clearly
-labelled post-correction verification sample.
+Do not promote v0.7.0, rerun rainfall linkage against it, or reuse the current
+200 validation rows as evidence for a repaired candidate.
 
 ## Preserved evidence
 
