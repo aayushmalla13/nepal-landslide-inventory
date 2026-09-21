@@ -88,13 +88,13 @@ weights, validation score, queue, batches, summary, and report by SHA-256.
 
 ## Next gate
 
-The locked article-level evidence and decision pack is generated for all 67
-article-mapping rows and 85 source-article memberships. Complete
-`post_correction_article_mapping_DECISIONS.csv` according to
-`docs/POST_CORRECTION_ARTICLE_MAPPING_GUIDE.md` and save it as
-`post_correction_article_mapping_DECISIONS_COMPLETED.csv`.
+The 67-row article-mapping review is complete, validated, and materialized as an
+unapplied plan. It produces 93 physical-event candidates, 35 excluded article
+memberships, and three unresolved original events. See
+`docs/POST_CORRECTION_ARTICLE_MAPPING_RESULT.md`.
 
-Decisions must distinguish whole-event exclusion, decomposition into multiple
-physical events, article re-clustering, and unresolved review. Do not apply
-date, location, or structured-attribute changes until identity and article
-membership are stable.
+The current manual gate is the 30-row exact-date review in
+`post_correction_reconstruction_DATE_REVIEW.csv`. Complete it according to
+`docs/POST_CORRECTION_DATE_REVIEW_GUIDE.md`. Do not apply location or
+structured-attribute changes until date resolution and collision screening are
+complete.

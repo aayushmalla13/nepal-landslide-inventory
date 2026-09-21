@@ -103,20 +103,18 @@ See `docs/POST_CORRECTION_REMEDIATION_QUEUE.md` and
 
 ## Next scientific stage
 
-The locked article-mapping pack is generated for all 67 rows and 85 source
-articles. Its blank decision sheet contains 29 proposed source-article
-decompositions, 23 proposed cluster exclusions, 11 proposed re-cluster and
-decomposition cases, and four manual membership reviews. See
-`docs/POST_CORRECTION_ARTICLE_MAPPING_GUIDE.md`.
+The 67-row article-mapping gate is complete and valid. It resolves 64 old events
+into 93 physical-event candidates, excludes 31 whole events and 35 article
+memberships, and retains three unresolved originals unchanged. The unapplied
+plan has a provisional +29 event delta. See
+`docs/POST_CORRECTION_ARTICLE_MAPPING_RESULT.md`.
 
-1. Complete
-   `data/outputs/post_correction_article_mapping_DECISIONS.csv` and save it as
-   `post_correction_article_mapping_DECISIONS_COMPLETED.csv`.
-2. Resolve false-event exclusions, multi-event decomposition, and article
-   re-clustering before changing dates, locations, or structured attributes.
-3. Validate the completed decision sheet with
-   `scripts/validate_post_correction_article_mapping.py`, then materialize a
-   versioned identity plan without modifying the candidate in place.
+1. Complete `data/outputs/post_correction_reconstruction_DATE_REVIEW.csv` and
+   save it as `post_correction_reconstruction_DATE_REVIEW_COMPLETED.csv`.
+2. Validate and materialize those 30 date decisions with
+   `scripts/resolve_post_correction_reconstruction_dates.py`.
+3. Collision-screen every dated reconstruction candidate against unaffected
+   v0.7 events before inserting or merging any identity.
 4. Convert recurring patterns into parser, specificity, and deduplication fixes
    with regression tests.
 5. Complete the 45-row true-value gate and 25-row structured-attribute gate,
