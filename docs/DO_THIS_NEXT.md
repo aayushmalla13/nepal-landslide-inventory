@@ -103,18 +103,19 @@ See `docs/POST_CORRECTION_REMEDIATION_QUEUE.md` and
 
 ## Next scientific stage
 
-The 67-row article-mapping gate is complete and valid. It resolves 64 old events
-into 93 physical-event candidates, excludes 31 whole events and 35 article
-memberships, and retains three unresolved originals unchanged. The unapplied
-plan has a provisional +29 event delta. See
-`docs/POST_CORRECTION_ARTICLE_MAPPING_RESULT.md`.
+The exact-date gate is complete and valid. One date was resolved, 29 candidates
+without a defensible exact date were excluded, and 64 dated candidates remain.
+Their existing-event collision pack contains 191 pairs: 29 candidates have
+medium-tier matches, 15 have low-tier matches, and 20 have no matches. There are
+no high-tier source-URL overlaps. See
+`docs/POST_CORRECTION_DATE_RESOLUTION_RESULT.md`.
 
-1. Complete `data/outputs/post_correction_reconstruction_DATE_REVIEW.csv` and
-   save it as `post_correction_reconstruction_DATE_REVIEW_COMPLETED.csv`.
-2. Validate and materialize those 30 date decisions with
-   `scripts/resolve_post_correction_reconstruction_dates.py`.
-3. Collision-screen every dated reconstruction candidate against unaffected
-   v0.7 events before inserting or merging any identity.
+1. Complete
+   `data/outputs/post_correction_reconstruction_COLLISION_DECISIONS.csv` and
+   save it as `post_correction_reconstruction_COLLISION_DECISIONS_COMPLETED.csv`.
+2. Validate with `scripts/validate_post_correction_collision_decisions.py`.
+3. Run the final candidate-to-candidate collision gate before inserting or
+   merging any identity.
 4. Convert recurring patterns into parser, specificity, and deduplication fixes
    with regression tests.
 5. Complete the 45-row true-value gate and 25-row structured-attribute gate,

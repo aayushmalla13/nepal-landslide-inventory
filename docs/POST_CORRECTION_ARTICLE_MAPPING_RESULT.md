@@ -35,19 +35,17 @@ database remain unchanged.
 
 ## Remaining identity gates
 
-Thirty reconstructed candidates have an unclear event date. The other 63 have
-valid dates, but all retained candidates still require collision matching
-against unaffected v0.7 events before they can enter a new release.
+The 30-row date review is complete. One exact date was resolved and 29
+unsupported candidates were excluded, leaving 64 dated candidates. See
+`docs/POST_CORRECTION_DATE_RESOLUTION_RESULT.md`.
 
 The required order is:
 
-1. Complete and validate the 30-row exact-date review.
-2. Exclude candidates whose exact date cannot be supported.
-3. Match every dated candidate against unaffected inventory events using date,
-   district, municipality, source URL, and evidence similarity.
-4. Adjudicate collisions as new event, merge with existing event, exclude
-   duplicate, or unresolved.
-5. Only then assemble the new versioned identity layer.
+1. Adjudicate the 64-row candidate-versus-existing collision pack.
+2. Run a final candidate-to-candidate collision screen.
+3. Resolve every remaining collision as new event, merge, exclusion, or
+   explicitly unresolved.
+4. Only then assemble the new versioned identity layer.
 
 ## Reproducibility
 
