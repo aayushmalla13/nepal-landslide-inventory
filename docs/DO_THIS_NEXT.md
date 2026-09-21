@@ -103,16 +103,24 @@ See `docs/POST_CORRECTION_REMEDIATION_QUEUE.md` and
 
 ## Next scientific stage
 
-1. Build and complete the article-level evidence and decision pack for the 67
-   article-mapping rows.
+The locked article-mapping pack is generated for all 67 rows and 85 source
+articles. Its blank decision sheet contains 29 proposed source-article
+decompositions, 23 proposed cluster exclusions, 11 proposed re-cluster and
+decomposition cases, and four manual membership reviews. See
+`docs/POST_CORRECTION_ARTICLE_MAPPING_GUIDE.md`.
+
+1. Complete
+   `data/outputs/post_correction_article_mapping_DECISIONS.csv` and save it as
+   `post_correction_article_mapping_DECISIONS_COMPLETED.csv`.
 2. Resolve false-event exclusions, multi-event decomposition, and article
    re-clustering before changing dates, locations, or structured attributes.
-3. Convert recurring patterns into parser, specificity, and deduplication
-   fixes with regression tests.
-4. Complete the 45-row true-value gate, then the 25-row structured-attribute
-   gate against the stabilized event identities.
-5. Assemble a new checksummed candidate and draw a newly locked probability
-   sample excluding every previously reviewed event and article.
+3. Validate the completed decision sheet with
+   `scripts/validate_post_correction_article_mapping.py`, then materialize a
+   versioned identity plan without modifying the candidate in place.
+4. Convert recurring patterns into parser, specificity, and deduplication fixes
+   with regression tests.
+5. Complete the 45-row true-value gate and 25-row structured-attribute gate,
+   then assemble and independently validate a new checksummed candidate.
 
 Do not promote v0.7.0, rerun rainfall linkage against it, or reuse the current
 200 validation rows as evidence for a repaired candidate.

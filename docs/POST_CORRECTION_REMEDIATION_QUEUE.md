@@ -88,8 +88,13 @@ weights, validation score, queue, batches, summary, and report by SHA-256.
 
 ## Next gate
 
-Build an article-level evidence and decision pack for the 67 article-mapping
-rows. Decisions must distinguish whole-event exclusion, decomposition into
-multiple physical events, article re-clustering, and unresolved review. Do not
-apply date, location, or structured-attribute changes until identity and
-article membership are stable.
+The locked article-level evidence and decision pack is generated for all 67
+article-mapping rows and 85 source-article memberships. Complete
+`post_correction_article_mapping_DECISIONS.csv` according to
+`docs/POST_CORRECTION_ARTICLE_MAPPING_GUIDE.md` and save it as
+`post_correction_article_mapping_DECISIONS_COMPLETED.csv`.
+
+Decisions must distinguish whole-event exclusion, decomposition into multiple
+physical events, article re-clustering, and unresolved review. Do not apply
+date, location, or structured-attribute changes until identity and article
+membership are stable.
