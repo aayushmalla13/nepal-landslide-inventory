@@ -90,15 +90,27 @@ because the fresh sample directly contains 23 confirmed non-events and 43
 multi-event failures among 126 confirmed events, alongside material attribute
 errors. See `docs/POST_CORRECTION_VALIDATION_RESULT.md`.
 
+## Completed remediation queue
+
+The two completed post-correction audits are now frozen into a reproducible
+137-row remediation queue: 124 fresh-sample findings and 13 challenge findings.
+The queue contains 106 P0 identity/linkage rows, 27 P1 attribute rows, and four
+P2 uncertain rows. It partitions into 67 article-mapping, 45 true-value, and 25
+structured-attribute rows. No correction has been applied.
+
+See `docs/POST_CORRECTION_REMEDIATION_QUEUE.md` and
+`data/outputs/post_correction_remediation_manifest.json`.
+
 ## Next scientific stage
 
-1. Build a frozen remediation queue from the confirmed fresh-sample failures.
-2. Diagnose errors by source and root cause, prioritizing false events and
-   multi-event decomposition before event type, date, and district.
-3. Fix the confirmed Akkarebhir challenge hazard error and review the seven
-   unclear identity-add cases.
-4. Add generalizable parser, specificity, and deduplication fixes with
-   regression tests, then apply event-level corrections.
+1. Build and complete the article-level evidence and decision pack for the 67
+   article-mapping rows.
+2. Resolve false-event exclusions, multi-event decomposition, and article
+   re-clustering before changing dates, locations, or structured attributes.
+3. Convert recurring patterns into parser, specificity, and deduplication
+   fixes with regression tests.
+4. Complete the 45-row true-value gate, then the 25-row structured-attribute
+   gate against the stabilized event identities.
 5. Assemble a new checksummed candidate and draw a newly locked probability
    sample excluding every previously reviewed event and article.
 

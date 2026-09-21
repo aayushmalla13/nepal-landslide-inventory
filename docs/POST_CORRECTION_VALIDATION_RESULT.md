@@ -65,8 +65,11 @@ artifact, not the final paper dataset.
 
 ## Next remediation gate
 
-1. Convert confirmed fresh-sample failures into a frozen error-analysis queue,
-   while keeping the completed audit immutable.
+The 137-row frozen remediation queue is complete. See
+`docs/POST_CORRECTION_REMEDIATION_QUEUE.md`.
+
+1. Complete the 67-row article-mapping gate while keeping the completed audits
+   and frozen remediation queue immutable.
 2. Group failures by source and root cause; prioritize false events and
    multi-event cluster decomposition, then event type, date, and district.
 3. Correct the confirmed Akkarebhir challenge failure and review the seven
