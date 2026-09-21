@@ -101,25 +101,21 @@ structured-attribute rows. No correction has been applied.
 See `docs/POST_CORRECTION_REMEDIATION_QUEUE.md` and
 `data/outputs/post_correction_remediation_manifest.json`.
 
+## Completed post-correction identity plan
+
+The final candidate collision gate is complete. All 42 eligible candidates were
+retained as distinct events, and the bundle-safe unapplied plan now contains 61
+old-event removals, 42 new events, 11 merges into existing events, 29 date-based
+candidate exclusions, and 11 blocked candidates. Six reviewed old events remain
+unchanged. See `docs/POST_CORRECTION_IDENTITY_PLAN_RESULT.md`.
+
 ## Next scientific stage
 
-The existing-event collision gate is complete and valid. Bundle-safe
-materialization yields 42 eligible proposed new events, 11 safe merges, and 11
-blocked candidates across three unresolved old-event bundles. The final
-candidate-to-candidate screen contains 34 pairs. See
-`docs/POST_CORRECTION_EXISTING_COLLISION_RESULT.md`.
-
-1. Complete
-   `data/outputs/post_correction_reconstruction_FINAL_COLLISION_DECISIONS.csv`
-   and save it as
-   `post_correction_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv`.
-2. Validate with `scripts/validate_post_correction_final_collisions.py`.
-3. Materialize the final unapplied identity plan while preserving every blocked
-   old-event bundle unchanged.
-4. Convert recurring patterns into parser, specificity, and deduplication fixes
-   with regression tests.
-5. Complete the 45-row true-value gate and 25-row structured-attribute gate,
-   then assemble and independently validate a new checksummed candidate.
+1. Convert recurring audit patterns into parser, specificity, scope, and
+   deduplication fixes with regression tests.
+2. Complete the 45-row true-value gate and 25-row structured-attribute gate.
+3. Assemble a new checksummed candidate from the unapplied correction plans.
+4. Draw and score a fresh independent validation sample before promotion.
 
 Do not promote v0.7.0, rerun rainfall linkage against it, or reuse the current
 200 validation rows as evidence for a repaired candidate.
