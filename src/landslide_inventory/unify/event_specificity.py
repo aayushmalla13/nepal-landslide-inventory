@@ -70,6 +70,47 @@ CONTEXT_ONLY_PATTERNS = (
     'नियन्त्रण आयोजना', 'पहिरो नियन्त्रण', 'बायो–इन्जिनियरिङ', 'बायो-इन्जिनियरिङ',
     'पुनर्निर्माण', 'बजेट', 'दुःख व्यक्त', 'जोगिने', 'चुनौती', 'सञ्चालन अनिश्चित',
 )
+NON_EVENT_PURPOSE_PATTERN = re.compile(
+    r'\b(?:disaster|monsoon)\s+(?:preparedness|response|management)\s+(?:plan|planning)\b'
+    r'|\b(?:planned|scheduled)\s+(?:road\s+)?(?:closure|shutdown)\b'
+    r'|\btunnel\s+(?:work|construction)\b'
+    r'|\bshut\s+during\s+night(?:time)?\b'
+    r'|\b(?:monsoon\s+)?disaster\s+(?:plan|planning)\b'
+    r'|\b(?:causes?|effects?|impacts?)\s+(?:and|of)\s+(?:landslides?|mitigation)\b'
+    r'|\bdozer\s+use\s+causing\s+landslides?\b'
+    r'|विपद्?\s*व्यवस्थापन(?:को)?\s*(?:योजना|तयारी|प्रयास)'
+    r'|मनसुन(?:जन्य)?\s*विपद्?\s*(?:कार्ययोजना|तयारी)'
+    r'|(?:बाढी\s*[/–—-]?\s*)?पहिरो[^\n]{0,40}(?:असर|प्रभाव)[^\n]{0,40}न्यूनीकरणका\s+उपाय',
+    re.IGNORECASE,
+)
+GOVERNMENT_ATTENTION_PATTERN = re.compile(
+    r'\b(?:lawmakers?|parliament)\b[^\n]{0,80}\b(?:investigation|attention)\b'
+    r'|(?:गृहमन्त्री|संसद|सांसद)[^\n]{0,80}ध्यानाकर्षण',
+    re.IGNORECASE,
+)
+TITLE_HAZARD_PATTERN = re.compile(
+    r'\b(?:landslides?|mudslides?|rockfalls?|slope\s+failure)\b'
+    r'|पहिर[ोा]|भूस्खलन|हिम\s*पहिरो|हिउँ\s*पहिरो',
+    re.IGNORECASE,
+)
+PRIMARY_NON_LANDSLIDE_INCIDENT_PATTERN = re.compile(
+    r'\b(?:bus|truck|vehicle|jeep|car)\b[^\n]{0,60}\b(?:crash|collision|accident)\b'
+    r'|\b(?:crash|collision|accident)\b[^\n]{0,60}\b(?:bus|truck|vehicle|jeep|car)\b'
+    r'|बसको\s+ठक्कर|सवारी\s+दुर्घटना|चितुवाको\s+आक्रमण|सर्पदंश',
+    re.IGNORECASE,
+)
+LANDSLIDE_CAUSED_INCIDENT_PATTERN = re.compile(
+    r'\b(?:crash|collision|accident)\b[^.\n]{0,80}\b(?:caused\s+by|due\s+to|after)\b'
+    r'[^.\n]{0,40}\b(?:landslide|mudslide|rockfall)\b'
+    r'|\b(?:landslide|mudslide|rockfall)\b[^.\n]{0,80}'
+    r'\b(?:caused|triggered|led\s+to)\b[^.\n]{0,40}\b(?:crash|collision|accident)\b'
+    r'|पहिरो(?:का कारण|ले)[^।\n]{0,80}(?:दुर्घटना|ठक्कर)',
+    re.IGNORECASE,
+)
+FOREIGN_EVENT_NP_PATTERN = re.compile(
+    r'(?:भारत|चीन|सिक्किम|उत्तराखण्ड|उत्तराखंड|हिमाचल|तिब्बत)मा[^।\n]{0,100}'
+    r'(?:पहिरो|भूस्खलन|बाढी)[^।\n]{0,60}(?:गयो|आयो|गएको|आएको|पुरियो|बगायो)',
+)
 # Unambiguous political-metaphor phrases. Every entry here must be a phrase that
 # cannot plausibly occur in a report of a physical landslide.
 #
@@ -145,6 +186,7 @@ FOREIGN_TERMS_EXTRA = (
     'sri lanka', 'maldives', 'bhutan', 'sikkim', 'assam', 'meghalaya', 'kerala',
     'maharashtra', 'kashmir', 'ladakh', 'darjeeling', 'kalimpong',
     'श्रीलंका', 'श्रीलङ्का', 'भुटान', 'भूटान', 'सिक्किम', 'असम', 'केरला',
+    'kedarnath', 'केदारनाथ',
     'कास्मिर', 'कस्मिर', 'दार्जिलिङ', 'दार्जिलिंग', 'लद्दाख',
     # Wider Asia
     'vietnam', 'malaysia', 'south korea', 'north korea', 'taiwan', 'cambodia',
@@ -370,6 +412,18 @@ def decide_specificity(
     has_risk_only = _has_risk_signal(combined_cf)
     has_followup = _has_followup_signal(combined_cf)
     has_context_only = _has_context_only_signal(combined_cf)
+    has_non_event_purpose = (
+        NON_EVENT_PURPOSE_PATTERN.search(f'{title}\n{text[:700]}') is not None
+        or (
+            GOVERNMENT_ATTENTION_PATTERN.search(title) is not None
+            and TITLE_HAZARD_PATTERN.search(title) is None
+        )
+    )
+    primary_incident_text = f'{title}\n{text[:350]}'
+    unrelated_primary_incident = (
+        PRIMARY_NON_LANDSLIDE_INCIDENT_PATTERN.search(title) is not None
+        and LANDSLIDE_CAUSED_INCIDENT_PATTERN.search(primary_incident_text) is None
+    )
     has_out_of_country = _has_out_of_country_signal(row, combined_cf)
     has_metaphor = _has_metaphor_signal(combined_cf, extra_exclude_terms)
     has_relative_date_phrase = bool(DATE_PHRASE_PATTERN.search(combined) or NP_DATE_PHRASE_PATTERN.search(combined))
@@ -449,6 +503,8 @@ def decide_specificity(
         return SpecificityDecision(0, 'out_of_country', score, _downgraded_class(row.event_class, 'out_of_country'))
     if has_metaphor:
         return SpecificityDecision(0, 'metaphor', score, _downgraded_class(row.event_class, 'metaphor'))
+    if has_non_event_purpose or unrelated_primary_incident:
+        return SpecificityDecision(0, 'context_only', score, _downgraded_class(row.event_class, 'context_only'))
     if (
         has_context_only
         and not has_casualty_signal
@@ -705,6 +761,8 @@ def _has_out_of_country_signal(row: SpecificityRow, text_casefold: str) -> bool:
     foreign_hit = _contains_foreign_term(lead)
     if not foreign_hit:
         return False
+    if FOREIGN_EVENT_NP_PATTERN.search(lead):
+        return True
     # A resolved Nepal administrative location outweighs a foreign background
     # mention (Indian victims, a Chinese contractor, a border crossing). An
     # explicitly foreign title was already rejected above.

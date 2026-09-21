@@ -235,6 +235,62 @@ def test_granularity_distinguishes_multi_roundup_and_single_road_event() -> None
     assert single.in_headline_counts is True
 
 
+@pytest.mark.parametrize(
+    ('title', 'text', 'expected'),
+    [
+        (
+            'Landslides at more than 10 places obstruct Narayangadh-Muglin road',
+            'Officials said debris was being cleared.',
+            GRANULARITY_MULTI,
+        ),
+        (
+            '१० भन्दा बढी ठाउँमा पहिरो खस्दा नारायणगढ–मुग्लिन सडकखण्ड अवरुद्ध',
+            'सडक खुलाउने प्रयास भइरहेको छ।',
+            GRANULARITY_MULTI,
+        ),
+        (
+            'Landslide blocks Prithvi Highway in Chitwan',
+            'A single landslide at Kalikhola blocked the highway. ' + LONG_BODY,
+            GRANULARITY_SINGLE,
+        ),
+    ],
+)
+def test_road_granularity_uses_strong_title_multiplicity_evidence(
+    title: str, text: str, expected: str
+) -> None:
+    assert classify_event_type(title=title, text=text).event_granularity == expected
+
+
+def test_nepali_multi_month_disaster_total_is_roundup() -> None:
+    typing = classify_event_type(
+        title='पछिल्लो पाँच महिनाभित्र विपद्‌मा १ हजार १३ जनाको मृत्यु',
+        text='पहिरोमा ८२ जनाको ज्यान गएको तथ्याङ्क सार्वजनिक गरिएको छ।',
+        deaths=82,
+    )
+    assert typing.event_granularity == GRANULARITY_ROUNDUP
+    assert typing.in_headline_counts is False
+
+
+@pytest.mark.parametrize(
+    'title',
+    [
+        'PM visits landslide-affected Sankhuwasabha',
+        'Prithvi Highway faces routine obstruction from mudslides',
+        'Myagdi landslides: 12 dead, 23 missing',
+    ],
+)
+def test_audit_aggregate_titles_are_not_single_events(title: str) -> None:
+    assert classify_event_type(title=title, text=LONG_BODY).event_granularity != GRANULARITY_SINGLE
+
+
+def test_counted_nepali_landslides_are_multi_event() -> None:
+    typing = classify_event_type(
+        title='बुटवलको ज्योतिनगरमा पहिरो',
+        text='पहिले दुई वटा पहिरो गएको थियो र अहिले तीन वटा ठूला पहिरो गएका हुन्।',
+    )
+    assert typing.event_granularity == GRANULARITY_MULTI
+
+
 def test_article_role_keeps_specific_followup_but_excludes_pure_forecast() -> None:
     followup = classify_event_type(
         title='Death toll reaches 29 in Lidi landslide',

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from datetime import date
 
+import pytest
+
 from landslide_inventory.unify.event_specificity import SpecificityRow, decide_specificity
 
 STUDY_START = date(2015, 1, 1)
@@ -36,6 +38,106 @@ def test_real_event_article_is_specificity_ok() -> None:
     decision = decide_specificity(build_row(), STUDY_START, STUDY_END)
     assert decision.specificity_ok == 1
     assert decision.specificity_reason == 'event_specific'
+
+
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'Siddhababa tunnel work: Butwal-Palpa road to be shut during nighttime only',
+            'The road will close for scheduled tunnel construction at a landslide-prone site.',
+        ),
+        (
+            'Nepali Army rolls out three-phase monsoon disaster plan',
+            'The preparedness plan covers rescue after possible floods and landslides.',
+        ),
+    ],
+)
+def test_planned_work_and_preparedness_are_context_only(title: str, text: str) -> None:
+    row = build_row(title=title, text=text, deaths=None, missing=None, injured=None)
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'context_only'
+
+
+def test_unrelated_parliamentary_story_is_not_recast_from_late_context() -> None:
+    row = build_row(
+        title='Lawmakers seek investigation into student death',
+        text=(
+            'The national assembly discussed the student death and the police investigation. ' * 12
+            + 'A different lawmaker later described a landslide in another district.'
+        ),
+        district='Surkhet',
+        deaths=2,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'context_only'
+
+
+def test_hazard_named_parliamentary_rescue_followup_is_preserved() -> None:
+    row = build_row(
+        title='चितवन पहिरोमा बेपत्ताको खोजी गर्न सांसदहरूले गराए सरकारको ध्यानाकर्षण',
+        text='चितवनमा पहिरोले दुई बस बगाउँदा यात्रु बेपत्ता भएका थिए। खोजी जारी छ।',
+        district='Chitwan',
+        deaths=None,
+        missing=20,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 1
+
+
+def test_primary_bus_collision_is_not_recast_from_landslide_road_context() -> None:
+    row = build_row(
+        title='बसको ठक्करबाट ज्यान गुमाएका हवल्दार घर पुग्न लागेका थिए',
+        text=(
+            'बसले ठक्कर दिँदा उनको घटनास्थलमै मृत्यु भयो। दुर्घटनाबारे प्रहरीले अनुसन्धान गरिरहेको छ। '
+            'घटना भएको ठाउँमा सडकको केही भाग पहिरोले पुरेको हुँदा मोड साँघुरो थियो।'
+        ),
+        district='Baitadi',
+        deaths=1,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'context_only'
+
+
+def test_landslide_caused_vehicle_crash_remains_an_event() -> None:
+    row = build_row(
+        title='Bus accident kills one in Dhading',
+        text='A landslide caused the bus accident in Dhading district yesterday.',
+        district='Dhading',
+        deaths=1,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 1
+
+
+def test_foreign_hazard_location_overrides_victim_home_district() -> None:
+    row = build_row(
+        title='व्यक्ति सम्पर्क विहीन, क्षेत्र सुरक्षित',
+        text=(
+            'इलामका पाँच जना अझै सम्पर्कमा आएका छैनन्। सिक्किममा ठूलो बाढी गएको थियो। '
+            'उनीहरू सिक्किममा निर्माण श्रमिकका रूपमा गएका थिए।'
+        ),
+        district='Ilam',
+        deaths=None,
+        missing=5,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'out_of_country'
+
+
+def test_foreign_national_does_not_override_nepal_landslide_location() -> None:
+    row = build_row(
+        title='Landslide kills worker in Sindhupalchok',
+        text='A landslide occurred in Sindhupalchok, Nepal and killed an Indian worker.',
+        district='Sindhupalchok',
+        deaths=1,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 1
 
 
 def test_event_detection_does_not_require_successful_location_extraction() -> None:

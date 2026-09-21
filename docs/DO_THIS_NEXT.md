@@ -109,10 +109,19 @@ old-event removals, 42 new events, 11 merges into existing events, 29 date-based
 candidate exclusions, and 11 blocked candidates. Six reviewed old events remain
 unchanged. See `docs/POST_CORRECTION_IDENTITY_PLAN_RESULT.md`.
 
+## Parser remediation in progress
+
+The first generalizable remediation pass addresses preparedness and planned
+works, unrelated or foreign primary incidents, retrospective totals, and strong
+multi-location markers. On the selected 66 known false/aggregate audit URLs,
+the current classifier rejection count increased from 19 to 31. This is a
+development diagnostic, not a precision estimate. See
+`docs/PARSER_REMEDIATION_PASS_1.md`.
+
 ## Next scientific stage
 
-1. Convert recurring audit patterns into parser, specificity, scope, and
-   deduplication fixes with regression tests.
+1. Resolve the remaining location-role and multi-event decomposition patterns
+   with regression tests.
 2. Complete the 45-row true-value gate and 25-row structured-attribute gate.
 3. Assemble a new checksummed candidate from the unapplied correction plans.
 4. Draw and score a fresh independent validation sample before promotion.

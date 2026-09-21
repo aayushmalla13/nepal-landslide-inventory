@@ -165,7 +165,9 @@ PERIOD_TOTAL_PATTERN = re.compile(
     r'|\bin\s+(?:the\s+)?(?:past|last)?\s*(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)'
     r'\s*(?:years?|months?|weeks?|days?)\b'
     r'|\bover the (?:years|last|past)\b|\bcumulative\b|\bin total\b'
-    r'|अहिलेसम्म|हालसम्म|यसवर्ष|यस वर्ष|यो मनसुन|यता|वर्षमा|महिनामा|कुल|जम्मा',
+    r'|अहिलेसम्म|हालसम्म|यसवर्ष|यस वर्ष|यो मनसुन|यता|वर्षमा|महिनामा|कुल|जम्मा'
+    r'|पछिल्लो\s*(?:[०-९\d]+|एक|दुई|तीन|चार|पाँच|छ)\s*'
+    r'(?:दिन|हप्ता|महिना|वर्ष)(?:भित्र|मा)',
     re.IGNORECASE,
 )
 
@@ -187,7 +189,7 @@ NATIONAL_SCOPE_PATTERN = re.compile(
 # parliamentary statement. The article is about the response, not an event.
 INSTITUTIONAL_PATTERN = re.compile(
     r'\b(?:informs house|house of representatives|parliament|minister|ministry|'
-    r'prime minister|cabinet|review meeting|convenes|briefing|'
+    r'prime minister|pm\b|cabinet|review meeting|convenes|briefing|'
     r'informs|urges|directs|discussion)\b'
     r'|गृहको समीक्षा|मन्त्रिपरिषद|प्रधानमन्त्री|प्रचण्ड|देउवा|ओली|संसद|मन्त्रालय|'
     r'समीक्षा|बैठक|छलफल|बोलाए|निर्देशन',
@@ -206,10 +208,17 @@ MULTI_EVENT_PATTERN = re.compile(
     r'|\b(?:two|three|four|five|six|seven|eight|nine|ten|\d+)\s+'
     r'(?:different\s+)?(?:places|locations|villages|districts|vdc(?:s)?|sites)\b'
     r'|\b(?:separate|distinct)\s+(?:landslides|incidents)\b'
-    r'|\bmultiple\s+landslides?\b'
+    r'|\b(?:multiple|recurring|recurrent|routine)\s+(?:landslides?|mudslides?)\b'
+    r'|\broutine\b[^.\n]{0,50}\b(?:landslides?|mudslides?)\b'
+    r'|\blandslides\s*:\s*[^\n]{0,80}\b(?:dead|killed|missing|injured)\b'
+    r'|\bmore\s+than\s+\d+\s+(?:places|locations|sites)\b'
     r'|ठाउँठाउँ|ठाउँ-ठाउँ|विभिन्न\s*(?:स्थान|ठाउँ|गाउँ|जिल्ला|वडा|भाग)'
     r'|(?:दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|[२-९2-9])\s*'
     r'(?:वटा\s*)?(?:स्थान|ठाउँ|गाउँ|जिल्ला|वडा|आयोजना)'
+    r'|[०-९\d]+\s*भन्दा\s*बढी\s*(?:स्थान|ठाउँ|गाउँ|वडा)'
+    r'|(?:[०-९\d]+|दुई|तीन|चार|पाँच|सात|आठ|नौ|दश)\s*'
+    r'(?:वटा\s*)?(?:ठूला?\s*)?पहिरो'
+    r'|छुट्टा?छुट्टै\s*(?:पहिरो|घटना|स्थान|ठाउँ)'
     r'|यी\s+सडकखण्ड',
     re.IGNORECASE,
 )
