@@ -103,19 +103,19 @@ See `docs/POST_CORRECTION_REMEDIATION_QUEUE.md` and
 
 ## Next scientific stage
 
-The exact-date gate is complete and valid. One date was resolved, 29 candidates
-without a defensible exact date were excluded, and 64 dated candidates remain.
-Their existing-event collision pack contains 191 pairs: 29 candidates have
-medium-tier matches, 15 have low-tier matches, and 20 have no matches. There are
-no high-tier source-URL overlaps. See
-`docs/POST_CORRECTION_DATE_RESOLUTION_RESULT.md`.
+The existing-event collision gate is complete and valid. Bundle-safe
+materialization yields 42 eligible proposed new events, 11 safe merges, and 11
+blocked candidates across three unresolved old-event bundles. The final
+candidate-to-candidate screen contains 34 pairs. See
+`docs/POST_CORRECTION_EXISTING_COLLISION_RESULT.md`.
 
 1. Complete
-   `data/outputs/post_correction_reconstruction_COLLISION_DECISIONS.csv` and
-   save it as `post_correction_reconstruction_COLLISION_DECISIONS_COMPLETED.csv`.
-2. Validate with `scripts/validate_post_correction_collision_decisions.py`.
-3. Run the final candidate-to-candidate collision gate before inserting or
-   merging any identity.
+   `data/outputs/post_correction_reconstruction_FINAL_COLLISION_DECISIONS.csv`
+   and save it as
+   `post_correction_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv`.
+2. Validate with `scripts/validate_post_correction_final_collisions.py`.
+3. Materialize the final unapplied identity plan while preserving every blocked
+   old-event bundle unchanged.
 4. Convert recurring patterns into parser, specificity, and deduplication fixes
    with regression tests.
 5. Complete the 45-row true-value gate and 25-row structured-attribute gate,

@@ -41,8 +41,10 @@ district can occur across distinct failures during the same rainfall episode.
 
 ## Next gate
 
-Complete and validate the 64-row existing-event collision decision sheet. A
-separate candidate-to-candidate collision screen is still required afterward.
+The 64-row existing-event collision review is complete. Bundle-safe
+materialization leaves 42 eligible new candidates for the final
+candidate-to-candidate review. See
+`docs/POST_CORRECTION_EXISTING_COLLISION_RESULT.md`.
 
 ## Reproducibility
 
