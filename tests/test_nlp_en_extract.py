@@ -401,6 +401,31 @@ def test_extract_en_prefers_event_district_over_destination_district_in_road_sto
     assert result['event_date_ad'] == '2022-07-04'
     assert result['class'] == 2
 
+
+def test_extract_en_event_municipality_overrides_kathmandu_desk_dateline() -> None:
+    result = extract_en(
+        'Butwal-Narayanghat Road blocked due to landslide in Daunne',
+        'KATHMANDU, AUGUST 8: The road has been obstructed, halting traffic along the '
+        'Daunne stretch of Binayi Triveni Rural Municipality-2 under the East-West Highway.',
+        '2025-08-08',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] == 'Nawalpur'
+    assert result['municipality'] == 'Binayee Rural Municipality'
+
+
+def test_extract_en_route_destination_municipality_does_not_override_dateline() -> None:
+    result = extract_en(
+        'Highway blocked by landslide',
+        'BAITADI, June 25: The highway was blocked by a landslide near Satbanj. '
+        'Passengers heading to Jayaprithvi Municipality were stranded.',
+        '2023-06-25',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] == 'Baitadi'
+
 def test_extract_en_road_disruption_titles_stay_class_two_without_human_impact() -> None:
     result = extract_en(
         'Siddhartha Highway blocked following landslides',

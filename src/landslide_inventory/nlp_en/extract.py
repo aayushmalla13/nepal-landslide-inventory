@@ -181,6 +181,20 @@ def extract_en(
     ward = _normalize_ward(place.ward)
     road_disruption_title = _is_road_disruption_title(title)
 
+    municipality_override = _event_anchored_municipality_district(
+        title,
+        combined,
+        municipality,
+        explicit_district,
+        municipality_normalizer,
+        municipality_mapper,
+    )
+    if municipality_override is not None:
+        explicit_district = municipality_override
+        district = municipality_override
+        conf_district = 0.88
+        place_admin_level = 'ward' if ward else 'municipality'
+
     if explicit_district is not None:
         municipality = _resolve_municipality_for_district(
             combined,
@@ -232,8 +246,10 @@ def extract_en(
 
     if explicit_district is not None:
         district = explicit_district
-        conf_district = 0.95
-        if place_admin_level != 'district':
+        conf_district = 0.88 if municipality_override is not None else 0.95
+        if municipality_override is not None:
+            place_admin_level = 'ward' if ward else 'municipality'
+        elif place_admin_level != 'district':
             place_admin_level = 'district'
     elif municipality is not None:
         district = municipality_mapper(municipality)
@@ -631,6 +647,56 @@ def _municipality_stem(municipality: str) -> str:
     return stem.strip(' \t-–—')
 
 
+def _event_anchored_municipality_district(
+    title: str,
+    text: str,
+    municipality: str | None,
+    explicit_district: str | None,
+    municipality_normalizer: GazetteerFunc,
+    municipality_mapper: GazetteerFunc,
+) -> str | None:
+    """Prefer a road-failure municipality over a Kathmandu desk dateline.
+
+    This is deliberately narrower than a generic municipality override. Route
+    destinations and traveller residences frequently occur in road stories, so
+    the municipality must sit beside obstruction/failure language and must not
+    follow destination phrasing.
+    """
+
+    if municipality is None or explicit_district != 'Kathmandu':
+        return None
+    mapped = municipality_mapper(municipality)
+    if mapped is None or mapped == explicit_district or not _is_road_disruption_title(title):
+        return None
+    if re.search(r'\b(?:landslides?|mudslides?|rockfalls?)\b', title, re.IGNORECASE) is None:
+        return None
+
+    lead = _lead_search_text(text)[:900]
+    matches = []
+    for match in MUNICIPALITY_PATTERN.finditer(lead):
+        candidate = match.group(0).rsplit('-', 1)[0].strip().title()
+        if municipality_normalizer(candidate) == municipality:
+            matches.append(match)
+    for match in matches:
+        if is_person_attribution(lead, match.start(), match.end(), 'en'):
+            continue
+        before = lead[max(0, match.start() - 80) : match.start()]
+        if re.search(
+            r'\b(?:leading|connecting|bound|heading|travelling|traveling|en route|towards?)\s+(?:to\s+)?[^,.]{0,55}$',
+            before,
+            re.IGNORECASE,
+        ):
+            continue
+        context = lead[max(0, match.start() - 140) : match.end() + 140]
+        if re.search(
+            r'\b(?:block|blocked|obstruct|obstructed|halt|halted|landslide|mudslide|rockfall)\w*\b',
+            context,
+            re.IGNORECASE,
+        ):
+            return mapped
+    return None
+
+
 def _district_is_near_municipality(
     text: str,
     municipality: str,
@@ -880,7 +946,6 @@ def _casualty_scope(text: str, lead_chars: int = 400) -> str:
 
 
 def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tuple[int | None, int | None, int | None, float]:
-    lowered = text.casefold()
     casualty_scope = _casualty_scope(text)
     values = {
         'deaths': None,

@@ -344,6 +344,31 @@ def test_extract_np_still_reads_a_plain_district_qualifier() -> None:
     assert result['district'] == 'Sindhupalchok'
 
 
+def test_extract_np_unanimous_event_municipalities_override_route_destination() -> None:
+    result = extract_np(
+        'हेटौंडा-भीमफेदी-काठमाडौं सडक पहिरोले अवरुद्ध',
+        'भीमफेदी-४ केराघारीमा पहिरो जाँदा सडक अवरुद्ध भयो। '
+        'इन्द्रसरोवर-३ रामचन्द्र भञ्ज्याङमा पनि पहिरोले सडक अवरुद्ध भएको छ।',
+        '2022-06-29',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] == 'Makwanpur'
+    assert result['municipality'] is None
+
+
+def test_extract_np_mixed_event_municipality_districts_do_not_force_override() -> None:
+    result = extract_np(
+        'मनाङमा पहिरोले सडक अवरुद्ध',
+        'मर्स्याङ्दी गाउँपालिका-४ मा पहिरोले सडक अवरुद्ध भयो। '
+        'चामे गाउँपालिकामा बाढीले पुल बगायो।',
+        '2024-07-15',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] == 'Manang'
+
+
 def test_extract_np_reads_a_word_form_death_count() -> None:
     """Nepali writes small tolls as words; the patterns matched digits only."""
 

@@ -124,12 +124,17 @@ known failures, leaving 25 for location/date-role or cluster-level repair. The
 human-labelled development pack shows no sampled single-event regression. See
 `docs/PARSER_REMEDIATION_PASS_2.md`.
 
+The third pass fixes the remaining generalizable location-role pattern: a
+Kathmandu desk dateline or route endpoint beating unanimous municipalities at
+the physical road failure. PCR-002 now resolves to Nawalpur and PCR-008 to
+Makwanpur. Broader variants were corpus-tested and rejected as unsafe. See
+`docs/PARSER_REMEDIATION_PASS_3.md`.
+
 ## Next scientific stage
 
-1. Resolve the remaining 25 location-role, date-role, recurrence, and
-   cluster-decomposition patterns with regression tests.
-2. Complete the 45-row true-value gate and 25-row structured-attribute gate.
-3. Assemble a new checksummed candidate from the unapplied correction plans.
+1. Complete the 45-row true-value gate and 25-row structured-attribute gate.
+2. Assemble a new checksummed candidate from the unapplied correction plans.
+3. Rerun rainfall and external validation only against that candidate.
 4. Draw and score a fresh independent validation sample before promotion.
 
 Do not promote v0.7.0, rerun rainfall linkage against it, or reuse the current

@@ -90,10 +90,25 @@ def extract_np(
     place_admin_level = place.place_admin_level
     ward = _normalize_ward_np(place.ward or place.place_name_raw)
 
+    event_district, event_municipalities = _event_anchored_municipalities_np(
+        title,
+        combined,
+        explicit_district,
+        municipality_normalizer,
+        municipality_mapper,
+    )
+    if event_district is not None and event_district != explicit_district:
+        explicit_district = event_district
+        district = event_district
+        municipality = event_municipalities[0] if len(event_municipalities) == 1 else None
+        conf_district = 0.88
+        place_admin_level = 'municipality' if municipality else 'district'
+
     if explicit_district is not None:
         district = explicit_district
-        conf_district = 0.95
-        place_admin_level = 'district'
+        conf_district = max(conf_district, 0.95 if event_district is None else 0.88)
+        if municipality is None:
+            place_admin_level = 'district'
     if district is not None:
         municipality = _resolve_municipality_for_district(
             combined,
@@ -190,6 +205,65 @@ def _normalize_district_np(name: str) -> str | None:
 
 def _normalize_municipality_np(name: str) -> str | None:
     return normalize_municipality(name, 'np')
+
+
+def _event_anchored_municipalities_np(
+    title: str,
+    text: str,
+    explicit_district: str | None,
+    municipality_normalizer: GazetteerFunc,
+    municipality_mapper: GazetteerFunc,
+) -> tuple[str | None, list[str]]:
+    """Return a unanimous district from municipalities in failure context."""
+
+    if (
+        explicit_district != 'Kathmandu'
+        or re.search(r'पहिरो|भूस्खलन|बाढीपहिरो', title) is None
+        or re.search(r'सडक|राजमार्ग|लोकमार्ग|मार्ग|करिडोर', title) is None
+        or re.search(r'अवरुद्ध|अवरूद्ध|बन्द|ठप्प|सञ्चालन', title) is None
+    ):
+        return None, []
+    lead = _lead_window(text, limit=1000)
+    candidates: list[tuple[str, int, int]] = []
+    for pattern in (NP_MUNICIPALITY_PATTERN, NP_WARD_MUNICIPALITY_PATTERN):
+        for match in pattern.finditer(lead):
+            candidate = match.group(1)
+            normalized = municipality_normalizer(candidate)
+            if normalized is None:
+                # The bare ``Name-4`` regex may greedily include preceding
+                # Nepali words. The municipality itself is the shortest
+                # normalizable suffix (e.g. ``सडक अवरुद्ध भयो। इन्द्रसरोवर``).
+                parts = candidate.split()
+                for start in range(len(parts) - 1, -1, -1):
+                    normalized = municipality_normalizer(' '.join(parts[start:]))
+                    if normalized is not None:
+                        break
+            if normalized is not None:
+                candidates.append((normalized, match.start(1), match.end(1)))
+
+    municipalities: list[str] = []
+    districts: set[str] = set()
+    for normalized, start, end in candidates:
+        if is_person_attribution(lead, start, end, 'np'):
+            continue
+        before = lead[max(0, start - 65) : start]
+        if re.search(r'(?:जोड्ने|जाने|पुग्ने|तर्फ|हुँदै|गन्तव्य)[^।]{0,45}$', before):
+            continue
+        context = lead[max(0, start - 150) : end + 150]
+        if re.search(r'अवरुद्ध|अवरूद्ध|बन्द|ठप्प|खस|गयो|आयो|बगायो|बगे|क्षति|पुरि', context) is None:
+            continue
+        if re.search(r'पहिरो|भूस्खलन|बाढी|लेदो|ढुंगा|चट्टान', context) is None:
+            continue
+        mapped = municipality_mapper(normalized)
+        if mapped is None:
+            continue
+        districts.add(mapped)
+        if normalized not in municipalities:
+            municipalities.append(normalized)
+
+    if len(districts) != 1:
+        return None, []
+    return next(iter(districts)), municipalities
 
 
 def _find_explicit_district_np(text: str, district_normalizer: GazetteerFunc) -> str | None:
