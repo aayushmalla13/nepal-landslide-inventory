@@ -223,6 +223,43 @@ MULTI_EVENT_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+# Strong article-level multiplicity markers that the general pattern above
+# misses. Keep these title-focused: plural road/site headlines identify the
+# observation unit directly, unlike incidental place lists later in a body.
+EXPLICIT_MULTI_FAILURE_TITLE_PATTERN = re.compile(
+    r'(?:[२-९2-9]|दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश)\s*'
+    r'(?:वटा\s*)?(?:मुख्य\s+)?(?:सडक|राजमार्ग)'
+    r'|(?:^|\s)(?:यी|ती)\s+(?:सडक|राजमार्ग)'
+    r'|(?:देशका\s+)?विभिन्न\s+क्षेत्रमा[^।\n]{0,50}(?:सडक|राजमार्ग)'
+    r'|\bseparate\s+incident(?:s)?\s+of\s+landslides?\b'
+    r'|\blandslides\b[^\n]{0,80}'
+    r'\b(?:block|blocks|blocked|obstruct|obstructs|obstructed|halt|halts|halted|'
+    r'disrupt|disrupts|disrupted)\b'
+    r'|\b(?:block|blocks|blocked|obstruct|obstructs|obstructed|halt|halts|halted|'
+    r'disrupt|disrupts|disrupted)\b[^\n]{0,80}\blandslides\b'
+    r'|\S+(?:मा)?\s+र\s+\S+मा\s+पहिरो[^।\n]{0,80}'
+    r'(?:सडक|राजमार्ग|लोकपथ|मार्ग|अवरुद्ध|बन्द)'
+    r'|(?:का|काे|को)\s+मुख्य\s+सडक(?:हरू)?\s+(?:अवरुद्ध|ठप्प|बन्द)',
+    re.IGNORECASE,
+)
+
+# A road headline can be singular even when its lead explicitly reports
+# several physical failures. Require the hazard and the count/location phrase
+# to occur in the same short sentence window; a generic list of municipalities
+# or destinations is not sufficient.
+MULTI_FAILURE_SITE_PATTERN = re.compile(
+    r'(?:\blandslides?\b|पहिरो)[^.।\n]{0,100}'
+    r'(?:\b(?:multiple|several|various|different|two|three|four|five|six|seven|'
+    r'eight|nine|ten|\d+)\s+(?:places|locations|sites)\b'
+    r'|(?:विभिन्न|दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|[२-९2-9])\s*'
+    r'(?:वटा\s*)?(?:ठाउँ|स्थान))'
+    r'|(?:\b(?:multiple|several|various|different|two|three|four|five|six|seven|'
+    r'eight|nine|ten|\d+)\s+(?:places|locations|sites)\b'
+    r'|(?:विभिन्न|दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|[२-९2-9])\s*'
+    r'(?:वटा\s*)?(?:ठाउँ|स्थान))[^.।\n]{0,100}(?:\blandslides?\b|पहिरो)',
+    re.IGNORECASE,
+)
+
 MULTI_ADMIN_PATTERN = re.compile(
     r'\b(?:municipality|rural municipality|vdc|ward)\b[^.\n]{0,140}'
     r'\b(?:and|similarly|likewise)\b[^.\n]{0,140}'
@@ -469,7 +506,11 @@ def classify_event_granularity(title: str | None, text: str | None) -> str:
     combined = f'{heading}\n{lead}'
     if is_aggregate_report(heading):
         return GRANULARITY_ROUNDUP
-    if MULTI_EVENT_PATTERN.search(heading) or MULTI_ADMIN_PATTERN.search(heading):
+    if (
+        MULTI_EVENT_PATTERN.search(heading)
+        or MULTI_ADMIN_PATTERN.search(heading)
+        or EXPLICIT_MULTI_FAILURE_TITLE_PATTERN.search(heading)
+    ):
         return GRANULARITY_MULTI
     if (
         ROAD_TERMS_PATTERN.search(heading)
@@ -484,6 +525,8 @@ def classify_event_granularity(title: str | None, text: str | None) -> str:
     # often lists other unstable spots along the corridor as context; that
     # does not turn the reported blockage into a roundup.
     if ROAD_TERMS_PATTERN.search(heading) and OBSTRUCTION_TERMS_PATTERN.search(heading):
+        if MULTI_FAILURE_SITE_PATTERN.search(body[:400]):
+            return GRANULARITY_MULTI
         return GRANULARITY_SINGLE
     # "Again"/"fresh" describes a newly observed occurrence, not multiple
     # events inside this article.

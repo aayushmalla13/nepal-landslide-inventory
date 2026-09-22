@@ -261,6 +261,50 @@ def test_road_granularity_uses_strong_title_multiplicity_evidence(
     assert classify_event_type(title=title, text=text).event_granularity == expected
 
 
+@pytest.mark.parametrize(
+    'title',
+    [
+        'Myagdi river blocked; one dead next missing in separate incident of landslide',
+        'बाढी र पहिरोले पाँच वटा सडक अवरुद्ध, तीन वटा एकतर्फी',
+        'यात्रा गर्दै हुनुहुन्छ ? यी राजमार्ग अझै छन् अवरुद्ध',
+        'घुमाउने र जलविरेमा पहिरो जाँदा नारायणगढ मुग्लिङ सडकखण्ड बन्द',
+        'बाढी र पहिरोका कारण देशका विभिन्न क्षेत्रमा सडक बन्द',
+        'Landslides obstruct garbage transport',
+        'पहिरोका कारण म्याग्दीका मुख्य सडक अवरुद्ध',
+    ],
+)
+def test_explicit_multi_failure_titles_are_multi_event(title: str) -> None:
+    assert classify_event_type(title=title, text=LONG_BODY).event_granularity == GRANULARITY_MULTI
+
+
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'Landslide obstructs Karnali Highway',
+            'Various places from Gagane Khola to Humma experienced landslides this morning.',
+        ),
+        (
+            'पहिरोले अवरुद्ध कर्णाली राजमार्ग खुल्यो',
+            'राजमार्गको ६ ठाउँमा पहिरो खसेपछि यातायात रोकिएको थियो।',
+        ),
+    ],
+)
+def test_road_lead_with_multiple_failure_sites_is_multi_event(title: str, text: str) -> None:
+    assert classify_event_type(title=title, text=text).event_granularity == GRANULARITY_MULTI
+
+
+def test_road_lead_with_incidental_plural_context_stays_single() -> None:
+    typing = classify_event_type(
+        title='Landslide obstructs Daldale-Bulingtar road section',
+        text=(
+            'A landslide at Dumre blocked the road and affected residents of '
+            'several villages in various ways.'
+        ),
+    )
+    assert typing.event_granularity == GRANULARITY_SINGLE
+
+
 def test_nepali_multi_month_disaster_total_is_roundup() -> None:
     typing = classify_event_type(
         title='पछिल्लो पाँच महिनाभित्र विपद्‌मा १ हजार १३ जनाको मृत्यु',

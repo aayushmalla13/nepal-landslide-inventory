@@ -118,10 +118,16 @@ the current classifier rejection count increased from 19 to 31. This is a
 development diagnostic, not a precision estimate. See
 `docs/PARSER_REMEDIATION_PASS_1.md`.
 
+The second conservative pass adds explicit plural-road, separate-incident, and
+multiple-failure-site handling. Database replay now rejects 41 of the same 66
+known failures, leaving 25 for location/date-role or cluster-level repair. The
+human-labelled development pack shows no sampled single-event regression. See
+`docs/PARSER_REMEDIATION_PASS_2.md`.
+
 ## Next scientific stage
 
-1. Resolve the remaining location-role and multi-event decomposition patterns
-   with regression tests.
+1. Resolve the remaining 25 location-role, date-role, recurrence, and
+   cluster-decomposition patterns with regression tests.
 2. Complete the 45-row true-value gate and 25-row structured-attribute gate.
 3. Assemble a new checksummed candidate from the unapplied correction plans.
 4. Draw and score a fresh independent validation sample before promotion.
