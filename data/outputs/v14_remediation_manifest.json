@@ -1,0 +1,23 @@
+{
+  "audit": "v14_remediation_queue_v1",
+  "input_sha256": {
+    "data/outputs/v13_final_validation_COMPLETED.csv": "e89c12bd72faef1daac26a4613c8c751cb543117c8acf974096bee97d87a614f",
+    "data/outputs/v13_final_validation_manifest.json": "f38565b457c967211eb17a55f14aca8e1ad1ff0df9ce3b96bad16d543c8593ae",
+    "data/outputs/v13_final_validation_reading_pack.csv": "d0fdfeecaf83d8f7dc856cb2b7f1fca184936d6a55b78e597553f5de34379a09",
+    "data/outputs/v13_final_validation_score.json": "2aa416621b4a00bfe521145f0a317a39c42a0813b39da094c8c567a16dcc7886",
+    "data/outputs/v13_final_validation_weights.csv": "2533fdf62edd65c1d743ef1a303ec7ab24f00fa4868840c97d4e4adb0524c803",
+    "scripts/build_v14_remediation_queue.py": "f79364cceab92b8e1c88ad9ba61152f606d6eb6696c09baa84d92cfde359cf68",
+    "src/landslide_inventory/validation/correction_candidates.py": "3e844b11f09d7acf2f0284c3d284807e8ac99dc068e17307131542a171ea8e70"
+  },
+  "output_sha256": {
+    "v14_remediation_BATCH_ARTICLE_MAPPING.csv": "c6551f84d7217f4bc29594b4fc2c2b64db31fb9c9520f680c18f6a21382f57e9",
+    "v14_remediation_BATCH_STRUCTURED_ATTRIBUTES.csv": "d7ed0dba145cd6a6b04dca314b23eff195462f30a42b9cbf0fe9bc0adfcf5b47",
+    "v14_remediation_BATCH_TRUE_VALUE_REVIEW.csv": "35ab59036d770e88ee4060c7f1da96d88f718b801df8fd2b15f4477dc986b975",
+    "v14_remediation_queue.csv": "721de00248b987f0de3a981f89e8df6619f214271926c6562b13ea01c6b57c45",
+    "v14_remediation_report.md": "d76dcfeb9d043cfe4d8010f67264435b7ec114d72028bacfd5c6c312535d2c11",
+    "v14_remediation_summary.json": "b8a01063d3e9a7074fecce3113c1eea2ee2fffb0f8d1a5e7c94a75d413abcbd5"
+  },
+  "queue_status": "frozen_unapplied",
+  "source_candidate": "nepal_landslide_inventory_v1.3.0_candidate_20260930",
+  "target_candidate": "nepal_landslide_inventory_v1.4.0_candidate"
+}

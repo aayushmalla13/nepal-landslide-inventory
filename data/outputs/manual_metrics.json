@@ -1,0 +1,78 @@
+{
+  "classification": {
+    "macro": {
+      "f1": 0.3424509803921569,
+      "precision": 0.47632672634271106,
+      "recall": 0.38286199095022627
+    },
+    "per_class": {
+      "1": {
+        "f1": 0.18666666666666668,
+        "precision": 0.30434782608695654,
+        "recall": 0.1346153846153846
+      },
+      "2": {
+        "f1": 0.5583333333333333,
+        "precision": 0.41875,
+        "recall": 0.8375
+      },
+      "3": {
+        "f1": 0.2823529411764706,
+        "precision": 0.7058823529411765,
+        "recall": 0.17647058823529413
+      }
+    }
+  },
+  "date": {
+    "accuracy": 0.31007751937984496,
+    "labeled_rows": 129,
+    "missing_rate": 0.21705426356589147
+  },
+  "deaths": {
+    "exact_match_rate": 0.2909090909090909,
+    "labeled_rows": 55,
+    "missing_rate": 0.6181818181818182,
+    "within_one_rate": 0.3090909090909091
+  },
+  "district": {
+    "accuracy": 0.8203125,
+    "labeled_rows": 128,
+    "missing_rate": 0.078125
+  },
+  "generated_at": "2026-04-13T11:48:08Z",
+  "labeled_rows": 200,
+  "municipality": {
+    "accuracy": 0.33695652173913043,
+    "labeled_rows": 92,
+    "missing_rate": 0.6195652173913043
+  },
+  "trigger": {
+    "accuracy": 0.6345177664974619,
+    "confusion_matrix": {
+      "anthropogenic": {
+        "anthropogenic": 6,
+        "unknown": 8
+      },
+      "earthquake": {
+        "unknown": 1
+      },
+      "rainfall": {
+        "anthropogenic": 4,
+        "earthquake": 2,
+        "rainfall": 69,
+        "unknown": 21
+      },
+      "unknown": {
+        "anthropogenic": 8,
+        "earthquake": 3,
+        "rainfall": 8,
+        "unknown": 50
+      },
+      "unkown": {
+        "anthropogenic": 7,
+        "unknown": 10
+      }
+    },
+    "labeled_rows": 197
+  }
+}

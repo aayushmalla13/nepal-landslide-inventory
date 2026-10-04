@@ -1,0 +1,18 @@
+{
+  "adjudicated_rows": 46,
+  "adjudicators": [
+    "reviewer_C"
+  ],
+  "audit": "canonical_event_level_second_review_v1",
+  "inputs": {
+    "canonical_event_audit_ADJUDICATE.csv": "6eaa6e5903288d59e338ab683369a9fd8cb07eb3170042b56bbcb6562924591d",
+    "canonical_event_audit_ADJUDICATE_COMPLETED.csv": "f947bdd17dfc1a3db0a9f823d943eabb50b99253884d7bcdaec5971109e9deaf",
+    "canonical_event_audit_COMPLETED.csv": "c5cbedb457b999bca3a3cc2ef92e1d62b74f57ed49f8f60417395a80a4f0a5ed",
+    "canonical_event_audit_interannotator_agreement.json": "4ba2f78de6eefe83e989cd7ba39f2fcf0e3f6f162ac61fcd72e3ca297b079e85"
+  },
+  "outputs": {
+    "canonical_event_audit_ADJUDICATED.csv": "79c4d377edf243fe1573c387739fdf225dd8e0e18671a6c52b1338711de8f697"
+  },
+  "sample_rows": 150,
+  "unchanged_agreement_rows": 104
+}

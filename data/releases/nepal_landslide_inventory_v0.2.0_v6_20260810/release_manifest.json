@@ -1,0 +1,98 @@
+{
+  "release_id": "nepal_landslide_inventory_v0.2.0_v6_20260810",
+  "generated_at": "2026-08-10T13:23:19Z",
+  "status": "final_with_reviewed_post_validation_corrections",
+  "locked_evaluation_version": "v6",
+  "release_cutoff": "2026-08-10",
+  "canonical_summary": {
+    "rows": 2497,
+    "unique_event_ids": 2497,
+    "date_min": "2015-03-07",
+    "date_max": "2026-08-09",
+    "districts": 76,
+    "representative_sources": 14,
+    "road_obstruction": 472,
+    "non_single": 0,
+    "sha256": "d89d814d5557bc448c55efd2e249076f95567f79350c25a3b04918c9ad679c44"
+  },
+  "reportable_metrics": {
+    "precision": 0.7423286182990871,
+    "recall": 0.8219597811202692,
+    "f1": 0.7801173605109066
+  },
+  "corrections": {
+    "rows": 5,
+    "sha256": "ee32f0484719cf7e82e6d597dbf312ae30ecc926e12f4af4c6fb565b6f580a1b"
+  },
+  "checks": {
+    "locked_url_hash_valid": true,
+    "frozen_labels_hash_valid": true,
+    "frozen_predictions_hash_valid": true,
+    "canonical_unique_event_ids": true,
+    "canonical_rows_after_release_cutoff": 0
+  },
+  "files": [
+    {
+      "file": "article_corrections.csv",
+      "sha256": "ee32f0484719cf7e82e6d597dbf312ae30ecc926e12f4af4c6fb565b6f580a1b",
+      "bytes": 1698
+    },
+    {
+      "file": "canonical_events_final.csv",
+      "sha256": "d89d814d5557bc448c55efd2e249076f95567f79350c25a3b04918c9ad679c44",
+      "bytes": 2212857
+    },
+    {
+      "file": "inventory_audit_report.md",
+      "sha256": "2ff9655c81a33362de0ca0b1dc7c6ec44edb68bcbdfb4a9caa676a1046ab232d",
+      "bytes": 1654
+    },
+    {
+      "file": "inventory_audit_summary.json",
+      "sha256": "3e752d10965178472aaa64d06b5763a900987207bb78a18f65ccdddc29b9d4c8",
+      "bytes": 3033
+    },
+    {
+      "file": "landslide_inventory.sqlite",
+      "sha256": "89315696ce1f3c7ad71a4d42c7f82ae2624137d9396ae9c48beffd547de6f372",
+      "bytes": 185491456
+    },
+    {
+      "file": "locked_test_set_v6_labels_final.csv",
+      "sha256": "77c77e7ee39c6479e7e1499f5f51426ba24fc1e98d174b78aec2751364d98064",
+      "bytes": 422418
+    },
+    {
+      "file": "locked_test_set_v6_manifest.json",
+      "sha256": "78516dbdbdcfd7f51b492a50cf6008e7585ea14ccba57745a940ee551b9ca476",
+      "bytes": 8738
+    },
+    {
+      "file": "locked_test_set_v6_manuscript_metrics.csv",
+      "sha256": "0147b04b41dff2da8f915a6a88f41819948949ee43d087b1e089e2c0bd25ae13",
+      "bytes": 967
+    },
+    {
+      "file": "locked_test_set_v6_predictions.csv",
+      "sha256": "7ce7ff67e6640fb05cee8fd44feaed1485b1b1204566a12684446db72f9e44f0",
+      "bytes": 105871
+    },
+    {
+      "file": "locked_test_set_v6_score.json",
+      "sha256": "7c01aa7d137ac936e632a4ded43862ae6280eea3fc6439db258b84de31f613e9",
+      "bytes": 4949
+    },
+    {
+      "file": "locked_test_set_v6_validation_report.md",
+      "sha256": "dc547a2492fce188e0a074c4f524c63c6c7f97159b89f04e8a04e1fdf93d0165",
+      "bytes": 2141
+    },
+    {
+      "file": "reviewed_corrections_applied.csv",
+      "sha256": "1604360a9fdccbc2c4f08d50d8eb55af101a05a33b098def0efa1bf8a94dd0b7",
+      "bytes": 4015
+    }
+  ],
+  "bundle_lock_hash": "6f218b2ea0dbab2e76786fdd01e0ae334c42d94b4293886e470f5c15862526bc",
+  "notes": "Locked v6 metrics describe the pre-correction article classifier. The 5-row reviewed correction layer is release QA and does not alter or rescore frozen v6 evaluation artifacts."
+}

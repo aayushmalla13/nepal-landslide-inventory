@@ -1,0 +1,13 @@
+month,monsoon,canonical_events,share_of_events,primary_case_days,road_obstruction_events
+1,False,30,0.014138,18,8
+2,False,28,0.013195,11,11
+3,False,32,0.01508,17,11
+4,False,48,0.02262,29,13
+5,False,83,0.039114,48,39
+6,True,321,0.151272,200,149
+7,True,579,0.272856,371,198
+8,True,477,0.224788,287,206
+9,True,345,0.162582,189,139
+10,False,151,0.071159,89,54
+11,False,16,0.00754,10,7
+12,False,12,0.005655,9,4

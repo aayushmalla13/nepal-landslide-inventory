@@ -1,0 +1,164 @@
+{
+  "design_version": "v7",
+  "created_at": "2026-09-03T08:00:19Z",
+  "seed": 20260903,
+  "frame_table": "raw_articles",
+  "frame_size_after_assisted_exclusion": 10199,
+  "prior_evaluation_urls_found": 695,
+  "prior_evaluation_urls_in_frame": 695,
+  "eligible_frame_size": 9504,
+  "sample_size": 395,
+  "target_size": 400,
+  "allocation_shortfall_n": 5,
+  "allocation_shortfall_by_decision": {
+    "no_extraction": 5
+  },
+  "decision_allocation": {
+    "kept_class1": 130,
+    "kept_class2": 50,
+    "dropped_specificity": 130,
+    "dropped_scope": 70,
+    "dropped_other": 15,
+    "no_extraction": 5
+  },
+  "strata": {
+    "dropped_other|en": {
+      "pipeline_decision": "dropped_other",
+      "route_lang": "en",
+      "population_n": 10,
+      "sampled_n": 5,
+      "inclusion_weight": 2.0
+    },
+    "dropped_other|np": {
+      "pipeline_decision": "dropped_other",
+      "route_lang": "np",
+      "population_n": 19,
+      "sampled_n": 10,
+      "inclusion_weight": 1.9
+    },
+    "dropped_scope|en": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "en",
+      "population_n": 199,
+      "sampled_n": 33,
+      "inclusion_weight": 6.030303
+    },
+    "dropped_scope|np": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "np",
+      "population_n": 217,
+      "sampled_n": 37,
+      "inclusion_weight": 5.864865
+    },
+    "dropped_specificity|en": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "en",
+      "population_n": 1139,
+      "sampled_n": 28,
+      "inclusion_weight": 40.678571
+    },
+    "dropped_specificity|np": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "np",
+      "population_n": 4057,
+      "sampled_n": 102,
+      "inclusion_weight": 39.77451
+    },
+    "kept_class1|en": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "en",
+      "population_n": 898,
+      "sampled_n": 37,
+      "inclusion_weight": 24.27027
+    },
+    "kept_class1|np": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "np",
+      "population_n": 2282,
+      "sampled_n": 93,
+      "inclusion_weight": 24.537634
+    },
+    "kept_class2|en": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "en",
+      "population_n": 401,
+      "sampled_n": 29,
+      "inclusion_weight": 13.827586
+    },
+    "kept_class2|np": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "np",
+      "population_n": 282,
+      "sampled_n": 21,
+      "inclusion_weight": 13.428571
+    }
+  },
+  "exclusion_sources": [
+    {
+      "category": "locked_test",
+      "path": "docs/locked_test_set_v1_labels_final.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 395
+    },
+    {
+      "category": "locked_test",
+      "path": "docs/locked_test_set_v1_labels_round1.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "prior_development",
+      "path": "data/outputs/development_set_v1_labels_final.csv",
+      "rows_seen": 300,
+      "urls_in_file": 300,
+      "new_unique_exclusions": 300
+    }
+  ],
+  "overlap_with_prior_evaluation": 0,
+  "lock_hash": "6582af3b5f98f8159f6d7f65db0e65b46440d17a6e89d6352c72fc9f3c12914e",
+  "truth_vocabularies": {
+    "is_landslide_event_true": [
+      "yes",
+      "no",
+      "unclear"
+    ],
+    "in_nepal_true": [
+      "yes",
+      "no",
+      "unclear"
+    ],
+    "hazard_type_true": [
+      "landslide",
+      "debris_flow",
+      "rockfall",
+      "avalanche",
+      "flood",
+      "other_hazard",
+      "not_a_hazard",
+      "unclear"
+    ],
+    "event_granularity_true": [
+      "single",
+      "multi",
+      "roundup",
+      "not_applicable",
+      "unclear"
+    ],
+    "article_role_true": [
+      "first_report",
+      "follow_up",
+      "retrospective",
+      "forecast_or_risk",
+      "metaphor_or_nonevent",
+      "unclear"
+    ]
+  },
+  "labels_file": "locked_test_set_v7_labels.csv",
+  "working_labels_file": "locked_test_set_v7_LABEL_HERE.csv",
+  "predictions_file": "locked_test_set_v7_predictions.csv",
+  "labels_sha256": "a11f6163dfb354266810342b77e4b7e63576528e96559358ef9488cfbe78f4de",
+  "predictions_sha256": "917b27bcda7fda4f9c4847217b3017deb64db4aa5b5207584365a44d3b0bfa4f",
+  "notes": "Held-out post-development test set. Draw once, label once, never tune against it. Prior evaluation URLs and BIPAD-assisted articles were excluded before sampling. Metrics MUST be weighted by inclusion_weight to describe the inventory rather than the sample."
+}

@@ -1,0 +1,117 @@
+{
+  "annotators": [
+    "human"
+  ],
+  "audit": "canonical_event_level_v1",
+  "input_sha256": {
+    "canonical_event_audit_COMPLETED.csv": "c5cbedb457b999bca3a3cc2ef92e1d62b74f57ed49f8f60417395a80a4f0a5ed",
+    "canonical_event_audit_LABEL_HERE.csv": "786b54256bfdd4a33e0e9cde94413ec89b7cd33da5943be4b70f6ce03a8bcb02",
+    "canonical_event_audit_manifest.json": "1a79657adc2189eda144f809f00dbe919a62bf0adaaa514d7ffe942847bb9c4d",
+    "canonical_event_audit_weights.csv": "8bb7086fea279dc25ed15e32a83a1c2ccbfc33b498ab7ec7d7b8c17decbbc311"
+  },
+  "interpretation": "Estimates are population-weighted for the frozen 2,885-event inventory. Unclear labels are excluded from point estimates and reported separately.",
+  "inventory_release": "nepal_landslide_inventory_v0.6.0_v7_20260915",
+  "metrics": {
+    "date_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.6837121379731641,
+        0.8395954548097025
+      ],
+      "decisive_sample_n": 120,
+      "estimate": 0.7635110185961916,
+      "represented_population_weight": 2255.070588235499,
+      "unclear_or_not_applicable_n": 14
+    },
+    "deaths_exact_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.7395799286618214,
+        0.8616020106651577
+      ],
+      "decisive_sample_n": 131,
+      "estimate": 0.8023146633640429,
+      "represented_population_weight": 2463.4647058825994,
+      "unclear_or_not_applicable_n": 3
+    },
+    "district_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.7635748235068145,
+        0.8853954681689815
+      ],
+      "decisive_sample_n": 131,
+      "estimate": 0.8256962638118732,
+      "represented_population_weight": 2485.511764705999,
+      "unclear_or_not_applicable_n": 3
+    },
+    "duplicate_merge_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.45805592543284224,
+        0.8129161118509364
+      ],
+      "decisive_sample_n": 38,
+      "estimate": 0.6419185282523369,
+      "represented_population_weight": 507.3333333332,
+      "unclear_or_not_applicable_n": 1
+    },
+    "event_existence_precision": {
+      "ci95_stratified_bootstrap": [
+        0.8200013592958312,
+        0.9242077004111373
+      ],
+      "decisive_sample_n": 150,
+      "estimate": 0.8736609236415076,
+      "represented_population_weight": 2885.000000000401,
+      "unclear_or_not_applicable_n": 0
+    },
+    "event_type_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.6209196545055157,
+        0.7479215627702545
+      ],
+      "decisive_sample_n": 134,
+      "estimate": 0.6849496017384019,
+      "represented_population_weight": 2520.5117647060997,
+      "unclear_or_not_applicable_n": 0
+    },
+    "hazard_type_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.9111470515247473,
+        0.9787097725351191
+      ],
+      "decisive_sample_n": 133,
+      "estimate": 0.947836629323097,
+      "represented_population_weight": 2500.3647058825995,
+      "unclear_or_not_applicable_n": 1
+    },
+    "municipality_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.9278028688004655,
+        1.0
+      ],
+      "decisive_sample_n": 64,
+      "estimate": 0.9755305838381391,
+      "represented_population_weight": 1226.0202614379996,
+      "unclear_or_not_applicable_n": 1
+    },
+    "single_event_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.6791122665980454,
+        0.8274725306070901
+      ],
+      "decisive_sample_n": 134,
+      "estimate": 0.7555528068659725,
+      "represented_population_weight": 2520.5117647060997,
+      "unclear_or_not_applicable_n": 0
+    },
+    "usable_record_precision": {
+      "ci95_stratified_bootstrap": [
+        0.32111714983423495,
+        0.4863856103674927
+      ],
+      "decisive_sample_n": 144,
+      "estimate": 0.4032424147974573,
+      "represented_population_weight": 2761.7196078435,
+      "unclear_or_not_applicable_n": 6
+    }
+  },
+  "sample_rows": 150
+}

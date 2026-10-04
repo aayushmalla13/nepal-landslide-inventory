@@ -1,0 +1,59 @@
+{
+  "note": "Dry run. Nothing was written to the inventory or any release.",
+  "articles_considered": 3738,
+  "recovered_records": 240,
+  "distinct_recovered_district_days": 214,
+  "novel_district_days": 144,
+  "novel_district_days_with_firm_date": 90,
+  "collision_rate_observed": 0.3271,
+  "case_days_v0_6_0": 1508,
+  "gain_pct_vs_case_days": 9.55,
+  "gain_pct_firm_only": 5.97,
+  "development_projection_pct": 13.16,
+  "development_projection_ci95": [
+    6.88,
+    20.19
+  ],
+  "development_recall": 0.5294,
+  "date_basis_mix": {
+    "weekday": 106,
+    "publication_day_explicit": 53,
+    "previous_day": 37,
+    "explicit_bs_date": 32,
+    "explicit_ad_date": 12
+  },
+  "articles_by_recovered_count": {
+    "1": 173,
+    "2": 26,
+    "3": 5
+  },
+  "top_districts": {
+    "Sindhupalchok": 27,
+    "Kathmandu": 16,
+    "Chitwan": 15,
+    "Makwanpur": 10,
+    "Baglung": 9,
+    "Dhading": 8,
+    "Kalikot": 8,
+    "Palpa": 6,
+    "Gorkha": 6,
+    "Dadeldhura": 6,
+    "Gulmi": 6,
+    "Myagdi": 6,
+    "Kavrepalanchok": 5,
+    "Syangja": 5,
+    "Bajhang": 5
+  },
+  "top_sources": {
+    "nepalpress": 42,
+    "setopati": 41,
+    "ujyaalo": 30,
+    "myrepublica": 24,
+    "nagarik": 23,
+    "deshsanchar": 19,
+    "rajdhani": 19,
+    "online-khabar": 12,
+    "onlinekhabar-en": 9,
+    "himalayan-times": 7
+  }
+}

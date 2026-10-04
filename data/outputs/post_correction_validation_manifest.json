@@ -1,0 +1,104 @@
+{
+  "audit": "post_correction_candidate_validation_v1",
+  "blinding": "prior labels, scores, confidence, specificity, scope, and location-consistency fields are omitted",
+  "canonical_rows": 2904,
+  "canonical_sha256": "182071353abd87fed8404d0ae82b172b64d410599bf6e36a532c363cb6fdf663",
+  "correction_challenge_sample": {
+    "eligible_frame_rows": 150,
+    "population_by_action": {
+      "identity_add": 85,
+      "identity_merge": 12,
+      "structured_attribute_correction": 27,
+      "true_value_correction": 26
+    },
+    "purpose": "targeted verification of applied corrections; not an overall precision sample",
+    "sample_by_action": {
+      "identity_add": 28,
+      "identity_merge": 5,
+      "structured_attribute_correction": 9,
+      "true_value_correction": 8
+    },
+    "sample_rows": 50
+  },
+  "fresh_probability_sample": {
+    "correction_touched_event_ids_excluded": 150,
+    "eligible_frame_rows": 2723,
+    "population_by_stratum": {
+      "en|2015-2018|landslide|multi_article": 57,
+      "en|2015-2018|landslide|single_article": 212,
+      "en|2015-2018|road_obstruction|multi_article": 8,
+      "en|2015-2018|road_obstruction|single_article": 56,
+      "en|2019-2022|landslide|multi_article": 73,
+      "en|2019-2022|landslide|single_article": 115,
+      "en|2019-2022|road_obstruction|multi_article": 2,
+      "en|2019-2022|road_obstruction|single_article": 35,
+      "en|2023-2026|landslide|multi_article": 46,
+      "en|2023-2026|landslide|single_article": 95,
+      "en|2023-2026|road_obstruction|multi_article": 13,
+      "en|2023-2026|road_obstruction|single_article": 43,
+      "np|2015-2018|landslide|multi_article": 17,
+      "np|2015-2018|landslide|single_article": 116,
+      "np|2015-2018|road_obstruction|multi_article": 1,
+      "np|2015-2018|road_obstruction|single_article": 24,
+      "np|2019-2022|landslide|multi_article": 86,
+      "np|2019-2022|landslide|single_article": 584,
+      "np|2019-2022|road_obstruction|multi_article": 10,
+      "np|2019-2022|road_obstruction|single_article": 124,
+      "np|2023-2026|landslide|multi_article": 134,
+      "np|2023-2026|landslide|single_article": 649,
+      "np|2023-2026|road_obstruction|multi_article": 27,
+      "np|2023-2026|road_obstruction|single_article": 196
+    },
+    "prior_audit_article_urls_excluded": 265,
+    "prior_audit_event_ids_excluded": 150,
+    "purpose": "precision and attribute accuracy on untouched candidate events",
+    "sample_by_stratum": {
+      "en|2015-2018|landslide|multi_article": 3,
+      "en|2015-2018|landslide|single_article": 10,
+      "en|2015-2018|road_obstruction|multi_article": 3,
+      "en|2015-2018|road_obstruction|single_article": 3,
+      "en|2019-2022|landslide|multi_article": 3,
+      "en|2019-2022|landslide|single_article": 5,
+      "en|2019-2022|road_obstruction|multi_article": 2,
+      "en|2019-2022|road_obstruction|single_article": 3,
+      "en|2023-2026|landslide|multi_article": 3,
+      "en|2023-2026|landslide|single_article": 4,
+      "en|2023-2026|road_obstruction|multi_article": 3,
+      "en|2023-2026|road_obstruction|single_article": 3,
+      "np|2015-2018|landslide|multi_article": 3,
+      "np|2015-2018|landslide|single_article": 5,
+      "np|2015-2018|road_obstruction|multi_article": 1,
+      "np|2015-2018|road_obstruction|single_article": 3,
+      "np|2019-2022|landslide|multi_article": 3,
+      "np|2019-2022|landslide|single_article": 30,
+      "np|2019-2022|road_obstruction|multi_article": 3,
+      "np|2019-2022|road_obstruction|single_article": 5,
+      "np|2023-2026|landslide|multi_article": 6,
+      "np|2023-2026|landslide|single_article": 34,
+      "np|2023-2026|road_obstruction|multi_article": 3,
+      "np|2023-2026|road_obstruction|single_article": 9
+    },
+    "sample_rows": 150,
+    "stratification": [
+      "title_language",
+      "period",
+      "event_type",
+      "article_support"
+    ]
+  },
+  "inputs": {
+    "data/outputs/canonical_event_audit_LABEL_HERE.csv": "786b54256bfdd4a33e0e9cde94413ec89b7cd33da5943be4b70f6ce03a8bcb02",
+    "data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/canonical_events_final.csv": "3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8",
+    "data/releases/nepal_landslide_inventory_v0.7.0_candidate_20260916/correction_application_log.csv": "f0fbb139793e0b7c1d09c05c3d4698e0e0c04a4041b9bd6c5d0e524b788ce4f2"
+  },
+  "inventory_release": "nepal_landslide_inventory_v0.7.0_candidate_20260916",
+  "outputs": {
+    "post_correction_challenge_LABEL_HERE.csv": "9b93ac97152bf458a161bf62272b7d9becc78f26cd625981393488bb5506898e",
+    "post_correction_challenge_reading_pack.csv": "e9b684289a4f636e609b69db85dac73b1935470b68ee4917cbc74e7950c91ca1",
+    "post_correction_fresh_audit_LABEL_HERE.csv": "0b18e208add792920be119e3cd5644c7284966d278289d1a251d6b7c61b6f14c",
+    "post_correction_fresh_audit_reading_pack.csv": "01e38ece0ddb42c185bff47b8dd744455c492319add23ba24ce93965abe28fd0",
+    "post_correction_fresh_audit_weights.csv": "5056fb7522ba95c14055d3ed23739bfac391a24003c7b120a9e11606293a0fcf"
+  },
+  "scoring_rule": "fresh and correction-challenge samples must be reported separately",
+  "seed": 20260920
+}

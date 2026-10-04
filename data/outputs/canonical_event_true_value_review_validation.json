@@ -1,0 +1,14 @@
+{
+  "inputs": {
+    "canonical_event_true_value_REVIEW.csv": "b4414aa202fc31b0abbdba4d7b03bc4b2b129ffb654d8868b0a42af96658399d",
+    "canonical_event_true_value_REVIEW_COMPLETED.csv": "2022c31b979eb5b2c20b9092dfe136ac6044e54617d584e953422688a79af5af",
+    "canonical_event_true_value_review_manifest.json": "96b68f2c03ab20e12306b6ad728885cac6d191d2e6a5baa89944dfcf0f0db3cb"
+  },
+  "record_action_counts": {
+    "exclude_candidate": 11,
+    "retain": 26
+  },
+  "review_rows": 37,
+  "status": "validated_true_values_not_yet_applied",
+  "unresolved_values": 0
+}

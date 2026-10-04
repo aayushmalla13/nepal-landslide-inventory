@@ -1,0 +1,149 @@
+{
+  "scoring_definition": {
+    "truth": "is_landslide_event=yes AND in_nepal=yes AND hazard_type in {landslide,debris_flow,rockfall} AND event_granularity=single",
+    "prediction": "pipeline_decision in {kept_class1,kept_class2} AND event_type_pred=landslide AND hazard_type_pred in {landslide,debris_flow,rockfall}",
+    "unit": "article-level headline classification"
+  },
+  "primary_answered_rows": 395,
+  "labelled_rows": 395,
+  "undecidable_rows": 0,
+  "weighted_confusion": {
+    "tp": 2307.8,
+    "fp": 1381.7,
+    "fn": 734.0,
+    "tn": 5080.5
+  },
+  "unweighted_confusion": {
+    "tp": 108,
+    "fp": 64,
+    "fn": 21,
+    "tn": 202
+  },
+  "weighted": {
+    "precision": 0.6255080664466609,
+    "recall": 0.7586913565698555,
+    "f1": 0.6856924740563801
+  },
+  "weighted_ci95_stratified_bootstrap": {
+    "precision": [
+      0.5517778311047182,
+      0.7010438371546965
+    ],
+    "recall": [
+      0.6822373742627525,
+      0.8434615969579258
+    ],
+    "f1": [
+      0.6235367211944496,
+      0.7504592102840334
+    ]
+  },
+  "bootstrap": {
+    "method": "within-stratum weighted percentile bootstrap",
+    "replicates": 2000,
+    "seed": 20260809,
+    "note": "Approximate design-aware interval; resampling respects the locked decision-by-language strata and uses inclusion weights."
+  },
+  "unweighted_sample_only": {
+    "precision": 0.627906976744186,
+    "recall": 0.8372093023255814,
+    "f1": 0.717607973421927
+  },
+  "extraction_among_true_headline_articles": {
+    "district": {
+      "truth_available_n": 127,
+      "predicted_nonblank_n": 117,
+      "exact_n": 104,
+      "reportable": true,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.921510210539812,
+      "weighted_exact_accuracy": 0.8278431124357879,
+      "unweighted_exact_accuracy": 0.8188976377952756
+    },
+    "event_date": {
+      "truth_available_n": 83,
+      "predicted_nonblank_n": 81,
+      "exact_n": 67,
+      "reportable": true,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.976268800780727,
+      "weighted_exact_accuracy": 0.8237597739711049,
+      "unweighted_exact_accuracy": 0.8072289156626506
+    }
+  },
+  "per_stratum_coverage": {
+    "dropped_other|en": {
+      "labelled": 5,
+      "total": 5
+    },
+    "dropped_other|np": {
+      "labelled": 10,
+      "total": 10
+    },
+    "dropped_scope|en": {
+      "labelled": 33,
+      "total": 33
+    },
+    "dropped_scope|np": {
+      "labelled": 37,
+      "total": 37
+    },
+    "dropped_specificity|en": {
+      "labelled": 28,
+      "total": 28
+    },
+    "dropped_specificity|np": {
+      "labelled": 102,
+      "total": 102
+    },
+    "kept_class1|en": {
+      "labelled": 37,
+      "total": 37
+    },
+    "kept_class1|np": {
+      "labelled": 93,
+      "total": 93
+    },
+    "kept_class2|en": {
+      "labelled": 29,
+      "total": 29
+    },
+    "kept_class2|np": {
+      "labelled": 21,
+      "total": 21
+    }
+  },
+  "false_positive_examples": [
+    "https://deshsanchar.com/2019/09/30/256127",
+    "https://deshsanchar.com/2020/05/18/357725",
+    "https://deshsanchar.com/2022/06/20/669004",
+    "https://deshsanchar.com/2022/09/02/700702",
+    "https://english.nepalpress.com/2021/10/19/two-people-killed-as-house-collapses-in-doti",
+    "https://english.onlinekhabar.com/baglung-pond-bursts-destroys-mid-hill-highway.html",
+    "https://english.onlinekhabar.com/financial-aid-to-landslide-survivors.html",
+    "https://english.onlinekhabar.com/sindhupalchok-landslides-death-toll-hits-9.html",
+    "https://myrepublica.nagariknetwork.com/news/239-killed-in-recent-flooding-and-landslides-19-missing",
+    "https://myrepublica.nagariknetwork.com/news/achham-landslides-death-toll-reaches-22",
+    "https://myrepublica.nagariknetwork.com/news/death-toll-from-kaski-landslides-reaches-37",
+    "https://myrepublica.nagariknetwork.com/news/fear-of-flash-flood-downstream-as-massive-landslide-blocks-tamakoshi-river-on-the-chinese-side-of-the-border"
+  ],
+  "false_negative_examples": [
+    "https://deshsanchar.com/2018/08/03/82831",
+    "https://deshsanchar.com/2020/09/25/417452",
+    "https://deshsanchar.com/2021/06/23/524783",
+    "https://english.onlinekhabar.com/jayprithvi-highway-obstructed.html",
+    "https://myrepublica.nagariknetwork.com/news/study-to-find-causes-and-prevention-measures-of-large-scale-landslide-in-manang-begins",
+    "https://nagariknews.nagariknetwork.com/politics/1446267-1724415003.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/954211-1664195925.html",
+    "https://nepalpress.com/2021/09/28/105747/%E0%A4%9C%E0%A5%8D%E0%A4%AF%E0%A5%8B%E0%A4%A4%E0%A4%BF%E0%A4%A8%E0%A4%97%E0%A4%B0%E0%A4%95%E0%A5%8B-%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B-%E0%A4%B5%E0%A5%8D%E0%A4%AF%E0%A4%B5%E0%A4%B8%E0%A5%8D",
+    "https://nepalpress.com/2023/08/08/359245/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%B8%E0%A5%81%E0%A4%A6%E0%A5%82%E0%A4%B0%E0%A4%AA%E0%A4%B6%E0%A5%8D%E0%A4%9A%E0%A4%BF%E0%A4%AE%E0%A4%95%E0%A4%BE-%E0%A4%B8%E0%A4%BE",
+    "https://nepalpress.com/2024/09/28/515917/%E0%A4%8F%E0%A4%A8%E0%A5%8D%E0%A4%AB%E0%A4%BE-%E0%A4%8F%E0%A4%95%E0%A5%87%E0%A4%A1%E0%A5%87%E0%A4%AE%E0%A5%80%E0%A4%95%E0%A4%BE-%E0%A4%9B-%E0%A4%9C%E0%A4%A8%E0%A4%BE-%E0%A4%B5%E0%A4%BF%E0%A4%A6",
+    "https://nepalpress.com/2025/09/21/642443/landslide-in-tuin-river-cleared-after-45-hours-preparations-to-reopen-one-way-traffic",
+    "https://rajdhanidaily.com/id/24669"
+  ],
+  "generated_at": "2026-09-04T17:24:37Z",
+  "labels_file": "locked_test_set_v7_LABEL_HERE.csv",
+  "labels_sha256": "177dbaa667063f39e37ff68d86e1b9a128be23ad04cbd2a09c72130bbed78803",
+  "predictions_file": "locked_test_set_v7_predictions.csv",
+  "predictions_sha256": "917b27bcda7fda4f9c4847217b3017deb64db4aa5b5207584365a44d3b0bfa4f"
+}

@@ -1,0 +1,25 @@
+{
+  "action_counts": {
+    "correct_deaths": 6,
+    "correct_event_type": 32,
+    "correct_hazard_type": 2
+  },
+  "input_sha256": {
+    "data/outputs/v11_identity_plan_MERGES_EXISTING.csv": "8267d8b97f1aca4957cf64bde47b3607384f2ec7a5fdf934e65d55c06a2a85c6",
+    "data/outputs/v11_identity_plan_REMOVE_OLD_EVENTS.csv": "39cdcde86cff7c3e3372072198a83237e9dfd06ae8fad1c49b2ca461413e97da",
+    "data/outputs/v11_identity_plan_manifest.json": "5929895c6b0551d337c3fb3903006dc798103fed846c02cf2e923033593f7b4b",
+    "data/outputs/v11_remediation_BATCH_STRUCTURED_ATTRIBUTES.csv": "883df9e8100c66eeb916e277cbfb719a85ffce8ea697b581fa5a9fdbe85662e6",
+    "data/outputs/v11_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "8ae7b09125e4800a804ef0b533140b6f21ab4a717dec6820601489b5011bc0b6",
+    "data/outputs/v11_remediation_manifest.json": "ddeb220a2e27ae2533f9999f99b26e16ba09d9f758f98de699d3c3f41a3e7f63",
+    "data/outputs/v11_true_value_plan_CORRECTIONS.csv": "95d194f5cb41847676d0139b46c2be0d43c4affff39c5095132f64e07033e562",
+    "data/outputs/v11_true_value_plan_EXCLUSIONS.csv": "d3b1d7df2f312f30ed5932e97d339f376479d16b1bc2dc7fe5104703ea1d0ed9",
+    "data/outputs/v11_true_value_plan_NO_CHANGE.csv": "38e2e32abbba5d96f42d16f34acc748017ed06b357f75485a79137525206181b",
+    "data/outputs/v11_true_value_plan_manifest.json": "5f40c68713c3659aca9ac4e62bc932b3f6bc0f881158374b5fac4b5678b9a29c"
+  },
+  "output_sha256": {
+    "v11_structured_attribute_REVIEW.csv": "7bed533c9b00ae7d8566dee18fc734c6a7b5816e4f1e3c833e3421189ef94691"
+  },
+  "prior_gate_overlap_count": 0,
+  "review_rows": 38,
+  "status": "blank_v11_structured_attribute_review"
+}

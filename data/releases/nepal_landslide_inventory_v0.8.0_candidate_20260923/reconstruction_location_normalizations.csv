@@ -1,0 +1,40 @@
+candidate_event_id,raw_district,final_district,raw_municipality,final_municipality,reason
+postcorr_candidate_621677d43230543c,Nawalparasi (Bardaghat Susta East),Nawalpur,Binayi Triveni Rural Municipality-2,Binayee Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_7b2a51eea180d84c,unclear,Baglung,unclear,Baglung Municipality,"Recovered full publisher text places the 2025-08-08 blockage at Kalakhola, Baglung Municipality-12, Baglung."
+postcorr_candidate_98ca48c9abd0ec48,Makwanpur,Makwanpur,Bhimphedi Rural Municipality-4,Bhimphedi Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_4df53c4eb0a98110,Myagdi,Myagdi,Dhaulagiri Rural Municipality-4,Dhaulagiri Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_6d5ce4e62b3d571d,Myagdi,Myagdi,Malika Rural Municipality-3,Malika Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_2c18852cd4929a09,Sankhuwasabha,Sankhuwasabha,Panchkhapan Municipality,Panchakhapan Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_3c7bfea0ee29f49c,Sindhuli,Sindhuli,Golanjor Rural Municipality-1,Golanjor Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_abb3cc15adc41f6e,Sindhupalchok,Sindhupalchok,Jugal Rural Municipality-2,Jugal Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_d9c0a4dd850fe4dd,Makwanpur,Makwanpur,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_030823ed06a60f50,Chitwan,Chitwan,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_7c76f4e49b500746,Chitwan,Chitwan,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_c23ad9d8f472c563,Chitwan,Chitwan,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_7129316bd4dc3e8f,Chitwan,Chitwan,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_13647bdc0c77b7d4,Chitwan,Chitwan,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_270ac3d5f545db47,Chitwan,Chitwan,Chandi Bhanjyang VDC-6,,Canonical district alias and municipality normalization.
+postcorr_candidate_2f3f6f6982d91c60,Kalikot,Kalikot,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_7ebed06dc9a142d2,Makwanpur,Makwanpur,Sisneri VDC-3,,Canonical district alias and municipality normalization.
+postcorr_candidate_e5250cdcbe4a3604,Makwanpur,Makwanpur,Kulekhani VDC-8,,Canonical district alias and municipality normalization.
+postcorr_candidate_d8522f706582130d,Chitwan,Chitwan,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_aae7dfa8a8e85b24,Chitwan,Chitwan,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_da8c09b4ff48329f,Lamjung,Lamjung,Besishahar Municipality-1,Besishahar Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_ef5a563301bf7b8a,Lamjung,Lamjung,Besishahar Municipality-6,Besishahar Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_53d31ba5459cb09d,Lamjung,Lamjung,Besishahar Municipality-1,Besishahar Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_9074e7c6539dd964,Dhading,Dhading,Benighat Rorang Rural Municipality-10,Benighat Rorang Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_12e2c1b68fef8120,Dhading,Dhading,Benighat Rorang Rural Municipality-10,Benighat Rorang Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_cc058b906f73c521,Dhading,Dhading,Benighat Rorang Rural Municipality-10,Benighat Rorang Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_7a82e355e3f5b243,Dang,Dang,Lamahi Municipality-6,Lamahi Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_04819055f9215261,Dang,Dang,Lamahi Municipality-6,Lamahi Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_d0a15549cc13b41b,Lamjung,Lamjung,Marsyangdi Rural Municipality-4,Marsyangdi Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_32611b45c5100428,Lamjung,Lamjung,Besishahar Municipality-1,Besishahar Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_7ac532782935e6a2,Lamjung,Lamjung,Marsyangdi Rural Municipality-4,Marsyangdi Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_13cc1f71d6cb3204,Baglung,Baglung,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_194122296afee1e2,Baglung,Baglung,Baglung Municipality-4 / Beni Municipality-1 border,,Canonical district alias and municipality normalization.
+postcorr_candidate_abb6bf942fdea311,Baglung,Baglung,Galkot Municipality-7,Galkot Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_5c1c7ba9d821d224,Tanahun,Tanahu,Anbukhaireni Rural Municipality-2,Anbukhaireni Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_9a0e4be740b5ff33,Palpa,Palpa,Rambha Rural Municipality-3,Rambha Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_208732d510a00243,Palpa,Palpa,Tinau Rural Municipality-5,Tinau Rural Municipality,Canonical district alias and municipality normalization.
+postcorr_candidate_0bcca8361cf324bb,Nawalparasi,Nawalpur,unclear,,Canonical district alias and municipality normalization.
+postcorr_candidate_9cb45dda4bec8adf,Kavrepalanchok,Kavrepalanchok,Panauti Municipality-11,Panauti Municipality,Canonical district alias and municipality normalization.

@@ -1,0 +1,70 @@
+{
+  "categorical": {
+    "article_role": {
+      "agreement": 0.825,
+      "cohen_kappa": 0.763157894736842,
+      "exact_n": 99,
+      "n": 120
+    },
+    "event_granularity": {
+      "agreement": 0.7833333333333333,
+      "cohen_kappa": 0.7059655074922252,
+      "exact_n": 94,
+      "n": 120
+    },
+    "hazard_type": {
+      "agreement": 0.7166666666666667,
+      "cohen_kappa": 0.5436752041158708,
+      "exact_n": 86,
+      "n": 120
+    },
+    "headline": {
+      "agreement": 0.85,
+      "cohen_kappa": 0.6556122448979591,
+      "exact_n": 102,
+      "n": 120
+    },
+    "in_nepal": {
+      "agreement": 0.975,
+      "cohen_kappa": 0.7894736842105262,
+      "exact_n": 117,
+      "n": 120
+    },
+    "is_landslide_event": {
+      "agreement": 0.8583333333333333,
+      "cohen_kappa": 0.6859122401847574,
+      "exact_n": 103,
+      "n": 120
+    }
+  },
+  "extraction": {
+    "district": {
+      "both_nonblank_n": 53,
+      "exact_agreement_when_both_nonblank": 0.9811320754716981,
+      "exact_n": 52,
+      "first_nonblank_n": 62,
+      "rows": 120,
+      "second_nonblank_n": 61
+    },
+    "event_date": {
+      "both_nonblank_n": 34,
+      "exact_agreement_when_both_nonblank": 0.9411764705882353,
+      "exact_n": 32,
+      "first_nonblank_n": 45,
+      "rows": 120,
+      "second_nonblank_n": 35
+    }
+  },
+  "first_annotators": [
+    "GS"
+  ],
+  "input_sha256": {
+    "locked_test_set_v7_labels_final.csv": "177dbaa667063f39e37ff68d86e1b9a128be23ad04cbd2a09c72130bbed78803",
+    "locked_test_set_v7_second_annotator_COMPLETED_HUMAN.csv": "b693070ba25518bf0269e607eb6bcfc7ffb3588f2391f973747591c9d4dae57c",
+    "locked_test_set_v7_second_annotator_LABEL_HERE.csv": "65dfcc78aaea07d87d00e47cc417c42e5b76d90ae73f74da22f86b09536d4151"
+  },
+  "rows": 120,
+  "second_annotators": [
+    "human"
+  ]
+}

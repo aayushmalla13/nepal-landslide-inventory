@@ -1,0 +1,19 @@
+{
+  "excluded_candidates_after": 3,
+  "excluded_candidates_before": 2,
+  "input_sha256": {
+    "v09_identity_plan_EXCLUDED_CANDIDATES.csv": "7c1a25405579e0d41588f0ab40b32b06746de45119da40799de595abe2c89aad",
+    "v09_identity_plan_NEW_EVENTS.csv": "c48eae4ed87c0ef01e570f3e46d03314e7b732070fc3790e2b15da3895d8eb18",
+    "v09_identity_plan_manifest.json": "47697691e5381b4705952c77cd33dc74f21bc26b373cd8bb112175c29cca09c8"
+  },
+  "output_sha256": {
+    "v09_release_identity_EXCLUDED_CANDIDATES.csv": "cce59bb4aa57073aea7adbeda8289cd5f0a9f24d7a4d512ba20a77da577e798b",
+    "v09_release_identity_NEW_EVENTS.csv": "d1c44ec2cc0022a728a85067244ad5bec3cfda9b7eb5d9f4d6742fe49896a06a"
+  },
+  "planned_new_events_after": 25,
+  "planned_new_events_before": 26,
+  "projected_release_rows": 2858,
+  "reason": "single canonical district cannot be established from border evidence",
+  "status": "v09_release_preflight_location_gate_complete",
+  "target_candidate": "v09_candidate_523169d15a745a34"
+}

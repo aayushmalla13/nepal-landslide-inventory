@@ -1,0 +1,18 @@
+{
+  "audit": "canonical_event_level_second_review_v1",
+  "blinding": "first-review labels and notes are absent from both reviewer-facing files",
+  "ordering": "deterministically shuffled with new second-review row IDs",
+  "outputs": {
+    "canonical_event_audit_second_LABEL_HERE.csv": "b32aad91ea1769f7d68d94e185f314f11188ab04c7e9cb2b7f1b70d623d4d392",
+    "canonical_event_audit_second_mapping.csv": "1c3f2a119ab44818c369f70f20cea8d4dccdb48b88bb198a64b5871289d60074",
+    "canonical_event_audit_second_reading_pack.csv": "e25d8ac210fd652f9cf7b1f2d496290f73dddf86574d523ec750bc578859d53c"
+  },
+  "purpose": "independent second human review and inter-rater agreement",
+  "rows": 150,
+  "seed": 20260916,
+  "source_sha256": {
+    "canonical_event_audit_COMPLETED.csv": "c5cbedb457b999bca3a3cc2ef92e1d62b74f57ed49f8f60417395a80a4f0a5ed",
+    "canonical_event_audit_LABEL_HERE.csv": "786b54256bfdd4a33e0e9cde94413ec89b7cd33da5943be4b70f6ce03a8bcb02",
+    "canonical_event_audit_reading_pack.csv": "d3feb65b98a695d02a1a0381ff9b3623e72aa9906c6287d59f695e6d8c7609af"
+  }
+}

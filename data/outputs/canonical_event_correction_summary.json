@@ -1,0 +1,57 @@
+{
+  "action_counts": {
+    "correct_date": 26,
+    "correct_deaths": 23,
+    "correct_district": 18,
+    "correct_event_type": 39,
+    "correct_hazard_type": 10,
+    "correct_municipality": 1,
+    "exclude_false_event": 18,
+    "recluster_articles": 16,
+    "review_date": 11,
+    "review_deaths": 4,
+    "review_district": 5,
+    "review_duplicate_merge": 1,
+    "review_event_granularity": 1,
+    "review_hazard_type": 1,
+    "review_municipality": 1,
+    "split_or_exclude_aggregate": 36
+  },
+  "audit_rows": 150,
+  "candidate_rows": 119,
+  "clean_rows": 31,
+  "inputs": {
+    "canonical_event_audit_ADJUDICATED.csv": "79c4d377edf243fe1573c387739fdf225dd8e0e18671a6c52b1338711de8f697",
+    "canonical_event_audit_adjudication_manifest.json": "260c84236321634170fbeeb9f2188b24b388b2967dcf78e9e8f9c71d40734950",
+    "canonical_event_audit_reading_pack.csv": "d3feb65b98a695d02a1a0381ff9b3623e72aa9906c6287d59f695e6d8c7609af",
+    "canonical_event_audit_weights.csv": "8bb7086fea279dc25ed15e32a83a1c2ccbfc33b498ab7ec7d7b8c17decbbc311"
+  },
+  "interpretation": "Candidates are unapplied review leads, not production corrections. Overlapping action counts must not be summed as unique events.",
+  "outputs": {
+    "canonical_event_correction_BATCH_ARTICLE_MAPPING.csv": "8e525df32476cfe1a10ca4738b45e6e6bc3b929c36224e30cb2533546d5efde9",
+    "canonical_event_correction_BATCH_STRUCTURED_ATTRIBUTES.csv": "15980ac8227cda48e98284ca816dda731300d0dc82ddb7c22f924e447ffc94f7",
+    "canonical_event_correction_BATCH_TRUE_VALUE_REVIEW.csv": "4b361f9e924d0a2a86edc62732b8f07d87594ad7c0188122f53cd046ccb9acb1",
+    "canonical_event_correction_candidates.csv": "ff449f7187217b0032b46228f24439fe1abf30847aefe6232e96c351ef484d8a"
+  },
+  "priority_counts": {
+    "P0_identity_or_linkage": 90,
+    "P1_attribute": 27,
+    "P2_uncertain": 2
+  },
+  "readiness_counts": {
+    "requires_article_mapping": 55,
+    "requires_true_value_review": 37,
+    "structured_attribute_candidate": 27
+  },
+  "systematic_issue_counts": {
+    "casualty_extraction": 27,
+    "deduplication": 17,
+    "event_date_resolution": 37,
+    "event_granularity": 37,
+    "event_type_classification": 39,
+    "hazard_type_classification": 11,
+    "location_role_resolution": 25,
+    "scope_or_event_specificity": 18
+  },
+  "weighted_flagged_inventory_share": 0.8283114146871294
+}

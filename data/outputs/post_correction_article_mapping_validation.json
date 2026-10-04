@@ -1,0 +1,13 @@
+{
+  "decision_rows": 67,
+  "excluded_clusters": 31,
+  "inputs": {
+    "post_correction_article_mapping_DECISIONS.csv": "f53fb87dbb67432b9f9bbbbf8888f3fced581e755c26db7c175d198c3ad82610",
+    "post_correction_article_mapping_DECISIONS_COMPLETED.csv": "262b7d46ad27cc3da9463a0702c65f00f1c5f4d92397b0de9033cc36bcd99934",
+    "post_correction_article_mapping_manifest.json": "ce2ef3240aa9697b2b0438d0a4e3215422eda11ebdba436f9c7eb461fa3341ea",
+    "post_correction_article_membership_MAP.csv": "b879ad9ef5cf59b962bae7faf93211105cabb23923568499d8219171980017d8"
+  },
+  "retained_event_groups": 93,
+  "status": "validated_mapping_decisions_not_yet_applied",
+  "unresolved_clusters": 3
+}

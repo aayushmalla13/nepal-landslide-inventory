@@ -1,0 +1,17 @@
+season,exposure,window_days,development_cases,development_controls,test_cases,test_controls,threshold_mm,development_auc,test_auc,test_sensitivity,test_specificity
+monsoon_JJAS,concurrent_incl_event_day,1,671,2754,457,1627,15.945476,0.607466,0.631652,0.332604,0.849416
+monsoon_JJAS,concurrent_incl_event_day,3,671,2754,457,1627,31.646614,0.634237,0.679083,0.520788,0.732637
+monsoon_JJAS,concurrent_incl_event_day,5,671,2754,457,1627,51.599922,0.633484,0.664362,0.525164,0.698218
+monsoon_JJAS,concurrent_incl_event_day,7,671,2754,457,1627,75.953916,0.624588,0.660767,0.474836,0.712354
+monsoon_JJAS,strictly_antecedent_excl_event_day,1,671,2754,457,1627,10.035829,0.602277,0.615408,0.402626,0.769514
+monsoon_JJAS,strictly_antecedent_excl_event_day,3,671,2754,457,1627,23.721961,0.611104,0.635232,0.579869,0.631223
+monsoon_JJAS,strictly_antecedent_excl_event_day,5,671,2754,457,1627,53.956432,0.607582,0.623651,0.466083,0.695759
+monsoon_JJAS,strictly_antecedent_excl_event_day,7,671,2754,457,1627,95.963296,0.590804,0.622038,0.297593,0.815612
+non_monsoon,concurrent_incl_event_day,1,168,833,82,410,1.581108,0.617536,0.608923,0.304878,0.856098
+non_monsoon,concurrent_incl_event_day,3,168,833,82,410,2.584229,0.659407,0.61743,0.378049,0.758537
+non_monsoon,concurrent_incl_event_day,5,168,833,82,410,12.57479,0.689376,0.611184,0.304878,0.856098
+non_monsoon,concurrent_incl_event_day,7,168,833,82,410,38.167824,0.689208,0.616835,0.158537,0.94878
+non_monsoon,strictly_antecedent_excl_event_day,1,168,833,82,410,0.823903,0.604463,0.560916,0.304878,0.831707
+non_monsoon,strictly_antecedent_excl_event_day,3,168,833,82,410,4.846292,0.626208,0.565318,0.280488,0.853659
+non_monsoon,strictly_antecedent_excl_event_day,5,168,833,82,410,33.311994,0.643329,0.58086,0.134146,0.963415
+non_monsoon,strictly_antecedent_excl_event_day,7,168,833,82,410,36.903793,0.638534,0.634057,0.219512,0.946341

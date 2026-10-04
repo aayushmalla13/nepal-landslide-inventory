@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "canonical_event_structured_attribute_REVIEW.csv": "eedc24abbb0057a4d41ba0c602b3efee893afe574fcf2bef75ea32510af242ca",
+    "canonical_event_structured_attribute_REVIEW_COMPLETED.csv": "5a6c4b2309359542fcca7b0d2439099e6e1690cb55b4235ae714c83f137ca97c",
+    "canonical_event_structured_attribute_review_manifest.json": "288131f82cbc849b1dbcab739be7c38a6c267905a32d248b960103ccadcfc6de"
+  },
+  "record_action_counts": {
+    "retain": 27
+  },
+  "review_rows": 27,
+  "status": "validated_structured_attributes_not_yet_applied",
+  "unresolved_values": 0
+}

@@ -1,0 +1,130 @@
+{
+  "design_version": "v2",
+  "created_at": "2026-08-09T12:37:09Z",
+  "seed": 20260806,
+  "frame_table": "raw_articles",
+  "frame_size": 4889,
+  "sample_size": 395,
+  "target_size": 400,
+  "decision_allocation": {
+    "kept_class1": 130,
+    "kept_class2": 50,
+    "dropped_specificity": 130,
+    "dropped_scope": 70,
+    "dropped_other": 15,
+    "no_extraction": 5
+  },
+  "strata": {
+    "dropped_other|en": {
+      "pipeline_decision": "dropped_other",
+      "route_lang": "en",
+      "population_n": 1,
+      "sampled_n": 1,
+      "inclusion_weight": 1.0
+    },
+    "dropped_other|np": {
+      "pipeline_decision": "dropped_other",
+      "route_lang": "np",
+      "population_n": 28,
+      "sampled_n": 14,
+      "inclusion_weight": 2.0
+    },
+    "dropped_scope|en": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "en",
+      "population_n": 224,
+      "sampled_n": 56,
+      "inclusion_weight": 4.0
+    },
+    "dropped_scope|np": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "np",
+      "population_n": 57,
+      "sampled_n": 14,
+      "inclusion_weight": 4.071429
+    },
+    "dropped_specificity|en": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "en",
+      "population_n": 679,
+      "sampled_n": 36,
+      "inclusion_weight": 18.861111
+    },
+    "dropped_specificity|np": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "np",
+      "population_n": 1806,
+      "sampled_n": 94,
+      "inclusion_weight": 19.212766
+    },
+    "kept_class1|en": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "en",
+      "population_n": 841,
+      "sampled_n": 69,
+      "inclusion_weight": 12.188406
+    },
+    "kept_class1|np": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "np",
+      "population_n": 749,
+      "sampled_n": 61,
+      "inclusion_weight": 12.278689
+    },
+    "kept_class2|en": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "en",
+      "population_n": 433,
+      "sampled_n": 43,
+      "inclusion_weight": 10.069767
+    },
+    "kept_class2|np": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "np",
+      "population_n": 71,
+      "sampled_n": 7,
+      "inclusion_weight": 10.142857
+    }
+  },
+  "lock_hash": "927623efb2d415ad3cf2119d71cf960ae5e39b11917b1023a569104d5405235e",
+  "truth_vocabularies": {
+    "is_landslide_event_true": [
+      "yes",
+      "no",
+      "unclear"
+    ],
+    "in_nepal_true": [
+      "yes",
+      "no",
+      "unclear"
+    ],
+    "hazard_type_true": [
+      "landslide",
+      "debris_flow",
+      "rockfall",
+      "avalanche",
+      "flood",
+      "other_hazard",
+      "not_a_hazard",
+      "unclear"
+    ],
+    "event_granularity_true": [
+      "single",
+      "multi",
+      "roundup",
+      "not_applicable",
+      "unclear"
+    ],
+    "article_role_true": [
+      "first_report",
+      "follow_up",
+      "retrospective",
+      "forecast_or_risk",
+      "metaphor_or_nonevent",
+      "unclear"
+    ]
+  },
+  "labels_file": "locked_test_set_v2_labels.csv",
+  "predictions_file": "locked_test_set_v2_predictions.csv",
+  "notes": "Held-out test set. Draw once, label once, never tune against it. Metrics MUST be weighted by inclusion_weight to describe the inventory rather than the sample."
+}

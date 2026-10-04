@@ -1,0 +1,16 @@
+{
+  "action_counts": {
+    "merge_existing": 4,
+    "new_event": 8,
+    "unclear": 2
+  },
+  "decision_rows": 14,
+  "input_sha256": {
+    "v13_collision_manifest.json": "4479d867cbaebba3b02dbc345061a50c3fc1d8ebf64efc28d41c67d4bfdc14ea",
+    "v13_reconstruction_COLLISION_DECISIONS.csv": "3a673818209ce4382f51f9c4670aa8d97f5ba038809ab27bbd670f464c171aa9",
+    "v13_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "58be35d6b152d6b1a329b42e34437a81e31c2f86004ee7eb04e2f1ceeabc0eb8",
+    "v13_reconstruction_COLLISION_PAIRS.csv": "05a8e778bdf6f23b67eba7629e344f092a88cd98150e4212e8c5e5edb11e283a"
+  },
+  "status": "validated_existing_event_collision_decisions_unapplied",
+  "unresolved_rows": 2
+}

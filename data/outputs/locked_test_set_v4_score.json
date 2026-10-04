@@ -1,0 +1,145 @@
+{
+  "scoring_definition": {
+    "truth": "is_landslide_event=yes AND in_nepal=yes AND hazard_type in {landslide,debris_flow,rockfall} AND event_granularity=single",
+    "prediction": "pipeline_decision in {kept_class1,kept_class2} AND event_type_pred=landslide AND hazard_type_pred in {landslide,debris_flow,rockfall}",
+    "unit": "article-level headline classification"
+  },
+  "primary_answered_rows": 381,
+  "labelled_rows": 373,
+  "undecidable_rows": 8,
+  "weighted_confusion": {
+    "tp": 1254.3,
+    "fp": 548.9,
+    "fn": 242.2,
+    "tn": 2222.2
+  },
+  "unweighted_confusion": {
+    "tp": 116,
+    "fp": 55,
+    "fn": 15,
+    "tn": 187
+  },
+  "weighted": {
+    "precision": 0.6955888887012631,
+    "recall": 0.8381480232666129,
+    "f1": 0.7602430997414694
+  },
+  "weighted_ci95_stratified_bootstrap": {
+    "precision": [
+      0.6261204220464359,
+      0.7609734577126562
+    ],
+    "recall": [
+      0.7735455125581785,
+      0.906586372033774
+    ],
+    "f1": [
+      0.7064124937417893,
+      0.8120550748118228
+    ]
+  },
+  "bootstrap": {
+    "method": "within-stratum weighted percentile bootstrap",
+    "replicates": 2000,
+    "seed": 20260809,
+    "note": "Approximate design-aware interval; resampling respects the locked decision-by-language strata and uses inclusion weights."
+  },
+  "unweighted_sample_only": {
+    "precision": 0.6783625730994152,
+    "recall": 0.8854961832061069,
+    "f1": 0.7682119205298015
+  },
+  "extraction_among_true_headline_articles": {
+    "district": {
+      "truth_available_n": 121,
+      "predicted_nonblank_n": 113,
+      "exact_n": 102,
+      "reportable": true,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.9425969794679072,
+      "weighted_exact_accuracy": 0.8456702022527135,
+      "unweighted_exact_accuracy": 0.8429752066115702
+    },
+    "event_date": {
+      "truth_available_n": 1,
+      "predicted_nonblank_n": 1,
+      "exact_n": 1,
+      "reportable": false,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 1.0,
+      "weighted_exact_accuracy": 1.0,
+      "unweighted_exact_accuracy": 1.0
+    }
+  },
+  "per_stratum_coverage": {
+    "dropped_other|np": {
+      "labelled": 1,
+      "total": 1
+    },
+    "dropped_scope|en": {
+      "labelled": 30,
+      "total": 30
+    },
+    "dropped_scope|np": {
+      "labelled": 40,
+      "total": 40
+    },
+    "dropped_specificity|en": {
+      "labelled": 34,
+      "total": 34
+    },
+    "dropped_specificity|np": {
+      "labelled": 96,
+      "total": 96
+    },
+    "kept_class1|en": {
+      "labelled": 41,
+      "total": 41
+    },
+    "kept_class1|np": {
+      "labelled": 89,
+      "total": 89
+    },
+    "kept_class2|en": {
+      "labelled": 34,
+      "total": 34
+    },
+    "kept_class2|np": {
+      "labelled": 16,
+      "total": 16
+    }
+  },
+  "false_positive_examples": [
+    "https://deshsanchar.com/2018/07/02/71636",
+    "https://deshsanchar.com/2018/08/27/91858",
+    "https://myrepublica.nagariknetwork.com/news/141-houses-facing-landslide-risk-in-dolpa",
+    "https://myrepublica.nagariknetwork.com/news/5-die-in-dhading-landslides",
+    "https://myrepublica.nagariknetwork.com/news/9-killed-4-missing-in-gulmi-landslides",
+    "https://myrepublica.nagariknetwork.com/news/food-shortage-hits-landslide-victims-in-taplejung",
+    "https://myrepublica.nagariknetwork.com/news/haphazard-road-construction-triggering-landslides",
+    "https://myrepublica.nagariknetwork.com/news/kaligandaki-corridor-blocked-by-dry-landslides",
+    "https://myrepublica.nagariknetwork.com/news/landslide-blocks-dumre-besisahar-road-again",
+    "https://myrepublica.nagariknetwork.com/news/landslide-blocks-siddhicharan-highway",
+    "https://myrepublica.nagariknetwork.com/news/landslide-obstructs-muglin-malekhu-road-section",
+    "https://myrepublica.nagariknetwork.com/news/landslide-obstructs-traffic-on-beni-jomsom-road"
+  ],
+  "false_negative_examples": [
+    "https://myrepublica.nagariknetwork.com/news/landslides-obstructs-jayprithivi-highway",
+    "https://myrepublica.nagariknetwork.com/news/narchyang-landslide-caused-m-3-8-tremor",
+    "https://nagariknews.nagariknetwork.com/others/1481258-1751425599.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/127643-1502971500.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/1442256-1721123297.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/1443188-1721894140.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/1450328-1727617305.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/185708-1564016760.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/308431-1597583555.html",
+    "https://rajdhanidaily.com/id/15553",
+    "https://www.ratopati.com/story/521173/mechi-highway-blocked-travelers-from-four-districts-affected",
+    "https://www.setopati.com/social/296377"
+  ],
+  "generated_at": "2026-08-10T05:55:18Z",
+  "labels_file": "locked_test_set_v4_LABEL_HERE.csv",
+  "labels_sha256": "860e37066a2ac013f8f12f5dadf46f9a826cf286d85fc2d8c07c622a41add0e4",
+  "predictions_file": "locked_test_set_v4_predictions.csv",
+  "predictions_sha256": "93a83ee4e95696d31efe7072638c65435214a2d8a06edd449a4a3990dee2af2a"
+}

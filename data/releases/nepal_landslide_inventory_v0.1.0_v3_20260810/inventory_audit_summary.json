@@ -1,0 +1,97 @@
+{
+  "core_counts": {
+    "article_events": 4893,
+    "article_lang": 4893,
+    "canonical_events": 1614,
+    "class1": 1710,
+    "class1_fallback_dates": 112,
+    "class1_low_confidence": 153,
+    "class2": 1453,
+    "class3": 1730,
+    "raw_articles": 4893
+  },
+  "dedup_summary": {
+    "max_cluster_size": 30,
+    "multi_source_clusters": 149,
+    "total_clusters": 1614
+  },
+  "district_language_overlap": {
+    "districts_both": 72,
+    "districts_only_en": [],
+    "districts_only_np": [
+      "Bara",
+      "Rupandehi",
+      "Saptari"
+    ]
+  },
+  "generated_at": "2026-08-10T04:13:50Z",
+  "route_counts": {
+    "en": 2182,
+    "np": 2711
+  },
+  "source_summary": [
+    {
+      "article_events_count": 411,
+      "class1_count": 9,
+      "in_nepal_count": 385,
+      "source": "ekantipur",
+      "specificity_ok_count": 28
+    },
+    {
+      "article_events_count": 1011,
+      "class1_count": 313,
+      "in_nepal_count": 1000,
+      "source": "himalayan-times",
+      "specificity_ok_count": 467
+    },
+    {
+      "article_events_count": 91,
+      "class1_count": 3,
+      "in_nepal_count": 74,
+      "source": "kathmandu-post",
+      "specificity_ok_count": 5
+    },
+    {
+      "article_events_count": 1,
+      "class1_count": 1,
+      "in_nepal_count": 1,
+      "source": "khabarhub",
+      "specificity_ok_count": 1
+    },
+    {
+      "article_events_count": 1013,
+      "class1_count": 391,
+      "in_nepal_count": 858,
+      "source": "myrepublica",
+      "specificity_ok_count": 580
+    },
+    {
+      "article_events_count": 379,
+      "class1_count": 190,
+      "in_nepal_count": 362,
+      "source": "online-khabar",
+      "specificity_ok_count": 194
+    },
+    {
+      "article_events_count": 361,
+      "class1_count": 44,
+      "in_nepal_count": 361,
+      "source": "ratopati",
+      "specificity_ok_count": 60
+    },
+    {
+      "article_events_count": 65,
+      "class1_count": 20,
+      "in_nepal_count": 55,
+      "source": "rising-nepal",
+      "specificity_ok_count": 34
+    },
+    {
+      "article_events_count": 1561,
+      "class1_count": 739,
+      "in_nepal_count": 1534,
+      "source": "setopati",
+      "specificity_ok_count": 837
+    }
+  ]
+}

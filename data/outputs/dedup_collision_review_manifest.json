@@ -1,0 +1,22 @@
+{
+  "batch_number": 1,
+  "batch_rows": 50,
+  "batch_size": 50,
+  "collision_clusters": 779,
+  "collision_groups": 328,
+  "database": "data/raw_sqlite/landslide_inventory.sqlite",
+  "database_sha256": "184b362b87d56eb4a3e1f875a8f2452a40aed1b08ea524e5bc1a1c7737bb22f3",
+  "outputs": {
+    "dedup_collision_review_ALL.csv": "6bc5ee026b474db2f06f91ea364fa57a267b412dc7d8e336d274be7d2adf0ae3",
+    "dedup_collision_review_BATCH_01_LABEL_HERE.csv": "953248277166faca5d2ecbc12e2da8b8b1b6305f9cf348a9ba2b2be68eb00d48",
+    "dedup_collision_review_BATCH_01_READING_PACK.csv": "329fe5ebe94962c6a1be35078b215d75b3842b1d2c853aa7e4e7e12da23afc41"
+  },
+  "pair_rows": 645,
+  "priority_counts": {
+    "P1_likely_merge": 25,
+    "P2_possible_merge": 160,
+    "P3_conflict_or_likely_distinct": 226,
+    "P3_weak_evidence": 234
+  },
+  "status": "review_pack_only_no_merges_applied"
+}

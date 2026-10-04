@@ -1,0 +1,83 @@
+{
+  "unweighted": {
+    "counts": {
+      "recovery_tp": 0,
+      "recovery_fn": 59,
+      "precision_tp": 0,
+      "precision_fp": 0,
+      "unscorable_predictions": 1,
+      "articles": 145,
+      "fully_resolved_articles": 97,
+      "semantic_additional_exact_pairs": 18,
+      "partially_or_unresolved_articles": 48,
+      "articles_with_pipeline_missing_exact_pairs": 52
+    },
+    "pipeline_missing_exact_pair_recall": {
+      "numerator": 0,
+      "denominator": 59,
+      "estimate": 0.0,
+      "wilson_95": [
+        0.0,
+        0.061129
+      ]
+    },
+    "adjudicable_pair_precision": {
+      "numerator": 0,
+      "denominator": 0,
+      "estimate": null,
+      "wilson_95": null
+    },
+    "fully_resolved_article_no_false_prediction_rate": {
+      "numerator": 97,
+      "denominator": 97,
+      "estimate": 1.0,
+      "wilson_95": [
+        0.961906,
+        1.0
+      ]
+    }
+  },
+  "weighted": {
+    "counts": {
+      "recovery_tp": 0.0,
+      "recovery_fn": 628.816668,
+      "precision_tp": 0.0,
+      "precision_fp": 0.0,
+      "unscorable_predictions": 1.0,
+      "articles": 2216.00001,
+      "fully_resolved_articles": 1387.075006,
+      "semantic_additional_exact_pairs": 117.85,
+      "partially_or_unresolved_articles": 828.925004,
+      "articles_with_pipeline_missing_exact_pairs": 584.616668
+    },
+    "pipeline_missing_exact_pair_recall": {
+      "numerator": 0.0,
+      "denominator": 628.816668,
+      "estimate": 0.0,
+      "wilson_95": null
+    },
+    "adjudicable_pair_precision": {
+      "numerator": 0.0,
+      "denominator": 0.0,
+      "estimate": null,
+      "wilson_95": null
+    },
+    "fully_resolved_article_no_false_prediction_rate": {
+      "numerator": 1387.075006,
+      "denominator": 1387.075006,
+      "estimate": 1.0,
+      "wilson_95": null
+    }
+  },
+  "design_version": "secondary_locked_v8",
+  "labels_sha256": "c4febfaacaab6e8fc1c60d282055a2fd63e3807d46fe935589cccb173a3d995c",
+  "hidden_predictions_sha256": "2ba1f6176c888ab66f920cd121b9c4940da421fb3502c7cf9ed394341c576a12",
+  "sample_size": 145,
+  "annotator_counts": {
+    "ChatGPT": 145
+  },
+  "evaluation_status": "MODEL_LABEL_DIAGNOSTIC",
+  "decision": "DO_NOT_INTEGRATE",
+  "decision_reason": "No strict-v2 prediction was adjudicable, and pipeline-missing exact-pair recall was zero. The evaluation cannot establish precision and does not support release integration. All rows identify ChatGPT as annotator, so this is not independent human validation.",
+  "partial_label_policy": "Exact labeled pairs contribute to recall. A prediction unmatched in an article with unresolved additional events is unscorable, not a false positive."
+}

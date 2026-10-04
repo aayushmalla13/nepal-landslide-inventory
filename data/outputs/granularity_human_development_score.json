@@ -1,0 +1,241 @@
+{
+  "set": "development_set_v1",
+  "annotator_caveat": "development_set_v1 was annotated by a language model, not a human. Use it to find mechanisms, not to fit thresholds; confirm on a human-labelled locked set.",
+  "labelled_rows": 120,
+  "scored": 118,
+  "excluded_unclear_or_blank": 2,
+  "missing_from_corpus": 0,
+  "baseline": {
+    "n": 118,
+    "accuracy": 0.6186,
+    "matrix": {
+      "multi": {
+        "multi": 29,
+        "not_applicable": 0,
+        "roundup": 7,
+        "single": 1
+      },
+      "not_applicable": {
+        "multi": 6,
+        "not_applicable": 0,
+        "roundup": 10,
+        "single": 10
+      },
+      "roundup": {
+        "multi": 1,
+        "not_applicable": 0,
+        "roundup": 20,
+        "single": 3
+      },
+      "single": {
+        "multi": 4,
+        "not_applicable": 0,
+        "roundup": 3,
+        "single": 24
+      }
+    },
+    "per_class": {
+      "multi": {
+        "support": 37,
+        "predicted": 40,
+        "precision": 0.725,
+        "recall": 0.7838
+      },
+      "not_applicable": {
+        "support": 26,
+        "predicted": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "roundup": {
+        "support": 24,
+        "predicted": 40,
+        "precision": 0.5,
+        "recall": 0.8333
+      },
+      "single": {
+        "support": 31,
+        "predicted": 38,
+        "precision": 0.6316,
+        "recall": 0.7742
+      }
+    }
+  },
+  "misclassified_examples": [
+    {
+      "row_id": "gran-0001",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "'त्रिदेशीय सीमा बाह्रै महिना सुरक्षाकर्मी'",
+      "url": "https://deshsanchar.com/2018/01/07/9972"
+    },
+    {
+      "row_id": "gran-0002",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "देशमा पुनर्निर्माण मन्त्रालयको खाँचो छ- धुर्मुस",
+      "url": "https://deshsanchar.com/2018/04/25/47076"
+    },
+    {
+      "row_id": "gran-0005",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "१६ मिनेट लामो भाषणमा ओलीले ल्याए समृद्ध क्षेत्रको अवधारणा",
+      "url": "https://deshsanchar.com/2018/08/30/93112"
+    },
+    {
+      "row_id": "gran-0007",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "सडकमा खचाखच कार्यकर्ता उतारेका प्रम ओलीले भनेः कोरोनाबाट बच्न सामाजिक दूरी कायम गरौँ",
+      "url": "https://deshsanchar.com/2020/07/10/382000"
+    },
+    {
+      "row_id": "gran-0008",
+      "truth": "roundup",
+      "predicted": "single",
+      "title": "विपत्तिको सामना गर्न पूर्व तयारी आवश्यक: गृहमन्त्री थापा",
+      "url": "https://deshsanchar.com/2021/01/15/462705"
+    },
+    {
+      "row_id": "gran-0009",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "देशभर वर्षाको सम्भावना, सतर्कता अपनाउन अपील",
+      "url": "https://deshsanchar.com/2021/06/16/522055"
+    },
+    {
+      "row_id": "gran-0010",
+      "truth": "single",
+      "predicted": "multi",
+      "title": "पहिराेमा पुरिएका दुईजनाको जीवितै उद्धार",
+      "url": "https://deshsanchar.com/2021/07/02/527837"
+    },
+    {
+      "row_id": "gran-0012",
+      "truth": "not_applicable",
+      "predicted": "multi",
+      "title": "विपदबाट हुने क्षति न्यूनीकरण गर्न यसरी हुँदैछ तयारी",
+      "url": "https://deshsanchar.com/2022/02/28/618894"
+    },
+    {
+      "row_id": "gran-0014",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "रेस्मिका हत्या प्रकरण : दोषीलाई कारबाहीको माग गर्दै ज्ञापनपत्र - कान्तिपुर",
+      "url": "https://ekantipur.com/koshi-pradesh/2026/03/25/resmika-murder-case-memorandum-demanding-action-against-the-culprits-54-36.html"
+    },
+    {
+      "row_id": "gran-0015",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "कांग्रेस असन्तुष्ट पक्षको राष्ट्रिय भेला नरोकिने, देउवाले सम्बोधन गर्ने - कान्तिपुर",
+      "url": "https://ekantipur.com/politics/2026/08/07/deuba-to-address-national-gathering-of-disgruntled-congress-factions-not-to-be-stopped-04-38.html"
+    },
+    {
+      "row_id": "gran-0018",
+      "truth": "multi",
+      "predicted": "roundup",
+      "title": "Floods, landslides obstruct five major highways – Nepal Press",
+      "url": "https://english.nepalpress.com/2026/08/04/floods-landslides-obstruct-five-major-highways"
+    },
+    {
+      "row_id": "gran-0023",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "Over 2 million citizens, 450,000 households likely to be affected by disasters this monsoon - OnlineKhabar Eng",
+      "url": "https://english.onlinekhabar.com/over-2-million-citizens-450000-households-likely-to-be-affected-by-disasters-this-monsoon.html"
+    },
+    {
+      "row_id": "gran-0024",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "West Asia conflict puts Nepal’s remittance inflows at risk, raises economic concerns",
+      "url": "https://kathmandupost.com/money/2026/03/31/west-asia-conflict-puts-nepal-s-remittance-inflows-at-risk-raises-economic-concerns"
+    },
+    {
+      "row_id": "gran-0025",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "Insurance push brings new hope to disaster-hit Bajhang farmers",
+      "url": "https://kathmandupost.com/money/2026/04/21/insurance-push-brings-new-hope-to-disaster-hit-bajhang-farmers"
+    },
+    {
+      "row_id": "gran-0027",
+      "truth": "single",
+      "predicted": "roundup",
+      "title": "19 dead bodies recovered from Lidi Landslide so far - myRepublica - The New York Times Partner, Latest news of",
+      "url": "https://myrepublica.nagariknetwork.com/news/19-dead-bodies-recovered-from-lidi-landslide-so-far"
+    },
+    {
+      "row_id": "gran-0029",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "Chure at high risk of landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, ",
+      "url": "https://myrepublica.nagariknetwork.com/news/chure-at-high-risk-of-landslides"
+    },
+    {
+      "row_id": "gran-0031",
+      "truth": "multi",
+      "predicted": "roundup",
+      "title": "Flood, landslide in Ramechhap kills 2, four still missing - myRepublica - The New York Times Partner, Latest n",
+      "url": "https://myrepublica.nagariknetwork.com/news/flood-landslide-in-ramechhap-kills-2-four-still-missing"
+    },
+    {
+      "row_id": "gran-0036",
+      "truth": "multi",
+      "predicted": "roundup",
+      "title": "Landslide displaced in Gulmi await relief - myRepublica - The New York Times Partner, Latest news of Nepal in ",
+      "url": "https://myrepublica.nagariknetwork.com/news/landslide-displaced-in-gulmi-await-relief"
+    },
+    {
+      "row_id": "gran-0041",
+      "truth": "multi",
+      "predicted": "roundup",
+      "title": "Landslides triggered by rainfall disrupt vehicular movement across the country - myRepublica - The New York Ti",
+      "url": "https://myrepublica.nagariknetwork.com/news/landslides-triggered-by-rainfall-disrupt-vehicular-movement-across-the-country"
+    },
+    {
+      "row_id": "gran-0042",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "One more person goes missing in Taplejung landslide, two others rescued - myRepublica - The New York Times Par",
+      "url": "https://myrepublica.nagariknetwork.com/news/one-more-person-goes-missing-in-taplejung-landslide-two-others-rescued"
+    },
+    {
+      "row_id": "gran-0048",
+      "truth": "single",
+      "predicted": "roundup",
+      "title": "कुलो थुनिएर पहिरो खस्दा चार घाइते, तीन जना गम्भीर | Nagarik News",
+      "url": "https://nagariknews.nagariknetwork.com/others/1481258-1751425599.html"
+    },
+    {
+      "row_id": "gran-0052",
+      "truth": "single",
+      "predicted": "roundup",
+      "title": "पहिरो गएपछि हेटौँडा–कुलेखानी हुँदै काठमाडौँ जाने सडक अवरुद्ध | Nagarik News",
+      "url": "https://nagariknews.nagariknetwork.com/social-affairs/108748-1475380500.html"
+    },
+    {
+      "row_id": "gran-0058",
+      "truth": "not_applicable",
+      "predicted": "multi",
+      "title": "स्थानीयले पहिरो पन्छाए, नगरपालिकाले डोजर ! | Nagarik News",
+      "url": "https://nagariknews.nagariknetwork.com/social-affairs/clashes-between-municipality-and-locals-over-nilbarahi-development-controversy-flares-up-after-dozer-control-55-34.html"
+    },
+    {
+      "row_id": "gran-0062",
+      "truth": "single",
+      "predicted": "multi",
+      "title": "बझाङमा पहिरोले घर पुरियो, ४ जना बेपत्ता, ५ जनाको उद्धार – Nepal Press",
+      "url": "https://nepalpress.com/2024/08/19/500832/%E0%A4%AC%E0%A4%9D%E0%A4%BE%E0%A4%99%E0%A4%AE%E0%A4%BE-%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%98%E0%A4%B0-%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%BF%E0%A4%AF%E0%A5%8B"
+    },
+    {
+      "row_id": "gran-0065",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "सडक दुर्घटनाको दीगो नियन्त्रणका लागि प्रधानमन्त्री ओलीलाई ज्ञापनपत्र : RajdhaniDaily.com",
+      "url": "https://rajdhanidaily.com/id/100899"
+    }
+  ]
+}

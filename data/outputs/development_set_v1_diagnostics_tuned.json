@@ -1,0 +1,228 @@
+{
+  "design": "development_only_not_for_evaluation",
+  "warning": "Use these sample diagnostics to locate error patterns only. Do not report them as held-out or population performance.",
+  "scoring_definition": {
+    "truth": "is_landslide_event=yes AND in_nepal=yes AND hazard_type in {landslide,debris_flow,rockfall} AND event_granularity=single",
+    "prediction": "retained Class 1/2 AND typed as headline landslide; canonical road_obstruction, aggregate, and other-hazard types excluded"
+  },
+  "rows": 300,
+  "scored_rows": 297,
+  "undecidable_rows": 3,
+  "sample_confusion": {
+    "tp": 77,
+    "fp": 22,
+    "fn": 10,
+    "tn": 188
+  },
+  "sample_diagnostic_metrics": {
+    "precision": 0.7777777777777778,
+    "recall": 0.8850574712643678,
+    "f1": 0.8279569892473118
+  },
+  "error_counts": {
+    "false_positive": 22,
+    "false_negative": 10
+  },
+  "false_positive_patterns": {
+    "pipeline_decision": {
+      "kept_class2": 12,
+      "kept_class1": 10
+    },
+    "stratum": {
+      "kept_class2|np": 6,
+      "kept_class1|np": 4,
+      "dropped_specificity|np": 4,
+      "dropped_scope|en": 3,
+      "kept_class1|en": 2,
+      "kept_class2|en": 2,
+      "dropped_specificity|en": 1
+    },
+    "route_lang": {
+      "np": 14,
+      "en": 8
+    },
+    "source": {
+      "setopati": 12,
+      "myrepublica": 4,
+      "himalayan-times": 4,
+      "online-khabar": 1,
+      "ratopati": 1
+    },
+    "hazard_type_true": {
+      "landslide": 22
+    },
+    "event_granularity_true": {
+      "multi": 21,
+      "roundup": 1
+    },
+    "article_role_true": {
+      "first_report": 19,
+      "follow_up": 2,
+      "retrospective": 1
+    },
+    "specificity_reason": {
+      "event_specific": 21,
+      "event_specific_title": 1
+    },
+    "scope_reason": {
+      "district_match": 17,
+      "nepal_keyword": 4,
+      "np_language_high": 1
+    },
+    "event_type_pred": {
+      "landslide": 15,
+      "road_obstruction": 7
+    },
+    "hazard_type_pred": {
+      "landslide": 22
+    },
+    "typing_reason_pred": {
+      "settlement_impact_language": 8,
+      "casualties_recorded": 5,
+      "road_obstruction_title": 4,
+      "road_obstruction_body": 3,
+      "human_impact_language": 1,
+      "default_landslide": 1
+    }
+  },
+  "false_negative_patterns": {
+    "pipeline_decision": {
+      "dropped_specificity": 9,
+      "dropped_scope": 1
+    },
+    "stratum": {
+      "dropped_specificity|np": 3,
+      "kept_class2|en": 2,
+      "dropped_scope|en": 2,
+      "kept_class1|en": 2,
+      "dropped_specificity|en": 1
+    },
+    "route_lang": {
+      "en": 7,
+      "np": 3
+    },
+    "source": {
+      "myrepublica": 5,
+      "himalayan-times": 2,
+      "setopati": 2,
+      "online-khabar": 1
+    },
+    "hazard_type_true": {
+      "landslide": 10
+    },
+    "event_granularity_true": {
+      "single": 10
+    },
+    "article_role_true": {
+      "first_report": 7,
+      "follow_up": 3
+    },
+    "specificity_reason": {
+      "multi_event": 4,
+      "risk_only": 3,
+      "roundup": 1,
+      "followup": 1,
+      "context_only": 1
+    },
+    "scope_reason": {
+      "district_match": 6,
+      "nepal_keyword": 2,
+      "no_location_signal": 1,
+      "np_language_high": 1
+    },
+    "event_type_pred": {
+      "landslide": 7,
+      "road_obstruction": 2,
+      "aggregate_report": 1
+    },
+    "hazard_type_pred": {
+      "landslide": 9,
+      "debris_flow": 1
+    },
+    "typing_reason_pred": {
+      "human_impact_language": 4,
+      "road_obstruction_title": 2,
+      "casualties_recorded": 1,
+      "default_landslide": 1,
+      "settlement_impact_language": 1,
+      "aggregate_report": 1
+    }
+  },
+  "extraction_diagnostics": {
+    "district": {
+      "truth_available_n": 80,
+      "predicted_nonblank_n": 72,
+      "exact_n": 62,
+      "coverage": 0.9,
+      "exact_accuracy": 0.775
+    },
+    "event_date": {
+      "truth_available_n": 12,
+      "predicted_nonblank_n": 11,
+      "exact_n": 9,
+      "coverage": 0.9166666666666666,
+      "exact_accuracy": 0.75
+    }
+  },
+  "per_stratum": {
+    "dropped_other|np": {
+      "tn": 10
+    },
+    "dropped_scope|en": {
+      "tn": 23,
+      "tp": 1,
+      "fn": 2,
+      "fp": 3,
+      "undecidable": 1
+    },
+    "dropped_scope|np": {
+      "tn": 26,
+      "tp": 4
+    },
+    "dropped_specificity|en": {
+      "tn": 51,
+      "tp": 6,
+      "undecidable": 1,
+      "fn": 1,
+      "fp": 1
+    },
+    "dropped_specificity|np": {
+      "tn": 42,
+      "tp": 11,
+      "fn": 3,
+      "fp": 4
+    },
+    "kept_class1|en": {
+      "tp": 16,
+      "fp": 2,
+      "tn": 10,
+      "fn": 2
+    },
+    "kept_class1|np": {
+      "tn": 11,
+      "tp": 15,
+      "fp": 4
+    },
+    "kept_class2|en": {
+      "tp": 12,
+      "undecidable": 1,
+      "fn": 2,
+      "tn": 8,
+      "fp": 2
+    },
+    "kept_class2|np": {
+      "fp": 6,
+      "tn": 7,
+      "tp": 12
+    }
+  },
+  "created_at": "2026-08-09T18:03:44Z",
+  "version": "v1",
+  "comparison": "post_tuning_development_snapshot",
+  "labels_file": "development_set_v1_labels_final.csv",
+  "labels_sha256": "10c52ee53e90c53ca71513e603b4ba527b15902ef01798d353e46188fd2fb49b",
+  "predictions_file": "development_set_v1_predictions_tuned.csv",
+  "predictions_sha256": "918860b753f9ae1f432152793c0dfd227e5f61d92fe5e87da4b126f48ccff24d",
+  "errors_file": "development_set_v1_errors_tuned.csv",
+  "errors_sha256": "b9db74f14ad28d89a1e222f4293be119af5b61d4602527cc0211f4b090c8f674"
+}

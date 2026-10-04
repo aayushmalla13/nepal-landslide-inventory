@@ -1,0 +1,475 @@
+queue_id,row_id,event_id,recommended_actions,claimed_event_date,claimed_district,claimed_event_type,claimed_hazard_type,claimed_deaths,suggested_event_type,suggested_hazard_type,suggested_deaths,audit_notes,representative_title,representative_url,article_evidence,final_record_action,final_event_type,final_hazard_type,final_deaths,reviewed_by,review_notes
+V14R-002,V13F-003,event_bd181d244c507a81,correct_deaths,2022-07-01,Panchthar,landslide,landslide,,,,1,The four reports describe the same Friday-night Phalelung-7 failure; the latest article in the pack confirms one body recovered while two people remained missing.,पाँचथरमा पहिराले घर बगाउँदा तीन जना बेपत्ता,https://deshsanchar.com/2022/07/02/673937,"ARTICLE 1
+SOURCE: deshsanchar
+PUBLISHED: 2022-07-02
+TITLE: पाँचथरमा पहिराले घर बगाउँदा तीन जना बेपत्ता
+URL: https://deshsanchar.com/2022/07/02/673937
+TEXT:
+काठमाडाैँ- अविरल वर्षाका कारण पाँचथरमा पहिराेले एक घर बगाउँदा तीन जना बेपत्ता भएका छन्।
+
+जिल्लाकाे फालेलुङ गाउँपालिका-७ विहीदिनका रूपलाल मगरको घर पहिराले बगाउँदा ४२ वर्षीय रूपलालसहित तीन जना बेपत्ता भएका हुन्।
+
+बेपत्ता हुनेमा उनकी श्रीमती ३८ वर्षीया गोमा र १९ वर्षीया भतिजी एलिसा छन्।
+
+रूपलालका काका ७१ वर्षीय दलप्रसाद मगर भने पहिरोमा उछिट्टिएर बाँच्न सफल भएका छन्।
+
+शुक्रबार राति पहिरो झरेर ढुङ्गा, माटोले बनेको रूपलालको घर तथा गोठ बगाएको जिल्ला प्रहरी कार्यालय पाँचथरले जनाएको छ।
+
+घटनास्थलबाट करिब ५०० मिटरको दूरीमा रहेको प्रहरीचौकी सिदिनको टोली घटनाको जानकारी पाउनासाथ घटनास्थल पुगेको थियो।
+
+उद्धारका नेपाल प्रहरी, सशस्त्र प्रहरी र नेपाली सेनाको टोली घटनास्थलतर्फ गएको जिल्ला प्रहरी कार्यालय पाँचथरका प्रमुख प्रहरी नायब उपरीक्षक राकेश थापाले जानकारी दिए।
+
+तर, बिहानसम्म बेपत्ता फेला नपरेको प्रहरीले जनाएकाे छ।
+
+सम्पादक: युवराज घिमिरे दर्ता नम्बर: ५४४/०७४–७५ ललितपुर महानगरपालिका– २, बखुण्डोल ०१-५४२३४१६ [email protected] , [email protected] विज्ञापनका लागि [email protected]
+
+====================
+
+ARTICLE 2
+SOURCE: nepalpress
+PUBLISHED: 2022-07-02
+TITLE: पाँचथरमा पहिरोले घर बगाउँदा तीन जना बेपत्ता – Nepal Press
+URL: https://nepalpress.com/2022/07/02/208252/%E0%A4%AA%E0%A4%BE%E0%A4%81%E0%A4%9A%E0%A4%A5%E0%A4%B0%E0%A4%AE%E0%A4%BE-%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%98%E0%A4%B0-%E0%A4%AC%E0%A4%97%E0%A4%BE%E0%A4%89
+TEXT:
+पाँचथर । अविरल वर्षासँगै पहिरो गएर पाँचथरमा एक घर बगाउँदा तीन जना बेपत्ता भएका छन् ।
+
+पाँचथरको फालेलुङ गाउँपालिका–७ विहीदिनका रुपलाल मगरको घर पहिराले बगाउँदा ४२ वर्षीय रुपलालसहित तीन जना बेपत्ता भएका हुन् ।बेपत्ता हुनेमा उनकी श्रीमती ३८ वर्षीया गोमा र १९ वर्षीया भतिजी एलिसा छन् ।
+
+रुपलालका काका ७१ वर्षीय दलप्रसाद मगर भने पहिरोमा उछिट्टिएर बाँच्न सफल भएका छन् । शुक्रबार राति पहिरो झरेर ढुङ्गा, माटोले बनेको रुपलालको घर तथा गोठ बगाएको जिल्ला प्रहरी कार्यालय पाँचथरले जनाएको छ ।
+
+घटनास्थलबाट करिब ५०० मिटरको दूरीमा रहेको प्रहरीचौकी सिदिनको टोली घटनाको जानकारी पाउनासाथ घटनास्थल पुगेको थियो ।
+
+उद्धारका नेपाल प्रहरी, सशस्त्र प्रहरी र नेपाली सेनाको टोली घटनास्थलतर्फ गएको जिल्ला प्रहरी कार्यालय पाँचथरका प्रमुख प्रहरी नायब उपरीक्षक राकेश थापाले जानकारी दिए। तर, बिहानसम्म बेपत्ता फेला नपरेको प्रनाउ थापाले जानकारी दिए ।
+
+====================
+
+ARTICLE 3
+SOURCE: setopati
+PUBLISHED: 2022-07-02
+TITLE: पाँचथरमा पहिरोले घर बगाउँदा तीन जना बेपत्ता
+URL: https://www.setopati.com/social/275720
+TEXT:
+पाँचथरको फालेलुङ गाउँपालिका वडा नम्बर ७, बिदिनमा शुक्रबार राति साढे १० बजे पहिरोले घर र गोठ पुर्दा एकै परिवारका ३ जना बेपत्ता भएका छन्। जिल्ला प्रहरी कार्यालय पाँचथरकाअनुसार स्थानीय ७१ वर्षिय दल प्रसाद मगरको घर पहिरोले बगाएको हो । मगरलाई तत्काल प्रहरीले सकुशल उद्धार गरेको जिल्ला प्रहरी कार्यालय पाँचथरले बताएको छ। घटनास्थलबाट करिब ५०० मिटरको दूरीमा रहेको प्रहरीचौकी सिदिनको टोली घटनाको जानकारी पाउनासाथ घटनास्थल पुगेको जिल्ला प्रहरी कार्यालय पाँचथरका प्रमुख नायव उपरीक्षक राकेश थापाले जानकारी दिए। पहिरोले घर बगाउँदा उनका ४२ वर्षिय छोरा रूपलाल मगर, बुहारी ३८ वर्षिय गोमा मगर र उनको १९ वर्षिय भतिजी एलिसा मगर बेपत्ता भएका छन्। बेपत्ताहरुको खोजी तथा उद्धार हिजो राति देखिनै भएको हो तर, बेपत्ताहरुलाई फेला पार्न नसकिएको प्रहरीले जानकारी दिएको छ। बेपत्ताहरुको खोजी गर्न नेपाल प्रहरी, सशस्त्र प्रहरी र नेपाली सेनाको थप टोली घटनास्थलतर्फ पठाइएको जिल्ला प्रशासन कार्यालय पाँचथरले जनाएको छ । यस अघि ताप्लेजुङ्गमा पहिरोले पुरेर एकै घरका दुई जनाको मृत्यु भएको थियो।
+
+जिल्ला प्रहरी कार्यालय पाँचथरकाअनुसार स्थानीय ७१ वर्षिय दल प्रसाद मगरको घर पहिरोले बगाएको हो । मगरलाई तत्काल प्रहरीले सकुशल उद्धार गरेको जिल्ला प्रहरी कार्यालय पाँचथरले बताएको छ।
+
+घटनास्थलबाट करिब ५०० मिटरको दूरीमा रहेको प्रहरीचौकी सिदिनको टोली घटनाको जानकारी पाउनासाथ घटनास्थल पुगेको जिल्ला प्रहरी कार्यालय पाँचथरका प्रमुख नायव उपरीक्षक राकेश थापाले जानकारी दिए।
+
+पहिरोले घर बगाउँदा उनका ४२ वर्षिय छोरा रूपलाल मगर, बुहारी ३८ वर्षिय गोमा मगर र उनको १९ वर्षिय भतिजी एलिसा मगर बेपत्ता भएका छन्।
+
+बेपत्ताहरुको खोजी तथा उद्धार हिजो राति देखिनै भएको हो तर, बेपत्ताहरुलाई फेला पार्न नसकिएको प्रहरीले जानकारी दिएको छ।
+
+बेपत्ताहरुको खोजी गर्न नेपाल प्रहरी, सशस्त्र प्रहरी र नेपाली सेनाको थप टोली घटनास्थलतर्फ पठाइएको जिल्ला प्रशासन कार्यालय पाँचथरले जनाएको छ ।
+
+यस अघि ताप्लेजुङ्गमा पहिरोले पुरेर एकै घरका दुई जनाको मृत्यु भएको थियो।
+
+====================
+
+ARTICLE 4
+SOURCE: ujyaalo
+PUBLISHED: 2022-07-02
+TITLE: पाँचथर पहिरो : बेपत्ता तीन जनामध्ये एक जनाको शव भेटियाे, दुई जनाको खोजी चल्दै
+URL: https://www.ujyaaloonline.com/detail/72130
+TEXT:
+काठमाण्डाै - पाँचथरको फालेलुङ गाउँपालिका–७ विहीदिनमा पहिरोमा बेपत्ता भएका तीन जनामध्ये एक जनाको शव भेटिएको छ ।
+
+पहिरोमा बेपत्ता भएका रुपलाल मगरको शव भेटिएको जिल्ला प्रहरी कार्यालय पाँचथरले जनाएको छ ।
+
+बेपत्ता उहाँकी श्रीमती ३८ वर्षीया गोमा र १९ वर्षीया भतिजी एलिसाको खोजी भइरहेको छ ।
+
+गएराति खसेको पहिरोले फालेलुङ गाउँपालिका–७ विहीदिनका रुपलालको घर बगाएको थियो ।
+
+घर बगाउँदा रुपलालका काका ७१ वर्षीय दलप्रसाद मगर भने उछिट्टिएर बाँच्न सफल हुनुभएको थियो । पहिरोले ढुङ्गा, माटोले बनेको घर तथा गोठ बगाएको जिल्ला प्रहरी कार्यालय पाँचथरले जनाएको छ ।
+
+यसअघिको समाचारमा अन्यथा हुन गएकोमा सच्चाएका छौँ ।",,,,,,
+V14R-006,V13F-011,event_5a9249f78eee18c1,correct_hazard_type,2024-07-06,Eastern Rukum,road_obstruction,debris_flow,,,landslide,,The Sisne-6 Raniko incident is explicitly a landslide blocking the Mid-Hill Highway; the mud/debris wording in the article applies to a different Salyan failure.,"अविरल वर्षाका कारण लुम्बिनीमा ठाउँ ठाउँमा पहिरो, सडक अवरूद्ध",https://www.setopati.com/social/333612,"ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2024-07-06
+TITLE: अविरल वर्षाका कारण लुम्बिनीमा ठाउँ ठाउँमा पहिरो, सडक अवरूद्ध
+URL: https://www.setopati.com/social/333612
+TEXT:
+अविरल वर्षाका कारण पहिरो जाँदा लुम्बिनीका विभिन्न सडक अवरूद्ध भएको छ। सल्यानको कपुरकोट नजिकै पहिरो जाँदा राप्ती राजमार्ग अवरुद्ध भएको जिल्ला प्रहरी कार्यालय सल्यानका प्रवक्ता प्रहरी निरीक्षक भवानीप्रसाद धमलाले बताए। पानी परिरहेको तथा माथिबाट लेदोमाटो खसिरहेकाले पहिरो पन्छाउन कठिन भएको उनले जानकारी दिए। जिल्ला प्रहरी कार्यालय रुकुमपूर्वका अनुसार सिस्ने गाउँपालिका-६ रानीकोटमा पनि पहिरो खस्दा मध्य पहाडी लोकमार्गको दाङ सडक अवरूद्ध भएको छ। त्यस्तै दाङको तुलसीपुर – घोराही सडक खण्डको हापुर खोलामा आएको बाढीका कारण साना सवारी साधन संचालनमा रोक लगाइएको छ। उक्त मोटरसाइकल लगायत साना सवारी संचालनमा रोक लगाइएको इलाका प्रहरी कार्यालय तुलसीपुरका प्रमुख डिएसपी ठाकुरप्रसाद पोखरेलले बताए। सोही सडक खण्ड अन्तरगत घोराहीको सेवार खोलामा निर्माणाधीन पुलको डाइभर्सनका लागि राखिएका ह्युमपाइपहरु बढीले बगाएको छ। बाढीले ह्युमपाइप बगाइदिएपछि बाइपास हुँदै सवारी साधन सञ्चालन गरिएको छ। जिल्ला प्रहरी प्रमुख एसपी रामबहादुर केसीका अनुसार भाइरल रोड हुँदै अधिकांश सवारीसाधन संचालनमा आएका छन्। यो खोलामा पक्की पुल निर्माणको काम यही वर्षदेखि सुरु गरिएको भएपनि पिलर ठड्याउने काम मात्रै भएको छ । वर्षाका कारण जिल्लाका खोला तथा नदीहरुमा पानीको वहाब ह्वात्तै बढेको छ । राप्ती नदीको तटीय क्षेत्र र बबइ नदी क्षेत्रका सर्वसाधारणलाइ सतर्क रहन आग्रह गरिएको छ । प्यूठानका प्रहरी प्रमुख डिएसपी इश्वर थापाले दाङको भालुवाङ –प्यूठान सडक खण्ड अन्तरगत माण्डबी गाउँपालिकाको गर्जेनीमा झरेको पहिरोका कारण सडक खण्ड अवरुद्ध भएको छ। त्यस्तै प्यूठानदेखि दाङको बंगलाचुली सडक खण्डको ताछ्ने भिर नजिकै पनि पहिरोका कारण उक्त सडक खण्ड अवरुद्ध भएको डिएसपी थापाले बताए। दुवै सडक खण्ड खुलाउने प्रयास जारी रहेको डिएसपी थापाले बताए । बाँकेका प्रहरी प्रमुख एसपी तुलबहादुर कार्कीले राप्ती नदी लगायतमा पानीको वहाब ह्वात्तै बढेको हुँदा सा‍वधानी अपनाउन सचेत गरिएको बताए।
+
+सल्यानको कपुरकोट नजिकै पहिरो जाँदा राप्ती राजमार्ग अवरुद्ध भएको जिल्ला प्रहरी कार्यालय सल्यानका प्रवक्ता प्रहरी निरीक्षक भवानीप्रसाद धमलाले बताए।
+
+पानी परिरहेको तथा माथिबाट लेदोमाटो खसिरहेकाले पहिरो पन्छाउन कठिन भएको उनले जानकारी दिए।
+
+जिल्ला प्रहरी कार्यालय रुकुमपूर्वका अनुसार सिस्ने गाउँपालिका-६ रानीकोटमा पनि पहिरो खस्दा मध्य पहाडी लोकमार्गको दाङ सडक अवरूद्ध भएको छ।
+
+त्यस्तै दाङको तुलसीपुर – घोराही सडक खण्डको हापुर खोलामा आएको बाढीका कारण साना सवारी साधन संचालनमा रोक लगाइएको छ।
+
+उक्त मोटरसाइकल लगायत साना सवारी संचालनमा रोक लगाइएको इलाका प्रहरी कार्यालय तुलसीपुरका प्रमुख डिएसपी ठाकुरप्रसाद पोखरेलले बताए।
+
+सोही सडक खण्ड अन्तरगत घोराहीको सेवार खोलामा निर्माणाधीन पुलको डाइभर्सनका लागि राखिएका ह्युमपाइपहरु बढीले बगाएको छ।
+
+बाढीले ह्युमपाइप बगाइदिएपछि बाइपास हुँदै सवारी साधन सञ्चालन गरिएको छ।
+
+जिल्ला प्रहरी प्रमुख एसपी रामबहादुर केसीका अनुसार भाइरल रोड हुँदै अधिकांश सवारीसाधन संचालनमा आएका छन्। यो खोलामा पक्की पुल निर्माणको काम यही वर्षदेखि सुरु गरिएको भएपनि पिलर ठड्याउने काम मात्रै भएको छ ।
+
+वर्षाका कारण जिल्लाका खोला तथा नदीहरुमा पानीको वहाब ह्वात्तै बढेको छ । राप्ती नदीको तटीय क्षेत्र र बबइ नदी क्षेत्रका सर्वसाधारणलाइ सतर्क रहन आग्रह गरिएको छ ।
+
+प्यूठानका प्रहरी प्रमुख डिएसपी इश्वर थापाले दाङको भालुवाङ –प्यूठान सडक खण्ड अन्तरगत माण्डबी गाउँपालिकाको गर्जेनीमा झरेको पहिरोका कारण सडक खण्ड अवरुद्ध भएको छ।
+
+त्यस्तै प्यूठानदेखि दाङको बंगलाचुली सडक खण्डको ताछ्ने भिर नजिकै पनि पहिरोका कारण उक्त सडक खण्ड अवरुद्ध भएको डिएसपी थापाले बताए। दुवै सडक खण्ड खुलाउने प्रयास जारी रहेको डिएसपी थापाले बताए ।
+
+बाँकेका प्रहरी प्रमुख एसपी तुलबहादुर कार्कीले राप्ती नदी लगायतमा पानीको वहाब ह्वात्तै बढेको हुँदा सा‍वधानी अपनाउन सचेत गरिएको बताए।",,,,,,
+V14R-011,V13F-022,event_d24bd0b4ad0d4e88,correct_event_type;correct_deaths,2017-06-30,Chitwan,landslide,landslide,,road_obstruction,,1,The Kalikhola failure blocked the Narayangadh-Muglin road for roughly 30 hours; the report also states one person died in the landslide.,"नारायणगढ–मुग्लिन सडकको पहिरो, यात्रुको कन्तबिजोग | Nagarik News",https://nagariknews.nagariknetwork.com/social-affairs/125110-1498907760.html,"ARTICLE 1
+SOURCE: nagarik
+PUBLISHED: 2017-07-01
+TITLE: नारायणगढ–मुग्लिन सडकको पहिरो, यात्रुको कन्तबिजोग | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/125110-1498907760.html
+TEXT:
+नागरिक अभिलेखालय
+
+रत्ननगर – पोखराबाट चितवनको माडीमा दिदी पुर्‍याउनका लागि ज्योति रानाभाट मुग्लिन आइपुग्दा शुक्रबार बिहान खसेको पहिरोले उनी त्यही रोकिइन्।
+
+सानी नानीसहितको दिदी र उनी सडक अवरुद्ध भएपछि अलपत्र परे। घरी सिटमा त घरी सडकमा गरेर उनीहरुले समय बिताइरहेका छन्। बच्चाको पीडा उस्तै थियो, “निद्रा नै भएन, बिरामी परिएला जस्तो भो”– ज्योतिले भनिन्, “न फर्कौँ, न जाउँ भने भनेजस्तो भाछ ।” अरु यात्रुको पनि हरिविजोग भएको उनको भनाइ छ ।
+
+पैसाले धान्न नसक्ने अवस्था भएको छ । अझ दुई, तीन घण्टामा बाटो नखुले पुनः पोखरा फर्कने उनले बताइन् । कालिखोलाको पहिरोले चितवनको नारायणगढ–मुग्लिन सडक थुनिएको झन्डै तीस घण्टा हुन लाग्यो । जति जाम लम्बिदै छ, उति यात्रुहरु प्रभावित हुँदै छन् । पर्याप्त पैसा नभएकाको राती गाडी मै बास प¥यो । भोकभोकै सुत्ने अवस्था आयो । कोही भने चाउचाउ चिउराको भरमा बसे ।
+
+सडक अवरुद्ध भएपछि महिला र बालबालिका बढी प्रभावित भएका छन् । चितवनकी पत्रकार इन्दिरा दाहाल पनि सोही पहिरोमा रोकिइन् । उनी एउटा संस्थाले दिएको अलैँचीको विरुवा चितवनको विकट काउलेमा वितरण गरेर फर्कदा जाममा परेकी हुन्। “शुक्रबार ८ बजे पहिरो खस्यो, अनि फसियो”– उनले भनिन् – “राति यात्रुको अवस्था दर्दनाक थियो।”
+
+दाहालका अनुसार बढी महिला र बालबालिका प्रभावित थिए । पैसा हुनेहरु मुग्लिनका होटलमा बस्न आए । नहुनेहरु चाउचाउ चिउराको भरमा गाडीमै रात बिताए । कतिपय सडकमै अलपत्र देखिन्थ्ये । रातभर बालबालिकाहरु चिच्चयाइरहेका थिए । यात्रुका अनुहारमा पिडा छचल्किएको थियो ।
+
+मुग्लिनका सबै होटल भरिएपछि कतिपय यात्रु त्यसै सडकमा फर्किए । जामका कारण कतिपय जहाँबाट आएका उतै फर्किए भने पैसा हुनेहरु नौबिसे हुँदै हेटौँडातर्फ लागे । पश्चिम जानेहरु पोखराहुँदै बुटबलतर्फ लागे । नहुनेहरु जतिबेला बाटो खुल्छ उतिबेलै जाने भन्दै कुरिरहेका छन् । अझ वीच बाटोमा अड्किएका यात्रु नजिक पसल नहुँदा किनेर खाने अवस्था पनि नभएको प्रत्यक्षदर्शी बताउँछन् ।
+
+तीनवटा बिहेका लागि हिँडेका गाडीमध्ये एउटा बिहे स्थगितै गरेर फर्किए । एउटा बिहेको दुलाहा र केही जन्ती हिँडेर माथिबाट पहिरो काट्ने भन्दै गएको पत्रकार दाहालले बताइन् ।
+
+अर्को बिहेका जन्ती भने बैकल्पिक बाटो खोज्दै फर्किए । अर्का पत्रकार राजु चौधरी पनि सोही जाममा अड्किएका छन्। काठमाडौँबाट चितवन आउँदा मुग्लिन नजिकै कालिखोलामा पहिरो गएकाले शुक्रबार देखिनै उनीपनि रोकिएका हुन्। पहिरो भन्दामाथिबाट छिचोलेर जाने प्रयास पनि उनको असफल भयो । दैनिक १० हजार गाडी हिँड्ने उक्त सडकमा अहिले हजारौँ यात्रु अलपत्र छन् ।
+
+“कतिपयले पहिरोमाथि डाँडाबाट बाटो काटे, कतिले पहिरो बाटै ज्यान जोखिममा राखेर बाटो काटे”–पत्रकार चौधरीले भने, “पहिरोमा एक जनाको ज्यान गएपछि अहिले प्रहरीले हिँड्न दिएको छैन ।”
+
+शुक्रबार बिहान सवा ८ बजे खसेको पहिरो एकपछि अर्को थपिएकाले बाटो खुलाउन सकिएको छैन । सक्ने गाडी जति फर्किएका छन् भने बीचमा अड्किएका सवारीको अहिलेपनि ठूलो जाम छ । १०÷१२ किलोमिटरसम्म दुईतर्फ नै गाडीको जाम रहेको प्रहरीले जनाएको छ ।
+
+चितवनबाट जाने गाडीलाई जामपछि भरतपुर आसपासमै रोकेको प्रहरी उपरीक्षक दीपक थापा बताउँछन् । कालिखोलामा २०० मिटर माथिबाट खसेको पहिरो करिब ५० मिटर लम्बाइको छ । चितवनका ट्रफिक प्रहरी प्रमुख तथा प्रहरी निरीक्षक सन्तोष पन्त राति जोखिम भएकाले बिहान पाँच बजेबाट पुनः पहिरो पन्छाउन थालिएको बताउँछन् । अझै सडक खुल्न केही घण्टा लाग्ने उनले बताए । अहिलेको पहिरो यो वर्षकै ठूलो रहेको जनाइएको छ । नारायण ढुङ्गाना /रासस
+
+प्रकाशित: १७ असार २०७४ ११:१६ शनिबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.",,,,,,
+V14R-020,V13F-038,event_c8cb48ae7d7ad115,correct_deaths,2020-08-19,Bajhang,landslide,landslide,,,,2,The article explicitly reports two children killed in the Bungal-5 Midigaun landslide.,Two kids killed in Bajhang landslide - OnlineKhabar English News,https://english.onlinekhabar.com/two-kids-killed-in-bajhang-landslide.html,"ARTICLE 1
+SOURCE: onlinekhabar-en
+PUBLISHED: 2020-08-19
+TITLE: Two kids killed in Bajhang landslide - OnlineKhabar English News
+URL: https://english.onlinekhabar.com/two-kids-killed-in-bajhang-landslide.html
+TEXT:
+Two children, aged 12 and 5, have died after being buried in a landslide in Midigaun, Bungal municipality-5 of Bajhang, Sudurpaschim, on Wednesday.
+
+The victims have been identified as Sachin Tamrakar (12) and Sudeep Okheda (5), informs Chief District Officer Kamal Raj Bhandari. The two boys had died after the landslide buried the house of local Pratap Tamrakar.
+
+Other four persons have sustained injuries in the incident. They have been identified as Pipala Tamrakar (40), Sunita Tamrakar (18), Anil Tamrakar (16), and Santoshi Tamrakar (12), according to Bhandari. They are undergoing treatment at a local health facility.",,,,,,
+V14R-029,V13F-054,event_373fea2f7d144d2e,correct_hazard_type,2026-08-03,Chitwan,road_obstruction,landslide,,,rockfall,,"The Namsi bridge obstruction is described as rocks falling from above, with concern about additional falling rocks; rockfall is the supported hazard mechanism.","नारायणगढ–मुग्लिन सडकको नाम्सी पुलमा पहिरो, यातायात सेवा प्रभावित – Nepal Press",https://nepalpress.com/2026/08/03/750400/landslide-at-namsi-bridge-on-narayangadh-muglin-road-transport-services-affected,"ARTICLE 1
+SOURCE: nepalpress
+PUBLISHED: 2026-08-03
+TITLE: नारायणगढ–मुग्लिन सडकको नाम्सी पुलमा पहिरो, यातायात सेवा प्रभावित – Nepal Press
+URL: https://nepalpress.com/2026/08/03/750400/landslide-at-namsi-bridge-on-narayangadh-muglin-road-transport-services-affected
+TEXT:
+चितवन ।नारायणगढ–मुग्लिन सडकखण्डको नाम्सी नयाँ पुलमा आज बिहान ढुङ्गा खस्दा यातायात सेवा प्रभावित भएको छ ।
+
+हाल सडकमा एकतर्फी मात्र यायातात सेवा सञ्चालित छ ।
+
+जिल्ला ट्राफिक प्रहरी कार्यालयका प्रमुख प्रहरी निरीक्षक अनिल थापाले तत्काल पहिरो पन्छाउने काम सुरु गरिएको जानकारी दिए ।
+
+थप ढुङ्गा नझरे पहिरो पन्छाउन केही समय लाग्ने उनले जानकारी दिए ।
+
+सडक पहिरोका जोखिममा रहेकाले यात्रा गर्दा सावधानीपूर्वक गर्न निरीक्षक थापाले आग्रह गरे ।",,,,,,
+V14R-031,V13F-056,event_9f386d6bcf3bad6a,correct_deaths,2016-07-27,Parbat,landslide,landslide,,,,1,The Parbat road-construction landslide killed one worker and injured others.,"Girl killed, eight injured in Parbat landslide - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica",https://myrepublica.nagariknetwork.com/news/girl-killed-eight-injured-in-parbat-landslide,"ARTICLE 1
+SOURCE: myrepublica
+PUBLISHED: 2016-07-27
+TITLE: Girl killed, eight injured in Parbat landslide - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica
+URL: https://myrepublica.nagariknetwork.com/news/girl-killed-eight-injured-in-parbat-landslide
+TEXT:
+Subscribe Now
+
+PHALEBAS (Parbat), July 27: A girl was killed and eight others were injured after a landslide buried a cotton industry at Majhphant-3 in the district at around 1:00 am on Wednesday. Local resident Ankita Tamang, 12, died on the way to Pokhara for treatment, police said. Police Inspector Dipak Patali said that the injured—Subash Thapa, Krishti Ghale, Sushmita Tamang, Ajaya Tamang, Phul Kumari Tamang, Sabina Ghale, Bijaya Ghale and Prem Tamang—are undergoing treatment at Myagdi District Hospital. The injured and deceased were sleeping inside the building of Dhaulagiri Cotton Industry when the disaster struck, said locals. RSS
+
+FDI commitment reaches nearly Rs 41.79 billion in...
+
+High-Level Commission formed to probe wealth of po...
+
+Nepal records highest LPG imports in three months
+
+Nepali Congress (NC) is preparing to establish a “Leadership Academy” aimed at institutionalising political training within the party and reshaping how future leaders are selected and prep...
+
+National Trading of Nature Corporation?
+
+Rethinking the ‘India First’ Tradition
+
+Open Letter to PM: Resolve Bhutanese Refugee Crisis,...
+
+Smart Technology, Poor Choices: The AI Allocation Pr...
+
+Issuing a notice, the DoTM said that licenses which had been pending for a long time due to printing delays are now being printed and dispatched to the concerned transp...
+
+Issuing a notice, the DoTM said that licenses which had been pending for a long time due to printing delays are now being printed and dispatched to the concerned transp...
+
+Rain interruptions reduced the chase, with UAE set a revised target of 122 runs. They were required to score 78 runs from 10 overs and successfully overhauled the target in 8.5 overs, finishing on 78...
+
+Nepal Republic Media Limited © 2026. All right reserved
+
+Nepal Republic Media Limited © 2024. All right reserved | Privacy Policy | Terms of use
+
+Gain access to up to 10 free articles per month.
+
+Already have an account? Log in",,,,,,
+V14R-032,V13F-060,event_af4a7b87d249799d,correct_event_type,2021-07-13,Achham,landslide,landslide,,road_obstruction,,,The Kirtipur landslide is documented specifically as blocking the Mid-Hill Highway between Achham and Surkhet.,पहिरोले अछाम-सुर्खेत जोड्ने सडक अवरुद्ध,https://www.setopati.com/social/243147,"ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2021-07-14
+TITLE: पहिरोले अछाम-सुर्खेत जोड्ने सडक अवरुद्ध
+URL: https://www.setopati.com/social/243147
+TEXT:
+अछाममा पहिरोले सुर्खेत जोड्ने सडक अवरूद्ध भएको छ। मध्यपहाडी लोकमार्ग अन्तर्गत कमलबजार नगरपालिका कीर्तिपुरमा पहिरो जाँदा सो सडक अवरुद्ध भएको प्रहरीले जनाएको हो। अछामबाट सुर्खेत जाने सडक मंगलबार दिउँसो तीन बजेदेखि अवरुद्ध भएको जिल्ला प्रहरी कार्यालय अछामका सूचना अधिकारी जनक बोहराले जानकारी दिए। उनले लगातार परेको पानीले पहिरो खस्दा सडक अवरुद्ध भएको बताए।अहिले पहिरो हटाउने काम भइरहेको उनको भनाइ छ।
+
+मध्यपहाडी लोकमार्ग अन्तर्गत कमलबजार नगरपालिका कीर्तिपुरमा पहिरो जाँदा सो सडक अवरुद्ध भएको प्रहरीले जनाएको हो।
+
+अछामबाट सुर्खेत जाने सडक मंगलबार दिउँसो तीन बजेदेखि अवरुद्ध भएको जिल्ला प्रहरी कार्यालय अछामका सूचना अधिकारी जनक बोहराले जानकारी दिए।
+
+उनले लगातार परेको पानीले पहिरो खस्दा सडक अवरुद्ध भएको बताए।अहिले पहिरो हटाउने काम भइरहेको उनको भनाइ छ।",,,,,,
+V14R-037,V13F-075,event_2256f561199e25a6,correct_deaths,2017-04-03,Chitwan,landslide,landslide,,,,2,The Ghumaune dry landslide buried vehicles and the article explicitly reports two deaths.,"मुग्लिनको सुख्खा पहिरो : पहिरो हटाइयो, जोखिम कायमै | Nagarik News",https://nagariknews.nagariknetwork.com/social-affairs/119505-1491212580.html,"ARTICLE 1
+SOURCE: nagarik
+PUBLISHED: 2017-04-03
+TITLE: मुग्लिनको सुख्खा पहिरो : पहिरो हटाइयो, जोखिम कायमै | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/119505-1491212580.html
+TEXT:
+नागरिक अभिलेखालय
+
+चितवन – निर्माणधिन नारायणगढ मुग्लिन -सडक खण्डमा सुख्खा पहिरो जाँदा पुरिएका गाडीहरू झिक्ने काम सकिएको छ । पहिरो खस्ने सम्भावना कायमै रहेका कारण तत्कालका लागि यातायात भने सञ्चालन नहुने नारायणगढ मुग्लिन सडक अयोजनाले जानकारी दिएको छ । नारायणगढ- मुग्लिन सडकको घुमाउनेमा बिहान साढे १० बजे पहिरो खस्दा ट्रक र मोटरसाइकलहरू पुरिएका थिए ।
+
+‘घुमाउनेको अग्लो पहाड पुरै हटाउन कटिङको काम भइरहेको छ । तर आज काम सुरु हुन नपाउँदै पहिरो खसेको हो’ -आयोजना प्रमुख
+
+सो घटनामा दुईजनाको ज्यान गएको छ भने दुईजनाको घाइते अवस्थामा उद्धार भएको छ । नारायणगढ मुग्लिन सडक फराकिलो पार्न आयोजनाले गत एक वर्षदेखि माथिबाटै पहाड काट्न सुरु गरेको थियो । ‘चट्टानको पहाड थियो तर बिहान अचानक खस्यो’ आयोजनाका सूचना अधिकारी इन्जिनियर शिव खनालले भने ।
+
+बिहान पहाड काट्ने काम सुरु नहुँदै सो घटना भएको नारायणगढ मुग्लिन सडक आयोजनाका प्रमुख चन्द्रनारायण यादवले बताए । ‘घुमाउनेको अग्लो पहाड पुरै हटाउन कटिङको काम भइरहेको छ । तर आज काम सुरु हुन नपाउँदै पहिरो खसेको हो’ आयोजना प्रमुख यादवले भने । पहाडको ठाउँ ठाउँमा चिरा परेको थियो । पानी परेका कारण कमजोर भएर केही खण्ड खसेको उनले बताए ।
+
+सडकमा ४० मिटर लामो र लगभग १० मिटर अग्लो पहिरो खसेको सूचना अधिकारी खनालले बताए । एउटा ट्याङ्कर पुरै पुरिएको थियो । एउटा ट्रकको पछाडी र एउटा मिनी ट्रकको अगाडिको भागमा पहिरोले लागेको थियो । एउटा मोटर साइकल पनि पहिरोको चपेटामा परेको थियो । मृत्यु हुनेमा ट्याङ्करका सहचालक र मोटरसाइकलको चालक रहेको सूचना अधिकारी खनालले बताए ।
+
+पुरिएका गाडीहरु झिके पनि पहिरो खस्न सक्ने जोखिम कायमै भएका कारण तत्काल गाडी नखुलाएको खनालले बताए । झर्ने सम्भावना रहेको पहिरो हटाउन सके आज सोमबार साँझसम्म गाडी सञ्चालन हुने सम्भावना रहेको उनले बताए ।
+
+प्रकाशित: २१ चैत्र २०७३ ०९:४३ सोमबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.",,,,,,
+V14R-044,V13F-087,event_f4670d9bd74147a4,correct_deaths,2024-05-26,Chitwan,landslide,landslide,,,,1,The landslide at bridge no. 3 buried an excavator and killed its driver.,"Excavator driver killed in landslide on Narayangadh-Muglin Road - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",https://thehimalayantimes.com/nepal/excavator-driver-killed-in-landslide-on-narayangadh-muglin-road,"ARTICLE 1
+SOURCE: himalayan-times
+PUBLISHED: 2024-05-26
+TITLE: Excavator driver killed in landslide on Narayangadh-Muglin Road - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News
+URL: https://thehimalayantimes.com/nepal/excavator-driver-killed-in-landslide-on-narayangadh-muglin-road
+TEXT:
+CHITWAN, MAY 26
+
+An excavator driver was killed this morning when a landslide fell on bridge number three in Ichchakamana Rural Municipality-5 under the Narayangadh-Muglin road section.",,,,,,
+V14R-046,V13F-089,event_de3185330b2f7d18,correct_deaths,2018-09-02,Salyan,landslide,landslide,8,,,3,The Bagchaur-12 house landslide killed three siblings; the claimed count of eight is not supported by this source.,"Landslide kills three siblings in Salyan - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica",https://myrepublica.nagariknetwork.com/news/landslide-kills-three-siblings-in-salyan,"ARTICLE 1
+SOURCE: myrepublica
+PUBLISHED: 2018-09-03
+TITLE: Landslide kills three siblings in Salyan - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica
+URL: https://myrepublica.nagariknetwork.com/news/landslide-kills-three-siblings-in-salyan
+TEXT:
+Subscribe Login Subscribe Politics Economy Society World OP-ED Sports Republica Watch Diaspora Market Our search uses full-text indexing, we're fetching the best results for you. × Beyond Borders, Beyond News Subscribe Now
+
+Resize Text Size Small Medium Large Listen By No Author SALYAN, Sept 3: Three siblings, aged between 4 to 8 were killed after being buried in a landslide. The deceased have been identified as Menuka (4), Lalit (6) and Lalita (8) Dangi.
+
+The rainfall induced landslide fell in their home at Bagh Chaur municipality-12 at around 6:40 PM yesterday, according to the District Police Office.
+
+""The parents had gone to feed the cattle and their children were playing inside the home when the landslide fell and buried them,"" the DPO said dding that the area where the children were killed wasn't prone to landslides.
+
+Nepal records highest LPG imports in three months
+
+PM-designate Balen Shah pushes for 16 ministries,...
+
+When leaders lose, the “wave” takes the blame
+
+Leader Yogesh Bhattarai expressed objection, claiming that the competitor was denied both proposer and supporter positions, and the leadership was decided under pressure.
+
+Power, Patronage and the Retreat of Conscience
+
+Claim Without Strategy: Nepal’s Lipulekh Dilemma
+
+India’s Quiet Revolt Against Naxalism
+
+Why Electoral Reform Alone Won’t Fix Nepal
+
+The pre-monsoon period runs from February to May. Usually, around 226 millimeters of rainfall occurs during the pre-monsoon period but 77.5 millimeters has already fallen till March 31.
+
+Bangaluru made a winning start by defeating Sunrisers Hyderabad by 6 wickets in their opening match on Saturday.
+
+Politics Video Economy The Week Lifestyle Society Republica Watch Sports Blog Review Op-Ed World Interview Diaspora Watch Market Subscribe Manage my account Advertise with us Give us feedback Advertise with Us Contact Us About Us Subscribe Privacy Policy Terms of use Nepal Republic Media Limited © 2026. All right reserved
+
+Nepal Republic Media Limited © 2024. All right reserved | Privacy Policy | Terms of use
+
+Gain access to up to 10 free articles per month.
+
+Already have an account? Log in",,,,,,
+V14R-053,V13F-102,event_90aad0bf18e28fe0,correct_event_type,2020-06-23,Sindhupalchok,landslide,landslide,,road_obstruction,,,The Bhotekoshi/Liping landslide is reported because it blocked the Tatopani road and stranded containers; road obstruction is the supported event type.,पहिरो खसेपछि तातोपानी भएर भित्रिने मालवाहक सवारी साधन अलपत्र | Nagarik News,https://nagariknews.nagariknetwork.com/social-affairs/251201-1592883465.html,"ARTICLE 1
+SOURCE: nagarik
+PUBLISHED: 2020-06-23
+TITLE: पहिरो खसेपछि तातोपानी भएर भित्रिने मालवाहक सवारी साधन अलपत्र | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/251201-1592883465.html
+TEXT:
+नागरिक अभिलेखालय
+
+ढुङ्गासहितको पहिरोले बाटो अवरुद्ध पारिदिएपछि अहिले तातोपानी नाकामा सामान लिन चीन हिँडेका कन्टेनरहरु बाटोमै अलपत्र परेर थन्किएका छन्। ढुङ्गासहित पहिरो खसेपछि तातोपानी भएर भित्रिने मालवाहक सवारी साधन बीच बाटैमा अलपत्र परेका हुन्। तातोपानीको लिपी बजारदेखि २०० मिटर नजिकै भीरमा पहिरो गएपछि १४ कन्टेनर बाटोमै रोकिएका हुन्। लिपी भिरमा पहिरो गएपछि धेरै कन्टेनरहरु नाकामै रोकिएका छन्।
+
+चीनबाट फर्किएका कन्टेनरहरुमा कोरोनाबाट बच्ने स्वास्थ्य सामग्री भएको इलाका प्रहरी कार्यालय कोदारीले जनाएको छ। तातोपानी नाकामा करिब ५० ट्रक र कन्टेनर रोकिएका छन्। यसअघि पनि सोही ठाउँमा पहिरो खस्दा बाटो अवरुद्ध हुने गरेको थियो। बाटो खुलाउने प्रयास भइरहेको प्रहरीले जनाएको छ। भोटेकोशी आयोजना र मध्यभोटेकोशी आयोजनासँग समन्वय गरेर बाटो बनाउने काम भइरहेको भोटेकोशी गाउँपालिकाका प्रमुख प्रशासकीय अधिकृत मोहन निरौलाले बताए। कोरोना भाइरसको महामारीका कारण गत माघ १६ गतेबाट बन्द भएको तातोपानी नाका गत चैत २६ गते देखि पुन सञ्चालनमा आएको थियो।
+
+तत्कालीन अवस्थामा स्वास्थ्य सामग्री र कृषि क्षेत्रका सामानहरु मात्र आयात गर्नका लागि खोलिएको तातोपानी नाकाबाट अहिले सबै प्रकारका सामग्रीहरु आयात हुने गरेको तातोपानी भन्सार कार्यालयका प्रमुख लालबहादुर खत्रीले जानकारी दिए। यता कपडा, जुत्ता, चप्पल, खाद्यान्न, विद्युतीय उपकरणलगायतका सामग्री लिन चीनतर्फ जान लागेका करिब ५० भन्दा बढी कन्टेनर र ट्रकहरु पनि बाटोमै अलपत्र छन्।
+
+प्रकाशित: ९ असार २०७७ ०३:३७ मंगलबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.",,,,,,
+V14R-057,V13F-110,event_451163a6b83c058b,correct_event_type;correct_deaths,2022-05-28,Chitwan,landslide,landslide,,road_obstruction,,0,"The Nagdi Khola dry slide damaged vehicles, injured one person and blocked the road; the report states no one else was harmed.",सुख्खा पहिरो खस्दा एक जना घाइते | Nagarik News,https://nagariknews.nagariknetwork.com/social-affairs/837631-1653744225.html,"ARTICLE 1
+SOURCE: nagarik
+PUBLISHED: 2022-05-28
+TITLE: सुख्खा पहिरो खस्दा एक जना घाइते | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/837631-1653744225.html
+TEXT:
+नागरिक अभिलेखालय
+
+नारायणगढ मुग्लिङ सडक खण्डमा माथिबाट सुख्खा पहिरो खस्दा एक जना घाइते भएका छन्।
+
+आज सवा ५ बजे सडक खण्डको चार किलो स्थित नाग्दि खोला नजिक माथिबाट सुख्खा पहिरो खस्दा कारमा सवार कावासोतीका टीकाराम महतो घाइते भएका हुन्। उनको हातमा सामान्य चोट लागेको जिल्ला प्रहरी कार्यालय चितवनले जनाएको छ।
+
+अन्य कोहि कसैलाई केही भएको छैन। माथीबाट खसेको सुख्खा पहिरोले मुग्लिङबाट नारायणगढ तर्फ आउँदै गरेको ग१ख-९९०९ नम्बरको हाईस र सोही दिशाबाट जाँदै गरेको प्र.-३-०१-०२३च-०५३५ नम्बरको कारमा क्षती गरेको छ। सुख्खा पहिरो झरे सँगै सो सडक अवरुद्ध बनेको छ। अहिले पहिरो हटाउन मुग्लिन प्रहरीको कमाण्डमा टोली खटिइएको छ।
+
+प्रकाशित: १४ जेष्ठ २०७९ १३:२३ शनिबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.",,,,,,
+V14R-060,V13F-114,event_55360f21cd877a92,correct_event_type;correct_hazard_type,2022-01-19,Rupandehi,landslide,landslide,2,other,other,,"This was collapse of a man-made/riverbank soil mound created during embankment work while people were sitting on it, not a documented natural landslide failure.","नदी किनारमा आगो तापिरहेका दुई जनाको ढिस्को खसेर मृत्यु, तीन घाइते",https://www.setopati.com/social/260050,"ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2022-01-20
+TITLE: नदी किनारमा आगो तापिरहेका दुई जनाको ढिस्को खसेर मृत्यु, तीन घाइते
+URL: https://www.setopati.com/social/260050
+TEXT:
+बुटवल उपमहानगरपालिका वडा नम्बर ११ प्रगतिनगरमा तिनाउ नदी किनारको ढिस्को खस्दा पुरिएर २ जनाकाे ज्यान गएकाे छ। तिनाउ नदी किनारमा आगो तापेर बसिरहेको अवस्थामा ढिस्को खस्दा पाँच जना युवाहरु पुरिएर घाइते भएका थिए। घाइतेमध्ये प्रगतिनगरका ३२ वर्षीय गणेश थापा र १७ वर्षीय शिव थापाको मृत्यु भएको वडा प्रहरी कार्यालय बुटवलका प्रहरी निरीक्षक सुदर्शन पन्थीले जानकारी दिए। पन्थीका अनुसार २३ वर्षीय केशव पुरी, ३२ वर्षीय अशोक गाहा र ३३ वर्षका सलिम अली घाइते भएका छन्। उनीहरूको बुटवलको लुम्बिनी प्रादेशिक अस्पतालमा उपचार भइरहेको छ। तिनाउ नदी किनारमा जनताको तटबन्ध निर्माणको क्रममा बनेको ढिस्कोमाथि आगो तापेर बसेको समयमा ढिस्कोसँगै खसेको प्रहरीले जनाएको छ। बुधबार साँझ पौने ७ बजेतिर भएको उक्त घटनापछि स्थानीयले ढिस्कोले पुरिएकाको उद्धार गरेर लुम्बिनी प्रादेशिक अस्पताल पुर्‍याएका थिए। अस्पताल पुर्‍याएपछि २ जनालाई चिकित्सकले मृत्यु घाेषणा गरेको र तिनजनाको उपचार भईरहेको प्रहरी निरीक्षक पन्थीले जानकारी दिए।
+
+तिनाउ नदी किनारमा आगो तापेर बसिरहेको अवस्थामा ढिस्को खस्दा पाँच जना युवाहरु पुरिएर घाइते भएका थिए।
+
+घाइतेमध्ये प्रगतिनगरका ३२ वर्षीय गणेश थापा र १७ वर्षीय शिव थापाको मृत्यु भएको वडा प्रहरी कार्यालय बुटवलका प्रहरी निरीक्षक सुदर्शन पन्थीले जानकारी दिए।
+
+पन्थीका अनुसार २३ वर्षीय केशव पुरी, ३२ वर्षीय अशोक गाहा र ३३ वर्षका सलिम अली घाइते भएका छन्। उनीहरूको बुटवलको लुम्बिनी प्रादेशिक अस्पतालमा उपचार भइरहेको छ।
+
+तिनाउ नदी किनारमा जनताको तटबन्ध निर्माणको क्रममा बनेको ढिस्कोमाथि आगो तापेर बसेको समयमा ढिस्कोसँगै खसेको प्रहरीले जनाएको छ।
+
+बुधबार साँझ पौने ७ बजेतिर भएको उक्त घटनापछि स्थानीयले ढिस्कोले पुरिएकाको उद्धार गरेर लुम्बिनी प्रादेशिक अस्पताल पुर्‍याएका थिए। अस्पताल पुर्‍याएपछि २ जनालाई चिकित्सकले मृत्यु घाेषणा गरेको र तिनजनाको उपचार भईरहेको प्रहरी निरीक्षक पन्थीले जानकारी दिए।",,,,,,
+V14R-064,V13F-123,event_0eb53da7a454286d,correct_deaths,2024-06-30,Gulmi,landslide,landslide,,,,5,The Gulmi house landslide killed five members of the same family.,गुल्मीमा एकै परिवारका ५ जनाकाे पहिरोमा पुरिएर ज्यान गयाे,https://www.ujyaaloonline.com/detail/103561,"ARTICLE 1
+SOURCE: ujyaalo
+PUBLISHED: 2024-06-30
+TITLE: गुल्मीमा एकै परिवारका ५ जनाकाे पहिरोमा पुरिएर ज्यान गयाे
+URL: https://www.ujyaaloonline.com/detail/103561
+TEXT:
+गुल्मी – गुल्मीमा एकै परिवारका पाँच जनाको पहिरोमा पुरिएर ज्यान गएको छ । पहिरोमा पुरिएकोमा सबैको शव भेटिएको छ ।
+
+मालिका गाउँपालिका वडा नम्बर–६ अर्जेको कँडेलपाटामा भेषबहादुर विकको घर पहिरोले पुर्दा ५६ का भेषबहादुरसहित उहाँकी श्रीमती ४७ वर्षीया सुन्तली विक, बुहारी ३० वर्षीया सिता विक, नातिनीहरु सात वर्षीया सपना विक र दुई वर्षीया विपना विकको ज्यान गएको जिल्ला प्रहरी कार्यालय गुल्मीका प्रहरी उपरीक्षक राजन भुजेलले जानकारी दिनुभयो ।",,,,,,
+V14R-070,V13F-130,event_720f34c3a634c965,correct_deaths,2024-08-02,Rolpa,landslide,landslide,,,,1,The Sunchhahari-5 Kamidanda house landslide killed one person; another person was reported missing.,"पहिरोले घर पुरिँदा बेपत्ता बज्यैको शव भेटियो, नातिनीको खोजी हुँदै",https://www.setopati.com/social/335787,"ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2024-08-03
+TITLE: पहिरोले घर पुरिँदा बेपत्ता बज्यैको शव भेटियो, नातिनीको खोजी हुँदै
+URL: https://www.setopati.com/social/335787
+TEXT:
+रोल्पामा घरसँगै पुरिएकी ७० वर्षीया बसुना सुनारको शव भेटिएको छ। गएराति सुनछहरी गाउँपालिका-५ कामीडाँडामा देउसिंह कामीको घर पहिरोले पुरिँदा उनकी आमा बसुना र छोरी चार वर्षीया किमा सुनार बेपत्ता भएका थिए। खोजीका क्रममा शनिबार बिहान बसुना पुरिएको अवस्थामा मृत भेटिएको जिल्ला प्रहरी कार्यालय रोल्पाका प्रमुख डिएसपी भरत लामाले जानकारी दिए। बसुनाकी नातिनी ४ वर्षीया किमाको अवस्था भने अझै अज्ञात छ। उनको खोजी भइरहेको डिएसपी लामाले जानकारी दिए। खोजी तथा उद्धारका लागि इलाका प्रहरी कार्यालय पोवाङ र सुलिचौरबाट प्रहरी निरीक्षक सन्तोष घिमिरेको कमाण्डमा प्रहरीको टोली खटाइएको छ। शुक्रबार राति माथिबाट झरेको पहिरोले ढुँगा माटोबाट बनेको देउसिंहको एक तले कच्ची घर पुरेको थियो । घटनाबारे स्थानीयले प्रहरी चौकी सिउरीमा राति पौने १० बजेतिर जानकारी गराएका थिए। सूचना पाउना साथ प्रहरी निरीक्षक केशरबहादुर थापाको कमाण्डमा चार जना प्रहरी घटनास्थलमा खटाइएका थिए। शुक्रबार देउसिंह र उनकी श्रीमती भने घरमा थिएनन् । उनीहरू कामको शिलशिलामा बाहिर रहेका कारण जोगिएको प्रहरीले जनाएको छ।
+
+गएराति सुनछहरी गाउँपालिका-५ कामीडाँडामा देउसिंह कामीको घर पहिरोले पुरिँदा उनकी आमा बसुना र छोरी चार वर्षीया किमा सुनार बेपत्ता भएका थिए।
+
+खोजीका क्रममा शनिबार बिहान बसुना पुरिएको अवस्थामा मृत भेटिएको जिल्ला प्रहरी कार्यालय रोल्पाका प्रमुख डिएसपी भरत लामाले जानकारी दिए।
+
+बसुनाकी नातिनी ४ वर्षीया किमाको अवस्था भने अझै अज्ञात छ। उनको खोजी भइरहेको डिएसपी लामाले जानकारी दिए।
+
+खोजी तथा उद्धारका लागि इलाका प्रहरी कार्यालय पोवाङ र सुलिचौरबाट प्रहरी निरीक्षक सन्तोष घिमिरेको कमाण्डमा प्रहरीको टोली खटाइएको छ।
+
+शुक्रबार राति माथिबाट झरेको पहिरोले ढुँगा माटोबाट बनेको देउसिंहको एक तले कच्ची घर पुरेको थियो ।
+
+घटनाबारे स्थानीयले प्रहरी चौकी सिउरीमा राति पौने १० बजेतिर जानकारी गराएका थिए। सूचना पाउना साथ प्रहरी निरीक्षक केशरबहादुर थापाको कमाण्डमा चार जना प्रहरी घटनास्थलमा खटाइएका थिए।
+
+शुक्रबार देउसिंह र उनकी श्रीमती भने घरमा थिएनन् । उनीहरू कामको शिलशिलामा बाहिर रहेका कारण जोगिएको प्रहरीले जनाएको छ।",,,,,,
+V14R-072,V13F-132,event_eb2f7ddf86656d04,correct_deaths,2023-06-19,Tanahu,landslide,landslide,,,,2,The Gunadi slope failure buried drainage workers; two died and one was injured.,तनहुँको गुणादीमा पहिरो : सडकको नाली बनाउँदै गरेका दुई जना मजदुरको ज्यान गयो,https://www.ujyaaloonline.com/detail/88955,"ARTICLE 1
+SOURCE: ujyaalo
+PUBLISHED: 2023-06-20
+TITLE: तनहुँको गुणादीमा पहिरो : सडकको नाली बनाउँदै गरेका दुई जना मजदुरको ज्यान गयो
+URL: https://www.ujyaaloonline.com/detail/88955
+TEXT:
+काठमाण्डाै – तनहुँको म्याग्दे गाउँपालिका–१ गुणादीमा पहिरो जाँदा दुई जनाको ज्यान गएको छ भने एक जना घाइते भएका छन् ।
+
+हिजो साेमवार बेलुका नाली बनाउँदै गर्दा सडकको माथिबाट खसेको माटोको ढिस्कोले पुर्दा झापाको शिवशताक्षी नगरपालिका–७ बस्ने ३३ वर्षका भीम भुजेल र उदयपुरको कटारी नगरपालिका–७ का ४० वर्षका बलबहादुर राईको ज्यान गएको जिल्ला प्रहरी कार्यालय तनहुँले जनाएको छ । प्रहरीका अनुसार भीमको दमौली अस्पतालमा र बलबहादुरको पोखरामा उपचारका क्रममा ज्यान गएको हो ।
+
+यस्तै घाइते झापाको शिवशताक्षी–७ का ४५ वर्षका कृष्ण लिङ्देनको दमौलीको रत्नहरि अस्पतालमा उपचार भइरहेको छ । मुग्लिन–पोखरा सडक खण्डअन्तर्गत सडक छेउमा नाली बनाउँदै गर्दा हिजो बेलुका पहिरो खसेको थियो ।",,,,,,
+V14R-078,V13F-142,event_ce2b3c32d3293ef0,correct_event_type,2021-08-29,Sindhupalchok,landslide,landslide,,road_obstruction,,,The primary Fhatakshila/Ratopahiro failure repeatedly blocked the Helambu Highway; the two articles are duplicate coverage of that road-obstruction event.,हेलम्बु राजमार्ग अवरुद्ध,https://deshsanchar.com/2021/08/29/549795,"ARTICLE 1
+SOURCE: deshsanchar
+PUBLISHED: 2021-08-29
+TITLE: हेलम्बु राजमार्ग अवरुद्ध
+URL: https://deshsanchar.com/2021/08/29/549795
+TEXT:
+सिन्धुपाल्चोक – लगातारको वर्षा र बाढीले निरन्तर पहिरो खस्दा हेलम्बु राजमार्ग पुनः अवरुद्ध भएको छ।
+
+मेलम्ची नगरपालिका–१३ मेलम्ची–जिरोकिलो सडक खण्डस्थित फटकशिला रातोपहरोमा माथिबाट पहिरो खसिरहेकाले सडक अवरुद्ध भएको प्रहरीले जनाएको छ।
+
+पहिरो पन्छाएर सडक सञ्चालनमा ल्याउन वर्षा बाधक रहेको र निकै जोखिम रहेकाले अहिले वैकल्पिक सडक प्रयोग गर्न इलाका प्रहरी कार्यालय मेलम्चीका प्रहरी निरीक्षक टीकाराम राईले आग्रह गरे। गत साउन अन्तिमदेखि नै यहाँ निरन्तर माथिबाट पहिरो र तलबाट खोलाले सडक कटान गरिरहेको छ।
+
+पैराबारीका घर जोखिममा
+
+बाटो माथिबाट पहिरोसँगै ढुङ्गा खस्दा मेलम्ची–१० रामपुर पैराबारीका घर जोखिममा परेका छन्।
+
+गतवर्षदेखि नै पैराबारी ज्यामिरे बाटो खन्ने क्रममा ढुङ्गा खसेर बसेको र यस वर्ष पनि ढुङ्गा खस्ने क्रम जारी रहेको स्थानीयवासी प्रशान्त कार्कीले जानकारी दिए।
+
+बाटोमुनि तीन भूकम्पपीडितको राहत घर र अन्य दुई घर रहेको उनले जानकारी दिए। ढुङ्गा खसेर दुर्घटना हुने डरले आनन्दले बस्न सुत्न नसकिएको स्थानीयवासीको गुनासो छ।
+
+ढुङ्गा ठूलो रहेको र पहिरो पनि आइरहेको जानकारी पोहोरदेखिनै नगरलाई गराए पनि चासो नदिएको उनले दुःखेसो गरे। पानी पर्न थालेपछि घर छाडेर भाग्नुपर्ने अवस्था रहेकाले नगरको स्थानीयवासीले ध्यानाकर्षण गराएका छन्।
+
+सम्पादक: युवराज घिमिरे दर्ता नम्बर: ५४४/०७४–७५ ललितपुर महानगरपालिका– २, बखुण्डोल ०१-५४२३४१६ [email protected] , [email protected] विज्ञापनका लागि [email protected]
+
+====================
+
+ARTICLE 2
+SOURCE: rajdhani
+PUBLISHED: 2021-08-29
+TITLE: पहिराे खसेपछि हेलम्बु राजमार्ग अवरुद्ध : RajdhaniDaily.com
+URL: https://rajdhanidaily.com/id/45614
+TEXT:
+मेलम्ची । लगातारको वर्षा र बाढीले निरन्तर पहिरो खस्दा हेलम्बु राजमार्ग पुनः अवरुद्ध भएको छ । मेलम्ची नगरपालिका–१३ मेलम्ची–जिरोकिलो सडक खण्डस्थित फटकशिला रातोपहरोमा माथिबाट पहिरो खसिरहेकाले सडक अवरुद्ध भएको प्रहरीले जनाएको छ ।
+
+पहिरो पन्छाएर सडक सञ्चालनमा ल्याउन वर्षा बाधक रहेको र निकै जोखिम रहेकाले अहिले वैकल्पिक सडक प्रयोग गर्न इलाका प्रहरी कार्यालय मेलम्चीका प्रहरी निरीक्षक टीकाराम राईले आग्रह गर्नुभयो । गत साउन अन्तिमदेखि नै यहाँ निरन्तर माथिबाट पहिरो र तलबाट खोलाले सडक कटान गरिरहेको छ ।
+
+पैराबारीका घर जोखिममा
+
+बाटो माथिबाट पहिरोसँगै ढुङ्गा खस्दा मेलम्ची–१० रामपुर पैराबारीका घर जोखिममा परेका छन् । गतवर्षदेखि नै पैराबारी ज्यामिरे बाटो खन्ने क्रममा ढुङ्गा खसेर बसेको र यस वर्ष पनि ढुङ्गा खस्ने क्रम जारी रहेको स्थानीयवासी प्रशान्त कार्कीले जानकारी दिए ।
+
+बाटोमुनि तीन भूकम्पपीडितको राहत घर र अन्य दुई घर रहेको उनले जानकारी दिए । ढुङ्गा खसेर दुर्घटना हुने डरले आनन्दले बस्न सुत्न नसकिएको स्थानीयवासीको गुनासो छ । ढुङ्गा ठूलो रहेको र पहिरो पनि आइरहेको जानकारी पोहोरदेखिनै नगरलाई गराए पनि चासो नदिएको उनले दुःखेसो गरे । पानी पर्न थालेपछि घर छाडेर भाग्नुपर्ने अवस्था रहेकाले नगरको स्थानीयवासीले ध्यानाकर्षण गराएका छन् ।",,,,,,
+V14R-082,V13F-148,event_6d5c601c14f84c2f,correct_deaths,2024-07-06,Syangja,landslide,landslide,5,,,3,The Biruwa-6 landslide killed three people and injured five; the claimed death count of five is incorrect.,"पहिरामा पुरिएर स्याङ्जामा ३ को मृत्यु, ५ जना घाइते : RajdhaniDaily.com",https://rajdhanidaily.com/id/97800,"ARTICLE 1
+SOURCE: rajdhani
+PUBLISHED: 2024-07-06
+TITLE: पहिरामा पुरिएर स्याङ्जामा ३ को मृत्यु, ५ जना घाइते : RajdhaniDaily.com
+URL: https://rajdhanidaily.com/id/97800
+TEXT:
+स्याङ्जा । जिल्लाको बिरुवा गाउँपालिका ६ लामाखेतमा शनिबार दिउँसो पहिरोमा पुरिएर ३ जनाको मृत्यु भएको छ । पहिराले पुरिएर बिरुवा गाउँपालिका–६ माझकोट का ६७ वर्षीया हरिमाया शर्मा, सोही स्थानका ७१ वर्षीय माधव शर्मा र ६५ वर्षीया गुह्येश्वरी शर्माको मृत्यु भएको जिल्ला प्रहरी कार्यालयका प्रवक्ता इन्द्रबहादुर रानाले बताए ।
+
+पहिराको जोखिममा रहेका आफ्ना घरबाट सुरक्षित स्थानमा जानुभएका उनीहरूको पुरिएर ज्यान गएको हो । उनीहरूको घर नजिक पहिरो खसेको थियो ।
+
+बिरुवा गाउँपालिका ६ का वडाध्यक्ष कृष्णबहादुर क्षेत्रीका अनुसार पहिराको जोखिम नभएको ठानेर सुरक्षित भनेर राखिएको ठाउँमा दिउँसो अचानक पहिरो खसेर घर पुरिँदा उनहरूको मृत्यु भएको हो । उक्त पहिरामा परी पाँचजना घाइते भएका छन् । उनीहरूको स्थानीयवासी र बिरुवा प्रहरी चौकीको टोलीले उद्धार गरेको थियो ।",,,,,,

@@ -1,0 +1,285 @@
+{
+  "study_design": "district-day matched case-control with temporal holdout",
+  "rainfall_product": "UCSB CHIRPS v2.0 Final",
+  "rainfall_input": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/external/chirps_daily_districts.csv",
+  "canonical_input": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/outputs/canonical_events_final.csv",
+  "window_definition": "inclusive of the reported event day",
+  "development_end": "2022-12-31",
+  "temporal_test_start": "2023-01-01",
+  "controls_per_event": 5,
+  "control_matching": "same district, calendar month, and year",
+  "control_exclusion_buffer_days": 7,
+  "primary_excluded_triggers": [
+    "anthropogenic",
+    "earthquake"
+  ],
+  "bootstrap": "district-clustered, 1000 iterations",
+  "quality": {
+    "start": "2015-01-01",
+    "end": "2026-06-30",
+    "days": 4199,
+    "rows": 323323,
+    "expected_rows": 323323,
+    "coverage_fraction": 1.0,
+    "observed_districts": 77,
+    "expected_districts": 77,
+    "missing_districts": [],
+    "unexpected_districts": [],
+    "incomplete_days": 0,
+    "incomplete_day_examples": []
+  },
+  "canonical_events_read": 3114,
+  "primary_events_before_rainfall_join": 2050,
+  "primary_events_after_available_rainfall_end": 84,
+  "available_rainfall_end": "2026-06-30",
+  "variants": {
+    "primary_conf_ge_0.78": {
+      "cases": 1514,
+      "controls": 6196,
+      "date_shift_days": 0,
+      "minimum_date_confidence": 0.78,
+      "excluded_triggers": [
+        "anthropogenic",
+        "earthquake"
+      ],
+      "excluded_event_types": []
+    },
+    "all_dated_events": {
+      "cases": 1795,
+      "controls": 7392,
+      "date_shift_days": 0,
+      "minimum_date_confidence": 0.0,
+      "excluded_triggers": [
+        "anthropogenic",
+        "earthquake"
+      ],
+      "excluded_event_types": []
+    },
+    "high_conf_ge_0.80": {
+      "cases": 1093,
+      "controls": 4421,
+      "date_shift_days": 0,
+      "minimum_date_confidence": 0.8,
+      "excluded_triggers": [
+        "anthropogenic",
+        "earthquake"
+      ],
+      "excluded_event_types": []
+    },
+    "primary_date_minus_1d": {
+      "cases": 1516,
+      "controls": 6197,
+      "date_shift_days": -1,
+      "minimum_date_confidence": 0.78,
+      "excluded_triggers": [
+        "anthropogenic",
+        "earthquake"
+      ],
+      "excluded_event_types": []
+    },
+    "primary_date_plus_1d": {
+      "cases": 1513,
+      "controls": 6212,
+      "date_shift_days": 1,
+      "minimum_date_confidence": 0.78,
+      "excluded_triggers": [
+        "anthropogenic",
+        "earthquake"
+      ],
+      "excluded_event_types": []
+    },
+    "include_known_nonrain_triggers": {
+      "cases": 1872,
+      "controls": 7689,
+      "date_shift_days": 0,
+      "minimum_date_confidence": 0.78,
+      "excluded_triggers": [],
+      "excluded_event_types": []
+    },
+    "exclude_road_obstructions": {
+      "cases": 1222,
+      "controls": 5048,
+      "date_shift_days": 0,
+      "minimum_date_confidence": 0.78,
+      "excluded_triggers": [
+        "anthropogenic",
+        "earthquake"
+      ],
+      "excluded_event_types": [
+        "road_obstruction"
+      ]
+    }
+  },
+  "sensitivity_summary": [
+    {
+      "variant": "primary_conf_ge_0.78",
+      "selected_window_days": 5,
+      "threshold_mm": 45.381465,
+      "threshold_ci_low": 26.827030999999998,
+      "threshold_ci_high": 72.104541,
+      "test_cases": 642,
+      "test_controls": 2480,
+      "test_auc": 0.6925999899507587,
+      "test_auc_ci_low": 0.6570323646836197,
+      "test_auc_ci_high": 0.7224379085482889,
+      "test_sensitivity": 0.5093457943925234,
+      "test_specificity": 0.7641129032258065,
+      "test_balanced_accuracy": 0.636729348809165
+    },
+    {
+      "variant": "all_dated_events",
+      "selected_window_days": 5,
+      "threshold_mm": 51.599922,
+      "threshold_ci_low": null,
+      "threshold_ci_high": null,
+      "test_cases": 734,
+      "test_controls": 2868,
+      "test_auc": 0.6894744792676114,
+      "test_auc_ci_low": null,
+      "test_auc_ci_high": null,
+      "test_sensitivity": 0.4564032697547684,
+      "test_specificity": 0.7967224546722455,
+      "test_balanced_accuracy": 0.6265628622135069
+    },
+    {
+      "variant": "high_conf_ge_0.80",
+      "selected_window_days": 5,
+      "threshold_mm": 45.381465,
+      "threshold_ci_low": null,
+      "threshold_ci_high": null,
+      "test_cases": 487,
+      "test_controls": 1865,
+      "test_auc": 0.6856004095766057,
+      "test_auc_ci_low": null,
+      "test_auc_ci_high": null,
+      "test_sensitivity": 0.5092402464065708,
+      "test_specificity": 0.7447721179624665,
+      "test_balanced_accuracy": 0.6270061821845186
+    },
+    {
+      "variant": "primary_date_minus_1d",
+      "selected_window_days": 3,
+      "threshold_mm": 19.959265,
+      "threshold_ci_low": null,
+      "threshold_ci_high": null,
+      "test_cases": 644,
+      "test_controls": 2478,
+      "test_auc": 0.6640836880072589,
+      "test_auc_ci_low": null,
+      "test_auc_ci_high": null,
+      "test_sensitivity": 0.5559006211180124,
+      "test_specificity": 0.6892655367231638,
+      "test_balanced_accuracy": 0.6225830789205882
+    },
+    {
+      "variant": "primary_date_plus_1d",
+      "selected_window_days": 5,
+      "threshold_mm": 47.11361,
+      "threshold_ci_low": null,
+      "threshold_ci_high": null,
+      "test_cases": 641,
+      "test_controls": 2500,
+      "test_auc": 0.6922414976599064,
+      "test_auc_ci_low": null,
+      "test_auc_ci_high": null,
+      "test_sensitivity": 0.49921996879875197,
+      "test_specificity": 0.7684,
+      "test_balanced_accuracy": 0.633809984399376
+    },
+    {
+      "variant": "include_known_nonrain_triggers",
+      "selected_window_days": 5,
+      "threshold_mm": 46.528036,
+      "threshold_ci_low": null,
+      "threshold_ci_high": null,
+      "test_cases": 782,
+      "test_controls": 3075,
+      "test_auc": 0.6787790322916016,
+      "test_auc_ci_low": null,
+      "test_auc_ci_high": null,
+      "test_sensitivity": 0.46930946291560105,
+      "test_specificity": 0.7788617886178861,
+      "test_balanced_accuracy": 0.6240856257667435
+    },
+    {
+      "variant": "exclude_road_obstructions",
+      "selected_window_days": 5,
+      "threshold_mm": 54.384459,
+      "threshold_ci_low": null,
+      "threshold_ci_high": null,
+      "test_cases": 493,
+      "test_controls": 1928,
+      "test_auc": 0.69001655963573,
+      "test_auc_ci_low": null,
+      "test_auc_ci_high": null,
+      "test_sensitivity": 0.4158215010141988,
+      "test_specificity": 0.8283195020746889,
+      "test_balanced_accuracy": 0.6220705015444439
+    }
+  ],
+  "primary_window_selected_in_development": {
+    "variant": "primary_conf_ge_0.78",
+    "split": "development",
+    "window_days": 5,
+    "threshold_mm": 45.381465,
+    "threshold_ci_low": 26.827030999999998,
+    "threshold_ci_high": 72.104541,
+    "train_case_p10_mm": 3.3274487000000015,
+    "train_case_p50_mm": 57.82176799999999,
+    "train_control_p90_mm": 99.214412,
+    "n_cases": 872,
+    "n_controls": 3716,
+    "sensitivity": 0.6158256880733946,
+    "specificity": 0.6022604951560818,
+    "precision": 0.2665012406947891,
+    "balanced_accuracy": 0.6090430916147382,
+    "tp": 537.0,
+    "fp": 1478.0,
+    "tn": 2238.0,
+    "fn": 335.0,
+    "auc": 0.642056788892071
+  },
+  "primary_temporal_test_result": {
+    "variant": "primary_conf_ge_0.78",
+    "split": "temporal_test",
+    "window_days": 5,
+    "threshold_mm": 45.381465,
+    "threshold_ci_low": 26.827030999999998,
+    "threshold_ci_high": 72.104541,
+    "train_case_p10_mm": 3.3274487000000015,
+    "train_case_p50_mm": 57.82176799999999,
+    "train_control_p90_mm": 99.214412,
+    "n_cases": 642,
+    "n_controls": 2480,
+    "sensitivity": 0.5093457943925234,
+    "specificity": 0.7641129032258065,
+    "precision": 0.35855263157894735,
+    "balanced_accuracy": 0.636729348809165,
+    "tp": 327.0,
+    "fp": 585.0,
+    "tn": 1895.0,
+    "fn": 315.0,
+    "auc": 0.6925999899507587,
+    "auc_ci_low": 0.6570323646836197,
+    "auc_ci_high": 0.7224379085482889,
+    "sensitivity_ci_low": 0.4492586664769763,
+    "sensitivity_ci_high": 0.5665360782715043,
+    "specificity_ci_low": 0.7183103364454714,
+    "specificity_ci_high": 0.8087585082925894,
+    "precision_ci_low": 0.3048090936798648,
+    "precision_ci_high": 0.41402646426107076,
+    "balanced_accuracy_ci_low": 0.6109500805778564,
+    "balanced_accuracy_ci_high": 0.6606870817627992
+  },
+  "secondary_district_month_association": {
+    "rows": 10626,
+    "spearman_rho": 0.2748539362602834
+  },
+  "limitations": [
+    "Event dates are media-derived; accuracy was not reportable in the locked test set.",
+    "CHIRPS represents gridded precipitation, not a slope-level rain gauge measurement.",
+    "District means smooth local rainfall extremes and are not warning thresholds.",
+    "Media reporting and road-obstruction events can affect the case distribution.",
+    "Precision reflects the matched 1:5 sample, not population event prevalence."
+  ]
+}

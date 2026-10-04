@@ -1,0 +1,32 @@
+{
+  "changed_field_counts": {
+    "deaths": 4,
+    "district": 13,
+    "event_date": 16,
+    "event_type": 10,
+    "hazard_type": 8,
+    "municipality": 3
+  },
+  "input_sha256": {
+    "data/releases/nepal_landslide_inventory_v0.7.0_candidate_20260916/canonical_events_final.csv": "182071353abd87fed8404d0ae82b172b64d410599bf6e36a532c363cb6fdf663",
+    "post_correction_remediation_BATCH_TRUE_VALUE_REVIEW.csv": "7499e3d48077fb4a89b6c4473b6dd2fcf8e2f471d593eee721ba1ff924a816ab",
+    "post_correction_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "8016a7f6fdea628b8c2298288a354c90aff46422b0af29abbface4ff91a62d8e",
+    "post_correction_remediation_manifest.json": "f313b893c7dc38b619516d436994164b0db5b641328dd30c598d0fa365ebadb3"
+  },
+  "record_action_counts": {
+    "exclude_candidate": 13,
+    "retain": 32
+  },
+  "retained_no_change_count": 1,
+  "retained_no_change_rows": [
+    "PCR-015"
+  ],
+  "review_rows": 45,
+  "source_release_date_extent": [
+    "2015-03-07",
+    "2026-08-09"
+  ],
+  "status": "validated_true_values_not_yet_applied",
+  "unresolved_count": 0,
+  "unresolved_rows": []
+}

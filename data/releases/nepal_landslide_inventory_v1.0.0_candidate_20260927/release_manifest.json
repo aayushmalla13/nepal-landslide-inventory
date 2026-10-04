@@ -1,0 +1,75 @@
+{
+  "bundle_lock_hash": "c46e984358980b202fce6a7ee945b517be5ae4ed5da29e14961b1de7d9194b68",
+  "canonical_summary": {
+    "date_max": "2026-08-09",
+    "date_min": "2015-03-07",
+    "districts": 75,
+    "rows": 2605,
+    "sha256": "68f2efd27a2c929c0df879974afcde14560ecbd6edf2ce389cc03a18f0857c8a",
+    "unique_event_ids": 2605
+  },
+  "checks": {
+    "csv_sqlite_content_equal": true,
+    "expected_2605_rows": true,
+    "fresh_locked_validation_complete": false,
+    "reviewed_collision_application_complete": true,
+    "sqlite_integrity_ok": true,
+    "unique_event_ids": true
+  },
+  "correction_summary": {
+    "collision_application_status": "applied_reviewed_collision_batch",
+    "reviewed_article_corrections": 21,
+    "reviewed_merge_components": 40
+  },
+  "files": [
+    {
+      "bytes": 2846216,
+      "file": "canonical_events_final.csv",
+      "sha256": "68f2efd27a2c929c0df879974afcde14560ecbd6edf2ce389cc03a18f0857c8a"
+    },
+    {
+      "bytes": 350269440,
+      "file": "landslide_inventory.sqlite",
+      "sha256": "aed9e133ee511382f19ea7304168c3a3d7d2e59efb54cdcbc5047ec2117a198d"
+    },
+    {
+      "bytes": 6367,
+      "file": "article_corrections.csv",
+      "sha256": "80be07a28b37260608dee6e883a5d81b27186ddc151302b8c66c14fcf891a4d9"
+    },
+    {
+      "bytes": 24816,
+      "file": "dedup_merge_overrides.csv",
+      "sha256": "cad6276067e7cff3bc749be68af1a8f36d9a1c579b6917fb1ec1cefe4ddf61b8"
+    },
+    {
+      "bytes": 73993,
+      "file": "dedup_collision_review_BATCH_01_ADJUDICATED.csv",
+      "sha256": "c86d3a5725182f37a60cec8f4e8eaf7fa65a22f88f1c05fc1ae762565d9f45dc"
+    },
+    {
+      "bytes": 728,
+      "file": "dedup_collision_review_BATCH_01_application.json",
+      "sha256": "b0d2e9304e407c1217421106001e298ffe261e922504f9da84c8b70ac0997010"
+    },
+    {
+      "bytes": 336,
+      "file": "CANDIDATE_README.md",
+      "sha256": "aaba0391528c20349eb5283f3aca30ecfc0b00dd141ca4997c638348aae6db82"
+    }
+  ],
+  "generated_at": "2026-09-27T09:07:50.531358+00:00",
+  "inputs": {
+    "corrections/article_corrections.csv": "80be07a28b37260608dee6e883a5d81b27186ddc151302b8c66c14fcf891a4d9",
+    "corrections/dedup_merge_overrides.csv": "cad6276067e7cff3bc749be68af1a8f36d9a1c579b6917fb1ec1cefe4ddf61b8",
+    "data/outputs/canonical_events_final.csv": "68f2efd27a2c929c0df879974afcde14560ecbd6edf2ce389cc03a18f0857c8a",
+    "data/outputs/dedup_collision_review_BATCH_01_ADJUDICATED.csv": "c86d3a5725182f37a60cec8f4e8eaf7fa65a22f88f1c05fc1ae762565d9f45dc",
+    "data/outputs/dedup_collision_review_BATCH_01_application.json": "b0d2e9304e407c1217421106001e298ffe261e922504f9da84c8b70ac0997010",
+    "data/snapshots/landslide_inventory_post_collision_adjudication_20260927.sqlite": "aed9e133ee511382f19ea7304168c3a3d7d2e59efb54cdcbc5047ec2117a198d",
+    "scripts/assemble_v10_candidate_release.py": "a5709db1769ed9308173c3e48608e59c57aa12f4e88a26d496929413028cd839"
+  },
+  "notes": "Frozen from the corrected mutable pipeline after dedup collision adjudication pass 1. No earlier accuracy metric transfers to this candidate.",
+  "release_id": "nepal_landslide_inventory_v1.0.0_candidate_20260927",
+  "status": "pending_fresh_validation",
+  "supersedes": "nepal_landslide_inventory_v0.9.0_candidate_20260924"
+}

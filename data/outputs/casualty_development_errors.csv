@@ -1,0 +1,16 @@
+row_id,stratum,language,deaths_true,deaths_extracted,title,notes
+cas-0002,death_language_no_count,en,1,,"Woman crossing Baglung's landslide crushed by boulder - myRepublica - The New York Times Partner, La","age trap: 'Thirty five year Babiran Khatun was killed' is one death, not 35"
+cas-0003,death_language_no_count,np,11,6,‘हिउँदमा खसेको सुख्खा पहिरो नजरअन्दाज गर्दा क्षति’ | Nagarik News,sum across categories: 6 women + 3 men + 1 boy + 1 girl
+cas-0010,death_language_no_count,en,2,,"Mother, daughter buried by landslide in Dang - myRepublica - The New York Times Partner, Latest news",
+cas-0012,death_language_no_count,en,2,,"2 policemen killed, 2 missing in Kalikhola landslide (In photos)",
+cas-0014,death_language_no_count,en,1,,Monsoon brings more misery to Dhading villages,
+cas-0020,death_language_no_count,en,1,,"Minor killed in landslide - myRepublica - The New York Times Partner, Latest news of Nepal in Englis",
+cas-0039,death_language_no_count,np,5,,दार्चुलामा बाढी र पहिरोमा परी ज्यान गुमाउनेको संख्या ५ पुग्यो,
+cas-0047,death_language_no_count,np,20,,सिमलताल दुर्घटनाको सातौं दिनः बेपत्ता बस र यात्रु खोज्न झनै सकस : RajdhaniDaily.com,"'62 missing, 20 bodies so far' -- 20 is this event's confirmed toll"
+cas-0063,death_language_no_count,np,,3,"बाढी, पहिरो प्रभावित क्षेत्रको निरीक्षणमा प्रधानमन्त्री देउवा (तस्बिरहरू)",nationwide toll of 103
+cas-0077,explicit_no_casualty,np,,48,"बाढी—पहिरोबाट मृत्यु हुनेको संख्या सय पुग्यो, काठमाडौं उपत्यकामै बढी क्षति",nationwide roundup; the no-loss phrase is scoped to Gandaki only
+cas-0079,explicit_no_casualty,np,,9,"सिन्धुपाल्चोक पहिरोः ९ जनाको शव फेला, २२ जना बेपत्ता",no-loss phrase scoped to one settlement; the article reports deaths elsewhere
+cas-0080,explicit_no_casualty,en,0,,Road disrupted and houses swept away by landslides in Gorkha - myRepublica - The New York Times Part,
+cas-0085,explicit_no_casualty,np,,2,"ललितपुरका विद्यालय बन्द, सम्पर्क विच्छेद, यातायात अवरुद्ध","my label of 0 was wrong: the article reports deaths elsewhere in Lalitpur, so the no-loss phrase is scoped to Godawari only"
+cas-0093,explicit_no_casualty,np,,62,"बाढी पहिरोः काभ्रेमा ६२ जनाको मृत्यु, चार जना बेपत्ता – Nepal Press","district roundup; no-loss phrase scoped to Panchkhal, deaths elsewhere"
+cas-0094,explicit_no_casualty,en,0,,Lamjung landslide buries at least 10 houses - OnlineKhabar English News,

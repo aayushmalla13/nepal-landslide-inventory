@@ -1,0 +1,22 @@
+{
+  "blocked_candidates": 11,
+  "blocked_old_event_bundles": 5,
+  "eligible_new_candidates": 26,
+  "excluded_candidates": 2,
+  "input_sha256": {
+    "data/outputs/v09_article_mapping_DECISIONS_COMPLETED.csv": "280796cbc57d037740cd8954a45cb4a8344b80b43bc25e66276b55196cc360f1",
+    "data/outputs/v09_collision_validation.json": "10c9b2385d5b1faf576d83de796be52b35cae57a06a0235c726085429e3da733",
+    "data/outputs/v09_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "94d6843d3e4cccca69d3db293a7e8a1ac7687c37b210357b17cd261e4e8866f2",
+    "scripts/materialize_v09_existing_collisions.py": "66cc0e7824f63c4d0a2479a06c252f1b0594a9be073b6ba1cdb6874015e50eb2"
+  },
+  "output_sha256": {
+    "v09_existing_collision_BLOCKED_CANDIDATES.csv": "84211dd12487b3d435417299c622859a4a8d140f19f574c3be88e296116405dc",
+    "v09_existing_collision_EXCLUDED.csv": "862c67922029feca9aec13df60f7736a78c1a64dd17270690bb9787a69c0164a",
+    "v09_existing_collision_MERGES.csv": "248ba50dacf249cd25c40e6061ee253ee44f6cb95e30b9c0697f70a967bf9b49",
+    "v09_existing_collision_NEW_CANDIDATES.csv": "19a98f3c9018a9ed866cc94eded8580e92f96b7969c9ed76a8b873b516060744"
+  },
+  "safe_merges_into_existing": 10,
+  "safe_superseded_old_events": 31,
+  "status": "unapplied_final_candidate_collision_check_required",
+  "validated_candidate_rows": 49
+}

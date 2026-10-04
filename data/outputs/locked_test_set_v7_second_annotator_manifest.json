@@ -1,0 +1,31 @@
+{
+  "first_annotator_ids": [
+    "GS"
+  ],
+  "minimum_per_stratum": 5,
+  "outputs": {
+    "locked_test_set_v7_second_annotator_LABEL_HERE.csv": "65dfcc78aaea07d87d00e47cc417c42e5b76d90ae73f74da22f86b09536d4151",
+    "locked_test_set_v7_second_annotator_reading_pack.csv": "1750a2869d4c967a2ced1af1b570c0db2671baffc9c1d8f8d42b99285fd389ca"
+  },
+  "purpose": "blind independent second annotation for inter-rater agreement",
+  "rows": 120,
+  "seed": 20260914,
+  "selected_by_stratum": {
+    "dropped_other|en": 5,
+    "dropped_other|np": 5,
+    "dropped_scope|en": 9,
+    "dropped_scope|np": 10,
+    "dropped_specificity|en": 8,
+    "dropped_specificity|np": 30,
+    "kept_class1|en": 11,
+    "kept_class1|np": 28,
+    "kept_class2|en": 8,
+    "kept_class2|np": 6
+  },
+  "selection_basis": "pipeline decision-by-language stratum only; truth labels not used",
+  "source_files": {
+    "locked_test_set_v7_labels_final.csv": "177dbaa667063f39e37ff68d86e1b9a128be23ad04cbd2a09c72130bbed78803",
+    "locked_test_set_v7_predictions.csv": "917b27bcda7fda4f9c4847217b3017deb64db4aa5b5207584365a44d3b0bfa4f",
+    "locked_test_set_v7_reading_pack.csv": "564c59b4f61bbee7b629fc8b2517c1a1eb6f6b3ec3ea0abde2e933f5e4761e82"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "blocked_candidates": 11,
+  "blocked_old_event_bundles": 3,
+  "eligible_new_candidates": 42,
+  "excluded_candidates": 0,
+  "input_sha256": {
+    "post_correction_article_mapping_DECISIONS_COMPLETED.csv": "262b7d46ad27cc3da9463a0702c65f00f1c5f4d92397b0de9033cc36bcd99934",
+    "post_correction_collision_validation.json": "6cae7ca11cdbf2d0ada9aca418df834af43c099c3b83495c0b5b25d6d1aca554",
+    "post_correction_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "0336c84d71217732cc698ff8a5a051c22ea78b8c4a7ea4fb869e62993bc313fe"
+  },
+  "output_sha256": {
+    "post_correction_existing_collision_BLOCKED_CANDIDATES.csv": "34ba758cb680b1bc9a36321a754a328a6a2f2541858b4366f44a2f2b54e188cd",
+    "post_correction_existing_collision_EXCLUDED.csv": "2e0b4e8ffff9f4011639c0da592d9682fd4a34f390870ba636c34c09697d769a",
+    "post_correction_existing_collision_MERGES.csv": "ca376325d7bfc25ae9976bef6b940ff16a60a6a8db856d48462fcca904b36ae9",
+    "post_correction_existing_collision_NEW_CANDIDATES.csv": "8e4612dec3208e05ec154d85f48b0b19cbd7440143d77e83a4dc7df1b597c0d8"
+  },
+  "safe_merges_into_existing": 11,
+  "safe_superseded_old_events": 61,
+  "status": "unapplied_final_candidate_collision_check_required",
+  "validated_candidate_rows": 64
+}

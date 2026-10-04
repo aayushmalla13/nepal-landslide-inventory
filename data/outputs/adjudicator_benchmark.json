@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-08-07T15:55:15Z",
+  "model": "rules-only",
+  "rows_considered": 332,
+  "rows_without_verdict": 332,
+  "cache_entries": 0,
+  "rules": {
+    "precision": 0.8010552670302798,
+    "recall": 0.41734957078310814,
+    "f1": 0.5487832311444583
+  },
+  "llm": null
+}

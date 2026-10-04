@@ -1,0 +1,15 @@
+{
+  "audit": "post_correction_reconstruction_date_review_v1",
+  "candidate_rows": 93,
+  "date_review_rows": 30,
+  "input_sha256": {
+    "post_correction_article_mapping_manifest.json": "ce2ef3240aa9697b2b0438d0a4e3215422eda11ebdba436f9c7eb461fa3341ea",
+    "post_correction_article_membership_MAP.csv": "b879ad9ef5cf59b962bae7faf93211105cabb23923568499d8219171980017d8",
+    "post_correction_reconstruction_GROUPS.csv": "605651e8963e2346c9b66b7c2cba5cd8f546c24d37b1d936dec6bb2f9d0549a0",
+    "post_correction_reconstruction_manifest.json": "3ccf2aeb06a673ca00413c79d9b3d653af9c6f2e978349628d4bf1d027782c64"
+  },
+  "output_sha256": {
+    "post_correction_reconstruction_DATE_REVIEW.csv": "f3f8db463420ebe9b9982379a9910451dd3ee3201c4e05dac2e931e246e0e94a"
+  },
+  "status": "date_review_template_no_production_changes"
+}

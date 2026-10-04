@@ -1,0 +1,2 @@
+candidate_event_id,candidate_id,old_event_id,district,evidence,reviewed_by,review_notes,production_status
+candidate_404fba6357ded95f,CEC-058,event_4bdd61694ab9588d,Palpa,A landslide buried several parts of the Sutikhola micro-hydro canal; the article says power had been out for about a month but gives no exact failure date.,reviewer_D,The August 7 article only says the micro-hydro outage had lasted about one month; it does not support an exact landslide date.,candidate_excluded_date_unresolved

@@ -1,0 +1,97 @@
+{
+  "question": "How many additional district-days would per-failure extraction recover, and at what false-positive cost?",
+  "materiality_threshold_stated_in_advance": 0.05,
+  "multi_articles_audited": 47,
+  "sample": {
+    "extra_district_days_strong": 10,
+    "extra_district_days_weak": 7,
+    "extra_district_days_naive_extractor": 42,
+    "articles_yielding_nothing": 34,
+    "recovery_kind": {
+      "mixed": 2,
+      "none": 34,
+      "spatial": 6,
+      "temporal": 5
+    },
+    "trap_kind": {
+      "adjacency_mention": 1,
+      "dateline": 4,
+      "flood_not_landslide": 1,
+      "hospital_referral": 1,
+      "publisher_address": 1,
+      "retrospective_bulletin": 2,
+      "retrospective_feature": 1,
+      "road_destination": 3,
+      "stranded_destination": 1,
+      "victim_home_district": 2
+    }
+  },
+  "naive_precision_ceiling": {
+    "note": "Share of the naive extractor's extra district-days that are defensible. The complement is the false case-day rate it would inject into the inventory.",
+    "strong_only": 0.2381,
+    "strong_plus_weak": 0.4048
+  },
+  "inventory_projection": {
+    "note": "Sample counts reweighted by class-1 stratum inclusion weights, because the pack oversamples multi-event phrasing.",
+    "extra_district_days_strong": 157.6,
+    "extra_district_days_strong_plus_weak": 259.4,
+    "extra_district_days_naive_extractor": 901.2,
+    "analysis_case_days_v0_6_0": 1508,
+    "gain_strong_pct": 10.45,
+    "gain_strong_plus_weak_pct": 17.2,
+    "naive_false_case_day_pct": 42.56,
+    "stratum_contribution": {
+      "en:plain": {
+        "multi_articles_sampled": 7,
+        "inclusion_weight": 33.04,
+        "contribution": 33.0,
+        "share_of_total": 0.1274
+      },
+      "en:signal": {
+        "multi_articles_sampled": 19,
+        "inclusion_weight": 3.92,
+        "contribution": 19.6,
+        "share_of_total": 0.0755
+      },
+      "np:plain": {
+        "multi_articles_sampled": 4,
+        "inclusion_weight": 71.52,
+        "contribution": 0.0,
+        "share_of_total": 0.0
+      },
+      "np:signal": {
+        "multi_articles_sampled": 17,
+        "inclusion_weight": 18.8,
+        "contribution": 206.8,
+        "share_of_total": 0.7971
+      }
+    }
+  },
+  "uncertainty": {
+    "note": "Stratified bootstrap over the sampled articles, resampled within stratum because that is how they were drawn. The interval is wide because two strata standing for most of the class-1 inventory are represented by a handful of multi articles each.",
+    "draws": 20000,
+    "seed": 20260912,
+    "gross_extra_district_days_ci95": [
+      135.7,
+      398.2
+    ],
+    "gain_pct_ci95": [
+      9.0,
+      26.41
+    ]
+  },
+  "collision_adjustment": {
+    "note": "Recovered pairs that already exist as case-days from other articles add no new district-day. Measured directly against the v0.6.0 case-day set.",
+    "observed_collisions": 4,
+    "observed_recovered_pairs": 17,
+    "collision_rate": 0.2353,
+    "net_extra_district_days": 198.4,
+    "net_gain_pct": 13.16,
+    "net_gain_pct_ci95": [
+      6.88,
+      20.19
+    ]
+  },
+  "verdict": "material",
+  "verdict_robust_to_sampling_error": true
+}

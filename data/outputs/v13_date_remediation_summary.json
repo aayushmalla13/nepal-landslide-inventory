@@ -1,0 +1,20 @@
+{
+  "audit": "v13_date_remediation_replay_v1",
+  "confirmed_v12_date_failures": 23,
+  "generated_at": "2026-09-29T14:37:42.486649+00:00",
+  "input_sha256": {
+    "corrections/article_corrections.csv": "f5fc330f33bf75925d31c254ce366885e8fcd15f310a12a3ab0fe9695012fb74",
+    "data/outputs/v12_final_validation_COMPLETED.csv": "85fec0d7673afa0f2990bbf48a81146df00f9d99c94373c4cbeb1c1f7cb3d097",
+    "data/outputs/v13_pipeline_diagnostic/landslide_inventory.sqlite": "e2221c1fba6eddf14388a79a122cfa50e95109f47df762cafb967da485c4d0e0",
+    "scripts/verify_v13_date_remediation.py": "4969faf0f72624856344710a82295424b8e980f884954d0c48946b6bfc468e11"
+  },
+  "interpretation": "This replay verifies repair application on the spent v1.2 validation sample. It is not an unbiased estimate of v1.3 performance.",
+  "outcome_counts": {
+    "corrected_exact_date": 17,
+    "excluded_exact_date_or_identity_unresolved": 6
+  },
+  "replay_sha256": "e47bbda70ed7eb38331871025dd43ac069e4231ca291531eb8ac4b2ed45ad909",
+  "resolved_rows": 23,
+  "status": "diagnostic_spent_sample_only",
+  "unresolved_rows": 0
+}

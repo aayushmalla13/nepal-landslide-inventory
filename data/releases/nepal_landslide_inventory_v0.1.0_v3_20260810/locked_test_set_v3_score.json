@@ -1,0 +1,145 @@
+{
+  "scoring_definition": {
+    "truth": "is_landslide_event=yes AND in_nepal=yes AND hazard_type in {landslide,debris_flow,rockfall} AND event_granularity=single",
+    "prediction": "pipeline_decision in {kept_class1,kept_class2} AND event_type_pred=landslide AND hazard_type_pred in {landslide,debris_flow,rockfall}",
+    "unit": "article-level headline classification"
+  },
+  "primary_answered_rows": 386,
+  "labelled_rows": 382,
+  "undecidable_rows": 4,
+  "weighted_confusion": {
+    "tp": 1072.0,
+    "fp": 503.9,
+    "fn": 187.0,
+    "tn": 1880.1
+  },
+  "unweighted_confusion": {
+    "tp": 119,
+    "fp": 57,
+    "fn": 17,
+    "tn": 189
+  },
+  "weighted": {
+    "precision": 0.6802513406175388,
+    "recall": 0.8514424204533703,
+    "f1": 0.7562802208805676
+  },
+  "weighted_ci95_stratified_bootstrap": {
+    "precision": [
+      0.6094091831521554,
+      0.74865568141105
+    ],
+    "recall": [
+      0.7867173369913512,
+      0.9148700689946105
+    ],
+    "f1": [
+      0.7021143274540559,
+      0.8088961780456521
+    ]
+  },
+  "bootstrap": {
+    "method": "within-stratum weighted percentile bootstrap",
+    "replicates": 2000,
+    "seed": 20260809,
+    "note": "Approximate design-aware interval; resampling respects the locked decision-by-language strata and uses inclusion weights."
+  },
+  "unweighted_sample_only": {
+    "precision": 0.6761363636363636,
+    "recall": 0.875,
+    "f1": 0.7628205128205128
+  },
+  "extraction_among_true_headline_articles": {
+    "district": {
+      "truth_available_n": 123,
+      "predicted_nonblank_n": 110,
+      "exact_n": 97,
+      "reportable": true,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.9215739576279794,
+      "weighted_exact_accuracy": 0.8191656418332871,
+      "unweighted_exact_accuracy": 0.7886178861788617
+    },
+    "event_date": {
+      "truth_available_n": 5,
+      "predicted_nonblank_n": 5,
+      "exact_n": 5,
+      "reportable": false,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 1.0,
+      "weighted_exact_accuracy": 1.0,
+      "unweighted_exact_accuracy": 1.0
+    }
+  },
+  "per_stratum_coverage": {
+    "dropped_other|np": {
+      "labelled": 6,
+      "total": 6
+    },
+    "dropped_scope|en": {
+      "labelled": 53,
+      "total": 53
+    },
+    "dropped_scope|np": {
+      "labelled": 17,
+      "total": 17
+    },
+    "dropped_specificity|en": {
+      "labelled": 45,
+      "total": 45
+    },
+    "dropped_specificity|np": {
+      "labelled": 85,
+      "total": 85
+    },
+    "kept_class1|en": {
+      "labelled": 55,
+      "total": 55
+    },
+    "kept_class1|np": {
+      "labelled": 75,
+      "total": 75
+    },
+    "kept_class2|en": {
+      "labelled": 40,
+      "total": 40
+    },
+    "kept_class2|np": {
+      "labelled": 10,
+      "total": 10
+    }
+  },
+  "false_positive_examples": [
+    "https://myrepublica.nagariknetwork.com/news/4-000-landslides-in-sindhupalchowk-report",
+    "https://myrepublica.nagariknetwork.com/news/7-of-a-family-killed-in-landslide",
+    "https://myrepublica.nagariknetwork.com/news/dead-body-of-a-police-constable-stuck-in-dharan-following-landslides-for-six-days",
+    "https://myrepublica.nagariknetwork.com/news/death-toll-from-palpa-landslide-climbs-to-three",
+    "https://myrepublica.nagariknetwork.com/news/dhading-cdo-reports-landslides-and-fallen-trees-following-earthquake",
+    "https://myrepublica.nagariknetwork.com/news/dry-landslides-make-narayanghat-mugling-road-perilous",
+    "https://myrepublica.nagariknetwork.com/news/five-killed-in-nuwakot-landslides",
+    "https://myrepublica.nagariknetwork.com/news/kaligandaki-corridor-blocked-by-landslides-1",
+    "https://myrepublica.nagariknetwork.com/news/landslides-affect-seven-hydropower-projects-in-myagdi",
+    "https://myrepublica.nagariknetwork.com/news/landslides-more-frequent-in-quake-hit-areas",
+    "https://myrepublica.nagariknetwork.com/news/prithivi-highway-faces-routine-obstruction-from-mudslides",
+    "https://myrepublica.nagariknetwork.com/news/quake-rattled-singati-rises-from-the-rubble-but-landslide-fear-still-haunts"
+  ],
+  "false_negative_examples": [
+    "https://myrepublica.nagariknetwork.com/news/10-families-displaced-by-landslide-20-at-high-risk-in-sindhupalchowk",
+    "https://myrepublica.nagariknetwork.com/news/baisari-landslide-victims-to-be-resettled-in-safer-location",
+    "https://myrepublica.nagariknetwork.com/news/historical-tuwachung-jayajum-site-at-risk-of-landslides",
+    "https://myrepublica.nagariknetwork.com/news/kaski-landslide-update-bodies-of-two-missing-persons-found-death-toll-rises-to-11",
+    "https://myrepublica.nagariknetwork.com/news/landslide-forces-chepang-families-to-abandon-home",
+    "https://myrepublica.nagariknetwork.com/news/landslide-victims-of-nishikhola-still-living-in-tents",
+    "https://myrepublica.nagariknetwork.com/news/lidi-landslide-update-death-toll-reaches-12-27-still-missing",
+    "https://thehimalayantimes.com/nepal/at-least-three-killed-dozens-missing-in-sindhupalchok-landslide",
+    "https://www.onlinekhabar.com/2024/06/1502187/three-sons-in-india-for-work-the-family-is-destroyed-by-landslides",
+    "https://www.onlinekhabar.com/2025/05/1683669/humla-follow-up-landslides-including-landslides-damage-hydroelectric-power-plants-drains-and-drinking-water",
+    "https://www.setopati.com/social/212469",
+    "https://www.setopati.com/social/247946"
+  ],
+  "generated_at": "2026-08-10T03:57:30Z",
+  "labels_file": "locked_test_set_v3_LABEL_HERE.csv",
+  "labels_sha256": "63a3cbafd9c8b28242eab87b1710860a3c978b595ee763e2c5e4facea1b4ea42",
+  "predictions_file": "locked_test_set_v3_predictions.csv",
+  "predictions_sha256": "b39a258c4d216088354d160250832fc0d7be11fdf0a5508b8326dacc960ccecd"
+}

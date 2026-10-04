@@ -1,0 +1,1271 @@
+{
+  "bipad_input": {
+    "path": "data/outputs/external_bipad_input_snapshot.csv",
+    "rows": 5345,
+    "sha256": "0f8ffe6210e78560a23d4b07fee5c61ccfa73e7ca389f05415553d89ed81f2dc"
+  },
+  "canonical_input": {
+    "path": "data/releases/nepal_landslide_inventory_v1.5.0_event_detection_validated_20261004/canonical_events_final.csv",
+    "sha256": "313745c27218be7989764cc9614b71cc69a9549ff05c483247a6c89bd276ae19"
+  },
+  "comparison_end": "2026-08-08",
+  "comparison_start": "2015-01-01",
+  "external_sources": [
+    "bipad",
+    "nasa-coolr"
+  ],
+  "framing_note": "These are overlap and agreement statistics between two independent, incomplete observation systems. Precision and recall against BIPAD are not reported and must not be derived from these numbers: BIPAD is not ground truth, and a news event it missed is a contribution rather than an error.",
+  "generated_at": "2026-10-04T08:20:38+00:00",
+  "layer1_harmonisation": {
+    "clusters_with_multiple_rows": 720,
+    "collapse_ratio": 1.305,
+    "incident_clusters": 4095,
+    "input_rows": 5345,
+    "largest_cluster": 29
+  },
+  "layer2_overlap": {
+    "bipad_matched": 1444,
+    "bipad_total": 4095,
+    "by_tier": {
+      "A": 482,
+      "B": 360,
+      "C": 2839
+    },
+    "matches": 3681,
+    "multiplicity_max_per_bipad": 32,
+    "multiplicity_max_per_news": 11,
+    "news_matched": 1484,
+    "news_total": 2119,
+    "overlap_bipad_side": 0.3526,
+    "overlap_news_side": 0.7003
+  },
+  "layer3_chance_corrected": {
+    "pooled": {
+      "chance_corrected": 0.0,
+      "empirical_p": 1.0,
+      "expected_by_chance": 0.7003,
+      "null_sd": 0.0,
+      "observed_overlap": 0.7003,
+      "permutations": 100,
+      "seed": 20260807,
+      "tier": "any",
+      "z": null
+    },
+    "tier_A": {
+      "chance_corrected": 0.1276,
+      "empirical_p": 0.0099,
+      "expected_by_chance": 0.0927,
+      "null_sd": 0.0076,
+      "observed_overlap": 0.2204,
+      "permutations": 100,
+      "seed": 20260807,
+      "tier": "A",
+      "z": 16.72
+    },
+    "tier_B": {
+      "chance_corrected": 0.0249,
+      "empirical_p": 0.0099,
+      "expected_by_chance": 0.0936,
+      "null_sd": 0.0033,
+      "observed_overlap": 0.1185,
+      "permutations": 100,
+      "seed": 20260807,
+      "tier": "B",
+      "z": 7.53
+    },
+    "tier_C": {
+      "chance_corrected": -0.0406,
+      "empirical_p": 1.0,
+      "expected_by_chance": 0.6158,
+      "null_sd": 0.004,
+      "observed_overlap": 0.5753,
+      "permutations": 100,
+      "seed": 20260807,
+      "tier": "C",
+      "z": -10.12
+    }
+  },
+  "layer4_capture_recapture": {
+    "assumption": "Independent samplers. BIPAD reporting is partly media-triggered, which violates this and biases the population estimate downward — treat as a lower bound. Stratify by casualty severity to bound the bias.",
+    "bipad_completeness": 0.7004,
+    "bipad_total": 4095,
+    "ci95": [
+      5716.6,
+      5976.4
+    ],
+    "estimated_population": 5846.5,
+    "estimator": "Chapman (bias-corrected Lincoln-Petersen)",
+    "matched": 1484,
+    "news_completeness": 0.3624,
+    "news_total": 2119,
+    "se": 66.3
+  },
+  "layer5_aggregate": {
+    "district_month": {
+      "aggregation": "district_month",
+      "bipad_total": 4095,
+      "bland_altman_limits": [
+        -5.749,
+        3.971
+      ],
+      "bland_altman_mean_difference": -0.889,
+      "cells": 2223,
+      "news_total": 2119,
+      "spearman_rho": -0.0754
+    },
+    "district_year": {
+      "aggregation": "district_year",
+      "bipad_total": 4095,
+      "bland_altman_limits": [
+        -15.0,
+        9.549
+      ],
+      "bland_altman_mean_difference": -2.726,
+      "cells": 725,
+      "news_total": 2119,
+      "spearman_rho": 0.3546
+    }
+  },
+  "layer6_unmatched_samples": {
+    "unmatched_bipad": [
+      {
+        "deaths": 0,
+        "district": "Achham",
+        "event_date": "2025-08-19",
+        "event_id": "81892",
+        "municipality": "Kamalbazar Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 2,
+        "district": "Arghakhanchi",
+        "event_date": "2016-07-26",
+        "event_id": "32918",
+        "municipality": "Bhumekasthan Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Baglung",
+        "event_date": "2023-07-13",
+        "event_id": "65376",
+        "municipality": "Dhorpatan Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Baitadi",
+        "event_date": "2022-09-05",
+        "event_id": "60403",
+        "municipality": "Patan Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Bajhang",
+        "event_date": "2025-08-29",
+        "event_id": "82242",
+        "municipality": "Bungal Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Bajura",
+        "event_date": "2024-07-08",
+        "event_id": "72926",
+        "municipality": "Gaumul Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Banke",
+        "event_date": "2015-06-26",
+        "event_id": "421",
+        "municipality": "Rapti Sonari Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Bardiya",
+        "event_date": "2026-04-28",
+        "event_id": "88917",
+        "municipality": "Barbardiya Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Bhaktapur",
+        "event_date": "2026-07-03",
+        "event_id": "91146",
+        "municipality": "Suryabinayak Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Bhojpur",
+        "event_date": "2026-08-06",
+        "event_id": "92727",
+        "municipality": "Bhojpur Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Chitwan",
+        "event_date": "2023-03-27",
+        "event_id": "62952",
+        "municipality": "Bharatpur Metropolitan City",
+        "source": "bipad"
+      },
+      {
+        "deaths": 2,
+        "district": "Dadeldhura",
+        "event_date": "2021-10-21",
+        "event_id": "56916",
+        "municipality": "Alital Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Dailekh",
+        "event_date": "2019-07-24",
+        "event_id": "43860",
+        "municipality": "Gurans Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Dang",
+        "event_date": "2022-07-28",
+        "event_id": "60010",
+        "municipality": "Ghorahi Sub-Metropolitan City",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Darchula",
+        "event_date": "2017-07-27",
+        "event_id": "35235",
+        "municipality": "Apihimal Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 1,
+        "district": "Dhading",
+        "event_date": "2018-07-25",
+        "event_id": "38878",
+        "municipality": "Galchi Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Dhankuta",
+        "event_date": "2025-10-05",
+        "event_id": "83083",
+        "municipality": "Mahalaxmi",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Dolakha",
+        "event_date": "2025-08-14",
+        "event_id": "81791",
+        "municipality": "Bigu Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Dolpa",
+        "event_date": "2024-08-10",
+        "event_id": "73765",
+        "municipality": "Shey Phoksundo Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 1,
+        "district": "Doti",
+        "event_date": "2022-07-09",
+        "event_id": "59823",
+        "municipality": "Sayal Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Eastern Rukum",
+        "event_date": "2016-06-29",
+        "event_id": "2140",
+        "municipality": "Sisne Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Gorkha",
+        "event_date": "2026-07-25",
+        "event_id": "92173",
+        "municipality": "Barpak Sulikot Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Gulmi",
+        "event_date": "2026-08-06",
+        "event_id": "92725",
+        "municipality": "Resunga Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Humla",
+        "event_date": "2025-08-13",
+        "event_id": "81773",
+        "municipality": "Simkot Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Ilam",
+        "event_date": "2016-07-25",
+        "event_id": "33201",
+        "municipality": "Illam Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Jajarkot",
+        "event_date": "2026-07-03",
+        "event_id": "91153",
+        "municipality": "Kuse Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Jhapa",
+        "event_date": "2019-07-24",
+        "event_id": "43865",
+        "municipality": "Mechinagar Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Jumla",
+        "event_date": "2026-08-06",
+        "event_id": "92712",
+        "municipality": "Guthichaur Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Kailali",
+        "event_date": "2022-09-17",
+        "event_id": "60519",
+        "municipality": "Chure Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 1,
+        "district": "Kalikot",
+        "event_date": "2020-07-18",
+        "event_id": "47555",
+        "municipality": "Pachaljharana Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Kanchanpur",
+        "event_date": "2021-01-06",
+        "event_id": "53479",
+        "municipality": "Punarbas Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Kapilvastu",
+        "event_date": "2026-06-09",
+        "event_id": "90382",
+        "municipality": "Buddhabhumi Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Kaski",
+        "event_date": "2021-07-15",
+        "event_id": "56019",
+        "municipality": "Pokhara Metropolitan City",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Kathmandu",
+        "event_date": "2021-09-07",
+        "event_id": "56575",
+        "municipality": "Gokarneshwor Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Kavrepalanchok",
+        "event_date": "2023-08-26",
+        "event_id": "66040",
+        "municipality": "Panauti Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Khotang",
+        "event_date": "2024-07-11",
+        "event_id": "73148",
+        "municipality": "Diprung Chuichumma",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Lalitpur",
+        "event_date": "2017-08-13",
+        "event_id": "35511",
+        "municipality": "Konjyosom Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Lamjung",
+        "event_date": "2019-04-09",
+        "event_id": "42224",
+        "municipality": "Besishahar Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Mahottari",
+        "event_date": "2020-07-20",
+        "event_id": "47571",
+        "municipality": "Gaushala Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Makwanpur",
+        "event_date": "2026-05-20",
+        "event_id": "89615",
+        "municipality": "Bakaiya Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Manang",
+        "event_date": "2023-07-04",
+        "event_id": "65231",
+        "municipality": "Narshon Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 1,
+        "district": "Morang",
+        "event_date": "2025-10-05",
+        "event_id": "83129",
+        "municipality": "Biratnagar Metropolitan City",
+        "source": "bipad"
+      },
+      {
+        "deaths": 1,
+        "district": "Mugu",
+        "event_date": "2018-08-01",
+        "event_id": "38950",
+        "municipality": "Chhayanath Rara Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Mustang",
+        "event_date": "2019-09-08",
+        "event_id": "44445",
+        "municipality": "Thasang Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 1,
+        "district": "Myagdi",
+        "event_date": "2016-10-03",
+        "event_id": "33547",
+        "municipality": "Raghuganga Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Nawalpur",
+        "event_date": "2022-07-31",
+        "event_id": "60036",
+        "municipality": "Hupsekot Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Nuwakot",
+        "event_date": "2026-08-08",
+        "event_id": "92828",
+        "municipality": "Suryagadhi Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Okhaldhunga",
+        "event_date": "2024-09-27",
+        "event_id": "74953",
+        "municipality": "Molung Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Palpa",
+        "event_date": "2024-07-12",
+        "event_id": "73127",
+        "municipality": "Nisdi Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Panchthar",
+        "event_date": "2020-09-23",
+        "event_id": "48363",
+        "municipality": "Phidim Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Parasi",
+        "event_date": "2020-07-10",
+        "event_id": "47409",
+        "municipality": "Palhi Nandan Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Parbat",
+        "event_date": "2019-07-06",
+        "event_id": "43448",
+        "municipality": "Kushma Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Pyuthan",
+        "event_date": "2022-08-18",
+        "event_id": "60233",
+        "municipality": "Pyuthan Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Ramechhap",
+        "event_date": "2021-07-04",
+        "event_id": "55880",
+        "municipality": "Umakunda Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Rasuwa",
+        "event_date": "2024-07-07",
+        "event_id": "72856",
+        "municipality": "Uttargaya Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Rolpa",
+        "event_date": "2025-06-24",
+        "event_id": "80700",
+        "municipality": "Rolpa Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Rupandehi",
+        "event_date": "2024-07-11",
+        "event_id": "73140",
+        "municipality": "Gaidahawa Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Salyan",
+        "event_date": "2022-09-04",
+        "event_id": "60392",
+        "municipality": "Kalimati Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Sankhuwasabha",
+        "event_date": "2019-08-21",
+        "event_id": "44262",
+        "municipality": "Makalu Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 1,
+        "district": "Sarlahi",
+        "event_date": "2024-09-27",
+        "event_id": "74747",
+        "municipality": "Haripur Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 4,
+        "district": "Sindhuli",
+        "event_date": "2017-08-12",
+        "event_id": "35396",
+        "municipality": "Kamalamai Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Sindhupalchok",
+        "event_date": "2024-07-28",
+        "event_id": "73437",
+        "municipality": "Jugal Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Siraha",
+        "event_date": "2024-07-12",
+        "event_id": "73146",
+        "municipality": "Golbazar Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Solukhumbu",
+        "event_date": "2024-06-29",
+        "event_id": "72525",
+        "municipality": "Solududhakunda Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Sunsari",
+        "event_date": "2024-06-18",
+        "event_id": "72185",
+        "municipality": "Dharan Sub-Metropolitan City",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Surkhet",
+        "event_date": "2021-05-11",
+        "event_id": "55324",
+        "municipality": "Gurbhakot Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Syangja",
+        "event_date": "2026-07-14",
+        "event_id": "91648",
+        "municipality": "Bhirkot Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Tanahu",
+        "event_date": "2026-06-19",
+        "event_id": "90650",
+        "municipality": "Anbukhaireni Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Taplejung",
+        "event_date": "2020-07-18",
+        "event_id": "47539",
+        "municipality": "Phaktanglung Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Terhathum",
+        "event_date": "2026-07-03",
+        "event_id": "91150",
+        "municipality": "Phedap Rural Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Udayapur",
+        "event_date": "2018-04-02",
+        "event_id": "37370",
+        "municipality": "Katari Municipality",
+        "source": "bipad"
+      },
+      {
+        "deaths": 0,
+        "district": "Western Rukum",
+        "event_date": "2025-04-10",
+        "event_id": "78671",
+        "municipality": "Banfikot Rural Municipality",
+        "source": "bipad"
+      }
+    ],
+    "unmatched_news": [
+      {
+        "deaths": null,
+        "district": "Achham",
+        "event_date": "2021-07-11",
+        "event_id": "event_7e48bec3c8067f61",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Arghakhanchi",
+        "event_date": "2024-03-17",
+        "event_id": "event_b44a941e11f614f9",
+        "municipality": "Sitganga Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Baglung",
+        "event_date": "2018-10-22",
+        "event_id": "event_f2e03399ab3f999a",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Baitadi",
+        "event_date": "2017-08-04",
+        "event_id": "event_c65c47d7e0379b82",
+        "municipality": "Dilasaini Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Bajhang",
+        "event_date": "2024-09-05",
+        "event_id": "event_f8411de0c3516aa5",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Bajura",
+        "event_date": "2019-09-14",
+        "event_id": "event_695c012226ae3288",
+        "municipality": "Budhiganga Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Banke",
+        "event_date": "2024-10-04",
+        "event_id": "event_4112fa84068a393a",
+        "municipality": "Baijanath Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 2,
+        "district": "Bara",
+        "event_date": "2025-10-11",
+        "event_id": "event_c2d13ef96f55e89e",
+        "municipality": "Simraungadh Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Bardiya",
+        "event_date": "2025-05-25",
+        "event_id": "event_3bf51447c20a8907",
+        "municipality": "Barbardiya Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Bhaktapur",
+        "event_date": "2020-12-20",
+        "event_id": "event_2e03eac498426df0",
+        "municipality": "Changunarayan Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 5,
+        "district": "Bhojpur",
+        "event_date": "2019-08-08",
+        "event_id": "event_31fde4e1bb845829",
+        "municipality": "Temkemaiyung Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Chitwan",
+        "event_date": "2020-08-22",
+        "event_id": "event_eace5b03c5329715",
+        "municipality": "Ichchhyakamana Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dadeldhura",
+        "event_date": "2016-03-03",
+        "event_id": "event_cc1971b6b532a1ac",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dailekh",
+        "event_date": "2021-09-14",
+        "event_id": "event_4d6bab832163ed74",
+        "municipality": "Chamunda Bindrasaini Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dang",
+        "event_date": "2022-03-23",
+        "event_id": "event_8839d5075a0b24ff",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Darchula",
+        "event_date": "2018-08-12",
+        "event_id": "event_3dddcab24ce9c5fc",
+        "municipality": "Malikaarjun Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dhading",
+        "event_date": "2023-10-22",
+        "event_id": "event_3f949fc528b8578e",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dhankuta",
+        "event_date": "2019-08-05",
+        "event_id": "event_aba72c8f6e510c9d",
+        "municipality": "Dhankuta Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dhanusha",
+        "event_date": "2026-07-17",
+        "event_id": "event_039505f14ae39104",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dolakha",
+        "event_date": "2025-10-08",
+        "event_id": "event_aca59a3008dec7b8",
+        "municipality": "Bigu Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Dolpa",
+        "event_date": "2015-04-19",
+        "event_id": "event_8dd1f2441c479116",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Doti",
+        "event_date": "2026-03-10",
+        "event_id": "event_a41ead26fb1593c7",
+        "municipality": "Sayal Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Eastern Rukum",
+        "event_date": "2026-07-08",
+        "event_id": "event_8b49176ba00ad36f",
+        "municipality": "Sisne Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Gorkha",
+        "event_date": "2023-08-27",
+        "event_id": "event_d7abe3c54a5fdb24",
+        "municipality": "Dharche Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Gulmi",
+        "event_date": "2021-10-20",
+        "event_id": "event_ad54f437b23a2ce9",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": 2,
+        "district": "Humla",
+        "event_date": "2024-10-02",
+        "event_id": "event_b2a614104ae05ddb",
+        "municipality": "Tanjakot Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Ilam",
+        "event_date": "2021-10-02",
+        "event_id": "event_58ef6cfc92d05cfb",
+        "municipality": "Illam Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Jajarkot",
+        "event_date": "2017-09-22",
+        "event_id": "event_5a2beabb8cb74e4a",
+        "municipality": "Kuse Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Jhapa",
+        "event_date": "2024-10-01",
+        "event_id": "event_0b0f591a81c165fd",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Jumla",
+        "event_date": "2024-08-11",
+        "event_id": "event_c49d9bcf3a37e3d0",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Kailali",
+        "event_date": "2022-10-10",
+        "event_id": "event_dbb0adf602bc8478",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Kalikot",
+        "event_date": "2021-08-24",
+        "event_id": "event_5a22080eb6fae8ca",
+        "municipality": "Subha Kalika Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 2,
+        "district": "Kapilvastu",
+        "event_date": "2022-06-20",
+        "event_id": "event_94c9d1c6bcb3ce14",
+        "municipality": "Shivaraj Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Kaski",
+        "event_date": "2023-10-08",
+        "event_id": "event_cd05db1121a6446a",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Kathmandu",
+        "event_date": "2015-08-18",
+        "event_id": "event_c19741fd4adffe4e",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Kavrepalanchok",
+        "event_date": "2025-06-18",
+        "event_id": "event_03d72809b62b5e3a",
+        "municipality": "Dhulikhel Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Khotang",
+        "event_date": "2018-06-20",
+        "event_id": "event_e0481dd66402ac29",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Lalitpur",
+        "event_date": "2025-10-03",
+        "event_id": "event_4fa3d2514c8df3b4",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Lamjung",
+        "event_date": "2023-08-13",
+        "event_id": "event_a3a0445a0b03019c",
+        "municipality": "Marsyangdi Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Mahottari",
+        "event_date": "2025-03-08",
+        "event_id": "event_9aa2ad596e07b755",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Makwanpur",
+        "event_date": "2025-05-29",
+        "event_id": "event_d3fc5b71fa9d51d3",
+        "municipality": "Bhimphedi Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Manang",
+        "event_date": "2021-06-16",
+        "event_id": "event_de887d22ba68a7ca",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Mustang",
+        "event_date": "2025-07-28",
+        "event_id": "event_4ae382953b074051",
+        "municipality": "Thasang Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Myagdi",
+        "event_date": "2021-06-22",
+        "event_id": "event_ae6eaab75ddff1ef",
+        "municipality": "Mangala Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Nawalpur",
+        "event_date": "2025-04-22",
+        "event_id": "event_dca5c0e6d7ecedf4",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Nuwakot",
+        "event_date": "2022-03-25",
+        "event_id": "event_47b1a184686e33b4",
+        "municipality": "Shivapuri Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Okhaldhunga",
+        "event_date": "2023-08-25",
+        "event_id": "event_c68871b27b87c058",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Palpa",
+        "event_date": "2022-06-28",
+        "event_id": "event_29eefc2f580f6701",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": 2,
+        "district": "Panchthar",
+        "event_date": "2026-04-01",
+        "event_id": "event_eeca28067a57042a",
+        "municipality": "Falelung Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Parasi",
+        "event_date": "2025-09-18",
+        "event_id": "event_381fc9febb9cb555",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Parbat",
+        "event_date": "2018-11-10",
+        "event_id": "event_5d6860cd89946b73",
+        "municipality": "Jaljala Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Parsa",
+        "event_date": "2024-07-16",
+        "event_id": "event_022f01891db80732",
+        "municipality": "Birgunj Metropolitan City",
+        "source": "news"
+      },
+      {
+        "deaths": 2016,
+        "district": "Pyuthan",
+        "event_date": "2021-07-11",
+        "event_id": "event_bd240f47b87af007",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Ramechhap",
+        "event_date": "2017-07-15",
+        "event_id": "event_3b02e8a5e21fbb4a",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Rasuwa",
+        "event_date": "2019-09-11",
+        "event_id": "event_b57b01c19e0675af",
+        "municipality": "Kalika Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Rautahat",
+        "event_date": "2019-07-21",
+        "event_id": "event_08cea2b958cb8155",
+        "municipality": "Gaur Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Rolpa",
+        "event_date": "2019-12-29",
+        "event_id": "event_4503420f20912f86",
+        "municipality": "Sunchhahari Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Rupandehi",
+        "event_date": "2025-07-09",
+        "event_id": "event_a4980bdef4db7a2d",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Salyan",
+        "event_date": "2025-05-28",
+        "event_id": "event_84c45c6df3f00444",
+        "municipality": "Kapurkot Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": 2,
+        "district": "Sankhuwasabha",
+        "event_date": "2015-06-14",
+        "event_id": "event_47ff1bd65f7924ef",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Sarlahi",
+        "event_date": "2023-07-01",
+        "event_id": "event_6e2443405f3d0d40",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Sindhuli",
+        "event_date": "2022-09-07",
+        "event_id": "event_98d8edaf45d539f7",
+        "municipality": "Golanjor Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Sindhupalchok",
+        "event_date": "2020-06-23",
+        "event_id": "event_90aad0bf18e28fe0",
+        "municipality": "Bhotekoshi Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Sunsari",
+        "event_date": "2019-09-17",
+        "event_id": "event_8da759792290ec50",
+        "municipality": "Dharan Sub-Metropolitan City",
+        "source": "news"
+      },
+      {
+        "deaths": 1,
+        "district": "Surkhet",
+        "event_date": "2026-06-20",
+        "event_id": "event_9527112ca063ac10",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Syangja",
+        "event_date": "2022-09-04",
+        "event_id": "event_b902dc8d2be54e59",
+        "municipality": "Waling Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Tanahu",
+        "event_date": "2020-06-22",
+        "event_id": "event_79a0c6cbd8e2d15f",
+        "municipality": "Anbukhaireni Rural Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Taplejung",
+        "event_date": "2015-06-21",
+        "event_id": "event_c6d3c9edd225523b",
+        "municipality": null,
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Udayapur",
+        "event_date": "2024-10-11",
+        "event_id": "event_70721062e122419e",
+        "municipality": "Katari Municipality",
+        "source": "news"
+      },
+      {
+        "deaths": null,
+        "district": "Western Rukum",
+        "event_date": "2019-02-22",
+        "event_id": "event_19fb70a927e26c39",
+        "municipality": "Aathbiskot Municipality",
+        "source": "news"
+      }
+    ]
+  }
+}

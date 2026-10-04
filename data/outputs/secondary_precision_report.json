@@ -1,0 +1,80 @@
+{
+  "evaluation": "secondary_failure_blind_precision_census",
+  "unit": "emitted source-level district-date claim",
+  "design": {
+    "census": true,
+    "precision_only": true,
+    "recall_estimable": false,
+    "note": "Only emitted claims were reviewed; missed district-date events were not measured."
+  },
+  "overall": {
+    "reviewed_claims": 154,
+    "weighted_population": 154.0,
+    "verified_claims": 52,
+    "wrong_location": 44,
+    "unclear_location": 2,
+    "wrong_date": 11,
+    "unclear_date": 45,
+    "location_confirmed": 108,
+    "location_precision": 0.7013,
+    "joint_district_date_precision": 0.3377,
+    "date_precision_given_location": 0.4815
+  },
+  "by_stratum": {
+    "cross:firm": {
+      "reviewed_claims": 85,
+      "weighted_population": 85.0,
+      "verified_claims": 34,
+      "wrong_location": 27,
+      "unclear_location": 2,
+      "wrong_date": 7,
+      "unclear_date": 15,
+      "location_confirmed": 56,
+      "location_precision": 0.6588,
+      "joint_district_date_precision": 0.4,
+      "date_precision_given_location": 0.6071
+    },
+    "cross:soft": {
+      "reviewed_claims": 62,
+      "weighted_population": 62.0,
+      "verified_claims": 14,
+      "wrong_location": 17,
+      "unclear_location": 0,
+      "wrong_date": 3,
+      "unclear_date": 28,
+      "location_confirmed": 45,
+      "location_precision": 0.7258,
+      "joint_district_date_precision": 0.2258,
+      "date_precision_given_location": 0.3111
+    },
+    "same:firm": {
+      "reviewed_claims": 7,
+      "weighted_population": 7.0,
+      "verified_claims": 4,
+      "wrong_location": 0,
+      "unclear_location": 0,
+      "wrong_date": 1,
+      "unclear_date": 2,
+      "location_confirmed": 7,
+      "location_precision": 1.0,
+      "joint_district_date_precision": 0.5714,
+      "date_precision_given_location": 0.5714
+    }
+  },
+  "verified_supplement": {
+    "source_claims": 52,
+    "distinct_district_days": 48,
+    "status": "manual_supplement_only_not_integrated"
+  },
+  "release_gate": {
+    "decision": "failed",
+    "automated_secondary_recoveries": "exclude_from_canonical_inventory",
+    "verified_rows": "manual_supplement_only_not_integrated",
+    "basis": "Joint district-date precision is near the approximately 40% failure case documented before labelling, not the high precision needed for release."
+  },
+  "limitations": [
+    "The supplement confirms particular claims, not extractor generalisation.",
+    "A fresh locked district-date test is required after extractor redesign.",
+    "No secondary claim is integrated into the database, inventory, analysis, or release."
+  ]
+}

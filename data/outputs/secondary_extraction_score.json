@@ -1,0 +1,138 @@
+{
+  "set": "class1_multi_development_audit",
+  "caveat": "Development measurement. The audit these rules were written from cannot also evaluate them; locked test set v8 is the honest evaluation and has not been drawn.",
+  "articles": 47,
+  "emitted_district_days": 6,
+  "precision": 1.0,
+  "recall": 0.3529,
+  "recall_strong_only": 0.4,
+  "negative_control": {
+    "note": "Human-labelled non-multi articles from the same pack. A record emitted from a `single` article is wrong by definition.",
+    "by_truth": {
+      "single": {
+        "articles": 43,
+        "articles_emitting": 0,
+        "records": 0
+      },
+      "roundup": {
+        "articles": 5,
+        "articles_emitting": 0,
+        "records": 0
+      },
+      "not_applicable": {
+        "articles": 4,
+        "articles_emitting": 0,
+        "records": 0
+      },
+      "unclear": {
+        "articles": 1,
+        "articles_emitting": 0,
+        "records": 0
+      }
+    },
+    "total_records": 0
+  },
+  "trap_violations": [],
+  "false_positives": [],
+  "missed": [
+    {
+      "row_id": "c1-0002",
+      "district": "Myagdi",
+      "date": "2022-06-28"
+    },
+    {
+      "row_id": "c1-0033",
+      "district": "Manang",
+      "date": "2018-09-14"
+    },
+    {
+      "row_id": "c1-0035",
+      "district": "Myagdi",
+      "date": "2021-06-21"
+    },
+    {
+      "row_id": "c1-0039",
+      "district": "Chitwan",
+      "date": "2018-06-25"
+    },
+    {
+      "row_id": "c1-0039",
+      "district": "Chitwan",
+      "date": "2018-06-26"
+    },
+    {
+      "row_id": "c1-0040",
+      "district": "Dhading",
+      "date": "2020-07-20"
+    },
+    {
+      "row_id": "c1-0044",
+      "district": "Kavrepalanchok",
+      "date": "2026-04-20"
+    },
+    {
+      "row_id": "c1-0044",
+      "district": "Myagdi",
+      "date": "2026-04-16"
+    },
+    {
+      "row_id": "c1-0080",
+      "district": "Chitwan",
+      "date": "2021-07-01"
+    },
+    {
+      "row_id": "c1-0083",
+      "district": "Palpa",
+      "date": "2020-07-22"
+    },
+    {
+      "row_id": "c1-0092",
+      "district": "Chitwan",
+      "date": "2025-09-23"
+    }
+  ],
+  "emitted": [
+    {
+      "row_id": "c1-0002",
+      "district": "Tanahu",
+      "date": "2022-06-28",
+      "date_basis": "weekday",
+      "sentence": "मंगलबार रातिदेखि परेको वर्षाका कारण पहिरो जाँदा पृथ्वीराजमार्गअन्तर्गत तनहुँको आँबुखैरेनी-मुग्लिन सडकखण्ड अवरुद्ध भएको छ।"
+    },
+    {
+      "row_id": "c1-0009",
+      "district": "Kalikot",
+      "date": "2019-04-06",
+      "date_basis": "weekday",
+      "sentence": "Landslides have occurred in Dullu Municipality of Dailekh and Shubh Kalika Rural Municipality of Kalikot, leaving many stranded and without drinking water."
+    },
+    {
+      "row_id": "c1-0017",
+      "district": "Dhading",
+      "date": "2022-06-14",
+      "date_basis": "explicit_ad_date",
+      "sentence": "According to Tul Kumari BK, 55, of Bhirmauri in Gangajamuna Rural Municipality-5, her house was badly damaged in a landslide on June 14."
+    },
+    {
+      "row_id": "c1-0017",
+      "district": "Dhading",
+      "date": "2022-06-16",
+      "date_basis": "weekday",
+      "sentence": "Eighty-four-year-old Dhanmaya Sarki also died in a landslide last Thursday at Budhathum, Gangajamuna Rural Municipality-7."
+    },
+    {
+      "row_id": "c1-0070",
+      "district": "Sankhuwasabha",
+      "date": "2016-09-21",
+      "date_basis": "weekday",
+      "sentence": "Two persons were buried to death in landslides triggered by incessant rainfall in Dhankuta and Sankhuwasabha districts of eastern Nepal on Wednesday."
+    },
+    {
+      "row_id": "c1-0079",
+      "district": "Sankhuwasabha",
+      "date": "2026-05-06",
+      "date_basis": "explicit_bs_date",
+      "sentence": "कोशी राजमार्ग अन्तर्गत मकालु गाउँपालिका–३ नयाँबस्तीमा वैशाख २३ गते राति गएको पहिरोका कारण बाटो अवरुद्ध भएको थियो ।"
+    }
+  ]
+}

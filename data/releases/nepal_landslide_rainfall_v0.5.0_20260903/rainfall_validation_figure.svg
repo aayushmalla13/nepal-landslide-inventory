@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="620" viewBox="0 0 1180 620">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="Arial,Helvetica,sans-serif" fill="#222">
+<text x="50" y="34" font-size="20" font-weight="bold">Held-out validation: one temporal split against the full year-to-year range</text>
+<text x="50" y="56" font-size="12" fill="#555">Concurrent windows include the reported event day; strictly antecedent windows end the day before it.</text>
+<text x="70" y="96" font-size="15" font-weight="bold">A. Leave-one-year-out</text>
+<line x1="90" y1="500" x2="520" y2="500" stroke="#222"/>
+<line x1="90" y1="120" x2="90" y2="500" stroke="#222"/>
+<text x="305.0" y="540" font-size="13" text-anchor="middle">Held-out block</text>
+<text x="44" y="310.0" font-size="13" text-anchor="middle" transform="rotate(-90 44 310.0)">AUC</text>
+<line x1="90" y1="500.0" x2="520" y2="500.0" stroke="#eee"/>
+<text x="80" y="504.0" font-size="10" text-anchor="end">0.50</text>
+<line x1="90" y1="436.66666666666663" x2="520" y2="436.66666666666663" stroke="#eee"/>
+<text x="80" y="440.66666666666663" font-size="10" text-anchor="end">0.55</text>
+<line x1="90" y1="373.33333333333337" x2="520" y2="373.33333333333337" stroke="#eee"/>
+<text x="80" y="377.33333333333337" font-size="10" text-anchor="end">0.60</text>
+<line x1="90" y1="310.0" x2="520" y2="310.0" stroke="#eee"/>
+<text x="80" y="314.0" font-size="10" text-anchor="end">0.65</text>
+<line x1="90" y1="246.66666666666663" x2="520" y2="246.66666666666663" stroke="#eee"/>
+<text x="80" y="250.66666666666663" font-size="10" text-anchor="end">0.70</text>
+<line x1="90" y1="183.33333333333337" x2="520" y2="183.33333333333337" stroke="#eee"/>
+<text x="80" y="187.33333333333337" font-size="10" text-anchor="end">0.75</text>
+<line x1="90" y1="120.0" x2="520" y2="120.0" stroke="#eee"/>
+<text x="80" y="124.0" font-size="10" text-anchor="end">0.80</text>
+<circle cx="107.9" cy="444.4" r="4" fill="#E6550D"/>
+<circle cx="143.8" cy="315.4" r="4" fill="#E6550D"/>
+<circle cx="179.6" cy="320.3" r="4" fill="#E6550D"/>
+<circle cx="215.4" cy="421.3" r="4" fill="#E6550D"/>
+<circle cx="251.2" cy="333.0" r="4" fill="#E6550D"/>
+<circle cx="287.1" cy="391.2" r="4" fill="#E6550D"/>
+<circle cx="322.9" cy="243.8" r="4" fill="#E6550D"/>
+<circle cx="358.8" cy="256.0" r="4" fill="#E6550D"/>
+<circle cx="394.6" cy="309.4" r="4" fill="#E6550D"/>
+<circle cx="430.4" cy="266.0" r="4" fill="#E6550D"/>
+<circle cx="466.3" cy="262.1" r="4" fill="#E6550D"/>
+<circle cx="502.1" cy="357.3" r="4" fill="#E6550D"/>
+<polyline points="107.9,444.4 143.8,315.4 179.6,320.3 215.4,421.3 251.2,333.0 287.1,391.2 322.9,243.8 358.8,256.0 394.6,309.4 430.4,266.0 466.3,262.1 502.1,357.3" fill="none" stroke="#E6550D" stroke-width="1.8" opacity="0.75"/>
+<circle cx="107.9" cy="418.5" r="4" fill="#3182BD"/>
+<circle cx="143.8" cy="375.1" r="4" fill="#3182BD"/>
+<circle cx="179.6" cy="332.4" r="4" fill="#3182BD"/>
+<circle cx="215.4" cy="429.8" r="4" fill="#3182BD"/>
+<circle cx="251.2" cy="361.0" r="4" fill="#3182BD"/>
+<circle cx="287.1" cy="387.0" r="4" fill="#3182BD"/>
+<circle cx="322.9" cy="295.4" r="4" fill="#3182BD"/>
+<circle cx="358.8" cy="314.4" r="4" fill="#3182BD"/>
+<circle cx="394.6" cy="328.6" r="4" fill="#3182BD"/>
+<circle cx="430.4" cy="311.4" r="4" fill="#3182BD"/>
+<circle cx="466.3" cy="282.4" r="4" fill="#3182BD"/>
+<circle cx="502.1" cy="392.4" r="4" fill="#3182BD"/>
+<polyline points="107.9,418.5 143.8,375.1 179.6,332.4 215.4,429.8 251.2,361.0 287.1,387.0 322.9,295.4 358.8,314.4 394.6,328.6 430.4,311.4 466.3,282.4 502.1,392.4" fill="none" stroke="#3182BD" stroke-width="1.8" opacity="0.75"/>
+<text x="107.91666666666667" y="518" font-size="10" text-anchor="middle">2015</text>
+<text x="143.75" y="518" font-size="10" text-anchor="middle">2016</text>
+<text x="179.58333333333334" y="518" font-size="10" text-anchor="middle">2017</text>
+<text x="215.41666666666666" y="518" font-size="10" text-anchor="middle">2018</text>
+<text x="251.25" y="518" font-size="10" text-anchor="middle">2019</text>
+<text x="287.08333333333337" y="518" font-size="10" text-anchor="middle">2020</text>
+<text x="322.9166666666667" y="518" font-size="10" text-anchor="middle">2021</text>
+<text x="358.75000000000006" y="518" font-size="10" text-anchor="middle">2022</text>
+<text x="394.58333333333337" y="518" font-size="10" text-anchor="middle">2023</text>
+<text x="430.4166666666667" y="518" font-size="10" text-anchor="middle">2024</text>
+<text x="466.25000000000006" y="518" font-size="10" text-anchor="middle">2025</text>
+<text x="502.08333333333337" y="518" font-size="10" text-anchor="middle">2026</text>
+<line x1="90" y1="284.7958666666667" x2="520" y2="284.7958666666667" stroke="#E6550D" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="90" y1="316.4828000000001" x2="520" y2="316.4828000000001" stroke="#3182BD" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="102" y1="128" x2="124" y2="128" stroke="#E6550D" stroke-width="3"/>
+<text x="132" y="132" font-size="11">Concurrent</text>
+<line x1="102" y1="148" x2="124" y2="148" stroke="#3182BD" stroke-width="3"/>
+<text x="132" y="152" font-size="11">Strictly antecedent</text>
+<text x="640" y="96" font-size="15" font-weight="bold">B. Spatially held-out district folds</text>
+<line x1="660" y1="500" x2="1090" y2="500" stroke="#222"/>
+<line x1="660" y1="120" x2="660" y2="500" stroke="#222"/>
+<text x="875.0" y="540" font-size="13" text-anchor="middle">Held-out block</text>
+<text x="614" y="310.0" font-size="13" text-anchor="middle" transform="rotate(-90 614 310.0)">AUC</text>
+<line x1="660" y1="500.0" x2="1090" y2="500.0" stroke="#eee"/>
+<text x="650" y="504.0" font-size="10" text-anchor="end">0.50</text>
+<line x1="660" y1="436.66666666666663" x2="1090" y2="436.66666666666663" stroke="#eee"/>
+<text x="650" y="440.66666666666663" font-size="10" text-anchor="end">0.55</text>
+<line x1="660" y1="373.33333333333337" x2="1090" y2="373.33333333333337" stroke="#eee"/>
+<text x="650" y="377.33333333333337" font-size="10" text-anchor="end">0.60</text>
+<line x1="660" y1="310.0" x2="1090" y2="310.0" stroke="#eee"/>
+<text x="650" y="314.0" font-size="10" text-anchor="end">0.65</text>
+<line x1="660" y1="246.66666666666663" x2="1090" y2="246.66666666666663" stroke="#eee"/>
+<text x="650" y="250.66666666666663" font-size="10" text-anchor="end">0.70</text>
+<line x1="660" y1="183.33333333333337" x2="1090" y2="183.33333333333337" stroke="#eee"/>
+<text x="650" y="187.33333333333337" font-size="10" text-anchor="end">0.75</text>
+<line x1="660" y1="120.0" x2="1090" y2="120.0" stroke="#eee"/>
+<text x="650" y="124.0" font-size="10" text-anchor="end">0.80</text>
+<circle cx="703.0" cy="304.3" r="4" fill="#E6550D"/>
+<circle cx="789.0" cy="307.5" r="4" fill="#E6550D"/>
+<circle cx="875.0" cy="333.5" r="4" fill="#E6550D"/>
+<circle cx="961.0" cy="270.5" r="4" fill="#E6550D"/>
+<circle cx="1047.0" cy="294.9" r="4" fill="#E6550D"/>
+<polyline points="703.0,304.3 789.0,307.5 875.0,333.5 961.0,270.5 1047.0,294.9" fill="none" stroke="#E6550D" stroke-width="1.8" opacity="0.75"/>
+<circle cx="703.0" cy="355.6" r="4" fill="#3182BD"/>
+<circle cx="789.0" cy="319.8" r="4" fill="#3182BD"/>
+<circle cx="875.0" cy="361.4" r="4" fill="#3182BD"/>
+<circle cx="961.0" cy="326.5" r="4" fill="#3182BD"/>
+<circle cx="1047.0" cy="319.8" r="4" fill="#3182BD"/>
+<polyline points="703.0,355.6 789.0,319.8 875.0,361.4 961.0,326.5 1047.0,319.8" fill="none" stroke="#3182BD" stroke-width="1.8" opacity="0.75"/>
+<text x="703.0" y="518" font-size="10" text-anchor="middle">F1</text>
+<text x="789.0" y="518" font-size="10" text-anchor="middle">F2</text>
+<text x="875.0" y="518" font-size="10" text-anchor="middle">F3</text>
+<text x="961.0" y="518" font-size="10" text-anchor="middle">F4</text>
+<text x="1047.0" y="518" font-size="10" text-anchor="middle">F5</text>
+<line x1="660" y1="284.7958666666667" x2="1090" y2="284.7958666666667" stroke="#E6550D" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="660" y1="316.4828000000001" x2="1090" y2="316.4828000000001" stroke="#3182BD" stroke-width="1.4" stroke-dasharray="6 4"/>
+<line x1="672" y1="128" x2="694" y2="128" stroke="#E6550D" stroke-width="3"/>
+<text x="702" y="132" font-size="11">Concurrent</text>
+<line x1="672" y1="148" x2="694" y2="148" stroke="#3182BD" stroke-width="3"/>
+<text x="702" y="152" font-size="11">Strictly antecedent</text>
+<text x="50" y="596" font-size="11" fill="#555">Dashed lines mark the single prespecified temporal-test AUC for each exposure. A value near the top of the held-out spread is a favourable split, not a stronger result.</text>
+</g></svg>

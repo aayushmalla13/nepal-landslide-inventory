@@ -1,0 +1,73 @@
+{
+  "bundle_lock_hash": "d283c2d34880a8140b3a4215476dc4b2f4a934395cdfb91f5eb54a99b128a38e",
+  "canonical_summary": {
+    "date_max": "2026-08-09",
+    "date_min": "2015-03-07",
+    "districts": 76,
+    "rows": 2904,
+    "sha256": "182071353abd87fed8404d0ae82b172b64d410599bf6e36a532c363cb6fdf663",
+    "unique_event_ids": 2904
+  },
+  "checks": {
+    "all_manual_plans_applied": true,
+    "expected_2904_rows": true,
+    "fresh_locked_validation_complete": false,
+    "unique_event_ids": true
+  },
+  "correction_summary": {
+    "merged_candidates": 12,
+    "net_rows_from_frozen": 19,
+    "new_reconstructed_events": 85,
+    "removed_superseded_events": 55,
+    "structured_attribute_corrections": 27,
+    "true_value_corrections": 26,
+    "true_value_exclusions": 11
+  },
+  "files": [
+    {
+      "bytes": 2893899,
+      "file": "canonical_events_final.csv",
+      "sha256": "182071353abd87fed8404d0ae82b172b64d410599bf6e36a532c363cb6fdf663"
+    },
+    {
+      "bytes": 3354624,
+      "file": "canonical_inventory.sqlite",
+      "sha256": "9c77faf0d542f8483d349e0731f7da728ac713f2dd5826ded1a124b381bc4ae1"
+    },
+    {
+      "bytes": 41302,
+      "file": "correction_application_log.csv",
+      "sha256": "f0fbb139793e0b7c1d09c05c3d4698e0e0c04a4041b9bd6c5d0e524b788ce4f2"
+    },
+    {
+      "bytes": 53198,
+      "file": "corrected_event_article_provenance.csv",
+      "sha256": "186e5cf415bd40c863bf9a1bb5d08067610b8c090bb7c1979774a11c8e06c9d0"
+    },
+    {
+      "bytes": 415,
+      "file": "CORRECTED_RELEASE_README.md",
+      "sha256": "54ea5fd77dfa30feb87f98ad59f7762a5278dfaea31967e450a2cbb359517225"
+    }
+  ],
+  "generated_at": "2026-09-16T17:29:17.106136+00:00",
+  "inputs": {
+    "data/outputs/canonical_event_identity_plan_EXCLUDED_CANDIDATES.csv": "88721d15a55b0e084a6ff4c01eb689dcf1ddc72def0934ad4ac321d3b4aea3bd",
+    "data/outputs/canonical_event_identity_plan_MERGES.csv": "c742fce0d163773db73ff38d1e063021963dd94871cee7ac65c49d505716ecc2",
+    "data/outputs/canonical_event_identity_plan_NEW_EVENTS.csv": "b710a7a588548bcf88526a0e6e81ed2ae933c9a6b87219dbd7db4b30950b273b",
+    "data/outputs/canonical_event_identity_plan_REMOVE_OLD_EVENTS.csv": "51beb2cdc03a9a941e9cd80751fc654b376e36fc574c8993d5fd3182e303f9de",
+    "data/outputs/canonical_event_identity_plan_manifest.json": "727550a8281f607c9ab20bdce5e8382f744d327b3499ba9ffbe9b046a20f8515",
+    "data/outputs/canonical_event_structured_attribute_plan_CORRECTIONS.csv": "cb047fcd8b12286d10df6e60a25475db43a6181f6fcb19126a9ce22959f2e10f",
+    "data/outputs/canonical_event_structured_attribute_plan_EXCLUSIONS.csv": "f7520cbd19774a41154a0cbbcdb150221b829803b7ed4300aec5ad05d26f2df1",
+    "data/outputs/canonical_event_structured_attribute_plan_manifest.json": "c4afcf55f5f1b9c796e341c8eceba95c3213c4e5f955802d87f00a14462d3024",
+    "data/outputs/canonical_event_true_value_plan_CORRECTIONS.csv": "21bf05d6efff986b85dba8ca1f5947baeb5e74527e31519eda7a531a5195a580",
+    "data/outputs/canonical_event_true_value_plan_EXCLUSIONS.csv": "ac5c4ecbaff990e1e4796a9fa73fc8c8473249732c4957385362cfeb0d7a4fb6",
+    "data/outputs/canonical_event_true_value_plan_manifest.json": "e4369077697cc73cf0703b816a9c332accbf4222caf6beda15a4dfdb2ca91651",
+    "data/raw_sqlite/landslide_inventory.sqlite": "72e3410e82e1f3d5c43471c0a5afa77bd2c786adda196bdf6de853908c49cd35",
+    "data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/canonical_events_final.csv": "3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8"
+  },
+  "notes": "Versioned candidate release assembled from the frozen v0.6.0 inventory and validated manual plans. Frozen v7 metrics do not validate this corrected release.",
+  "release_id": "nepal_landslide_inventory_v0.7.0_candidate_20260916",
+  "status": "pending_post_correction_validation",
+  "supersedes": "nepal_landslide_inventory_v0.6.0_v7_20260915"
+}

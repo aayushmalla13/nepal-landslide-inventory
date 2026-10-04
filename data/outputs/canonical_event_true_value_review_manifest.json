@@ -1,0 +1,21 @@
+{
+  "action_counts": {
+    "correct_date": 19,
+    "correct_deaths": 10,
+    "correct_district": 13,
+    "correct_event_type": 11,
+    "correct_hazard_type": 1,
+    "review_date": 6,
+    "review_deaths": 3,
+    "review_district": 3
+  },
+  "inputs": {
+    "canonical_event_correction_BATCH_TRUE_VALUE_REVIEW.csv": "4b361f9e924d0a2a86edc62732b8f07d87594ad7c0188122f53cd046ccb9acb1",
+    "canonical_event_correction_summary.json": "933971db7c64cdc3ef1daa55d69b2330aaaeb40eb3865e694e39026d04376cf7"
+  },
+  "outputs": {
+    "canonical_event_true_value_REVIEW.csv": "b4414aa202fc31b0abbdba4d7b03bc4b2b129ffb654d8868b0a42af96658399d"
+  },
+  "review_rows": 37,
+  "status": "blank_review_pack"
+}

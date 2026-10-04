@@ -1,0 +1,97 @@
+{
+  "labelled_rows": 362,
+  "undecidable_rows": 33,
+  "weighted_confusion": {
+    "tp": 996.7,
+    "fp": 247.5,
+    "fn": 1416.1,
+    "tn": 1503.5
+  },
+  "unweighted_confusion": {
+    "tp": 111,
+    "fp": 26,
+    "fn": 114,
+    "tn": 111
+  },
+  "weighted": {
+    "precision": 0.8010552670302798,
+    "recall": 0.4130843660132251,
+    "f1": 0.5450829511153944
+  },
+  "unweighted_sample_only": {
+    "precision": 0.8102189781021898,
+    "recall": 0.49333333333333335,
+    "f1": 0.6132596685082873
+  },
+  "precision_ci95_unweighted": [
+    0.7364453034544602,
+    0.8670695671519515
+  ],
+  "recall_ci95_unweighted": [
+    0.42866827786006406,
+    0.5582222175743324
+  ],
+  "per_stratum_coverage": {
+    "dropped_other|en": {
+      "labelled": 1,
+      "total": 1
+    },
+    "dropped_other|np": {
+      "labelled": 14,
+      "total": 14
+    },
+    "dropped_scope|en": {
+      "labelled": 68,
+      "total": 68
+    },
+    "dropped_scope|np": {
+      "labelled": 2,
+      "total": 2
+    },
+    "dropped_specificity|en": {
+      "labelled": 49,
+      "total": 49
+    },
+    "dropped_specificity|np": {
+      "labelled": 81,
+      "total": 81
+    },
+    "kept_class1|en": {
+      "labelled": 55,
+      "total": 55
+    },
+    "kept_class1|np": {
+      "labelled": 75,
+      "total": 75
+    },
+    "kept_class2|en": {
+      "labelled": 39,
+      "total": 39
+    },
+    "kept_class2|np": {
+      "labelled": 11,
+      "total": 11
+    }
+  },
+  "false_positive_examples": [
+    "https://thehimalayantimes.com/kathmandu/nembang-seeks-details-of-landslides",
+    "https://thehimalayantimes.com/nepal/nepal-earthquake-led-to-fewer-landslides",
+    "https://thehimalayantimes.com/nepal/nepal-likely-to-see-rise-in-rain-induced-landslides-during-monsoon",
+    "https://www.setopati.com/kinmel/others/211961",
+    "https://www.setopati.com/politics/186421",
+    "https://www.setopati.com/politics/216005",
+    "https://www.setopati.com/politics/251750",
+    "https://www.setopati.com/politics/305060"
+  ],
+  "false_negative_examples": [
+    "https://myrepublica.nagariknetwork.com/news/one-man-killed-9-vehicles-buried-in-landslide-along-munglin-narayangadh-road",
+    "https://risingnepaldaily.com/news/12583",
+    "https://thehimalayantimes.com/nepal/bajura-phc-treats-patients-under-constant-landslide-threats",
+    "https://www.setopati.com/politics/252063",
+    "https://www.setopati.com/social/170355",
+    "https://www.setopati.com/social/186339",
+    "https://www.setopati.com/social/208289",
+    "https://www.setopati.com/social/210517"
+  ],
+  "generated_at": "2026-08-07T07:24:56Z"
+}

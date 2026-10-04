@@ -1,0 +1,360 @@
+{
+  "generated_at": "2026-04-20T13:57:10Z",
+  "labeled_rows": 200,
+  "metrics": {
+    "classification": {
+      "macro": {
+        "f1": 0.6562652864377002,
+        "precision": 0.6981518481518482,
+        "recall": 0.677262443438914
+      },
+      "per_class": {
+        "1": {
+          "f1": 0.6573426573426574,
+          "precision": 0.5164835164835165,
+          "recall": 0.9038461538461539
+        },
+        "2": {
+          "f1": 0.5793103448275863,
+          "precision": 0.6461538461538462,
+          "recall": 0.525
+        },
+        "3": {
+          "f1": 0.7321428571428571,
+          "precision": 0.9318181818181818,
+          "recall": 0.6029411764705882
+        }
+      }
+    },
+    "date": {
+      "accuracy": 0.751937984496124,
+      "labeled_rows": 129,
+      "missing_rate": 0.023255813953488372
+    },
+    "deaths": {
+      "exact_match_rate": 0.509090909090909,
+      "labeled_rows": 55,
+      "missing_rate": 0.41818181818181815,
+      "within_one_rate": 0.5272727272727272
+    },
+    "district": {
+      "accuracy": 0.890625,
+      "labeled_rows": 128,
+      "missing_rate": 0.03125
+    },
+    "generated_at": "2026-04-20T13:57:10Z",
+    "labeled_rows": 200,
+    "municipality": {
+      "accuracy": 0.8152173913043478,
+      "labeled_rows": 92,
+      "missing_rate": 0.18478260869565216
+    },
+    "trigger": {
+      "accuracy": 0.6192893401015228,
+      "confusion_matrix": {
+        "anthropogenic": {
+          "<missing>": 1,
+          "anthropogenic": 4,
+          "unknown": 9
+        },
+        "earthquake": {
+          "<missing>": 1
+        },
+        "rainfall": {
+          "<missing>": 13,
+          "anthropogenic": 4,
+          "earthquake": 1,
+          "rainfall": 68,
+          "unknown": 10
+        },
+        "unknown": {
+          "<missing>": 13,
+          "anthropogenic": 3,
+          "earthquake": 2,
+          "rainfall": 1,
+          "unknown": 50
+        },
+        "unkown": {
+          "<missing>": 5,
+          "anthropogenic": 6,
+          "unknown": 6
+        }
+      },
+      "labeled_rows": 197
+    }
+  },
+  "mismatch_summary": {
+    "class": {
+      "labeled_rows": 200,
+      "mismatch_rows": 70,
+      "missing_prediction_rows": 0
+    },
+    "date": {
+      "labeled_rows": 129,
+      "mismatch_rows": 32,
+      "missing_prediction_rows": 3
+    },
+    "deaths": {
+      "labeled_rows": 55,
+      "mismatch_rows": 27,
+      "missing_prediction_rows": 23
+    },
+    "district": {
+      "labeled_rows": 128,
+      "mismatch_rows": 14,
+      "missing_prediction_rows": 4
+    },
+    "municipality": {
+      "labeled_rows": 92,
+      "mismatch_rows": 17,
+      "missing_prediction_rows": 17
+    },
+    "trigger": {
+      "labeled_rows": 132,
+      "mismatch_rows": 27,
+      "missing_prediction_rows": 3
+    }
+  },
+  "priority_rows": [
+    {
+      "issues": [
+        "class 2 -> 1",
+        "date 2025-07-01 -> 2025-07-02",
+        "trigger unknown -> anthropogenic"
+      ],
+      "priority": 3,
+      "source": "online-khabar",
+      "title": "ताप्लेजुङमा पहिरोले घर पुरिंदा ४ जना घाइते – Online Khabar",
+      "url": "https://www.onlinekhabar.com/2025/07/1714207/4-injured-as-landslide-buries-house-in-taplejung"
+    },
+    {
+      "issues": [
+        "class 2 -> 1",
+        "municipality <missing> -> Bhotkhola Rural Municipality"
+      ],
+      "priority": 3,
+      "source": "rising-nepal",
+      "title": "Landslide obstructs North-South Road in Sankhuwasabha",
+      "url": "https://risingnepaldaily.com/news/12383"
+    },
+    {
+      "issues": [
+        "class 2 -> 1",
+        "municipality <missing> -> Byas Rural Municipality",
+        "deaths <missing> -> 3"
+      ],
+      "priority": 3,
+      "source": "setopati",
+      "title": "दार्चुला हिमपहिरो: तीन जनाको शव फेला, दुई जना अझै बेपत्ता",
+      "url": "https://www.setopati.com/social/301127"
+    },
+    {
+      "issues": [
+        "class 2 -> 1"
+      ],
+      "priority": 3,
+      "source": "setopati",
+      "title": "पहिरोले घर भत्किँदा पोखरामा तीन जना घाईते",
+      "url": "https://www.setopati.com/social/73370"
+    },
+    {
+      "issues": [
+        "class 2 -> 1",
+        "trigger unknown -> anthropogenic"
+      ],
+      "priority": 3,
+      "source": "setopati",
+      "title": "माटोको ढिस्को खसेर पुरिएका दुई जनालाई सेनाले गर्‍यो उद्धार",
+      "url": "https://www.setopati.com/politics/380751"
+    },
+    {
+      "issues": [
+        "class 1 -> 3"
+      ],
+      "priority": 2,
+      "source": "ekantipur",
+      "title": "डडेलधुरामा हाटबजार सञ्चालन गर्ने तयारी - कान्तिपुर",
+      "url": "https://ekantipur.com/sudurpaschim-pradesh/2026/03/23/preparations-to-operate-a-market-in-dadeldhura-36-42.html"
+    },
+    {
+      "issues": [
+        "class 2 -> 3"
+      ],
+      "priority": 2,
+      "source": "ekantipur",
+      "title": "नदी दोहन गर्नेलाई कारबाही सिफारिस - कान्तिपुर",
+      "url": "https://ekantipur.com/gandaki-pradesh/2026/03/25/action-recommended-against-those-exploiting-the-river-00-03.html"
+    },
+    {
+      "issues": [
+        "class 2 -> 3"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "102 killed in Nepal floods, landslides in past one week: Govt - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/kathmandu/102-killed-floods-landslides-nepal-one-week"
+    },
+    {
+      "issues": [
+        "class 2 -> 3"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "20 feared dead in remote India landslide - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/world/20-feared-dead-in-remote-india-landslide"
+    },
+    {
+      "issues": [
+        "class 2 -> 3"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "At least 485 Pyuthan families displaced by floods, landslides - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/least-485-pyuthan-families-displaced-floods-landslides"
+    },
+    {
+      "issues": [
+        "class 1 -> 3"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Floods, landslides kill at least 43 people in Nepal - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/floods-landslides-kill-at-least-43-people-in-nepal"
+    },
+    {
+      "issues": [
+        "trigger unknown -> rainfall"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Landslide obstructs Narayangadh-Muglin road again - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/landslide-obstructs-narayangadh-muglin-road-again"
+    },
+    {
+      "issues": [
+        "date 2021-06-20 -> 2021-06-18",
+        "trigger unknown -> anthropogenic"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Mudslide claims one in Dhading; one missing - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/mudslide-claims-one-in-dhading-one-missing"
+    },
+    {
+      "issues": [
+        "trigger unknown -> rainfall"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Obstructed Narayangadh-Muglin road reopens - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/landslide-obstructs-vehicular-movement-narayangadh-muglin-road"
+    },
+    {
+      "issues": [
+        "municipality <missing> -> Thasang Rural Municipality",
+        "deaths <missing> -> 6"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Six of a family buried to death in Rolpa landslide - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/six-of-a-family-buried-to-death-in-rolpa-landslide"
+    },
+    {
+      "issues": [
+        "class 1 -> 2"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Stranded!!! - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/multimedia/myagdi-landslide-obstructs-beni-jomsom-road-section"
+    },
+    {
+      "issues": [
+        "class 1 -> 2",
+        "deaths 6 -> 4"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Syangja landslide update: Four missing persons found dead - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/syangja-landslide-update-four-missing-persons-found-dead"
+    },
+    {
+      "issues": [
+        "class 1 -> 2"
+      ],
+      "priority": 2,
+      "source": "himalayan-times",
+      "title": "Transportation resumes along Narayangadh-Muglin road section - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",
+      "url": "https://thehimalayantimes.com/nepal/landslide-obstructs-narayangadh-muglin-road-section-2"
+    },
+    {
+      "issues": [
+        "class 2 -> 3"
+      ],
+      "priority": 2,
+      "source": "kathmandu-post",
+      "title": "Phewa Lake: PM’s push meets decades of encroachment, court orders, and costly reality",
+      "url": "https://kathmandupost.com/national/2026/03/31/phewa-lake-pm-s-push-meets-decades-of-encroachment-court-orders-and-costly-reality"
+    },
+    {
+      "issues": [
+        "class 2 -> 3"
+      ],
+      "priority": 2,
+      "source": "online-khabar",
+      "title": "अब असोजसम्म गुड्दैनन् बागलुङका ग्रामीण सडकमा गाडी – Online Khabar",
+      "url": "https://www.onlinekhabar.com/2023/07/1332020/%E0%A4%85%E0%A4%AC-%E0%A4%85%E0%A4%B8%E0%A5%8B%E0%A4%9C%E0%A4%B8%E0%A4%AE%E0%A5%8D%E0%A4%AE-%E0%A4%97%E0%A5%81%E0%A4%A1%E0%A5%8D%E0%A4%A6%E0%A5%88%E0%A4%A8%E0%A4%A8%E0%A5%8D-%E0%A4%AC%E0%A4%BE"
+    },
+    {
+      "issues": [
+        "class 1 -> 2",
+        "district Kathmandu -> Chitwan"
+      ],
+      "priority": 2,
+      "source": "online-khabar",
+      "title": "एकतर्फी खुल्यो नारायणगढ-मुग्लिन सडकखण्ड – Online Khabar",
+      "url": "https://www.onlinekhabar.com/2025/09/1769311/narayangadh-muglin-road-section-opened-to-one-way-traffic"
+    },
+    {
+      "issues": [
+        "date 2023-08-05 -> 2023-08-06",
+        "deaths <missing> -> 2"
+      ],
+      "priority": 2,
+      "source": "online-khabar",
+      "title": "काठमाडौंको तारकेश्वरमा पहिरोले घर पुर्दा बाबु-छोरीको मृत्यु – Online Khabar",
+      "url": "https://www.onlinekhabar.com/2023/08/1346522/%E0%A4%95%E0%A4%BE%E0%A4%A0%E0%A4%AE%E0%A4%BE%E0%A4%A1%E0%A5%8C%E0%A4%82%E0%A4%95%E0%A5%8B-%E0%A4%A4%E0%A4%BE%E0%A4%B0%E0%A4%95%E0%A5%87%E0%A4%B6%E0%A5%8D%E0%A4%B5%E0%A4%B0%E0%A4%AE%E0%A4%BE-%E0%A4%AA"
+    },
+    {
+      "issues": [
+        "class 1 -> 2",
+        "date 2025-08-22 -> 2025-08-23"
+      ],
+      "priority": 2,
+      "source": "online-khabar",
+      "title": "काठमाडौंको धापासीमा पहिरोले सडक अवरुद्ध – Online Khabar",
+      "url": "https://www.onlinekhabar.com/2025/08/1748581/landslide-blocks-road-in-dhapasi-kathmandu"
+    },
+    {
+      "issues": [
+        "municipality <missing> -> Malika Rural Municipality"
+      ],
+      "priority": 2,
+      "source": "online-khabar",
+      "title": "गुल्मीमा सुख्खा पहिरोमा एक महिला बेपत्ता – Online Khabar",
+      "url": "https://www.onlinekhabar.com/2024/09/1543983/a-woman-is-missing-in-a-landslide-in-gulmi"
+    },
+    {
+      "issues": [
+        "class 1 -> 2"
+      ],
+      "priority": 2,
+      "source": "online-khabar",
+      "title": "चार ठाउँमा खसेको पहिरोले पासाङल्हामु राजमार्ग अवरुद्ध – Online Khabar",
+      "url": "https://www.onlinekhabar.com/2025/07/1714153/landslides-block-pasanglhamu-highway-in-four-places"
+    }
+  ],
+  "total_rows": 200,
+  "unlabeled_items": [],
+  "unlabeled_rows": 0
+}

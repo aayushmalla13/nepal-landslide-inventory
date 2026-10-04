@@ -1,0 +1,166 @@
+{
+  "note": "Sensitivity only. No inventory or release was modified. A material shift is an argument for cutting a new version with the defects fixed at source, not a correction in itself.",
+  "flagged_case_days": {
+    "violations": 13,
+    "contamination": 48,
+    "excludable_total": 60
+  },
+  "baseline_full_case_set": {
+    "records": 7512,
+    "cases": 1453,
+    "controls": 6059,
+    "districts": 74,
+    "r1": {
+      "cutpoint_mm": 6.9924,
+      "auc": 0.6255,
+      "cutpoint_ci95": [
+        0.6188,
+        16.1904
+      ]
+    },
+    "r3": {
+      "cutpoint_mm": 31.6466,
+      "auc": 0.6611,
+      "cutpoint_ci95": [
+        20.0778,
+        37.4539
+      ]
+    },
+    "r5": {
+      "cutpoint_mm": 45.3815,
+      "auc": 0.6601,
+      "cutpoint_ci95": [
+        31.8345,
+        57.2066
+      ]
+    },
+    "r7": {
+      "cutpoint_mm": 63.402,
+      "auc": 0.6532,
+      "cutpoint_ci95": [
+        45.2279,
+        82.0143
+      ]
+    }
+  },
+  "without_violations": {
+    "records": 7446,
+    "cases": 1440,
+    "controls": 6006,
+    "districts": 73,
+    "r1": {
+      "cutpoint_mm": 6.9924,
+      "auc": 0.627,
+      "cutpoint_ci95": [
+        0.6188,
+        16.1016
+      ]
+    },
+    "r3": {
+      "cutpoint_mm": 31.6466,
+      "auc": 0.6627,
+      "cutpoint_ci95": [
+        20.0778,
+        38.0998
+      ]
+    },
+    "r5": {
+      "cutpoint_mm": 45.3815,
+      "auc": 0.6619,
+      "cutpoint_ci95": [
+        31.9765,
+        57.2066
+      ]
+    },
+    "r7": {
+      "cutpoint_mm": 63.402,
+      "auc": 0.6548,
+      "cutpoint_ci95": [
+        45.2601,
+        82.5871
+      ]
+    }
+  },
+  "without_violations_and_contamination": {
+    "records": 7184,
+    "cases": 1393,
+    "controls": 5791,
+    "districts": 71,
+    "r1": {
+      "cutpoint_mm": 6.9924,
+      "auc": 0.6297,
+      "cutpoint_ci95": [
+        0.6188,
+        15.9455
+      ]
+    },
+    "r3": {
+      "cutpoint_mm": 31.6466,
+      "auc": 0.6644,
+      "cutpoint_ci95": [
+        20.3947,
+        38.0998
+      ]
+    },
+    "r5": {
+      "cutpoint_mm": 45.3815,
+      "auc": 0.6641,
+      "cutpoint_ci95": [
+        32.0679,
+        59.2744
+      ]
+    },
+    "r7": {
+      "cutpoint_mm": 63.402,
+      "auc": 0.6558,
+      "cutpoint_ci95": [
+        49.0415,
+        88.137
+      ]
+    }
+  },
+  "shift_without_violations": {
+    "r1": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.0015,
+      "inside_baseline_ci": true
+    },
+    "r3": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.0016,
+      "inside_baseline_ci": true
+    },
+    "r5": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.0018,
+      "inside_baseline_ci": true
+    },
+    "r7": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.0016,
+      "inside_baseline_ci": true
+    }
+  },
+  "shift_without_all": {
+    "r1": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.0042,
+      "inside_baseline_ci": true
+    },
+    "r3": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.0033,
+      "inside_baseline_ci": true
+    },
+    "r5": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.004,
+      "inside_baseline_ci": true
+    },
+    "r7": {
+      "cutpoint_shift_mm": 0.0,
+      "auc_shift": 0.0026,
+      "inside_baseline_ci": true
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "labelled_rows_scored": 78,
+  "exact_agreement": 63,
+  "exact_agreement_rate": 0.8077,
+  "rows_where_a_human_read_a_count": 30,
+  "of_those_a_count_was_extracted": 23,
+  "recall_on_counts": 0.7667,
+  "false_zeros": 0,
+  "explicit_zeros_missed": 2,
+  "errors_by_stratum": {
+    "death_language_no_count": 9,
+    "explicit_no_casualty": 6
+  },
+  "note": "Development diagnostics for rule design only. Not held-out performance. false_zeros must stay at 0: writing 0 where the article does not state that nobody was harmed violates the project's standing rule against imputing zero."
+}

@@ -1,0 +1,121 @@
+{
+  "bundle_lock_hash": "95ba6f7516a77a2f0adea5ee35ecdf95e722c209ae55ce387dadbff8a8839585",
+  "canonical_summary": {
+    "date_max": "2026-08-09",
+    "date_min": "2015-03-07",
+    "districts": 74,
+    "rows": 2122,
+    "sha256": "313745c27218be7989764cc9614b71cc69a9549ff05c483247a6c89bd276ae19",
+    "unique_event_ids": 2122
+  },
+  "checks": {
+    "candidate_content_unchanged": true,
+    "district_threshold_passed": true,
+    "event_detection_threshold_passed": true,
+    "fresh_locked_event_detection_validation_complete": true,
+    "fresh_locked_full_record_validation_complete": false,
+    "full_record_promotion_rule_passed": false
+  },
+  "files": [
+    {
+      "bytes": 473,
+      "file": "CORRECTED_RELEASE_README.md",
+      "sha256": "522c87d28f424da02a045b8e6ac72e88fbcffb9d4820019123fc838ab22d3c00"
+    },
+    {
+      "bytes": 747,
+      "file": "RESEARCH_RELEASE_README.md",
+      "sha256": "fb360dfbb9f13ff538c729ddba0fb139268c72bd407901cfbfbd7ed9e44e9e13"
+    },
+    {
+      "bytes": 2405193,
+      "file": "canonical_events_final.csv",
+      "sha256": "313745c27218be7989764cc9614b71cc69a9549ff05c483247a6c89bd276ae19"
+    },
+    {
+      "bytes": 2850816,
+      "file": "canonical_inventory.sqlite",
+      "sha256": "61aba8385b7badfe053cb19c7ddeff35c05906afa374e3d9178cd94e4b4b3099"
+    },
+    {
+      "bytes": 10703,
+      "file": "corrected_event_article_provenance.csv",
+      "sha256": "a193bf6d76a08a39b6b067a6bf23708ec44713ef8dc4c7981cf255c30c89116b"
+    },
+    {
+      "bytes": 38999,
+      "file": "correction_application_log.csv",
+      "sha256": "bd6bfe07df4ad95153ee95eb636597166891b233aeff67fb2cfd09a577b7716d"
+    },
+    {
+      "bytes": 259,
+      "file": "reconstruction_location_normalizations.csv",
+      "sha256": "c502a1fcad73c51810cc1b31d96d97c7e4c0aaa43e2e49497982f62a43693445"
+    },
+    {
+      "bytes": 5386,
+      "file": "source_candidate_manifest.json",
+      "sha256": "a99f4328fc46175a9cc77e2eb190b69d067993aaa6c8c3cdd207afef498197b8"
+    },
+    {
+      "bytes": 74321,
+      "file": "validation/v15_final_validation_COMPLETED.csv",
+      "sha256": "f491aba978413c069d328d8856146c09e0d6d9be7ac9ad7bf1acebeef01cc4ff"
+    },
+    {
+      "bytes": 26321,
+      "file": "validation/v15_final_validation_manifest.json",
+      "sha256": "19565ed54802e2381999af3699494b9cd9d9abc33082150c5b7ba814bd9cd83e"
+    },
+    {
+      "bytes": 1276,
+      "file": "validation/v15_final_validation_report.md",
+      "sha256": "1ef40b5df2e5092b21fdef9bfbc41ab92f7c1e786901b833d695a979406d646e"
+    },
+    {
+      "bytes": 5056,
+      "file": "validation/v15_final_validation_score.json",
+      "sha256": "6d43dc4cfe716833715fdbb03f1aa4fef03b7e28d2d89976ec187ef376769cdc"
+    },
+    {
+      "bytes": 15019,
+      "file": "validation/v15_final_validation_weights.csv",
+      "sha256": "7eaa5beb5f01edf21c2aed1448b331899fd8984fbed780ec822309e38e8ec8f3"
+    }
+  ],
+  "generated_at": "2026-10-04T08:15:33.956950+00:00",
+  "notes": "The source candidate is unchanged. This release freezes the candidate together with its completed locked audit and narrows the validated claim to event detection; it does not override the failed full-record decision.",
+  "release_id": "nepal_landslide_inventory_v1.5.0_event_detection_validated_20261004",
+  "source_candidate": "nepal_landslide_inventory_v1.5.0_candidate_20261003",
+  "status": "validated_event_detection_only",
+  "validation_scope": {
+    "district_assignment": {
+      "ci95": [
+        0.8649066098658729,
+        0.9530434618788352
+      ],
+      "estimate": 0.9099294357973674,
+      "threshold_passed": true,
+      "validated": true
+    },
+    "event_detection": {
+      "ci95": [
+        0.9232746478873383,
+        0.986197183098594
+      ],
+      "estimate": 0.9577640845070496,
+      "threshold_passed": true,
+      "validated": true
+    },
+    "full_record": {
+      "failed_prespecified_metrics": [
+        "usable_record_precision",
+        "single_event_accuracy",
+        "date_accuracy"
+      ],
+      "promotion_rule_passed": false,
+      "validated": false
+    },
+    "validated_primary_claim": "high-precision event detection"
+  }
+}

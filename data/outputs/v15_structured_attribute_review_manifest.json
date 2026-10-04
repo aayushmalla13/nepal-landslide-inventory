@@ -1,0 +1,25 @@
+{
+  "action_counts": {
+    "correct_deaths": 17,
+    "correct_event_type": 10,
+    "correct_hazard_type": 14
+  },
+  "input_sha256": {
+    "data/outputs/v15_identity_plan_MERGES_EXISTING.csv": "3509072b4fb3aafd6a634ed537f7b5d50bb8dcfd836c52227989c1b6b3547e43",
+    "data/outputs/v15_identity_plan_REMOVE_OLD_EVENTS.csv": "97c50e909ebbe3ef1c083f2231329fc15142b318144377b49a3ce3b748ecd843",
+    "data/outputs/v15_identity_plan_manifest.json": "5da46da6d9b21236c4340c8fc820e2e7ceab0c814d763c9bdd5539883ce5b98b",
+    "data/outputs/v15_remediation_BATCH_STRUCTURED_ATTRIBUTES.csv": "4f2d5aa065fef9f6a88d0fd50344ec40dc3a25a69483b6f6e1fa34d92a4c91dc",
+    "data/outputs/v15_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "3eba8e4236e1bfbe4120410f02cce88c179519324cf35aca0bd3136fcd1839ff",
+    "data/outputs/v15_remediation_manifest.json": "c0927a1f0fe3238d06eef94ada71380c53b10b67a84aab0e84825bb93b7959b3",
+    "data/outputs/v15_true_value_plan_CORRECTIONS.csv": "69c65cf3bc7ae3cf6e2c5b1b059f1054758ec1ea5e4dd7cf05db7508afe3374b",
+    "data/outputs/v15_true_value_plan_EXCLUSIONS.csv": "257c94bed6b3b9b9c854c87523d68ad7c50f20aab6c9d27ce3dc4021f2400e42",
+    "data/outputs/v15_true_value_plan_NO_CHANGE.csv": "1216de327c6471572e6fd4e6331a4aebef66fd17ce5008419698048b6effd3e1",
+    "data/outputs/v15_true_value_plan_manifest.json": "abccb2889b4da89422c328662dd0d093e91d5a46618b476e8bc11248059ec3df"
+  },
+  "output_sha256": {
+    "v15_structured_attribute_REVIEW.csv": "23fc33913c33793be8ca806433ea9e621122219b75ada450d6a361c68c9875ee"
+  },
+  "prior_gate_overlap_count": 0,
+  "review_rows": 33,
+  "status": "blank_v15_structured_attribute_review"
+}

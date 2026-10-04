@@ -1,0 +1,19 @@
+{
+  "note": "Reports only. Nothing was removed from the inventory or any release.",
+  "case_days_examined": 1453,
+  "canonical_events_in_case_set": 1969,
+  "findings": 117,
+  "by_check": {
+    "anthropogenic_trigger_missed": 31,
+    "event_after_publication": 13,
+    "forecast_not_occurrence": 4,
+    "many_events_one_case_day": 37,
+    "no_hazard_term_in_article": 32
+  },
+  "flagged_case_days": 96,
+  "flagged_case_days_pct": 6.61,
+  "flagged_case_days_violations_only": 13,
+  "flagged_case_days_violations_pct": 0.89,
+  "excludable_case_days": 60,
+  "excludable_case_days_pct": 4.13
+}

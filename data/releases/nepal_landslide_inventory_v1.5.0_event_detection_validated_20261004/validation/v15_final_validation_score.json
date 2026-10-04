@@ -1,0 +1,174 @@
+{
+  "annotators": [
+    "aayush"
+  ],
+  "audit": "v15_final_locked_validation_v1",
+  "eligible_frame_rows": 568,
+  "input_sha256": {
+    "v15_final_validation_COMPLETED.csv": "f491aba978413c069d328d8856146c09e0d6d9be7ac9ad7bf1acebeef01cc4ff",
+    "v15_final_validation_manifest.json": "19565ed54802e2381999af3699494b9cd9d9abc33082150c5b7ba814bd9cd83e"
+  },
+  "inventory_release": "nepal_landslide_inventory_v1.5.0_candidate_20261003",
+  "metrics": {
+    "date_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.6775513201106275,
+        0.823031116898995
+      ],
+      "decisive_sample_n": 131,
+      "estimate": 0.7528490052630773,
+      "represented_population_weight": 491.8383333333998,
+      "unclear_or_not_applicable_n": 13
+    },
+    "deaths_exact_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.8132693639218381,
+        0.9163434495691415
+      ],
+      "decisive_sample_n": 144,
+      "estimate": 0.8671593046701588,
+      "represented_population_weight": 544.0100000000999,
+      "unclear_or_not_applicable_n": 0
+    },
+    "district_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.8649066098658729,
+        0.9530434618788352
+      ],
+      "decisive_sample_n": 142,
+      "estimate": 0.9099294357973674,
+      "represented_population_weight": 535.2100000000997,
+      "unclear_or_not_applicable_n": 2
+    },
+    "duplicate_merge_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.8260869565195653,
+        1.0
+      ],
+      "decisive_sample_n": 16,
+      "estimate": 0.9420289855065217,
+      "represented_population_weight": 46.0,
+      "unclear_or_not_applicable_n": 0
+    },
+    "event_existence_precision": {
+      "ci95_stratified_bootstrap": [
+        0.9232746478873383,
+        0.986197183098594
+      ],
+      "decisive_sample_n": 150,
+      "estimate": 0.9577640845070496,
+      "represented_population_weight": 568.0000000000999,
+      "unclear_or_not_applicable_n": 0
+    },
+    "event_type_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.8428245804307202,
+        0.9371702726054787
+      ],
+      "decisive_sample_n": 144,
+      "estimate": 0.8932587023523658,
+      "represented_population_weight": 544.0100000000999,
+      "unclear_or_not_applicable_n": 0
+    },
+    "hazard_type_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.8526283217832674,
+        0.9442412210558736
+      ],
+      "decisive_sample_n": 144,
+      "estimate": 0.9018369760359363,
+      "represented_population_weight": 544.0100000000999,
+      "unclear_or_not_applicable_n": 0
+    },
+    "municipality_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.7834885446305199,
+        0.9230712368641852
+      ],
+      "decisive_sample_n": 80,
+      "estimate": 0.858719696374058,
+      "represented_population_weight": 296.8566666663,
+      "unclear_or_not_applicable_n": 2
+    },
+    "single_event_accuracy": {
+      "ci95_stratified_bootstrap": [
+        0.7618739125601084,
+        0.880795979049028
+      ],
+      "decisive_sample_n": 142,
+      "estimate": 0.8221363789047844,
+      "represented_population_weight": 535.8600000000998,
+      "unclear_or_not_applicable_n": 2
+    },
+    "usable_record_precision": {
+      "ci95_stratified_bootstrap": [
+        0.4934134870081282,
+        0.6498967122771059
+      ],
+      "decisive_sample_n": 139,
+      "estimate": 0.5703584957870648,
+      "represented_population_weight": 523.9950000000998,
+      "unclear_or_not_applicable_n": 11
+    }
+  },
+  "promotion_decision": {
+    "checks": {
+      "date_accuracy": {
+        "minimum_ci95_lower": 0.75,
+        "minimum_estimate": 0.85,
+        "passed": false
+      },
+      "district_accuracy": {
+        "minimum_ci95_lower": 0.75,
+        "minimum_estimate": 0.85,
+        "passed": true
+      },
+      "event_existence_precision": {
+        "minimum_ci95_lower": 0.85,
+        "minimum_estimate": 0.9,
+        "passed": true
+      },
+      "event_existence_unclear_fraction": {
+        "maximum": 0.05,
+        "observed": 0.0,
+        "passed": true
+      },
+      "single_event_accuracy": {
+        "minimum_ci95_lower": 0.75,
+        "minimum_estimate": 0.85,
+        "passed": false
+      },
+      "usable_record_precision": {
+        "minimum_ci95_lower": 0.6,
+        "minimum_estimate": 0.7,
+        "passed": false
+      }
+    },
+    "passed": false
+  },
+  "promotion_rule_prespecified": {
+    "date_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "decision": "promote only if every threshold passes; otherwise retain candidate status",
+    "district_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "event_existence_precision": {
+      "minimum_ci95_lower": 0.85,
+      "minimum_estimate": 0.9
+    },
+    "maximum_event_existence_unclear_fraction": 0.05,
+    "single_event_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "usable_record_precision": {
+      "minimum_ci95_lower": 0.6,
+      "minimum_estimate": 0.7
+    }
+  },
+  "sample_rows": 150
+}

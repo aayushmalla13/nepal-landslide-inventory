@@ -1,0 +1,165 @@
+{
+  "audit": "post_correction_candidate_validation_v1",
+  "correction_challenge": {
+    "annotators": [
+      "reviewer_postcorr_A"
+    ],
+    "overall": {
+      "event_existence": {
+        "decisive_sample_n": 50,
+        "estimate": 1.0,
+        "unclear_or_not_applicable_n": 0
+      },
+      "targeted_correction_pass": {
+        "decisive_sample_n": 43,
+        "estimate": 0.9767441860465116,
+        "unclear_or_not_applicable_n": 7
+      },
+      "usable_record": {
+        "decisive_sample_n": 43,
+        "estimate": 0.9767441860465116,
+        "unclear_or_not_applicable_n": 7
+      }
+    },
+    "sample_rows": 50,
+    "targeted_pass_by_layer": {
+      "identity_add": {
+        "decisive_sample_n": 21,
+        "estimate": 0.9523809523809523,
+        "unclear_or_not_applicable_n": 7
+      },
+      "identity_merge": {
+        "decisive_sample_n": 5,
+        "estimate": 1.0,
+        "unclear_or_not_applicable_n": 0
+      },
+      "structured_attribute_correction": {
+        "decisive_sample_n": 9,
+        "estimate": 1.0,
+        "unclear_or_not_applicable_n": 0
+      },
+      "true_value_correction": {
+        "decisive_sample_n": 8,
+        "estimate": 1.0,
+        "unclear_or_not_applicable_n": 0
+      }
+    }
+  },
+  "fresh_probability_sample": {
+    "annotators": [
+      "reviewer_postcorr_A"
+    ],
+    "eligible_frame_rows": 2723,
+    "metrics": {
+      "date_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.658283980318623,
+          0.8240754679910681
+        ],
+        "decisive_sample_n": 115,
+        "estimate": 0.7430945674620378,
+        "represented_population_weight": 2052.4477124183995,
+        "unclear_or_not_applicable_n": 11
+      },
+      "deaths_exact_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.8167212416030226,
+          0.9346833279527599
+        ],
+        "decisive_sample_n": 115,
+        "estimate": 0.8778475567831572,
+        "represented_population_weight": 2043.3323529413003,
+        "unclear_or_not_applicable_n": 11
+      },
+      "district_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.730751997832098,
+          0.8642716497491413
+        ],
+        "decisive_sample_n": 121,
+        "estimate": 0.799311087437632,
+        "represented_population_weight": 2163.303267973899,
+        "unclear_or_not_applicable_n": 5
+      },
+      "duplicate_merge_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.7390681003585414,
+          0.9455197132616854
+        ],
+        "decisive_sample_n": 34,
+        "estimate": 0.8544802867384007,
+        "represented_population_weight": 464.99999999970004,
+        "unclear_or_not_applicable_n": 0
+      },
+      "event_existence_precision": {
+        "ci95_stratified_bootstrap": [
+          0.7743794690110881,
+          0.8878975927956608
+        ],
+        "decisive_sample_n": 149,
+        "estimate": 0.8325860128152588,
+        "represented_population_weight": 2717.333333333696,
+        "unclear_or_not_applicable_n": 1
+      },
+      "event_type_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.6158439314240349,
+          0.7517102508192641
+        ],
+        "decisive_sample_n": 125,
+        "estimate": 0.6834175849827204,
+        "represented_population_weight": 2238.6637254902985,
+        "unclear_or_not_applicable_n": 1
+      },
+      "hazard_type_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.7798581050196755,
+          0.9018694026633103
+        ],
+        "decisive_sample_n": 119,
+        "estimate": 0.8436016730538771,
+        "represented_population_weight": 2149.175490196199,
+        "unclear_or_not_applicable_n": 7
+      },
+      "municipality_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.8370460248087989,
+          0.9559881935343266
+        ],
+        "decisive_sample_n": 64,
+        "estimate": 0.8975754223535057,
+        "represented_population_weight": 1180.4764705879995,
+        "unclear_or_not_applicable_n": 1
+      },
+      "single_event_accuracy": {
+        "ci95_stratified_bootstrap": [
+          0.6230848942927114,
+          0.7794850372367769
+        ],
+        "decisive_sample_n": 126,
+        "estimate": 0.7042761606046632,
+        "represented_population_weight": 2262.4137254902985,
+        "unclear_or_not_applicable_n": 0
+      },
+      "usable_record_precision": {
+        "ci95_stratified_bootstrap": [
+          0.2837630234485386,
+          0.4371436424043014
+        ],
+        "decisive_sample_n": 146,
+        "estimate": 0.3583480161828647,
+        "represented_population_weight": 2662.688888889196,
+        "unclear_or_not_applicable_n": 4
+      }
+    },
+    "sample_rows": 150
+  },
+  "input_sha256": {
+    "correction_application_log.csv": "f0fbb139793e0b7c1d09c05c3d4698e0e0c04a4041b9bd6c5d0e524b788ce4f2",
+    "post_correction_challenge_COMPLETED.csv": "fb4cb0c618a7eca8a84199df3e8dd41b4e04dc62178db81ec1397707f8281978",
+    "post_correction_fresh_audit_COMPLETED.csv": "060266bca594690d9ace5df8c851ecee31e0ea987e45f0a93bf162f196667484",
+    "post_correction_validation_manifest.json": "35f73a08d58dfae15544de6b884d11d53c802b5178327cff8bd3662cb94d10ab"
+  },
+  "inventory_release": "nepal_landslide_inventory_v0.7.0_candidate_20260916",
+  "promotion_threshold_prespecified": false
+}

@@ -1,0 +1,149 @@
+{
+  "core_counts": {
+    "article_events": 10203,
+    "article_lang": 10203,
+    "canonical_events": 2656,
+    "class1": 3243,
+    "class1_fallback_dates": 301,
+    "class1_low_confidence": 353,
+    "class2": 3217,
+    "class3": 3743,
+    "raw_articles": 10203
+  },
+  "dedup_summary": {
+    "max_cluster_size": 27,
+    "multi_source_clusters": 364,
+    "total_clusters": 2656
+  },
+  "district_language_overlap": {
+    "districts_both": 77,
+    "districts_only_en": [],
+    "districts_only_np": []
+  },
+  "generated_at": "2026-09-25T03:30:04Z",
+  "route_counts": {
+    "en": 3008,
+    "np": 7195
+  },
+  "source_summary": [
+    {
+      "article_events_count": 1200,
+      "class1_count": 129,
+      "in_nepal_count": 1157,
+      "source": "deshsanchar",
+      "specificity_ok_count": 174
+    },
+    {
+      "article_events_count": 411,
+      "class1_count": 10,
+      "in_nepal_count": 399,
+      "source": "ekantipur",
+      "specificity_ok_count": 33
+    },
+    {
+      "article_events_count": 1011,
+      "class1_count": 309,
+      "in_nepal_count": 1000,
+      "source": "himalayan-times",
+      "specificity_ok_count": 451
+    },
+    {
+      "article_events_count": 180,
+      "class1_count": 62,
+      "in_nepal_count": 171,
+      "source": "kathmandu-post",
+      "specificity_ok_count": 75
+    },
+    {
+      "article_events_count": 1,
+      "class1_count": 1,
+      "in_nepal_count": 1,
+      "source": "khabarhub",
+      "specificity_ok_count": 1
+    },
+    {
+      "article_events_count": 1013,
+      "class1_count": 378,
+      "in_nepal_count": 919,
+      "source": "myrepublica",
+      "specificity_ok_count": 552
+    },
+    {
+      "article_events_count": 731,
+      "class1_count": 368,
+      "in_nepal_count": 717,
+      "source": "nagarik",
+      "specificity_ok_count": 396
+    },
+    {
+      "article_events_count": 12,
+      "class1_count": 2,
+      "in_nepal_count": 12,
+      "source": "nepali-times",
+      "specificity_ok_count": 2
+    },
+    {
+      "article_events_count": 967,
+      "class1_count": 420,
+      "in_nepal_count": 967,
+      "source": "nepalpress",
+      "specificity_ok_count": 468
+    },
+    {
+      "article_events_count": 124,
+      "class1_count": 46,
+      "in_nepal_count": 124,
+      "source": "nepalpress-en",
+      "specificity_ok_count": 71
+    },
+    {
+      "article_events_count": 378,
+      "class1_count": 178,
+      "in_nepal_count": 367,
+      "source": "online-khabar",
+      "specificity_ok_count": 185
+    },
+    {
+      "article_events_count": 600,
+      "class1_count": 152,
+      "in_nepal_count": 567,
+      "source": "onlinekhabar-en",
+      "specificity_ok_count": 217
+    },
+    {
+      "article_events_count": 800,
+      "class1_count": 74,
+      "in_nepal_count": 781,
+      "source": "rajdhani",
+      "specificity_ok_count": 99
+    },
+    {
+      "article_events_count": 361,
+      "class1_count": 39,
+      "in_nepal_count": 361,
+      "source": "ratopati",
+      "specificity_ok_count": 54
+    },
+    {
+      "article_events_count": 65,
+      "class1_count": 18,
+      "in_nepal_count": 58,
+      "source": "rising-nepal",
+      "specificity_ok_count": 32
+    },
+    {
+      "article_events_count": 1561,
+      "class1_count": 724,
+      "in_nepal_count": 1535,
+      "source": "setopati",
+      "specificity_ok_count": 813
+    },
+    {
+      "article_events_count": 788,
+      "class1_count": 333,
+      "in_nepal_count": 739,
+      "source": "ujyaalo",
+      "specificity_ok_count": 394
+    }
+  ]
+}

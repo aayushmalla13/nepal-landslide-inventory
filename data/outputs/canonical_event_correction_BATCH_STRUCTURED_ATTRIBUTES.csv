@@ -1,0 +1,874 @@
+candidate_id,row_id,event_id,priority_tier,correction_readiness,recommended_actions,systematic_issue_hypotheses,production_status,sampling_stratum,sampling_weight,claimed_event_date,claimed_district,claimed_municipality,claimed_event_type,claimed_hazard_type,claimed_deaths,proposed_event_date,proposed_district,proposed_municipality,proposed_event_type,proposed_hazard_type,proposed_deaths,event_really_happened,one_physical_event,district_correct,date_correct,municipality_correct,event_type_true,hazard_type_true,deaths_true,duplicate_merge_correct,cluster_article_count,representative_title,representative_url,adjudicator,adjudication_notes,article_evidence,reviewed_action,reviewed_by,review_notes
+CEC-010,CEA-014,event_e11c679d0cb8a4d8,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,en|2015-2018|landslide|single_article,22.3,2018-07-12,Bhaktapur,Changunarayan Municipality,landslide,landslide,,,,,,,3,yes,yes,yes,yes,yes,landslide,landslide,3,not_applicable,1,"Rs 100,000 to be provided to landslide-affecetd family - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica",https://myrepublica.nagariknetwork.com/news/rs-100-000-to-be-provided-to-landslide-affecetd-family-1,human,"Follow-up reports three deaths from the Thursday landslide at Majhuwa, Changunarayan-7.","ARTICLE 1
+SOURCE: myrepublica
+PUBLISHED: 2018-07-13
+TITLE: Rs 100,000 to be provided to landslide-affecetd family - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica
+URL: https://myrepublica.nagariknetwork.com/news/rs-100-000-to-be-provided-to-landslide-affecetd-family-1
+TEXT:
+Subscribe Login Subscribe Politics Economy Society World OP-ED Sports Republica Watch Diaspora Market Our search uses full-text indexing, we're fetching the best results for you. × Beyond Borders, Beyond News Subscribe Now
+
+Resize Text Size Small Medium Large Listen By No Author BHAKTAPUR, July 13: The Lama family, who lost their three members after a landslide buried their shelter at Majhuwa of Changunarayan Municipality-7 on Thursday, is to be provided Rs 100 thousand as immediate relief.
+
+A meeting of the district disaster management committee on Thursday took the decision to provide the immediate releif to the Lama family. Seventy-year-old Hira Lama, 65-year-old Panmaya Lama and two and half years old Sampada Lama were killed in the incident.
+
+The committee has decided to distribute relief as foodgrains, clean water and clothes to the families displaced due to the inundation as well as to rehabilitate them through one-door system under the coordination of the local levels concerned and other stakeholder organisations.
+
+The meeting also decided to carry out necessary preparations under the coordination of the District Publioc Health Office to prevent diseases from spreading in the inundated areas and to form a quick response team comprising the chiefs of the local levels and the district-based security bodies for carrying out prompt rescue operation in possible future emergencies. RSS
+
+Nepal records highest LPG imports in three months
+
+PM-designate Balen Shah pushes for 16 ministries,...
+
+When leaders lose, the “wave” takes the blame
+
+Leader Yogesh Bhattarai expressed objection, claiming that the competitor was denied both proposer and supporter positions, and the leadership was decided under pressure.
+
+Power, Patronage and the Retreat of Conscience
+
+Claim Without Strategy: Nepal’s Lipulekh Dilemma
+
+India’s Quiet Revolt Against Naxalism
+
+Why Electoral Reform Alone Won’t Fix Nepal
+
+The pre-monsoon period runs from February to May. Usually, around 226 millimeters of rainfall occurs during the pre-monsoon period but 77.5 millimeters has already fallen till March 31.
+
+Bangaluru made a winning start by defeating Sunrisers Hyderabad by 6 wickets in their opening match on Saturday.
+
+Politics Video Economy The Week Lifestyle Society Republica Watch Sports Blog Review Op-Ed World Interview Diaspora Watch Market Subscribe Manage my account Advertise with us Give us feedback Advertise with Us Contact Us About Us Subscribe Privacy Policy Terms of use Nepal Republic Media Limited © 2026. All right reserved
+
+Nepal Republic Media Limited © 2024. All right reserved | Privacy Policy | Terms of use
+
+Gain access to up to 10 free articles per month.
+
+Already have an account? Log in",,,
+CEC-011,CEA-015,event_ba1fcc3e3957eb54,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,en|2019-2022|landslide|single_article,30.0,2020-07-29,Dang,Banglachuli Rural Municipality,landslide,landslide,,,,,,,2,yes,yes,yes,yes,yes,landslide,landslide,2,not_applicable,1,"Mother, daughter buried by landslide in Dang - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News",https://thehimalayantimes.com/nepal/mother-daughter-buried-by-landslide-in-dang,human,"Landslide hit a house in Sakine, Banglachuli-5 on the morning of 2020-07-29, killing mother and daughter.","ARTICLE 1
+SOURCE: himalayan-times
+PUBLISHED: 2020-07-29
+TITLE: Mother, daughter buried by landslide in Dang - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News
+URL: https://thehimalayantimes.com/nepal/mother-daughter-buried-by-landslide-in-dang
+TEXT:
+GHORAHI: A mother and her two-year-old daughter died after being buried by a landslide this morning, in Dang.
+
+The deceased have been identified as residents of Sakine in Bangalachuli Rural Municipality-5, stated the chair of the rural municipality, Bhakta Bahadur Oli.
+
+Their house was hit by the landslide that fell from above at around 3:00 am today. Three other members of the family are safe. The incident site lies some 37 kilometres north-east of Ghorahi Bazaar.
+
+Bangalachuli Rural Municipality lies on a hilly area and most of the settlements there are at a risk of landslide, it has been learnt.",,,
+CEC-014,CEA-020,event_22d687e797bbe1c4,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2019-2022|landslide|single_article,20.5666666667,2021-07-08,Chitwan,,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,,road_obstruction,landslide,not_reported,not_applicable,1,पहिरोले बिहानैदेखि नारायणगढ-मुग्लिन सडकखण्ड अवरूद्ध,https://www.setopati.com/social/242591,human,Main reported event is the Setidobhan landslide blocking the Narayangadh–Muglin road in Chitwan on 2021-07-08.,"ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2021-07-08
+TITLE: पहिरोले बिहानैदेखि नारायणगढ-मुग्लिन सडकखण्ड अवरूद्ध
+URL: https://www.setopati.com/social/242591
+TEXT:
+अविरल वर्षापछि खसेको पहिरोले नारायणगढ-मुग्लिन सडकखण्ड आज बिहानैदेखि अवरूद्ध छ। जिल्ला प्रहरी कार्यालय चितवनले दिएको जानकारीअनुसार पहिरो हटाउने काम सुरू गरिएको छ। सेतीदोभानमा पहिरो खसेको छ। उक्त पहिरो हटाउन आज बिहान ६ बजेदेखि दुइटा जेसिबी प्रयोग गरिएको प्रहरी उपरीक्षक ओम अधिकारीले बताए। एक सातादेखि यो सडकखण्डमा पहिरो खस्ने क्रम बढेको छ। पहिरोका कारण यात्रुले दु:ख पाएका छन्। ढुंगासहित खसेको पहिरोले सवारी साधनमा क्षतिसमेत पुर्‍याउने गरेको छ। प्रहरीले वैकल्पिक मार्ग प्रयोग गर्न अनुरोध गर्दै आएको छ। सेतीदोभानमा पहिरो खसेपछि दुबैतर्फ सडक अवरूद्ध छ भने खुलाउने प्रयास भइरहेको जिल्ला प्रहरी कार्यालय चितवनले जानकारी दिएको छ। पृथ्वी राजमार्ग पनि अवरूद्ध पृथ्वी राजमार्गको तनहुँ खण्ड पनि अवरुद्ध भएको छ। म्याग्दे गाउँपालिका वडा नम्बर ४ मा बाढीको कारण राजमार्ग अवरुद्ध भएको प्रहरीले जनाएको छ। पानीको बहाव बढेपछि राजमार्ग अवरुद्ध भएको जिल्ला प्रहरी कार्यालय तनहुँका प्रहरी नायब उपरीक्षक युवराज तिमिल्सेनाले बताए।
+
+जिल्ला प्रहरी कार्यालय चितवनले दिएको जानकारीअनुसार पहिरो हटाउने काम सुरू गरिएको छ।
+
+सेतीदोभानमा पहिरो खसेको छ। उक्त पहिरो हटाउन आज बिहान ६ बजेदेखि दुइटा जेसिबी प्रयोग गरिएको प्रहरी उपरीक्षक ओम अधिकारीले बताए।
+
+एक सातादेखि यो सडकखण्डमा पहिरो खस्ने क्रम बढेको छ। पहिरोका कारण यात्रुले दु:ख पाएका छन्। ढुंगासहित खसेको पहिरोले सवारी साधनमा क्षतिसमेत पुर्‍याउने गरेको छ।
+
+प्रहरीले वैकल्पिक मार्ग प्रयोग गर्न अनुरोध गर्दै आएको छ। सेतीदोभानमा पहिरो खसेपछि दुबैतर्फ सडक अवरूद्ध छ भने खुलाउने प्रयास भइरहेको जिल्ला प्रहरी कार्यालय चितवनले जानकारी दिएको छ।
+
+पृथ्वी राजमार्ग पनि अवरूद्ध
+
+पृथ्वी राजमार्गको तनहुँ खण्ड पनि अवरुद्ध भएको छ।
+
+म्याग्दे गाउँपालिका वडा नम्बर ४ मा बाढीको कारण राजमार्ग अवरुद्ध भएको प्रहरीले जनाएको छ।
+
+पानीको बहाव बढेपछि राजमार्ग अवरुद्ध भएको जिल्ला प्रहरी कार्यालय तनहुँका प्रहरी नायब उपरीक्षक युवराज तिमिल्सेनाले बताए।",,,
+CEC-017,CEA-026,event_39a458421a2cc69d,P1_attribute,structured_attribute_candidate,correct_hazard_type,hazard_type_classification,candidate_unapplied,np|2023-2026|road_obstruction|single_article,22.8888888889,2024-09-09,Dhading,Dhunibesi Municipality,road_obstruction,landslide,,,,,,debris_flow,,yes,yes,yes,yes,yes,road_obstruction,debris_flow,not_reported,not_applicable,1,नागढुंगा सुरूङमार्ग नजिकै पहिरो जाँदा राजमार्ग अवरूद्ध,https://www.setopati.com/social/338740,reviewer_C,"A mud/debris-laden slide at Khatri Pauwa, Dhunibesi-9, blocked Tribhuvan Highway around 6 p.m. on Sep 9.","ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2024-09-09
+TITLE: नागढुंगा सुरूङमार्ग नजिकै पहिरो जाँदा राजमार्ग अवरूद्ध
+URL: https://www.setopati.com/social/338740
+TEXT:
+नागढुंगा सुरूङमार्ग नजिकै पहिरो जाँदा बाटो अवरूद्ध भएको छ। धादिङ धुनिबेँसी नगरपालिका-९ स्थित खत्रीपौवा भन्ने ठाउँमा लेदोसहितको पहिरो जाँदा त्रिभुवन राजमार्ग अवरूद्ध भएको प्रहरी वृत्त थानकोटका इन्स्पेक्टर हेम थपलियाले जानकारी दिए। उनका अनुसार बेलुकी छ बजेतिर लेदोसहितको पहिरो खसेको हो। 'दिउँसो भएको भारी वर्षाका कारण लेदोसहितको पहिरो खसेर राजमार्ग अवरूद्ध छ,' उनले भने, 'नागढुंगा सुरूङमार्ग नजिकै भएकाले त्यहाँका एक्सकाभेटरले राजमार्ग खोल्न तयारी अवस्थामा छौं। तर अझै पनि पहिरो खसिरहेको हुँदा काम गर्न सकिएको छैन।' पहिरोले राजमार्ग अवरूद्ध हुँदा दुवैतर्फ गाडी रोकिँदा जाम भएको उनले बताए।
+
+धादिङ धुनिबेँसी नगरपालिका-९ स्थित खत्रीपौवा भन्ने ठाउँमा लेदोसहितको पहिरो जाँदा त्रिभुवन राजमार्ग अवरूद्ध भएको प्रहरी वृत्त थानकोटका इन्स्पेक्टर हेम थपलियाले जानकारी दिए।
+
+उनका अनुसार बेलुकी छ बजेतिर लेदोसहितको पहिरो खसेको हो।
+
+'दिउँसो भएको भारी वर्षाका कारण लेदोसहितको पहिरो खसेर राजमार्ग अवरूद्ध छ,' उनले भने, 'नागढुंगा सुरूङमार्ग नजिकै भएकाले त्यहाँका एक्सकाभेटरले राजमार्ग खोल्न तयारी अवस्थामा छौं। तर अझै पनि पहिरो खसिरहेको हुँदा काम गर्न सकिएको छैन।'
+
+पहिरोले राजमार्ग अवरूद्ध हुँदा दुवैतर्फ गाडी रोकिँदा जाम भएको उनले बताए।",,,
+CEC-021,CEA-031,event_891d5fa72ec09f81,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2019-2022|landslide|single_article,20.5666666667,2022-09-06,Palpa,Tinau Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,ढुंगा सहितको पहिरो झरेपछि बुटवल-पाल्पा सडकखण्ड अवरूद्ध,https://www.setopati.com/social/281646,human,"Rock-and-soil landslide at Lower Siddhababa, Tinau-3 blocked Siddhartha Highway on 2022-09-06.","ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2022-09-06
+TITLE: ढुंगा सहितको पहिरो झरेपछि बुटवल-पाल्पा सडकखण्ड अवरूद्ध
+URL: https://www.setopati.com/social/281646
+TEXT:
+ढुंगा सहितको पहिरो झरेपछि बुटवल-पाल्पा सडकखण्ड अवरूद्ध भएको छ। मंगलबार बिहान ८ बजे बुटवल र पाल्पाको सीमा क्षेत्र तल्लो सिद्धबाबा नजिक ढुंगा सहितको पहिरो झरेको छ। जिल्ला ट्राफिक प्रहरी कार्यालय पाल्पाका अनुसार सिद्धार्थ राजमार्ग अन्तर्गत तिनाउ गाउँपालिका वडा नम्बर ३ तल्लो सिद्धबाबानजिक पहिरो झरेपछि सडक अवरूद्ध भएको हो। अहिले डिभिजन सडक कार्यालय पाल्पाले पहिरो हटाएर सडकको आवतजावत गराउन पहल गरिरहेको जनाएको छ।
+
+मंगलबार बिहान ८ बजे बुटवल र पाल्पाको सीमा क्षेत्र तल्लो सिद्धबाबा नजिक ढुंगा सहितको पहिरो झरेको छ।
+
+जिल्ला ट्राफिक प्रहरी कार्यालय पाल्पाका अनुसार सिद्धार्थ राजमार्ग अन्तर्गत तिनाउ गाउँपालिका वडा नम्बर ३ तल्लो सिद्धबाबानजिक पहिरो झरेपछि सडक अवरूद्ध भएको हो।
+
+अहिले डिभिजन सडक कार्यालय पाल्पाले पहिरो हटाएर सडकको आवतजावत गराउन पहल गरिरहेको जनाएको छ।",,,
+CEC-025,CEA-038,event_875c9517869c9c7f,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2023-2026|landslide|multi_article,23.3333333333,2026-05-27,Myagdi,Raghuganga Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,yes,2,"सिरुवारी पहिरोले बेनी–जोमसोम सडक अवरुद्ध, मुक्तिनाथ र जोमसोमको यात्रा प्रभावित – Nepal Press",https://nepalpress.com/2026/05/27/728517/siruwari-landslide-blocks-beni-jomsom-road-affecting-travel-to-muktinath-and-jomsom,human,Both articles describe the same Siruwari/Upper Baisari landslide in Raghuganga-2 blocking the Beni–Jomsom road.,"ARTICLE 1
+SOURCE: nepalpress
+PUBLISHED: 2026-05-27
+TITLE: सिरुवारी पहिरोले बेनी–जोमसोम सडक अवरुद्ध, मुक्तिनाथ र जोमसोमको यात्रा प्रभावित – Nepal Press
+URL: https://nepalpress.com/2026/05/27/728517/siruwari-landslide-blocks-beni-jomsom-road-affecting-travel-to-muktinath-and-jomsom
+TEXT:
+म्याग्दी । मुस्ताङ हुँदै चीनको सिमाना कोरला नाका जोड्ने बेनी–जोमसोम–कोरला सडकअन्तर्गतको म्याग्दी खण्ड आज बिहानैदेखि अवरुद्ध भएको छ ।
+
+म्याग्दीको रघुगङ्गा गाउँपालिका–२ माथिल्लो बैसरी (सिरुवारी)मा पहिरो खसेपछि ७६ किलोमिटर दूरीको बेनी–जोमसोम सडकमा सिधा यातायात सम्पर्कविच्छेद भएको हो । जिल्ला प्रहरी कार्यालयका प्रहरी निरीक्षक सागर तिमिल्सिनाका अनुसार सडक विभाग र बेनी–जोमसोम–कोरला सडक योजनासँग समन्वय गरेर अवरुद्ध सडक खुलाउन उपकरण परिचालन गरिएको छ ।
+
+सडक अवरुद्ध हुँदा बेनीदेखि मुस्ताङतर्फ र जोमसोमदेखि बेनीतर्फ आउँदै गरेका सवारीसाधन बीच बाटोमै रोकिएका छन् । स्थानीयवासीका साथै मुस्ताङ भ्रमण तथा मुक्तिनाथ दर्शनका लागि जाने पर्यटक र तीर्थयात्रीहरु प्रभावित भएका छन् ।
+
+सिरुवारी क्षेत्रमा वर्षा हुनेबित्तिकै पहिरो खस्ने समस्या दोहोरिने गरेको छ । पहिरो बेनी–जोमसोम सडकमा नियमित र सहज यातायात सञ्चालनका लागि मुख्य चुनौती बन्दै गएको छ ।
+
+Myagdi: The Myagdi section of the Beni-Jomsom-Korla road, which connects the Korla border with China via Mustang, has been blocked since this morning.
+
+A landslide in Upper Baisari (Siruwari) of Raghuganga Rural Municipality-2 in Myagdi has disrupted direct traffic on the 76-kilometer Beni-Jomsom road. According to Police Inspector Sagar Timilsina of the District Police Office, equipment has been mobilized to clear the blocked road in coordination with the Road Department and the Beni-Jomsom-Korla Road Project.
+
+Due to the road blockage, vehicles coming from Beni to Mustang and from Jomsom to Beni have been stopped midway. Locals as well as tourists and pilgrims going to Mustang and Muktinath have been affected.
+
+Landslides have been a recurring problem in the Siruwari region as soon as it rains. Landslides are becoming a major challenge for regular and smooth traffic operations on the Beni-Jomsom road.
+
+====================
+
+ARTICLE 2
+SOURCE: ujyaalo
+PUBLISHED: 2026-05-27
+TITLE: म्याग्दीको सिरुवारीमा पहिरो खसेपछि बेनी–जोमसोम सडक अवरुद्ध
+URL: https://www.ujyaaloonline.com/detail/127991
+TEXT:
+काठमाण्डौ - मुस्ताङ हुँदै चीनको सिमाना कोरला नाका जोड्ने बेनी–जोमसोम–कोरला सडकअन्तर्गतको म्याग्दी खण्ड आज बिहानैदेखि अवरुद्ध छ ।
+
+म्याग्दीको रघुगङ्गा गाउँपालिका–२ माथिल्लो बैसरी (सिरुवारी)मा पहिरो खसेपछि ७६ किलोमिटर दूरीको बेनी–जोमसोम सडकमा गाडी चल्न सकेका छैनन् । सडक अवरुद्ध हुँदा बेनीदेखि मुस्ताङतर्फ र जोमसोमदेखि बेनीतर्फ चल्ने गाडी बीच बाटोमै रोकिएका हुन् ।
+
+स्थानीयवासीको साथै मुस्ताङ भ्रमण तथा मुक्तिनाथ दर्शनका लागि जाने पर्यटक र तीर्थयात्रीहरू प्रभावित भएका छन् । जिल्ला प्रहरी कार्यालय म्याग्दीका प्रहरी निरीक्षक सागर तिमिल्सिनाका अनुसार सडक विभाग र बेनी–जोमसोम–कोरला सडक योजनासँग समन्वय गरेर अवरुद्ध सडक खुलाउन उपकरण परिचालन गरिएको छ ।
+
+पानी पर्ने बित्तिकै सिरुवारी क्षेत्रमा पहिरो खस्ने समस्या दोहोरिने गरेको छ ।",,,
+CEC-030,CEA-045,event_a37e7613984db894,P1_attribute,structured_attribute_candidate,correct_hazard_type,hazard_type_classification,candidate_unapplied,en|2023-2026|road_obstruction|multi_article,5.3333333333,2024-08-20,Nawalpur,Baudeekali Rural Municipality,road_obstruction,landslide,,,,,,debris_flow,,yes,yes,yes,yes,yes,road_obstruction,debris_flow,not_reported,yes,2,Landslide blocks Kaligandaki Corridor,https://kathmandupost.com/gandaki-province/2024/08/20/landslide-blocks-kaligandaki-corridor,reviewer_C,"Both articles support the Aug 20 Baudikali-3 Kaligandaki Corridor obstruction; one explicitly describes mud-laden landslide debris. The second article also mentions an unrelated Myagdi road, but its Nawalpur item matches this event.","ARTICLE 1
+SOURCE: kathmandu-post
+PUBLISHED: 2024-08-20
+TITLE: Landslide blocks Kaligandaki Corridor
+URL: https://kathmandupost.com/gandaki-province/2024/08/20/landslide-blocks-kaligandaki-corridor
+TEXT:
+A landslide triggered by heavy rainfall blocked a section of the Kaligandaki Corridor in Baudikali, Nawalparasi East, on Tuesday morning.
+
+The landslide occurred in ward 3 of Baudikali Rural Municipality, blocking the traffic both ways, police said.
+
+The road closure has halted traffic between the district’s hilly areas and the district headquarters, Kawasoti. Passengers travelling to and from Rampur in Palpa have also been stranded.
+
+According to Deputy Superintendent of Police Bed Bahadur Paudel of the District Police Office, Nawalparasi East, the continuous rainfall has made it difficult to clear the landslide immediately.
+
+====================
+
+ARTICLE 2
+SOURCE: ujyaalo
+PUBLISHED: 2024-08-20
+TITLE: पहिरोले कालीगण्डकी करिडोर र बेनी–दरबाङ सडक अवरुद्ध
+URL: https://www.ujyaaloonline.com/detail/105605
+TEXT:
+काठमाण्डौ – पहिरोका कारण कालीगण्डकी करिडोर र बेनी–दरबाङ सडक अवरुद्ध भएका छन् । बर्दघाट सुस्तापूर्व नवलपुरमा कालीगण्डकी करिडोर अवरुद्ध छ । बौदिकाली गाउँपालिका–३ जन्तीपहिरोमा गएराति पहिरो खसेपछि करिडोर पूर्ण रूपमा अवरुद्ध भएको जिल्ला प्रहरी कार्यालय नवलपरासी पूर्वका प्रहरी नायब उपरीक्षक वेदबहादुर पौडेलले जानकारी दिनुभयो ।
+
+जन्तीपहिरोमा लेदोसहित पहिरो खसेको छ । तत्काल पहिरो हटाउन सक्ने अवस्था नरहेको प्रहरी नायब उपरीक्षक पौडेलले बताउनुभयो । सडक अवरुद्ध हुँदा नारायणगढ–गैँडाकोट हुँदै नवलपरासी पूर्वका पहाडी क्षेत्र तथा पाल्पा, स्याङ्जाका लागि चल्ने गाडी चल्न सकेका छैनन् ।
+
+यस्तै म्याग्दीको बेनी–दरबाङ सडक पनि अवरुद्ध छ । म्याग्दीको बेनी नगरपालिका–४ र मङ्गला गाउँपालिका–२ को सिमाना फापरखेतमा पहिरो खस्दा सडकखण्ड अवरुद्ध भएको हो । निरन्तरजसो पानी परेको र पहिरो पनि खसिरहेकाले निक्कै समस्या भएकोे सिङ्गा तातोपानीका व्यवसायी कुमार केसीले बताउनुभयो । यो सडकमा वर्खामा निरन्तरजसो पहिरो झर्ने गरेको छ ।",,,
+CEC-032,CEA-047,event_38a4bc616dd6c8c5,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,np|2019-2022|landslide|single_article,20.5666666667,2019-07-14,Palpa,,landslide,landslide,,,,,,,1,yes,yes,yes,yes,,landslide,landslide,1,not_applicable,1,"पहिरोले उछिट्याएर मोटरसाइकल तिनाउ खोलामा खस्यो, चालकको मृत्यु",https://www.setopati.com/social/185717,human,"Landslide near Siddhababa struck a motorcycle, killing the rider and also blocking the road.","ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2019-07-14
+TITLE: पहिरोले उछिट्याएर मोटरसाइकल तिनाउ खोलामा खस्यो, चालकको मृत्यु
+URL: https://www.setopati.com/social/185717
+TEXT:
+बुटवल तानसेन सडकखण्डको सिद्धबाबा मन्दिर नजिकै रहेको हेडबक्समा झरेको पहिरोले मोटरसाइकल तिनाउ खोलामा खसेको प्रदेश ट्राफिक प्रहरी कार्यालय बुटवलले जनाएको छ। लु ५० प ४६७१ मोटरसाइकलमा सवार पाल्पाको मित्याल गाउँपालिकाका ३१ वर्षीय धनबहादुर सुनारीको घटनास्थलमै मृत्यु भएको ट्राफिक प्रहरी प्रमुख प्रहरी उपरीक्षक मधुसूदन लुईंटेलले जानकारी दिए। पहिरोले उछिट्याएर मोटरसाइकल तिनाउ खोलामा झरेको थियो। घटनास्थल अत्यन्त अप्ठ्यारो स्थानमा रहेको र पहिरोले बाटो समेत अवरूद्ध भएको कारण करिब २ घण्टा लगाएर सो स्थानबाट चालकको शवलाई निकालिएको उनले बताए। सिद्धबाबा तथा बुटवल क्षेत्रमा अहिले पानी नपरे पनि पहिरो भने झरिरहेको प्रहरीले जनाएको छ।
+
+लु ५० प ४६७१ मोटरसाइकलमा सवार पाल्पाको मित्याल गाउँपालिकाका ३१ वर्षीय धनबहादुर सुनारीको घटनास्थलमै मृत्यु भएको ट्राफिक प्रहरी प्रमुख प्रहरी उपरीक्षक मधुसूदन लुईंटेलले जानकारी दिए।
+
+पहिरोले उछिट्याएर मोटरसाइकल तिनाउ खोलामा झरेको थियो। घटनास्थल अत्यन्त अप्ठ्यारो स्थानमा रहेको र पहिरोले बाटो समेत अवरूद्ध भएको कारण करिब २ घण्टा लगाएर सो स्थानबाट चालकको शवलाई निकालिएको उनले बताए।
+
+सिद्धबाबा तथा बुटवल क्षेत्रमा अहिले पानी नपरे पनि पहिरो भने झरिरहेको प्रहरीले जनाएको छ।",,,
+CEC-034,CEA-049,event_c531efd3d9c26872,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,np|2019-2022|landslide|multi_article,29.6666666667,2020-07-09,Jajarkot,Barekot Rural Municipality,landslide,landslide,12,,,,,,11,yes,yes,yes,yes,yes,landslide,landslide,11,yes,10,"पहिरोले जाजरकोटमा २ घर पुरिए, फोन सम्पर्क नहुँदा एकीन विवरण आउन सकेन",https://www.setopati.com/social/210981,reviewer_C,The pack consistently follows the Barekot-4 Sarki village landslide from July 9; later reports confirm 11 deaths with one person still missing.,"ARTICLE 1
+SOURCE: myrepublica
+PUBLISHED: 2020-07-10
+TITLE: Three killed, 11 missing in landslides in West Rukum and Jajarkot - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica
+URL: https://myrepublica.nagariknetwork.com/news/three-killed-11-missing-in-landslides-in-west-rukum-and-jajarkot
+TEXT:
+Subscribe Login Subscribe Politics Economy Society World OP-ED Sports Republica Watch Diaspora Market Our search uses full-text indexing, we're fetching the best results for you. × Beyond Borders, Beyond News Subscribe Now
+
+Resize Text Size Small Medium Large Listen By Republica SURKHET: At least three people were killed and 11 are missing when a landslide triggered by heavy rainfall swept away houses in West Rukum and Jajarkot districts.
+
+According to police, a landslide swept away the house of Tul Bahadur Damai at Aathbiskot Municipality-3 in West Rukum, killing his 28-year-old wife Sita and six-year-old son Habil. Likewise, his eight-year-old daughter Hira was injured in the incident.
+
+The landslide swept away his house at around six Friday morning.
+
+Likewise, another landslide at Barekot Rural Municipality-4 in Jajarkot swept away the houses of Gopal and Kallu Sarki, leaving 11 people missing, and one dead.
+
+According to Karnali Provincial Police Office, rescue operations are underway, but the heavy rainfall and bad weather have hampered the operation.
+
+Nepal records highest LPG imports in three months
+
+PM-designate Balen Shah pushes for 16 ministries,...
+
+When leaders lose, the “wave” takes the blame
+
+Leader Yogesh Bhattarai expressed objection, claiming that the competitor was denied both proposer and supporter positions, and the leadership was decided under pressure.
+
+Power, Patronage and the Retreat of Conscience
+
+Claim Without Strategy: Nepal’s Lipulekh Dilemma
+
+India’s Quiet Revolt Against Naxalism
+
+Why Electoral Reform Alone Won’t Fix Nepal
+
+The pre-monsoon period runs from February to May. Usually, around 226 millimeters of rainfall occurs during the pre-monsoon period but 77.5 millimeters has already fallen till March 31.
+
+Bangaluru made a winning start by defeating Sunrisers Hyderabad by 6 wickets in their opening match on Saturday.
+
+Politics Video Economy The Week Lifestyle Society Republica Watch Sports Blog Review Op-Ed World Interview Diaspora Watch Market Subscribe Manage my account Advertise with us Give us feedback Advertise with Us Contact Us About Us Subscribe Privacy Policy Terms of use Nepal Republic Media Limited © 2026. All right reserved
+
+Nepal Republic Media Limited © 2024. All right reserved | Privacy Policy | Terms of use
+
+Gain access to up to 10 free articles per month.
+
+Already have an account? Log in
+
+====================
+
+ARTICLE 2
+SOURCE: nagarik
+PUBLISHED: 2020-07-11
+TITLE: जाजरकोट पहिरो वितण्डा : थप दुईको शव भेटियो | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/270821-1594475689.html
+TEXT:
+नागरिक अभिलेखालय
+
+लगातार बर्षाका कारण जाजरकोटको बारेकोट–४, सार्की गाउँमा आएको पहिरोमा बेपत्ता भएका थप दुईजनाको शव फेला परेको छ । पहिरोमा पुरिएको अवस्थामा ३८ वर्षीय कलु र उनका ६ वर्षीय छोरा सुभाष सार्कीको शव फेला परेको हो ।
+
+बिहीबार राति गोपाल सार्की र कलु सार्कीका घर पहिरोले बगाएको थियो । पहिरोमा पुरिएका सातजनाको शव शुक्रबार भेटिएको थियो । उक्त पहिरोमा परेका तीनजना अझै बेपत्ता भएको जिल्ला प्रहरी कार्यालय जाजरकोटका प्रहरी प्रमुख डिएसपी किशोर श्रेष्ठले जानकारी दिए । करिब पाँच सय मिटरमाथिबाटो आएको पहिरोले गाउँमा थप क्षति हुन नदिन आठ घरका २५ जनालाई विद्यालयमा सारिएको छ । साथै बारेकोट–६ धुममा आएको खहरे खोला बगाउँदा दुईजना बेपत्ता भएका छन् ।
+
+खोला तर्ने क्रममा २० वर्षीय शिव चलाउने र १२ वर्षीय प्रचण्ड चलाउने बेपत्ता भएको जिल्ला प्रहरी कार्यालय जाजरकोटले जनाएको छ । प्रहरीका अनुसार जुनीचाँदे–१, सानुखोला तर्ने क्रममा एकजना वेपत्ता भएका छन् । बेपत्ता ६ जनाकै खोजी कार्य भइरहेको प्रहरीको भनाइ छ ।
+
+प्रकाशित: २७ असार २०७७ १३:५४ शनिबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.
+
+====================
+
+ARTICLE 3
+SOURCE: nagarik
+PUBLISHED: 2020-07-12
+TITLE: जाजरकोट पहिरो : मृतकको संख्या ११ पुग्यो | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/271781-1594559812.html
+TEXT:
+नागरिक अभिलेखालय
+
+लगातार बर्षाका कारण जाजरकोटको बारेकोट–४ सार्कीमा आएको पहिरोमा परी बेपत्ता भएका थप दुईजनाको शव भेटिएको छ । आइतबार पहिरोमा पुरिएको अवस्थामा कमला र लक्ष्मी सार्कीको शव भेटिएको हो ।
+
+योसँगै उक्त पहिरोमा परेर मृत्यु हुनेको संख्या ११ जना पुगेको छ भने पुष्पा सार्की अझै बेपत्ता छिन् । लगातार बर्षापछि बिहीबार राति गोपाल र कलु सार्कीका घर पहिरोले पुरेको थियो । साथै शुक्रबार खोला तर्ने क्रममा खहरे खोला बगाएर बेपत्ता भएकाहरू पनि भेटिएका छैनन् । बेपत्ताको खोजी कार्य जारी रहेको जिल्ला प्रहरी कार्यालय जाजरकोटका डिएसपी किशोर श्रेष्ठले जानकारी दिए ।
+
+प्रकाशित: २८ असार २०७७ १३:१६ आइतबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.
+
+====================
+
+ARTICLE 4
+SOURCE: himalayan-times
+PUBLISHED: 2020-10-22
+TITLE: Families displaced by landslide continue living in makeshift tents in Jajarkot forest - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News
+URL: https://thehimalayantimes.com/nepal/families-displaced-by-landslide-continue-living-in-makeshift-tents-in-jajarkot-forest
+TEXT:
+JAJARKOT: ""We suffer from heat in the day-time and cold at night. There are no food grains. Our house has been swept away by the landslide,"" Gori Nepali of Gothgaun Talagaun in Barekot Rural Municipality, Jajarkot district said with tears rolling down her eyes.
+
+The six-member family of Gori have been living in a makeshift tent in a nearby forest since July 9 when their house was swept away by a landslide.
+
+They managed to survive on relief items distributed by the rural municipality and various social organisations.
+
+====================
+
+ARTICLE 5
+SOURCE: himalayan-times
+PUBLISHED: 2020-07-10
+TITLE: Five dead, nine missing as landslide sweeps through Jajarkot - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News
+URL: https://thehimalayantimes.com/nepal/five-dead-nine-missing-as-landslide-sweeps-through-jajarkot
+TEXT:
+JAJARKOT: As many as five persons have been found dead while nine others are still missing in the landslide that swept through Barekot Rural Municipality in Jajarkot, on Friday.
+
+Among the deceased are Gopal Sarki (52) and his eleven-year-old son Arjun Sarki of Barekot Rural Municipality-4, Dilli Sarki (20) and Birendra Sarki (18) of Kushe Rural Municipality-9, according to the police.
+
+Meanwhile, the identity of one person is yet to ascertained, informed Chief of District Police, Deputy Superintendent of Police (DSP) Kishor Shrestha. ""The search for the missing persons is still going on.""
+
+====================
+
+ARTICLE 6
+SOURCE: himalayan-times
+PUBLISHED: 2020-07-13
+TITLE: One more body recovered from Jajarkot landslide - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News
+URL: https://thehimalayantimes.com/nepal/update-one-more-body-recovered-from-jajarkot-landslide
+TEXT:
+JAJARKOT: One more body of an individual who went missing in the landslide in Barekot Rural Municipality, Jajarkot, was recovered on Sunday.
+
+With this, the landslip death-toll here reached 10.
+
+The deceased has been identified as Kamal Sarki (11), daughter of Kalu Sarki who also died in this incident.
+
+As many as 12 persons had gone missing after the landslides swept away two houses in the neighborhood.
+
+====================
+
+ARTICLE 7
+SOURCE: setopati
+PUBLISHED: 2020-07-10
+TITLE: पहिरोले जाजरकोटमा २ घर पुरिए, फोन सम्पर्क नहुँदा एकीन विवरण आउन सकेन
+URL: https://www.setopati.com/social/210981
+TEXT:
+जाजरकोटको बारेकोट गाउँपालिका-४ मा पहिरो जाँदा दुई घर पुरिएका छन्। जिल्ला प्रहरी कार्यालय जाजरकोटका अनुसार गए रातिको वर्षाका कारण पहिरो जाँदा २ घर पुरिएका हुन्। जिल्ला प्रहरी कार्यालय जाजरकोटका प्रमुख प्रहरी नायब उपरीक्षक किशोर श्रेष्ठले पहिरोका कारण भौतिक तथा मानवीय क्षति भएको भन्ने खबर आए पनि टेलिफोन सम्पर्क हुन नसक्दा एकीन गर्न नसकिएको बताए। पहिरोमा परी १२ जनाको मृत्यु भएको भन्ने अपुष्ट खबर आएको छ। ‘पहिरोबाट भएको क्षतिको केही केही अपुष्ट विवरण त आएको छ, तर सम्पर्क नहुँदा एकीन भएको छैन्,’ डिएसपी श्रेष्ठले भने। बारेकोटमा रहेको इलाका प्रहरी कार्यालयको टोली उद्दारका लागि घटना स्थलमा गएको तर प्रहरीको सेटमा समेत सम्पर्क हुन नसकेको श्रेष्ठले जानकारी दिए। उनका अनुसार जिल्ला प्रहरी कार्यालयबाट पनि प्रहरी निरीक्षकको नेतृत्वमा टोली बारेकोटतर्फ गएको छ। बीचमा दल्ली भन्ने ठाउँमा सडक भत्किएकाले त्यहाँबाट टोली हिँडेर बारेकोट पुग्ने उनले जानकारी दिए।
+
+जिल्ला प्रहरी कार्यालय जाजरकोटका प्रमुख प्रहरी नायब उपरीक्षक किशोर श्रेष्ठले पहिरोका कारण भौतिक तथा मानवीय क्षति भएको भन्ने खबर आए पनि टेलिफोन सम्पर्क हुन नसक्दा एकीन गर्न नसकिएको बताए।
+
+पहिरोमा परी १२ जनाको मृत्यु भएको भन्ने अपुष्ट खबर आएको छ।
+
+‘पहिरोबाट भएको क्षतिको केही केही अपुष्ट विवरण त आएको छ, तर सम्पर्क नहुँदा एकीन भएको छैन्,’ डिएसपी श्रेष्ठले भने।
+
+बारेकोटमा रहेको इलाका प्रहरी कार्यालयको टोली उद्दारका लागि घटना स्थलमा गएको तर प्रहरीको सेटमा समेत सम्पर्क हुन नसकेको श्रेष्ठले जानकारी दिए। उनका अनुसार जिल्ला प्रहरी कार्यालयबाट पनि प्रहरी निरीक्षकको नेतृत्वमा टोली बारेकोटतर्फ गएको छ। बीचमा दल्ली भन्ने ठाउँमा सडक भत्किएकाले त्यहाँबाट टोली हिँडेर बारेकोट पुग्ने उनले जानकारी दिए।
+
+====================
+
+ARTICLE 8
+SOURCE: setopati
+PUBLISHED: 2020-07-10
+TITLE: जाजरकोटमा पहिरो : ३ जनाको शव भेटियो
+URL: https://www.setopati.com/social/211003
+TEXT:
+जाजरकोटको बारेकोट गाउँपालिका-४ मा पहिरो जाँदा बेपत्ता भएकामध्ये ३ जनाको शव भेटिएको छ। पहिरोमा परेका ९ जना अझै बेपत्ता छन्। जिल्ला प्रहरी कार्यालय जाजरकोटका प्रमुख प्रहरी नायब उपरीक्षक किशोर श्रेष्ठले पहिरो गएको माटोमुनि ३ जनाको शव देखिएकाले ती शव निकाल्ने काम भइरहेको जानकारी दिए। 'माटोमुनि ३ जनाको शव देखिएको भन्ने जानकारी आएको छ, प्रहरीको टोली निकाल्नका लागि लागिरहेको छ,' उनले भने, 'टेलिफोनले काम नगर्दा जानकारी प्राप्त गर्न कठिनाइ भइरहेको छ।’ डिएसपी श्रेष्ठका अनुसार गएरातिदेखि बारेकोट क्षेत्रमा कुनै पनि टेलिफोन तथा प्रहरीको सेटमा समेत सम्पर्क हुन सकेको छैन। गए रातिको वर्षाका कारण पहिरो जाँदा बारेकोट गाउँपालिका ४ मा २ घर पुरिएका छन्। पहिरोमा बेपत्ताहरूको खोजी कार्य जारी रहेको श्रेष्ठले जानकारी दिए। जिल्ला प्रहरी कार्यालयबाट पनि प्रहरी निरीक्षकको नेतृत्वमा प्रहरी उद्धारका लागि बारेकोट गएको छ।
+
+जिल्ला प्रहरी कार्यालय जाजरकोटका प्रमुख प्रहरी नायब उपरीक्षक किशोर श्रेष्ठले पहिरो गएको माटोमुनि ३ जनाको शव देखिएकाले ती शव निकाल्ने काम भइरहेको जानकारी दिए।
+
+'माटोमुनि ३ जनाको शव देखिएको भन्ने जानकारी आएको छ, प्रहरीको टोली निकाल्नका लागि लागिरहेको छ,' उनले भने, 'टेलिफोनले काम नगर्दा जानकारी प्राप्त गर्न कठिनाइ भइरहेको छ।’
+
+डिएसपी श्रेष्ठका अनुसार गएरातिदेखि बारेकोट क्षेत्रमा कुनै पनि टेलिफोन तथा प्रहरीको सेटमा समेत सम्पर्क हुन सकेको छैन।
+
+गए रातिको वर्षाका कारण पहिरो जाँदा बारेकोट गाउँपालिका ४ मा २ घर पुरिएका छन्।
+
+पहिरोमा बेपत्ताहरूको खोजी कार्य जारी रहेको श्रेष्ठले जानकारी दिए।
+
+जिल्ला प्रहरी कार्यालयबाट पनि प्रहरी निरीक्षकको नेतृत्वमा प्रहरी उद्धारका लागि बारेकोट गएको छ।
+
+====================
+
+ARTICLE 9
+SOURCE: setopati
+PUBLISHED: 2020-07-10
+TITLE: जाजरकोटमा पहिरो : ७ जनाको शव भेटियो, ४ जनाको सनाखत
+URL: https://www.setopati.com/social/211023
+TEXT:
+जाजरकोटको बारेकोट गाउँपालिका–४ मा गएको पहिरोमा बेपत्ता भएका ७ जनाको शव भेटिएको छ। उद्धारका क्रममा शुक्रबार दिउँसोसम्म ७ जनाको शव भेटिएको जिल्ला प्रहरी कार्यालय जाजरकोटले जनाएको छ। भेटिएका ७ जनाको शवमध्ये ४ जनाको सनाखत भएको जिल्ला प्रहरी प्रमुख प्रहरी नायब उपरीक्षक किशोर श्रेष्ठले जानकारी दिए। गोपाल सार्की, अर्जुन सार्की, डिल्ली सार्की र वीरेन्द्र सार्कीको सनाखत भएको उनले जानकारी दिए। श्रेष्ठका अनुसार चारै जना एकै परिवारका हुन्। पहिरोमा परी १२ जना बेपत्ता भएका थिए। बाँकीको खोजी कार्य जारी रहेको डिएसपी श्रेष्ठले जानकारी दिए। उद्धारका लागि जिल्ला प्रहरी कार्यालयबाट समेत प्रहरी निरीक्षकको नेतृत्वमा प्रहरी गएको छ। बिहीबार राति परेको अविरल वर्षासँगै गएको पहिरोमा बारेकोट–४ का २ घर पुरिएका छन्।
+
+उद्धारका क्रममा शुक्रबार दिउँसोसम्म ७ जनाको शव भेटिएको जिल्ला प्रहरी कार्यालय जाजरकोटले जनाएको छ।
+
+भेटिएका ७ जनाको शवमध्ये ४ जनाको सनाखत भएको जिल्ला प्रहरी प्रमुख प्रहरी नायब उपरीक्षक किशोर श्रेष्ठले जानकारी दिए।
+
+गोपाल सार्की, अर्जुन सार्की, डिल्ली सार्की र वीरेन्द्र सार्कीको सनाखत भएको उनले जानकारी दिए।
+
+श्रेष्ठका अनुसार चारै जना एकै परिवारका हुन्। पहिरोमा परी १२ जना बेपत्ता भएका थिए। बाँकीको खोजी कार्य जारी रहेको डिएसपी श्रेष्ठले जानकारी दिए।
+
+उद्धारका लागि जिल्ला प्रहरी कार्यालयबाट समेत प्रहरी निरीक्षकको नेतृत्वमा प्रहरी गएको छ।
+
+बिहीबार राति परेको अविरल वर्षासँगै गएको पहिरोमा बारेकोट–४ का २ घर पुरिएका छन्।
+
+====================
+
+ARTICLE 10
+SOURCE: setopati
+PUBLISHED: 2020-07-13
+TITLE: पहिरोले गाउँ छियाछिया: मृत्यु भएकाहरूको किरिया विद्यालयमै
+URL: https://www.setopati.com/social/211182
+TEXT:
+जाजरकोट बारेकोट गाउँपालिका–४ सार्की गाउँका दुई घर पहिरोले पुरिँदा तीन जना मात्र बाँच्ने। गोठमा पशुचौपाय हेर्न गएका छोरा, छिमेकीलाई सहयोग गर्न गएका घरमुली र मामाघर गएका कारण उनीहरुको ज्यान बचेको हो। शुक्रबार बिहान ४ बजे गएको पहिरोले दुई घरका १२ जनामध्ये हालसम्म ११ जनाको मात्र शव फेला परेको छ। बिरामी छिमेकीलाई भेट्न भएका कलु सार्कीका श्रीमान् तुले र उनका १४ वर्षीय छोरा रमेश छोरा कुम्दस्थित गोठमा गएका कारण बाँच्न सफल भएका हुन्। छ जनाको परिवार रहेको तुलेले श्रीमती कलु, छोरी तिर्खा, कमला र कान्छो छोरा सुभासलाई गुमाए। अर्का मृतक घरमुली गोपाल सार्कीका १३ वर्षीय छोरा पवनको मामाघर सुवाकोट गएका कारण ज्यान जोगिएको छ। पवनले बाबा गोपाल, आमा पुष्पा, बैनी लक्ष्मी र भाइ अर्जुनलाई सदाका लागि गुमाएका छन्। त्यस्तै कलुका घरमा पाहुना आएकाले कुशे गाउँपालिका–९ चौताराका तीन भाइबहिनीले समेत सार्कीगाउँकै पहिरोमा परी ज्यान गुमाए। आफन्त गुमाएकाहरू विद्यालयमा शरण लिएर बसेका छन्। विद्यालयमै काजकिरिया शुरु भएको छ। आफन्तको यादमा शुक्रबारदेखि आफन्तका आँशु थामिएका छैनन्। विस्थापित पाल र विद्यालयमा बाँचेका सबै स्थानीय विद्यालयमा बस्दै आएका छन्। सार्कीगाउँका मात्र ३२ घर विस्थापित भएको छ। बोहोराटोलमा १९ घर विस्थापित भएको छ। अन्य सबै वडा ५, १ लगायतका ठाउँमा गरी ५०० भन्दा बढी घरधुरी विस्थापित भएको प्रमुख प्रशासकीय अधिकृत गोविन्द सिंहले जानकारी दिए। विस्थापित सार्की परिवारले जग्गा र अस्थायी घर निर्माण गर्न राज्यले सहयोग गर्नुपर्ने बताएका छन्। अहिले अस्थायीरुपमा ज्यान जोगाउन विद्यालयमा बसेका सर्वसाधारणले विकल्प दिन सरकारसँग माग गरेका छन्। विस्थापित लोकेन्द्र बोहोराले भने, “चिराचिरा परेको जमीन भत्किएको घर टाढैबाट हेरेर चित बुझाउँछौँ। केही मकै छ हामीसँग तर पिस्नका लागि घट्ट सबै खोलाले बगाउँदा समस्या भएको छ। स्थानीय बजारमा चामल छैन कसरी बाँच्नेर?” खाद्य व्यवस्था तथा व्यापार कम्पनी नायकबाडा बारेकोटमा चामल छैन। जनता आवास कार्यक्रम लागू गर्न सर्वसाधारणको माग छ। विद्यालयमै किरिया बाह्र मध्ये १० जनाको शव जलाएर विद्यालयमा नै काजकिरियाको काम शुरु भएको छ। आज भेटिएका कमला सार्कीको दाहसंस्कार भए पनि लक्ष्मी सार्कीको दाहसंस्कार हुन बाँकी छ। पहिरो तथा खोला बढ्दा एक ठाउँबाट अर्को ठाउँमा जान सक्ने अवस्था नरहेको स्थानीय शिक्षक तीर्थराज बोहोराले जानकारी दिए। त्यस्तै बारेकोट–६ धुमामा बेपत्ता दुई जनाको शव अझै फेला पर्न सकेको छैन। जुनिचाँदे–११ का डिल्ली चदारासमेत अझै फेला पर्न सकेका छैनन्। नेपाली सेना, नेपाल प्रहरी, सशस्त्र प्रहरी र सर्वसाधारणले हराएकाको खोजीकार्य जारी राखेका छन्। वनमन्त्रीको राहत आइतबार राहत लिएर काठमाडौँबाट सार्कीगाउँ जाने भनिएको वन तथा वातावरणमन्त्री शक्तिबहादुर बस्नेतलगायतको टोली आजमात्र हेलिकप्टरबाट गाउँ पुगेको छ। खराब मौसमका बीचमा गाउँ पुगेको मन्त्री बस्नेत सवार हेलिकप्टर प्रभावित गाउँमा अवतरण हुन नसक्दा ठकुरी जिरी गएर अवतरण गरी राहत सामग्री उपलब्ध गराएको छ। मन्त्रीलाई भेट्ने आशामा बसेका सर्वसाधारणले खराब मौसमका कारण भेट्न पाएनन्। दुई ठाउँमा हेलिकप्टर अवतरण गरे पनि हेलिकप्टर नै माटोमा गाडिएपछि छिटोछिटो हेलिकप्टर उडाइएको थियो। गाउँपालिकाद्वारा किरिया खर्च बारेकोट गाउँपालिकाले मृतकका आफन्तलाई किरिया खर्च उपलब्ध गराएको छ। एकै घरका धेरै मृत्यु भएपछि आफन्तलाई पीडा खेप्न समस्या भएको छ। विस्थापितले तुरुन्तै राहत र पुनःस्थापना गर्न माग गरेका छन्। एकै ठाउँमा दर्जनौँ मानिस बसिरहेकाले व्यवस्थापनमा समस्या भएको छ। (रासस)
+
+गोठमा पशुचौपाय हेर्न गएका छोरा, छिमेकीलाई सहयोग गर्न गएका घरमुली र मामाघर गएका कारण उनीहरुको ज्यान बचेको हो।
+
+शुक्रबार बिहान ४ बजे गएको पहिरोले दुई घरका १२ जनामध्ये हालसम्म ११ जनाको मात्र शव फेला परेको छ। बिरामी छिमेकीलाई भेट्न भएका कलु सार्कीका श्रीमान् तुले र उनका १४ वर्षीय छोरा रमेश छोरा कुम्दस्थित गोठमा गएका कारण बाँच्न सफल भएका हुन्।
+
+छ जनाको परिवार रहेको तुलेले श्रीमती कलु, छोरी तिर्खा, कमला र कान्छो छोरा सुभासलाई गुमाए। अर्का मृतक घरमुली गोपाल सार्कीका १३ वर्षीय छोरा पवनको मामाघर सुवाकोट गएका कारण ज्यान जोगिएको छ।
+
+पवनले बाबा गोपाल, आमा पुष्पा, बैनी लक्ष्मी र भाइ अर्जुनलाई सदाका लागि गुमाएका छन्। त्यस्तै कलुका घरमा पाहुना आएकाले कुशे गाउँपालिका–९ चौताराका तीन भाइबहिनीले समेत सार्कीगाउँकै पहिरोमा परी ज्यान गुमाए। आफन्त गुमाएकाहरू विद्यालयमा शरण लिएर बसेका छन्। विद्यालयमै काजकिरिया शुरु भएको छ। आफन्तको यादमा शुक्रबारदेखि आफन्तका आँशु थामिएका छैनन्।
+
+विस्थापित पाल र विद्यालयमा
+
+बाँचेका सबै स्थानीय विद्यालयमा बस्दै आएका छन्। सार्कीगाउँका मात्र ३२ घर विस्थापित भएको छ। बोहोराटोलमा १९ घर विस्थापित भएको छ। अन्य सबै वडा ५, १ लगायतका ठाउँमा गरी ५०० भन्दा बढी घरधुरी विस्थापित भएको प्रमुख प्रशासकीय अधिकृत गोविन्द सिंहले जानकारी दिए। विस्थापित सार्की परिवारले जग्गा र अस्थायी घर निर्माण गर्न राज्यले सहयोग गर्नुपर्ने बताएका छन्। अहिले अस्थायीरुपमा ज्यान जोगाउन विद्यालयमा बसेका सर्वसाधारणले विकल्प दिन सरकारसँग माग गरेका छन्।
+
+विस्थापित लोकेन्द्र बोहोराले भने, “चिराचिरा परेको जमीन भत्किएको घर टाढैबाट हेरेर चित बुझाउँछौँ। केही मकै छ हामीसँग तर पिस्नका लागि घट्ट सबै खोलाले बगाउँदा समस्या भएको छ। स्थानीय बजारमा चामल छैन कसरी बाँच्नेर?”
+
+खाद्य व्यवस्था तथा व्यापार कम्पनी नायकबाडा बारेकोटमा चामल छैन। जनता आवास कार्यक्रम लागू गर्न सर्वसाधारणको माग छ। विद्यालयमै किरिया
+
+बाह्र मध्ये १० जनाको शव जलाएर विद्यालयमा नै काजकिरियाको काम शुरु भएको छ। आज भेटिएका कमला सार्कीको दाहसंस्कार भए पनि लक्ष्मी सार्कीको दाहसंस्कार हुन बाँकी छ।
+
+पहिरो तथा खोला बढ्दा एक ठाउँबाट अर्को ठाउँमा जान सक्ने अवस्था नरहेको स्थानीय शिक्षक तीर्थराज बोहोराले जानकारी दिए। त्यस्तै बारेकोट–६ धुमामा बेपत्ता दुई जनाको शव अझै फेला पर्न सकेको छैन। जुनिचाँदे–११ का डिल्ली चदारासमेत अझै फेला पर्न सकेका छैनन्। नेपाली सेना, नेपाल प्रहरी, सशस्त्र प्रहरी र सर्वसाधारणले हराएकाको खोजीकार्य जारी राखेका छन्।
+
+वनमन्त्रीको राहत
+
+आइतबार राहत लिएर काठमाडौँबाट सार्कीगाउँ जाने भनिएको वन तथा वातावरणमन्त्री शक्तिबहादुर बस्नेतलगायतको टोली आजमात्र हेलिकप्टरबाट गाउँ पुगेको छ।
+
+खराब मौसमका बीचमा गाउँ पुगेको मन्त्री बस्नेत सवार हेलिकप्टर प्रभावित गाउँमा अवतरण हुन नसक्दा ठकुरी जिरी गएर अवतरण गरी राहत सामग्री उपलब्ध गराएको छ। मन्त्रीलाई भेट्ने आशामा बसेका सर्वसाधारणले खराब मौसमका कारण भेट्न पाएनन्। दुई ठाउँमा हेलिकप्टर अवतरण गरे पनि हेलिकप्टर नै माटोमा गाडिएपछि छिटोछिटो हेलिकप्टर उडाइएको थियो।
+
+गाउँपालिकाद्वारा किरिया खर्च
+
+बारेकोट गाउँपालिकाले मृतकका आफन्तलाई किरिया खर्च उपलब्ध गराएको छ। एकै घरका धेरै मृत्यु भएपछि आफन्तलाई पीडा खेप्न समस्या भएको छ। विस्थापितले तुरुन्तै राहत र पुनःस्थापना गर्न माग गरेका छन्। एकै ठाउँमा दर्जनौँ मानिस बसिरहेकाले व्यवस्थापनमा समस्या भएको छ।
+
+(रासस)",,,
+CEC-040,CEA-058,event_7a197f823424159c,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2015-2018|landslide|single_article,30.0,2017-07-12,Chitwan,Ichchhyakamana Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,नारायणगढ मुग्लिन सडकमा पहिरो जाँदा आवागमन ठप्प | Nagarik News,https://nagariknews.nagariknetwork.com/social-affairs/125718-1499858040.html,human,"Landslide at Charkilo, Ichchhyakamana-6 blocked both directions of the Narayangadh–Muglin road on 2017-07-12.","ARTICLE 1
+SOURCE: nagarik
+PUBLISHED: 2017-07-12
+TITLE: नारायणगढ मुग्लिन सडकमा पहिरो जाँदा आवागमन ठप्प | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/125718-1499858040.html
+TEXT:
+नागरिक अभिलेखालय
+
+चितवन – नारायणग मुग्लिन सडक खण्डमा बुधबार दिउँसो तीन बजे पहिरो जाँदा दुई तर्फी रुपमा नै यातायात बन्द भएको छ । चितवन जिल्ला प्रहरी कार्यालयका प्रहरी उपरीक्षक (एसपी) दिपक थापाका अनुसार इच्छाकामना गाउँपालिका वडा नं. ६ को चार किलोमा पहिरो गएको हो।
+
+चितवन जिल्ला ट्राफिक प्रहरी कार्यालयका प्रमुख प्रहरी निरीक्षक सन्तोष पन्तले पहिरो हटाउने काम सुरु भए पनि यातायात खुल्न सात घण्टा लाग्ने बताए । त्यसैले यात्रुहरुलाई धैर्य गर्न उनले आग्रह गरेका छन् । विस्तारको काम भइरहेको सो सडक खण्डमा पहाड काटेको ठाउँमा पहिरो गएर पटक पटक दुख दिने गरेको छ।
+
+पहिरोमा परेर यात्रा गर्नेहरुको ज्यानै जान थालेपछि सो सडक खण्डमा गत आइतबारबाट रातको समयमा गाडी चलाउन बन्द गरिएको छ । राजधानी सहर काठमाडौं र पर्यटकीय सहर पोखरलाई देशको पुर्वी र पश्चिम भागसँग जोड्ने मुख्य मार्ग रहेको सो सडक खण्डमा दैनिक १० हजारसम्म गाडी गुड्छन्।
+
+प्रकाशित: २८ असार २०७४ ११:१४ बुधबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.",,,
+CEC-041,CEA-059,event_62e9fa330a3cbba8,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,en|2023-2026|landslide|multi_article,16.3333333333,2026-05-12,Myagdi,,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,,road_obstruction,landslide,not_reported,yes,2,Landslide obstructs Beni-Jomsom road - OnlineKhabar English News,https://english.onlinekhabar.com/landslide-obstructs-beni-jomsom-road.html,human,"Both articles describe the same Mahabhir, Annapurna-7 landslide blocking the Beni–Jomsom road on 2026-05-12.","ARTICLE 1
+SOURCE: nepalpress-en
+PUBLISHED: 2026-05-12
+TITLE: Landslide obstructs Beni-Jomsom road – Nepal Press
+URL: https://english.nepalpress.com/2026/05/12/landslide-obstructs-beni-jomsom-road
+TEXT:
+MYAGDI : The Beni-Jomsom-Korala road, which links Mustang to the national highway, has been obstructed since this morning due to a landslide at Mahabhir of Annapurna Rural Municipality-7 in Myagdi district.
+
+With this, vehicles have stranded on the 76-km-long Beni-Jomsom section, one of the busiest stretches in the region.
+
+Vehicles heading to Mustang from Beni and from Jomsom stopped midway, creating sheer inconvenience, especially to the tourists and pilgrims visiting Mustang and the Muktinath Temple.
+
+Information Officer at the District Police Office Sagar Timilsina, however, said that efforts were afoot to clear the debris by using heavy equipment of the Road Department.
+
+Mahabhir has a steep topography, and poses risks frequently on Beni-Jomsom road with recurring land and rock falls. Once it is rainy, the debris is deposited on the road, disrupting vehicular movement.
+
+====================
+
+ARTICLE 2
+SOURCE: onlinekhabar-en
+PUBLISHED: 2026-05-12
+TITLE: Landslide obstructs Beni-Jomsom road - OnlineKhabar English News
+URL: https://english.onlinekhabar.com/landslide-obstructs-beni-jomsom-road.html
+TEXT:
+Home » Society » Landslide obstructs Beni-Jomsom road
+
+Myagdi, May 12
+
+The Beni-Jomsom-Korala road, which links Mustang to the national highway, has been obstructed since this morning due to a landslide occurred at Mahabhir of Annapurna Rural Municipality-7 in Myagdi district. With this, vehicles have been stranded on the 76-km-long Beni-Jomsom section, one of the busiest stretches in the region.
+
+Vehicles heading to Mustang from Beni and from Jomsom stopped midway, creating sheer inconvenience, especially to the tourists and pilgrims visiting Mustang and the Muktinath Temple.
+
+Information Officer at the District Police Office, Sagar Timilsina, however, informed that efforts were afoot to clear the debris by using heavy equipment of the Road Department. Mahabhir has a steep topography and poses risks frequently on the Beni-Jomsom road with recurring land and rock falls. Once it is rainy, the debris is deposited on the road, disrupting vehicular movement.
+
+RSS is a government-run national news portal of Nepal.
+
+Subscribe to Onlinekhabar English to get notified of exclusive news stories.
+
+The English Edition of Nepal's No 1 News Portal Onlinekhabar.com
+
+Phone +977-1-4780076 , +977-1-4786489
+
+Email: english@onlinekhabar.com",,,
+CEC-049,CEA-067,event_19a6d7f1ee749851,P1_attribute,structured_attribute_candidate,correct_hazard_type,hazard_type_classification,candidate_unapplied,np|2019-2022|road_obstruction|multi_article,4.3333333333,2021-06-30,Tanahu,,road_obstruction,landslide,,,,,,debris_flow,,yes,yes,yes,yes,,road_obstruction,debris_flow,not_reported,yes,2,पहिरोले पृथ्वी राजमार्ग अवरुद्ध – Nepal Press,https://nepalpress.com/2021/06/30/72195/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%AA%E0%A5%83%E0%A4%A5%E0%A5%8D%E0%A4%B5%E0%A5%80-%E0%A4%B0%E0%A4%BE%E0%A4%9C%E0%A4%AE%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%97,reviewer_C,"Both articles describe the same June 30 mud/debris-laden slide at Tharpu, Myagde-4, Tanahu that blocked Prithvi Highway.","ARTICLE 1
+SOURCE: nepalpress
+PUBLISHED: 2021-06-30
+TITLE: पहिरोले पृथ्वी राजमार्ग अवरुद्ध – Nepal Press
+URL: https://nepalpress.com/2021/06/30/72195/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%AA%E0%A5%83%E0%A4%A5%E0%A5%8D%E0%A4%B5%E0%A5%80-%E0%A4%B0%E0%A4%BE%E0%A4%9C%E0%A4%AE%E0%A4%BE%E0%A4%B0%E0%A5%8D%E0%A4%97
+TEXT:
+दमौली । मंगलबार रातिदेखि परेको वर्षाका कारण पहिरो जाँदा पृथ्वीराजमार्गअन्तर्गत तनहुँको म्याग्देस्थित थर्पुमा राजमार्ग अवरुद्ध भएको छ । पहिरोका कारण लेदो माटो झर्दा म्याग्दे-४ मा आज बिहानदेखि राजमार्ग अवरुद्ध भएको हो ।
+
+लेदो माटोका कारण १२ चक्के ठूलो गाडी फसेपछि राजमार्ग अवरुद्ध भएको थर्पुका प्रहरी नायब निरीक्षक कृष्णबहादुर बानियाँले जानकारी दिए । ‘पहिरो झरे पनि साना सवारी सञ्चालन भइरहेका थिए, १२ चक्के गाडीले जबरजस्ती हालिदिएपछि लेदो माटोका कारण सवारी फस्यो,’ उनले भने, ‘त्यसलाई हटाएर राजमार्ग सञ्चालन गराउने प्रयास भइरहेको छ ।’
+
+उक्त सवारी हटाउन जेसीभीका लागि सडक कार्यालयसँग समन्वय गर्न खोजे पनि सम्पर्क हुन नसकेपछि स्थानीय व्यक्तिको जेसीभी ल्याएर काम गर्न सुरु भएको उनले बताए । रासस
+
+====================
+
+ARTICLE 2
+SOURCE: setopati
+PUBLISHED: 2021-06-30
+TITLE: पहिरोले पृथ्वी राजमार्ग अवरुद्ध
+URL: https://www.setopati.com/social/241893
+TEXT:
+पहिरोले पृथ्वीराजमार्गअन्तर्गत तनहुँको म्याग्देस्थित थर्पुमा राजमार्ग अवरुद्ध भएको छ। पहिरोका कारण लेदो माटो झर्दा म्याग्दे–४ मा बुधबार बिहानदेखि राजमार्ग अवरुद्ध भएको हो। लेदो माटोका कारण १२ चक्के ठूलो गाडी फसेपछि राजमार्ग अवरुद्ध भएको थर्पुका प्रहरी नायब निरीक्षक कृष्णबहादुर बानियाँले जानकारी दिए। ‘पहिरो झरे पनि साना सवारी सञ्चालन भइरहेका थिए, १२ चक्के गाडी नै फस्यो। त्यसलाई हटाएर राजमार्ग सञ्चालन गराउने प्रयास भइरहेको छ,’ उनले भने। उक्त सवारी हटाउन जेसीभीका लागि सडक कार्यालयसँग समन्वय गर्न खोजे पनि सम्पर्क हुन नसकेपछि स्थानीय व्यक्तिको जेसीभी ल्याएर काम गर्न सुरू गरिएको छ।
+
+पहिरोका कारण लेदो माटो झर्दा म्याग्दे–४ मा बुधबार बिहानदेखि राजमार्ग अवरुद्ध भएको हो।
+
+लेदो माटोका कारण १२ चक्के ठूलो गाडी फसेपछि राजमार्ग अवरुद्ध भएको थर्पुका प्रहरी नायब निरीक्षक कृष्णबहादुर बानियाँले जानकारी दिए।
+
+‘पहिरो झरे पनि साना सवारी सञ्चालन भइरहेका थिए, १२ चक्के गाडी नै फस्यो। त्यसलाई हटाएर राजमार्ग सञ्चालन गराउने प्रयास भइरहेको छ,’ उनले भने।
+
+उक्त सवारी हटाउन जेसीभीका लागि सडक कार्यालयसँग समन्वय गर्न खोजे पनि सम्पर्क हुन नसकेपछि स्थानीय व्यक्तिको जेसीभी ल्याएर काम गर्न सुरू गरिएको छ।",,,
+CEC-052,CEA-071,event_99273862d8e446e6,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2019-2022|landslide|single_article,20.5666666667,2021-07-05,Sankhuwasabha,Dharmadevi Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,कोशी राजमार्ग: पहिरोले माम्लिङ–पिलुवा खोला सडक अवरूद्ध,https://www.setopati.com/social/242447,human,Claimed Dharmadevi event is specifically supported: a Monday landslide from Chumang Bhir blocked the Koshi Highway on 2021-07-05.,"ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2021-07-06
+TITLE: कोशी राजमार्ग: पहिरोले माम्लिङ–पिलुवा खोला सडक अवरूद्ध
+URL: https://www.setopati.com/social/242447
+TEXT:
+कोशी राजमार्गअन्तर्गत सङ्खुवासभाको माम्लिङ–पिलुवा खोला सडकमा ढुङ्गासहितको पहिरो खसेपछि सडक अवरूद्ध बनेको छ। सोमबार धर्मदेवी नगरपालिकाको छुमाङ भिरबाट पहिरो खसेपछि सडक अवरूद्ध भएको सडक डिभिजन कार्यालय तुम्लिङटारले जनाएको छ। एक साता लामो झरीपछि गएको पहिराले सडकमा ठूल्ठूला ढुङ्गासहितको माटो खसेको डिभिजन प्रमुख गौतमकुमार श्रेष्ठले बताए। उक्त सडकखण्डमा यातायातका साधन एकतर्फी खुलाउने प्रयास भइरहेको छ। श्रेष्ठका अनुसार ढुङ्गा खसेको सडकभन्दा केही तल बाक्लो गाउँ भएकाले हटाउन समस्या भइरहेको छ। पहिरो हटाउन प्रहरी र सशस्त्र प्रहरी खटाइएका छन्। यस्तै, पहिराले खाँदबारी किमाथाङ्का सडकअन्तर्गत मकालु गाउँपालिकाको दोभान खण्डमा पनि पहिराले सडक अवरूद्ध पारेको छ। दोभानबाट हेदांनातर्फ जाने सडकमा पहिरो खसेको हो। उता सिलिचोङ गाउँपालिका-१ सिसुवाखोलाको तेन्छोङमा पहिराबाट एक घर पुरिएको छ। आइतबार राति अविरल वर्षासँगै आएको पहिराले घरमा क्षति पुग्नाका साथै ८० वर्षीय छत्तीसकुमार राई घाइते भएको वडाध्यक्ष अलक्षकुमार राईले जानकारी दिए। आइतबार राति १ बजेतिर घरमाथिबाट आएको पहिराले उक्त घर पूर्णरूपमा क्षतिग्रस्त भएको छ। घाइतेको स्थानीय स्वास्थ्य केन्द्रमा उपचार भइरहेको छ। पहिराबाट छत्तीसकुमारकी श्रीमती सुखमाया राई र नातिनी भागेर बाँच्न सफल भएको वडाध्यक्ष राईले बताए। त्यस क्षेत्रमा तीन दिनदेखि लगातार वर्षा भइरहेको छ। रासस
+
+सोमबार धर्मदेवी नगरपालिकाको छुमाङ भिरबाट पहिरो खसेपछि सडक अवरूद्ध भएको सडक डिभिजन कार्यालय तुम्लिङटारले जनाएको छ।
+
+एक साता लामो झरीपछि गएको पहिराले सडकमा ठूल्ठूला ढुङ्गासहितको माटो खसेको डिभिजन प्रमुख गौतमकुमार श्रेष्ठले बताए। उक्त सडकखण्डमा यातायातका साधन एकतर्फी खुलाउने प्रयास भइरहेको छ।
+
+श्रेष्ठका अनुसार ढुङ्गा खसेको सडकभन्दा केही तल बाक्लो गाउँ भएकाले हटाउन समस्या भइरहेको छ। पहिरो हटाउन प्रहरी र सशस्त्र प्रहरी खटाइएका छन्।
+
+यस्तै, पहिराले खाँदबारी किमाथाङ्का सडकअन्तर्गत मकालु गाउँपालिकाको दोभान खण्डमा पनि पहिराले सडक अवरूद्ध पारेको छ। दोभानबाट हेदांनातर्फ जाने सडकमा पहिरो खसेको हो।
+
+उता सिलिचोङ गाउँपालिका-१ सिसुवाखोलाको तेन्छोङमा पहिराबाट एक घर पुरिएको छ।
+
+आइतबार राति अविरल वर्षासँगै आएको पहिराले घरमा क्षति पुग्नाका साथै ८० वर्षीय छत्तीसकुमार राई घाइते भएको वडाध्यक्ष अलक्षकुमार राईले जानकारी दिए।
+
+आइतबार राति १ बजेतिर घरमाथिबाट आएको पहिराले उक्त घर पूर्णरूपमा क्षतिग्रस्त भएको छ।
+
+घाइतेको स्थानीय स्वास्थ्य केन्द्रमा उपचार भइरहेको छ। पहिराबाट छत्तीसकुमारकी श्रीमती सुखमाया राई र नातिनी भागेर बाँच्न सफल भएको वडाध्यक्ष राईले बताए। त्यस क्षेत्रमा तीन दिनदेखि लगातार वर्षा भइरहेको छ। रासस",,,
+CEC-075,CEA-099,event_433eeade9426c23a,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2019-2022|landslide|single_article,20.5666666667,2022-10-06,Palpa,Ribdikot Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,पाल्पाको जोर्तेमा पहिरो खस्दा पाल्पा–गुल्मी सडकखण्ड बन्द,https://www.ujyaaloonline.com/detail/76573,human,"A large landslide at Jorte, Ribdikot RM-2, Palpa blocked the Palpa-Gulmi road on the morning of 2022-10-06.","ARTICLE 1
+SOURCE: ujyaalo
+PUBLISHED: 2022-10-06
+TITLE: पाल्पाको जोर्तेमा पहिरो खस्दा पाल्पा–गुल्मी सडकखण्ड बन्द
+URL: https://www.ujyaaloonline.com/detail/76573
+TEXT:
+पाल्पा – पाल्पाको जोर्तेमा पहिरो खस्दा पाल्पा–गुल्मी सडकखण्ड बन्द भएको छ । बिहान पहिरो खसेपछि सडक बन्द भएको हो ।
+
+पाल्पाको रिब्दीकोट गाउँपालिका–२, खस्यौलीको जोर्ते क्षेत्रमा ठूलो पहिरो खसेको जिल्ला ट्राफिक प्रहरी कार्यालय पाल्पाले जनाएको छ । जोर्ते बजार नजिकैको सडक चौडा गरेको ठाउँमा पहिरो खसेको हो ।
+
+सडक बन्द हुँदा गुल्मी, बाग्लुङ, अर्घाखाँचीबाट बुटबल तथा काठमाण्डौ आउने/जाने गाडी र यात्रु बाटोमै रोकिएका छन् । सकेसम्म छिट्टै सडक खुलाउने प्रयास भैरहेको जिल्ला ट्राफिक प्रहरी कार्यालय पाल्पाले जनाएको छ ।",,,
+CEC-082,CEA-106,event_f95dfda03a7226f4,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,np|2023-2026|landslide|multi_article,23.3333333333,2024-06-28,Syangja,Phedikhola Rural Municipality,landslide,landslide,,,,,,,2,yes,yes,yes,yes,yes,landslide,landslide,2,yes,3,स्याङ्जामा पहिरोले घर पुरिंदा आमाछोरीको मृत्यु – Online Khabar,https://www.onlinekhabar.com/2024/06/1502114/mother-and-daughter-died-when-a-landslide-swept-away-their-home-in-syangja,human,"All three reports describe the same 2024-06-28 late-night landslide at Bange, Phedikhola RM-5, Syangja, which buried a house and killed a mother and daughter.","ARTICLE 1
+SOURCE: nepalpress
+PUBLISHED: 2024-06-29
+TITLE: पहिरोले घर पुरिँदा स्याङ्जामा आमा छोरीको मृत्यु – Nepal Press
+URL: https://nepalpress.com/2024/06/29/482664/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%98%E0%A4%B0-%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%BF%E0%A4%81%E0%A4%A6%E0%A4%BE-%E0%A4%B8%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%99
+TEXT:
+पोखरा । पहिरोले घर पुरिँदा स्याङ्जामा आमा छोरीको मृत्यु भएको छ ।
+
+गएराती घरमाथिबाट खसेको पहिरोमा परेर फेदीखोला गाउँपालिका–५ बाँगेकी ३१ वर्षीय दुर्गा जिटी र ३ वर्षीय छोरी निकिसा जिटीको मृत्यु भएको जिल्ला प्रहरी कार्यालय स्याङजाले जनाएको छ ।
+
+पहिरोले घरसँगै गोठ पनि पूर्ण रुपमा क्षति डिएसपी इन्द्रबहादुर रानाले जानकारी दिए ।
+
+====================
+
+ARTICLE 2
+SOURCE: online-khabar
+PUBLISHED: 2024-06-29
+TITLE: स्याङ्जामा पहिरोले घर पुरिंदा आमाछोरीको मृत्यु – Online Khabar
+URL: https://www.onlinekhabar.com/2024/06/1502114/mother-and-daughter-died-when-a-landslide-swept-away-their-home-in-syangja
+TEXT:
+१५ असार, काठमाडौं । स्याङ्जामा पहिरोले घर पुरिंदा आमाछोरीको मृत्यु भएको छ ।
+
+फेदीखोला गाउँपालिका-५ मा शुक्रबार राति साढे ११ बजे आएको बाढीले घर बगाउँदा दुर्गा जिटी र उनकी तीन वर्षीया छोरीको मृत्यु भएको हो ।
+
+सुतिरहेको बेला घरभन्दा २५ मिटर माथिबाट खसेको पहिरो उनीहररुलाई पुरेको प्रहरीले जनाएको छ ।
+
+====================
+
+ARTICLE 3
+SOURCE: setopati
+PUBLISHED: 2024-06-29
+TITLE: स्याङ्जामा पहिरोले घर पुरिँदा आमा-छोरीको मृत्यु
+URL: https://www.setopati.com/social/333104
+TEXT:
+स्याङ्जामा पहिरोले घर पुरिँदा आमा छोरीको मृत्यु भएको छ। गएराति साढे ११ बजे स्याङ्जाको फेदीखोला गाउँपालिका-५ बाँगेस्थित दुर्गा जिटीको ढुंगा माटो र टिनले छाएको घर पहिरोले पुरिँदा उनीसँगै उनकी ३ वर्षीया छोरीको मृत्यु भएको हो। प्रहरीका अनुसार उनीहरू घरमा सुतिरहेको बेला घरभन्दा करिब २०/२५ मिटर माथिबाट पहिरो खसेको थियो। पहिरोले ढुंगामाटो र टिनले छाएको एक तले घर र घरनजिकै रहेको गोठ पूर्ण रुपमा पुरिएको प्रहरीले जनाएको छ। ३१ वर्षीय दुर्गा र उनकी छोरी निकिसाको घटनास्थलमै मृत्यु भएको छ। पहिरोले गोठ पुरिँदा त्यहाँ रहेको एउटा भैँसी समेत मरेको प्रहरीले जनाएको छ।
+
+गएराति साढे ११ बजे स्याङ्जाको फेदीखोला गाउँपालिका-५ बाँगेस्थित दुर्गा जिटीको ढुंगा माटो र टिनले छाएको घर पहिरोले पुरिँदा उनीसँगै उनकी ३ वर्षीया छोरीको मृत्यु भएको हो।
+
+प्रहरीका अनुसार उनीहरू घरमा सुतिरहेको बेला घरभन्दा करिब २०/२५ मिटर माथिबाट पहिरो खसेको थियो।
+
+पहिरोले ढुंगामाटो र टिनले छाएको एक तले घर र घरनजिकै रहेको गोठ पूर्ण रुपमा पुरिएको प्रहरीले जनाएको छ।
+
+३१ वर्षीय दुर्गा र उनकी छोरी निकिसाको घटनास्थलमै मृत्यु भएको छ।
+
+पहिरोले गोठ पुरिँदा त्यहाँ रहेको एउटा भैँसी समेत मरेको प्रहरीले जनाएको छ।",,,
+CEC-083,CEA-107,event_cc857e7d4539306c,P1_attribute,structured_attribute_candidate,correct_event_type;correct_hazard_type,event_type_classification;hazard_type_classification,candidate_unapplied,np|2023-2026|landslide|single_article,20.1470588235,2025-10-06,Gulmi,,landslide,rockfall,,,,,road_obstruction,landslide,,yes,yes,yes,yes,,road_obstruction,landslide,not_reported,not_applicable,1,अवरुद्ध रिडी–तम्घास सडक खुल्यो | Nepal's first 24-hour updated news portal - Ratopati,https://www.ratopati.com/story/516591/blocked-ridi-tamghas-road-reopened,human,"A dry landslide containing rock blocked the Ridi-Tamghas road near Panitanki, Rurukshetra-3, Gulmi on 2025-10-06. The evidence describes a landslide with rock debris rather than a distinct rockfall.","ARTICLE 1
+SOURCE: ratopati
+PUBLISHED: 2025-10-06
+TITLE: अवरुद्ध रिडी–तम्घास सडक खुल्यो | Nepal's first 24-hour updated news portal - Ratopati
+URL: https://www.ratopati.com/story/516591/blocked-ridi-tamghas-road-reopened
+TEXT:
+गुल्मी । सुख्खा पहिरोले अवरुद्ध मदनभण्डारी राजमार्ग अन्तर्गत गुल्मीको रिडी‐तम्घास सडक खुलेको छ । उक्त सडकखण्ड अन्तर्गत रुरुक्षेत्र गाउँपालिका ‐३ स्थित पानीट्याङ्की नजिकै चट्टान सहितको सुख्खा पहिरो खसेपछि आज बिहानदेखि उक्त सडक अवरुद्ध भएको थियो ।
+
+सडकमा थुप्रिएको चट्टान सहितको पहिरो पन्छाएपछि यातायात सेवा सञ्चालनमा आएको जिल्ला प्रहरी कार्यालयका सूचना अधिकारी एवं प्रहरी नायब उपरीक्षक गङ्गाबहादुर सारुले जानकारी दिए ।
+
+मदन भण्डारी राजमार्ग अन्तर्गत गुल्मीको रिडी–तम्घास सडकखण्डमा २५ किलोमिटर सडक चौडा पार्ने र कालोपत्र गर्ने काम भइरहेको छ ।
+
+राष्ट्रिय समाचार समिति नेपालकाे सरकारी समाचार संस्था हाे ।
+
+राष्ट्रिय समाचार समिति नेपालकाे सरकारी समाचार संस्था हाे ।",,,
+CEC-085,CEA-109,event_77728e0f7804c9bc,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2023-2026|landslide|single_article,20.1470588235,2024-07-22,Chitwan,Ichchhyakamana Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,फिस्लिङको पहिरो पन्छाएपछि दुईतर्फी सञ्चालनमा आयो पृथ्वी राजमार्ग,https://www.setopati.com/social/334815,human,"A landslide at Fisling, Ichchhyakamana RM-6, Chitwan fell at 04:45 on 2024-07-22 and blocked the Prithvi Highway until it was cleared.","ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2024-07-22
+TITLE: फिस्लिङको पहिरो पन्छाएपछि दुईतर्फी सञ्चालनमा आयो पृथ्वी राजमार्ग
+URL: https://www.setopati.com/social/334815
+TEXT:
+चितवनस्थित इच्छाकामना गाउँपालिका वडा नम्बर ६ फिस्लिङमा खसेको पहिरो पन्छाएपछि पृथ्वी राजमार्ग दुईतर्फी सञ्चालनमा आएको छ। मुग्लिन–मलेखु सडक खण्डअन्तर्गत् फिस्लिङमा सोमबार बिहान ४ः४५ बजे खसेको पहिरो बिहान ८ बजे पन्छाइसकिएपछि राजमार्ग सञ्चालनमा आएको इलाका प्रहरी कार्यालय मुग्लिनकी प्रमुख निरला भण्डारीले जानकारी दिइन्। उनका अनुसार बिहान ६ बजेदेखि पहिरो पन्छाउने थालिएको थियो। ‘पहिरो पन्छाएपछि राजमार्ग पूर्ववत् अवस्थामा सञ्चालनमा आएको छ। अहिले त्यस्तो धेरै वर्षा पनि छैन,’ उनले भनिन्।
+
+मुग्लिन–मलेखु सडक खण्डअन्तर्गत् फिस्लिङमा सोमबार बिहान ४ः४५ बजे खसेको पहिरो बिहान ८ बजे पन्छाइसकिएपछि राजमार्ग सञ्चालनमा आएको इलाका प्रहरी कार्यालय मुग्लिनकी प्रमुख निरला भण्डारीले जानकारी दिइन्।
+
+उनका अनुसार बिहान ६ बजेदेखि पहिरो पन्छाउने थालिएको थियो।
+
+‘पहिरो पन्छाएपछि राजमार्ग पूर्ववत् अवस्थामा सञ्चालनमा आएको छ। अहिले त्यस्तो धेरै वर्षा पनि छैन,’ उनले भनिन्।",,,
+CEC-086,CEA-110,event_9feeaedb6b4f0cfd,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2023-2026|landslide|single_article,20.1470588235,2025-09-23,Chitwan,Ichchhyakamana Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,"तुइन खोलामा फेरि ठुलो पहिरो, आवागमन दुईतर्फी बन्द | Nagarik News",https://nagariknews.nagariknetwork.com/social-affairs/another-landslide-in-tuin-river-13-76.html,human,"A new dry landslide at Tuin Khola, Ichchhyakamana RM-5, Chitwan at about 16:30 on 2025-09-23 fully blocked the road; earlier failures at the same hotspot are background.","ARTICLE 1
+SOURCE: nagarik
+PUBLISHED: 2025-09-23
+TITLE: तुइन खोलामा फेरि ठुलो पहिरो, आवागमन दुईतर्फी बन्द | Nagarik News
+URL: https://nagariknews.nagariknetwork.com/social-affairs/another-landslide-in-tuin-river-13-76.html
+TEXT:
+नागरिक अभिलेखालय
+
+मुग्लिन-नारायणघाट सडकखण्ड फेरि पहिरोका कारण प्रभावित बनेको छ।
+
+चितवनको इच्छाकामना गाउँपालिका-५ स्थित तुइन खोला नजिकै मंगलबार बेलुका साढे ४ बजे झनै ठुलो सुक्खा पहिरो खसेपछि सडक पुर्ण रुपमा अवरुद्ध भएको हो।
+
+यसअघि दिउँसो १ बजे पहिरो पन्छाएर सडक दुई एकतर्फी सञ्चालनमा ल्याइएको थियो।
+
+सडक डिभिजन भरतपुरका अनुसार सो क्षेत्रमा सुख्खा पहिरो झर्ने क्रम नरोकिएकाले तत्कालै मेसिन प्रयोग गरी पहिरो पन्छाउने काम सुरु गर्न सकिएको छैन।
+
+तुइन खोला क्षेत्र हालैका दिनमा पहिरोको ‘हटस्पट’ बनेको छ। गत शुक्रबार साँझदेखि पनि सोही स्थानमा पहिरो खसेर सडक लामो समय अवरुद्ध हुँदै आएको छ।
+
+लगातार पहिरो खसिरहने भएकाले साइटमा पहिरो पन्छाउने मेसिनहरू तयारी अवस्थामा राखिएको सडक डिभिजन भरतपुरले जनाएको छ।
+
+सडक अवरुद्ध हुँदा काठमाडौं भित्रिने र बाहिरिने हजारौं सवारीसाधन तथा यात्रुहरू प्रभावित भएका छन्। दसैं नजिकिँदै गर्दा देशको सबैभन्दा व्यस्त राजमार्गहरू मध्येको एकमा बारम्बार देखिने यस्तो समस्याले यात्रुहरूलाई थप सास्ती दिएको छ।
+
+हेर्नुहोस भिडियो :
+
+प्रकाशित: ७ आश्विन २०८२ १६:५३ मंगलबार
+
+नेपाल रिपब्लिक मिडिया लिमिटेड
+
+वडा नंं. ११, बागदरबार, काठमाडौं
+
+फोन: ५३६५१००
+
+इमेल: news@nagariknews.com
+
+Copyright 2026 Nepal Republic Media Limited. All rights reserved.",,,
+CEC-091,CEA-115,event_714ba2f05bc743c6,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2023-2026|landslide|single_article,20.1470588235,2023-08-21,Chitwan,Ichchhyakamana Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,"सुक्खा पहिरोका कारण नारायणगढ-मुग्लिन सडक १० घण्टादेखि बन्द, खुलाउने प्रयास चल्दै",https://www.ujyaaloonline.com/detail/91699,human,"A dry landslide near Topekhola, Ichchhyakamana RM-5, Chitwan blocked the Narayangadh-Muglin road from 20:00 on 2023-08-21.","ARTICLE 1
+SOURCE: ujyaalo
+PUBLISHED: 2023-08-22
+TITLE: सुक्खा पहिरोका कारण नारायणगढ-मुग्लिन सडक १० घण्टादेखि बन्द, खुलाउने प्रयास चल्दै
+URL: https://www.ujyaaloonline.com/detail/91699
+TEXT:
+काठमाण्डाै - नारायणगढ–मुग्लिन सडक खण्डअन्तर्गत टोपेखोला नजिकै सुक्खा पहिरो गएको छ । पहिरोका कारण हिजो बेलुका ८ बजेदेखि सडक बन्द छ ।
+
+चितवनको इच्छाकामना गाउँपालिका–५ टोपेखोला नजिक पहिरो खसेको हो । जिल्ला प्रहरी कार्यालय चितवनका अनुसार अनुसार सुक्खा पहिरो खसेपछि सडक दुईतर्फी नै अवरुद्ध भएको छ । दश घण्टादेखि सडक अवरुद्ध हुँदा धेरै गाडी रोकिएका छन् । यात्रु बीचबाटोमै अलपत्र परेका छन् ।
+
+पहिरो पन्छाउनका लागि सडक डिभिजन कार्यालय चितवनसँग समन्वय गरी काम भइरहेको छ । सडक खुलाउन अझै केही समय लाग्नेछ । यो सडक पहिरोका कारण पटक पटक बन्द हुँदै आएको छ । ट्राफिक प्रहरीले सकेसम्म वैकल्पिक बाटो प्रयोग गर्न अनुरोध पनि गरेको छ ।",,,
+CEC-092,CEA-117,event_c70c16787404eccc,P1_attribute,structured_attribute_candidate,correct_event_type;correct_hazard_type;correct_deaths,event_type_classification;hazard_type_classification;casualty_extraction,candidate_unapplied,en|2023-2026|landslide|single_article,32.6666666667,2026-03-28,Dhankuta,Dhankuta Municipality,landslide,debris_flow,,,,,other,other,0,yes,yes,yes,yes,yes,other,other,0,not_applicable,1,Worker buried under mudslide rescued alive in Dhankuta,https://risingnepaldaily.com/news/77887,human,A worker was buried by a mound of soil collapsing during house-foundation excavation in Dhankuta Municipality-6 on 2026-03-28 and was rescued alive. This is a construction/excavation soil-collapse accident rather than a natural debris flow or landslide.,"ARTICLE 1
+SOURCE: rising-nepal
+PUBLISHED: 
+TITLE: Worker buried under mudslide rescued alive in Dhankuta
+URL: https://risingnepaldaily.com/news/77887
+TEXT:
+Police rescuing a construction worker buried while digging foundation of a house. Photo: Kabiraj Ghimire/TRN
+
+By Kabiraj Ghimire, Hile, March 28: A construction worker has been rescued alive after being buried under a mound of soil while digging the foundation of a house in Parichaya Mode, Dhankuta Municipality–6, on Saturday morning.
+
+The injured has been identified as approximately 35-year-old Ram Bahadur Tamang, a resident of Dhankuta Municipality–10, Paripaatle. He was working at a house construction site belonging to Suman Shrestha when the incident occurred.
+
+A 35-person rescue team led by Superintendent of Police Sharat Kumar Thapa Chhetri from the District Police Office, Dhankuta, was deployed to the site along with necessary equipment.
+
+The team managed to remove the soil and rescue Tamang alive but in critical condition.
+
+According to Information Officer Gyan Kumar Mahato, the injured worker was immediately sent to the District Hospital, Dhankuta, for treatment.
+
+The Rising Nepal is Nepal’s first English broadsheet daily published by the Gorkhapatra Corporation, an undertaking of the Government of Nepal. The risingnepaldaily.com is Online edition of the daily newspaper.
+
+Dharmapath, Kathmandu , Nepal
+
+Phone : +977-1-4222921
+
+Fax : 422438
+
+Email : risingnepaldaily@gmail.com
+
+Toll Free No. : 1660-01-94444
+
+DoIB Registration No. : 1538/076-77
+
+NTB (Nepal Tourism Board)
+
+Foreign Exchange (FOREX)
+
+Foreign Ministry
+
+MOCIT
+
+Privacy Policy
+
+General Manager : Hikmat Bahadur Rawal
+
+Acting Editor-in-Chief(Print) : Ramesh Kumar Lamsal (The Rising Nepal Daily)
+
+Acting Editor : Nanda Lal Tiwari",,,
+CEC-097,CEA-124,event_c184b68c3ad5a4d8,P1_attribute,structured_attribute_candidate,correct_hazard_type;correct_deaths,hazard_type_classification;casualty_extraction,candidate_unapplied,np|2019-2022|landslide|single_article,20.5666666667,2021-09-22,Rolpa,Rolpa Municipality,landslide,landslide,,,,,,rockfall,2,yes,yes,yes,yes,yes,landslide,rockfall,2,not_applicable,1,भीरबाट खसेको ढुंगाले लाग्दा आमाछोरीको मृत्यु,https://deshsanchar.com/2021/09/22/559831,human,A rock falling from a cliff together with a landslide struck and killed a mother and daughter in Rolpa Municipality-9. The direct fatal mechanism was rockfall associated with the slide.,"ARTICLE 1
+SOURCE: deshsanchar
+PUBLISHED: 2021-09-22
+TITLE: भीरबाट खसेको ढुंगाले लाग्दा आमाछोरीको मृत्यु
+URL: https://deshsanchar.com/2021/09/22/559831
+TEXT:
+रोल्पा – रोल्पामा भीरबाट खसेको ढुंगा लाग्दा आमाछोरीको मृत्यु भएको छ। रोल्पा नगरपालिका–९ निवासी २७ वर्षीय संगीता पुन र उनकी दुई वर्षीया छोरी कृतिकाको भीरबाट पहिरोसहित खसेको ढुंगाले लागेर मृत्यु भएको जिल्ला प्रहरी कार्यालय रोल्पाले बताएको छ।
+
+घर नजिकै रहेको मकैबारीबाट बाँदर हेरेर घर फर्कने क्रममा ढुंगाले लागेको प्रहरीले बताएको छ । भीरदेखि ४ सय मिटर तल खोल्साको पानीमा शव देखेपछि स्थानीयले प्रहरीलाई खबर गरेका थिए।
+
+जिल्ला प्रहरी कार्यालयबाट गएको प्रहरी निरीक्षकको टोलीले घटनास्थलबाट शव परीक्षणका लागि जिल्ला अस्पताल लगेको प्रहरी निरीक्षक सन्तोष केसीले बताए।
+
+त्यसैगरी, विवाह भोज खाएर फर्कने क्रममा रोल्पा नगरपालिका खुमेलका ४२ वर्षीय तीर्थलाल थापाको घर नजिकैको खरबारीमा लडिरहेको अवस्थामा फेला परेको र निजको उपचारका क्रममा बुधबार मृत्यु भएको जिप्रका रोल्पाले जानकारी दिएको छ।
+
+सम्पादक: युवराज घिमिरे दर्ता नम्बर: ५४४/०७४–७५ ललितपुर महानगरपालिका– २, बखुण्डोल ०१-५४२३४१६ [email protected] , [email protected] विज्ञापनका लागि [email protected]",,,
+CEC-100,CEA-128,event_7686ee3db090be13,P1_attribute,structured_attribute_candidate,correct_event_type;correct_hazard_type,event_type_classification;hazard_type_classification,candidate_unapplied,en|2023-2026|landslide|multi_article,16.3333333333,2024-06-18,Lamjung,Besishahar Municipality,landslide,landslide,,,,,road_obstruction,debris_flow,,yes,yes,yes,yes,yes,road_obstruction,debris_flow,not_reported,yes,2,Dumre-Besisahar road obstructed due to landslide - OnlineKhabar English News,https://english.onlinekhabar.com/dumre-besisahar-road-obstructed-due-to-landslide.html,human,"Both articles describe the same rain-triggered mudslide at Dalal, Besisahar Municipality-1, Lamjung on 2024-06-18, which blocked the Dumre-Besisahar road.","ARTICLE 1
+SOURCE: onlinekhabar-en
+PUBLISHED: 2024-06-18
+TITLE: Dumre-Besisahar road obstructed due to landslide - OnlineKhabar English News
+URL: https://english.onlinekhabar.com/dumre-besisahar-road-obstructed-due-to-landslide.html
+TEXT:
+Home » Society » Dumre-Besisahar road obstructed due to landslide
+
+Lamjung, June 18
+
+The Dumre-Besisahar road section has been obstructed due to a landslide triggered by incessant rain since last night. A mudslide occurred at Dalal of Besisahar municipality-1 and blocked the road section since the morning today, said Thaneshwar Chapain, Information Officer at the District Police Office Lamjung.
+
+Chapain said a team had been mobilised to remove the landslide debris from the road and open it for traffic. However, the work has been hampered due to continuous rain. Vehicles and passengers have been stranded due to the road blockage.
+
+Passengers travelling to Kathmandu, Pokhara, and Chitwan, among other destinations from Besisahar and vice-versa and those travelling to Manang via Besisahar are stranded. Even an ambulance has been stuck there. The Dumre-Besisahar road is 42 kilometres.
+
+Subscribe to Onlinekhabar English to get notified of exclusive news stories.
+
+The English Edition of Nepal's No 1 News Portal Onlinekhabar.com
+
+Phone +977-1-4780076 , +977-1-4786489
+
+Email: english@onlinekhabar.com
+
+====================
+
+ARTICLE 2
+SOURCE: himalayan-times
+PUBLISHED: 2024-06-18
+TITLE: Dumre-Besisahar road obstructed due to landslide - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style News
+URL: https://thehimalayantimes.com/nepal/dumre-besisahar-road-obstructed-due-to-landslide
+TEXT:
+LAMJUNG, JUNE 18
+
+The Dumre-Besisahar road section has been obstructed due to a landslide triggered by incessant rain since last night.",,,
+CEC-102,CEA-130,event_e4b5d11d55ad24da,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2019-2022|landslide|single_article,20.5666666667,2021-06-13,Syangja,Phedikhola Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,पहिरोले बिहानैदेखि सिद्धार्थ राजमार्ग अवरूद्ध,https://www.setopati.com/social/240285,human,"A landslide at Bhalupahad, Phedikhola RM-2, Syangja at about 06:30 on 2021-06-13 fully blocked Siddhartha Highway.","ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2021-06-13
+TITLE: पहिरोले बिहानैदेखि सिद्धार्थ राजमार्ग अवरूद्ध
+URL: https://www.setopati.com/social/240285
+TEXT:
+पहिरोले सिद्धार्थ राजमार्ग आज बिहानैदेखि अवरूद्ध छ। बिहान करिब ६:३० बजे स्याङ्जाको फेदीखोला गाउँपालिका वडा नम्बर २ भालुपहाडमा पहिरो खसेको थियो। अविरल वर्षापछि पहिरो खसेर सडक अवरूद्ध भएको हो। पहिलोले पूर्ण रूपमा सडक अवरूद्ध भएको छ। सडक विभागलगायतमा खबर गरेर पहिरो पन्छाएर सडक खुलाउने काम भइरहेको जिल्ला प्रहरी कार्यालय स्याङ्जाका प्रहरी नायब उपरीक्षक राजेन्द्रप्रसाद अधिकारीले जानकारी दिए।
+
+बिहान करिब ६:३० बजे स्याङ्जाको फेदीखोला गाउँपालिका वडा नम्बर २ भालुपहाडमा पहिरो खसेको थियो।
+
+अविरल वर्षापछि पहिरो खसेर सडक अवरूद्ध भएको हो। पहिलोले पूर्ण रूपमा सडक अवरूद्ध भएको छ।
+
+सडक विभागलगायतमा खबर गरेर पहिरो पन्छाएर सडक खुलाउने काम भइरहेको जिल्ला प्रहरी कार्यालय स्याङ्जाका प्रहरी नायब उपरीक्षक राजेन्द्रप्रसाद अधिकारीले जानकारी दिए।",,,
+CEC-103,CEA-131,event_a6f786e02f7181b9,P1_attribute,structured_attribute_candidate,correct_event_type,event_type_classification,candidate_unapplied,np|2023-2026|landslide|single_article,20.1470588235,2025-06-20,Lamjung,Marsyangdi Rural Municipality,landslide,landslide,,,,,road_obstruction,,,yes,yes,yes,yes,yes,road_obstruction,landslide,not_reported,not_applicable,1,पहिरोले बेंसीशहर–चामे सडक अवरुद्ध,https://www.ujyaaloonline.com/detail/116906,human,"A landslide with large rocks at Marsyangdi RM-4, Lamjung blocked the Besisahar-Chame road on the morning of 2025-06-20.","ARTICLE 1
+SOURCE: ujyaalo
+PUBLISHED: 2025-06-20
+TITLE: पहिरोले बेंसीशहर–चामे सडक अवरुद्ध
+URL: https://www.ujyaaloonline.com/detail/116906
+TEXT:
+लमजुङ – मनाङ र लमजुङ जोड्ने बेंसीशहर–चामे सडक पहिरोले अवरुद्ध भएको छ । यो सडक खण्डअन्तर्गत लमजुङको मर्स्याङ्दी गाउँपालिका–४ मा आज बिहान पहिरो खसेको हो ।
+
+पहिरोले गाडी चल्न नसकेका डुम्रे–बेंसीशहर–चामे सडक योजना कार्यालयले जनाएको छ । कार्यालयका सूचना अधिकारी नवीन विष्टका अनुसार ठूला ढुङ्गासहितको पहिरोले सडक अवरुद्ध हुँदा गाडी र यात्रु बाटोमै अलपत्र परेका छन् ।
+
+पहिरो ठूलो भएकाले खुलाउन समय लाग्ने उहाँको भनाइ छ ।",,,
+CEC-111,CEA-140,event_9e197d5bb586c91f,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,en|2015-2018|landslide|single_article,22.3,2016-08-16,Myagdi,Beni Municipality,landslide,landslide,,,,,,,1,yes,yes,yes,yes,yes,landslide,landslide,1,not_applicable,1,"Man injured in landslide dies - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica",https://myrepublica.nagariknetwork.com/news/man-injured-in-landslide-dies,human,"A Tuesday-night landslide at Galeshwor, Beni Municipality-1, Myagdi buried a house on 2016-08-16; one rescued man later died from his injuries.","ARTICLE 1
+SOURCE: myrepublica
+PUBLISHED: 2016-08-17
+TITLE: Man injured in landslide dies - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica
+URL: https://myrepublica.nagariknetwork.com/news/man-injured-in-landslide-dies
+TEXT:
+Subscribe Now
+
+MYAGDI, Aug 17: A person who was injured in a landslide that occurred at Galeshwor of Beni Municipality-1, Myagdi Tuesday night died later in course treatment.
+
+The deceased has been identified as Nak Bahadur Gaburja, 49 of Dagnam-4, police said. He was currently living at Galeshwor with his family.
+
+His house was buried by a landslide. Police with the help of locals pulled him out from the landslide debris alive and brought him to Beni-based District Hospital where he succumbed to his injuries. However, other members of his family are unhurt. RSS
+
+FDI commitment reaches nearly Rs 41.79 billion in...
+
+High-Level Commission formed to probe wealth of po...
+
+Nepal records highest LPG imports in three months
+
+Nepali Congress (NC) is preparing to establish a “Leadership Academy” aimed at institutionalising political training within the party and reshaping how future leaders are selected and prep...
+
+National Trading of Nature Corporation?
+
+Rethinking the ‘India First’ Tradition
+
+Open Letter to PM: Resolve Bhutanese Refugee Crisis,...
+
+Smart Technology, Poor Choices: The AI Allocation Pr...
+
+Issuing a notice, the DoTM said that licenses which had been pending for a long time due to printing delays are now being printed and dispatched to the concerned transp...
+
+Issuing a notice, the DoTM said that licenses which had been pending for a long time due to printing delays are now being printed and dispatched to the concerned transp...
+
+Rain interruptions reduced the chase, with UAE set a revised target of 122 runs. They were required to score 78 runs from 10 overs and successfully overhauled the target in 8.5 overs, finishing on 78...
+
+Nepal Republic Media Limited © 2026. All right reserved
+
+Nepal Republic Media Limited © 2024. All right reserved | Privacy Policy | Terms of use
+
+Gain access to up to 10 free articles per month.
+
+Already have an account? Log in",,,
+CEC-112,CEA-142,event_eeb01a4cc8b93314,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,np|2023-2026|landslide|single_article,20.1470588235,2026-08-03,Gorkha,Gorkha Municipality,landslide,landslide,,,,,,,0,yes,yes,yes,yes,yes,landslide,landslide,0,not_applicable,1,पहिरोले बगायो तीन तले घर,https://www.setopati.com/social/395063,human,"A rain-triggered landslide at Laxmi Bazaar/Divamarg, Gorkha Municipality-9, swept a three-storey house downhill on 2026-08-03. One occupant was injured but no death was reported.","ARTICLE 1
+SOURCE: setopati
+PUBLISHED: 2026-08-03
+TITLE: पहिरोले बगायो तीन तले घर
+URL: https://www.setopati.com/social/395063
+TEXT:
+गोरखाको लक्ष्मीबजारमा पहिरोले घर बगाएको छ। गोरखा नगरपालिका ९ लक्ष्मीबजारदेखि शिखर जाने बाटोमा दिवामार्गमा स्थानीय मानसिंह गुरूङको तीन तले पक्की घर पहिरोले बगेको हो। अविरल वर्षापछिको पहिरोले आज घर बगेको हो। सडकसँगै रहेको घर पहिरिएर करिब २० मिटर तल पुगेको छ। पहिरो जाँदा घरमा एक जना मात्रै थिए। डेरा गरी बसेका रौतहट कटहरिया नगरपालिका ७ घर भएका टोखान महतो सामान्य घाइते छन्। उनको प्रदेश अस्पताल गोरखामा उपचार भइरहेको छ।
+
+गोरखा नगरपालिका ९ लक्ष्मीबजारदेखि शिखर जाने बाटोमा दिवामार्गमा स्थानीय मानसिंह गुरूङको तीन तले पक्की घर पहिरोले बगेको हो।
+
+अविरल वर्षापछिको पहिरोले आज घर बगेको हो।
+
+सडकसँगै रहेको घर पहिरिएर करिब २० मिटर तल पुगेको छ।
+
+पहिरो जाँदा घरमा एक जना मात्रै थिए। डेरा गरी बसेका रौतहट कटहरिया नगरपालिका ७ घर भएका टोखान महतो सामान्य घाइते छन्। उनको प्रदेश अस्पताल गोरखामा उपचार भइरहेको छ।",,,
+CEC-119,CEA-150,event_a2d4a5e1524a6e68,P1_attribute,structured_attribute_candidate,correct_deaths,casualty_extraction,candidate_unapplied,np|2023-2026|road_obstruction|single_article,22.8888888889,2025-04-12,Palpa,,road_obstruction,landslide,,,,,,,0,yes,yes,yes,yes,,road_obstruction,landslide,0,not_applicable,1,पहिरोले अवरुद्ध सिद्धार्थ राजमार्ग एकतर्फी सञ्चालन – Nepal Press,https://nepalpress.com/2025/04/12/582543/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%85%E0%A4%B5%E0%A4%B0%E0%A5%81%E0%A4%A6%E0%A5%8D%E0%A4%A7-%E0%A4%B8%E0%A4%BF%E0%A4%A6%E0%A5%8D%E0%A4%A7%E0%A4%BE%E0%A4%B0%E0%A5%8D,reviewer_C,A 4 a.m. landslide blocked Siddhartha Highway in Palpa; the buried car's driver and passengers were reported safe.,"ARTICLE 1
+SOURCE: nepalpress
+PUBLISHED: 2025-04-12
+TITLE: पहिरोले अवरुद्ध सिद्धार्थ राजमार्ग एकतर्फी सञ्चालन – Nepal Press
+URL: https://nepalpress.com/2025/04/12/582543/%E0%A4%AA%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A5%8B%E0%A4%B2%E0%A5%87-%E0%A4%85%E0%A4%B5%E0%A4%B0%E0%A5%81%E0%A4%A6%E0%A5%8D%E0%A4%A7-%E0%A4%B8%E0%A4%BF%E0%A4%A6%E0%A5%8D%E0%A4%A7%E0%A4%BE%E0%A4%B0%E0%A5%8D
+TEXT:
+पाल्पा । पहिरोको कारण अवरुद्ध भएको सिद्धार्थ राजमार्ग एकतर्फी सञ्चालनमा आएको छ । बिहान ४ बजेतिर खसेको पहिरो पन्छाएपछि राजमार्ग एकतर्फी रुपमा खुलको हो ।
+
+पहिरो खसेका कारण र कल्भर्टमा टिप्पर फसेका कारण सडक अवरुद्ध भएको दोभान प्रहरीले जनाएको छ । एकतर्फी सडक खुलेपछि दुवैतर्फका यातायात सुचारु भएका छन् ।
+
+पहिरोले बुटवलबाट आउँदै गरेको लुम्बिनी प्रदेश ज ०२७६ नं। को कार पुर्दा पुर्ण रुपमा क्षती पुगेको प्रहरीले जनाएको छ । कारका यात्रु र चालक भने सकुशल छन् । उनीहरुलाई सामान्य अवस्थाबाट उद्दार गरिएको थियो ।
+
+गुडिरहेको कारलाई माथिल्लो भागबाट खसेको पहिरोले पुरेको थियो । यस राजमार्गमा पाल्पालगायत गुल्मी, अर्घाखाँची, स्याङ्जा, पोखरा, पर्वत, बाग्लुङ, म्याग्दी, मुस्ताङ्लगायतका यात्रुहरुले यात्रा गर्ने गर्दछन् । यस क्षेत्रमा वर्षा र हिउँद जुनसुकै बेला पहिरो खस्ने समस्या छ ।",,,

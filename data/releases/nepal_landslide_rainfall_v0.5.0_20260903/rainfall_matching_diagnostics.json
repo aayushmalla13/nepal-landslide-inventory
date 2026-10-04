@@ -1,0 +1,19 @@
+{
+  "strata": 1508,
+  "strata_without_controls": 200,
+  "strata_without_controls_fraction": 0.132626,
+  "controls_per_case_distribution": {
+    "0": 200,
+    "1": 36,
+    "2": 36,
+    "3": 41,
+    "4": 42,
+    "5": 1153
+  },
+  "control_rows": 6164,
+  "distinct_control_district_days": 5005,
+  "reused_control_district_days": 776,
+  "duplicate_control_rows": 1159,
+  "duplicate_control_row_fraction": 0.188027,
+  "max_control_reuse": 7
+}

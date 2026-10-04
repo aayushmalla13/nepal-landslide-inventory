@@ -1,0 +1,25 @@
+{
+  "audit": "v09_candidate_to_candidate_collision_v1",
+  "candidate_pairs": 25,
+  "candidate_rows": 26,
+  "input_sha256": {
+    "data/outputs/v09_existing_collision_NEW_CANDIDATES.csv": "19a98f3c9018a9ed866cc94eded8580e92f96b7969c9ed76a8b873b516060744",
+    "data/outputs/v09_existing_collision_outcomes_manifest.json": "8edce660500377837b666a105c71a759790c7914d41d96d197222187d529b1d3",
+    "scripts/build_v09_final_collision_pack.py": "98d59aff039f1acdf7f587b78e09e3a3e2be3d45a00b42e2ce62b75b20a17039"
+  },
+  "output_sha256": {
+    "v09_reconstruction_FINAL_COLLISION_DECISIONS.csv": "a24591e55c6423a49602f2d17eebd3efdd0cafbe4931ac29348f63de9e26518e",
+    "v09_reconstruction_FINAL_COLLISION_PAIRS.csv": "670ba5d0614992dcd49e75b30cc8590ca0529e9181c30c1bec91907dadd5ae79"
+  },
+  "proposed_action_counts": {
+    "likely_distinct_candidate": 4,
+    "new_event_no_candidate_match": 6,
+    "review_candidate_collision": 16
+  },
+  "status": "final_candidate_collision_template_no_production_changes",
+  "top_tier_counts": {
+    "low": 4,
+    "medium": 16,
+    "none": 6
+  }
+}

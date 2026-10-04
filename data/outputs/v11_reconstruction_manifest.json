@@ -1,0 +1,22 @@
+{
+  "decision_rows": 36,
+  "excluded_article_memberships": 14,
+  "excluded_old_events": 13,
+  "input_sha256": {
+    "materialize_v11_reconstruction.py": "4ee9056f4f767d0e5f785a888c048aa09e5c6ed2ab0e69a37294ca5896cbb96c",
+    "v11_article_mapping_DECISIONS.csv": "2fcc34fa8accffc690cfdbce799f404fb96a72e7d2af24f532d9c36c16b89da4",
+    "v11_article_mapping_DECISIONS_COMPLETED.csv": "34fe99f8b04f5510b02ddb315b656f0416d19be4146797b2f0659b7c1835e45b",
+    "v11_article_mapping_validation.json": "fd62c7c60c6dbe8d67c5c62e46ca739134cfc4d34762058fabb09e16b750a744",
+    "v11_article_membership_MAP.csv": "1587e8292e0e95ec06d9eddaf8ea081add0794534d5bb375e561671330b3ed75"
+  },
+  "net_candidate_event_delta": 10,
+  "output_sha256": {
+    "v11_reconstruction_EXCLUDED_ARTICLES.csv": "bf06e643b635be56d1003193f8d1469b85bfdd80227c508428ae7c343c5357fa",
+    "v11_reconstruction_GROUPS.csv": "63fab9b4b0b80ccc0efdaca3d576296fc283ae1bfb08636859f01476658c145e",
+    "v11_reconstruction_UNRESOLVED.csv": "b13eb2e06d015374e1c10b247893ccf28f67e6c1d2b5e19ac6aa6b2c22f774db"
+  },
+  "reconstructed_event_candidates": 41,
+  "resolved_old_events": 31,
+  "status": "unapplied_collision_checks_required",
+  "unresolved_old_events_retained": 5
+}

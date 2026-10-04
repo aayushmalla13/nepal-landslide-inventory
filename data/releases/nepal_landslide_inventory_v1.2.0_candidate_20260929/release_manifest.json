@@ -1,0 +1,69 @@
+{
+  "bundle_lock_hash": "a3defc5aed2458541a9276b89849c7f62857f487f9240e12bdda328a95c78220",
+  "canonical_summary": {
+    "rows": 2160,
+    "sha256": "0c077fab7290b3fbc3f9a74dacb3adfa827e19466433221b4424b4cd75162643",
+    "unique_event_ids": 2160
+  },
+  "checks": {
+    "canonical_sha_locked": true,
+    "csv_sqlite_event_ids_equal": true,
+    "database_sha_locked": true,
+    "expected_2160_rows": true,
+    "fresh_locked_validation_complete": false,
+    "sqlite_integrity_ok": true,
+    "unique_event_ids": true
+  },
+  "files": [
+    {
+      "bytes": 2368968,
+      "file": "canonical_events_final.csv",
+      "sha256": "0c077fab7290b3fbc3f9a74dacb3adfa827e19466433221b4424b4cd75162643"
+    },
+    {
+      "bytes": 350269440,
+      "file": "landslide_inventory.sqlite",
+      "sha256": "f5af3c3c0d256f74d9350a6190ff2152216f8d08f0cc311e83c9d221d7e1a9aa"
+    },
+    {
+      "bytes": 3318,
+      "file": "diagnostic_manifest.json",
+      "sha256": "270460cc32b9729d9344e3a17560dcafcf2dbe1736d42a5f333380b59b18a2bb"
+    },
+    {
+      "bytes": 7273,
+      "file": "article_corrections.csv",
+      "sha256": "6f51bece72db372b97db51ec6eef25b538740281dd8deb4f77c86d6074e3ac9a"
+    },
+    {
+      "bytes": 24816,
+      "file": "dedup_merge_overrides.csv",
+      "sha256": "cad6276067e7cff3bc749be68af1a8f36d9a1c579b6917fb1ec1cefe4ddf61b8"
+    },
+    {
+      "bytes": 3462,
+      "file": "V12_PIPELINE_REPAIR_PASS_3.md",
+      "sha256": "47a927e78e84c2e9c2e7339abe6d385a6dd8611bc750e25cebc300ef958f1e8e"
+    },
+    {
+      "bytes": 2120,
+      "file": "V12_CORRECTION_RECONCILIATION.md",
+      "sha256": "2c5ff167fc93efa4327b7816044ee2256df5e1df88512632fd41f7e943e6d8e2"
+    }
+  ],
+  "generated_at": "2026-09-29T12:15:52.500441+00:00",
+  "inputs": {
+    "corrections/article_corrections.csv": "6f51bece72db372b97db51ec6eef25b538740281dd8deb4f77c86d6074e3ac9a",
+    "corrections/dedup_merge_overrides.csv": "cad6276067e7cff3bc749be68af1a8f36d9a1c579b6917fb1ec1cefe4ddf61b8",
+    "data/outputs/v12_pipeline_diagnostic/diagnostic_manifest.json": "270460cc32b9729d9344e3a17560dcafcf2dbe1736d42a5f333380b59b18a2bb",
+    "data/outputs/v12_pipeline_diagnostic/landslide_inventory.sqlite": "f5af3c3c0d256f74d9350a6190ff2152216f8d08f0cc311e83c9d221d7e1a9aa",
+    "data/outputs/v12_pipeline_diagnostic/outputs/canonical_events_final.csv": "0c077fab7290b3fbc3f9a74dacb3adfa827e19466433221b4424b4cd75162643",
+    "docs/V12_CORRECTION_RECONCILIATION.md": "2c5ff167fc93efa4327b7816044ee2256df5e1df88512632fd41f7e943e6d8e2",
+    "docs/V12_PIPELINE_REPAIR_PASS_3.md": "47a927e78e84c2e9c2e7339abe6d385a6dd8611bc750e25cebc300ef958f1e8e",
+    "scripts/freeze_v12_candidate.py": "07f20ef1df4792c68b98d4baba7871f95b0d6b0f87a802dd28935889e38f5d08"
+  },
+  "notes": "Frozen from the reconciled isolated v1.2 rebuild. Prior validation metrics do not validate this candidate; promotion requires the new locked sample.",
+  "release_id": "nepal_landslide_inventory_v1.2.0_candidate_20260929",
+  "status": "pending_fresh_validation",
+  "supersedes": "nepal_landslide_inventory_v1.1.0_candidate_20260928"
+}

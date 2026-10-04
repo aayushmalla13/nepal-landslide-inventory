@@ -1,0 +1,20 @@
+{
+  "action_counts": {
+    "correct_deaths": 10,
+    "correct_event_type": 15,
+    "correct_hazard_type": 7
+  },
+  "inputs": {
+    "canonical_event_correction_BATCH_STRUCTURED_ATTRIBUTES.csv": "15980ac8227cda48e98284ca816dda731300d0dc82ddb7c22f924e447ffc94f7",
+    "canonical_event_correction_summary.json": "933971db7c64cdc3ef1daa55d69b2330aaaeb40eb3865e694e39026d04376cf7",
+    "canonical_event_identity_plan_REMOVE_OLD_EVENTS.csv": "51beb2cdc03a9a941e9cd80751fc654b376e36fc574c8993d5fd3182e303f9de",
+    "canonical_event_true_value_REVIEW_COMPLETED.csv": "2022c31b979eb5b2c20b9092dfe136ac6044e54617d584e953422688a79af5af",
+    "canonical_event_true_value_plan_manifest.json": "e4369077697cc73cf0703b816a9c332accbf4222caf6beda15a4dfdb2ca91651"
+  },
+  "outputs": {
+    "canonical_event_structured_attribute_REVIEW.csv": "eedc24abbb0057a4d41ba0c602b3efee893afe574fcf2bef75ea32510af242ca"
+  },
+  "prior_gate_overlap_count": 0,
+  "review_rows": 27,
+  "status": "blank_structured_attribute_review_pack"
+}

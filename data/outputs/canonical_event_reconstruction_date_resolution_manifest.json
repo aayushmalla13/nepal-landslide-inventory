@@ -1,0 +1,17 @@
+{
+  "candidates_excluded": 1,
+  "dates_resolved": 8,
+  "input_candidates": 100,
+  "inputs": {
+    "canonical_event_collision_gate_manifest.json": "2557804e4c22e7e534caee67607f23b3ac77e9e37c3413a89cf36b86f4c02b26",
+    "canonical_event_reconstruction_DATE_REVIEW.csv": "e94db09c26cbf12fd15f9deb7426ac04acc11d2668ebba15b32dd0f9347e073a",
+    "canonical_event_reconstruction_DATE_REVIEW_COMPLETED.csv": "af6556da6d35c69ddc0cca7dea39bcc03c5c42824b8a5c4d82ba27d0ef76b8db",
+    "canonical_event_reconstruction_GROUPS.csv": "f70a33fffaa607f9f5df7864f98de5241ada4245307ef6bdc73b7b6eea3474f4"
+  },
+  "outputs": {
+    "canonical_event_reconstruction_DATE_EXCLUDED.csv": "2aa9f496c54d7acca93fe23da4df31739887ffe30b4a41e85de08197c0248452",
+    "canonical_event_reconstruction_GROUPS_DATE_RESOLVED.csv": "73d4406b399325c635ce782000068c1f93c2b8cbc8c541c4a1f34acd86d3c3ca"
+  },
+  "retained_candidates": 99,
+  "status": "date_resolved_collision_check_required"
+}

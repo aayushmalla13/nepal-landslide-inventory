@@ -1,0 +1,13 @@
+{
+  "applied_merge_components": 40,
+  "excluded_articles_still_clustered": 0,
+  "inputs": {
+    "article_corrections.csv": "80be07a28b37260608dee6e883a5d81b27186ddc151302b8c66c14fcf891a4d9",
+    "dedup_collision_review_BATCH_01_ADJUDICATED.csv": "c86d3a5725182f37a60cec8f4e8eaf7fa65a22f88f1c05fc1ae762565d9f45dc",
+    "dedup_collision_review_BATCH_01_validation.json": "06b4c456f927de9873aef2c76c8cf4199d5f3bdbd01ddb7c0ccd0c448a9d2c9c",
+    "dedup_merge_overrides.csv": "cad6276067e7cff3bc749be68af1a8f36d9a1c579b6917fb1ec1cefe4ddf61b8",
+    "landslide_inventory.sqlite": "aed9e133ee511382f19ea7304168c3a3d7d2e59efb54cdcbc5047ec2117a198d"
+  },
+  "reviewed_merge_components": 40,
+  "status": "applied_reviewed_collision_batch"
+}

@@ -1,0 +1,27 @@
+{
+  "blocked_candidate_ids": [
+    "v14_candidate_18b703426710fc84",
+    "v14_candidate_2179c682bcc4aca5",
+    "v14_candidate_643528647eb2fd07",
+    "v14_candidate_78360d5fe190ac2e",
+    "v14_candidate_aa53d036325d3d52",
+    "v14_candidate_c6e931f3f08ed155"
+  ],
+  "excluded_candidates_after": 6,
+  "excluded_candidates_before": 0,
+  "input_sha256": {
+    "v14_identity_plan_EXCLUDED_CANDIDATES.csv": "65203a6e1364dcb3dbd92aef5974ee6425f5e9f5025bdb3e59b4aeca05668aec",
+    "v14_identity_plan_NEW_EVENTS.csv": "ab1468696056d8917956a7ea9269d97fe1a004e5aa8359ff4892cd648645693f",
+    "v14_identity_plan_manifest.json": "2f7cfac491a1c9a0680cc59d92eb2ddb451567880ca37c0c1202cd67c06c0d90",
+    "v14_structured_attribute_plan_manifest.json": "6e040243f0259c6f4410b29f669bedf820e94c7ac83d816c10181ddd22e81214"
+  },
+  "output_sha256": {
+    "v14_release_identity_EXCLUDED_CANDIDATES.csv": "0671299dd194913b66d0b5d590969bd2d20b0a9094e5bf58535410cb5cdc0b2f",
+    "v14_release_identity_NEW_EVENTS.csv": "e8d59a3f15e3e87e2e984d8493b67b80ef1a886ef52991fd7ccdfb6a08ae0f57"
+  },
+  "planned_new_events_after": 16,
+  "planned_new_events_before": 22,
+  "projected_release_rows": 2138,
+  "reason": "exact YYYY-MM-DD date required by high-precision release schema",
+  "status": "v14_release_preflight_exact_date_gate_complete"
+}

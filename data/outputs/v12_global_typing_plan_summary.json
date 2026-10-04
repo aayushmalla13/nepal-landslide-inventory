@@ -1,0 +1,37 @@
+{
+  "classifier_sha256": "bbbcfca408d4b0ea82fe46b6e8148a1d8c9466f7c797143e9014262bf2cbfc0d",
+  "human_event_type_overrides": 47,
+  "human_hazard_type_overrides": 3,
+  "inputs": {
+    "application_log": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/releases/nepal_landslide_inventory_v1.1.0_candidate_20260928/correction_application_log.csv",
+    "application_log_sha256": "e60cb9ebfba0891b1f773c0b8ad5c96bb168df40c7740eb8d94510d8fcf27974",
+    "article_db": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/releases/nepal_landslide_inventory_v1.0.0_candidate_20260927/landslide_inventory.sqlite",
+    "article_db_sha256": "aed9e133ee511382f19ea7304168c3a3d7d2e59efb54cdcbc5047ec2117a198d",
+    "release_csv": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/releases/nepal_landslide_inventory_v1.1.0_candidate_20260928/canonical_events_final.csv",
+    "release_csv_sha256": "eca57e481a01b29ad38b0c6b9203aab5f080a631def887646bbac9a8e4583581"
+  },
+  "new_article_roles": {
+    "first_report": 2299,
+    "follow_up": 288,
+    "retrospective": 2
+  },
+  "new_event_granularities": {
+    "multi": 348,
+    "single": 2241
+  },
+  "new_event_types": {
+    "landslide": 1582,
+    "other": 2,
+    "road_obstruction": 1005
+  },
+  "new_hazard_types": {
+    "debris_flow": 216,
+    "landslide": 2329,
+    "other": 2,
+    "rockfall": 42
+  },
+  "plan_sha256": "d38c01995b817c433439ff9023526d545aba4687876203a2ccd12e245e9a957a",
+  "rows": 2589,
+  "rows_changed": 1477,
+  "status": "unapplied_v12_global_typing_plan"
+}

@@ -1,0 +1,149 @@
+{
+  "scoring_definition": {
+    "truth": "is_landslide_event=yes AND in_nepal=yes AND hazard_type in {landslide,debris_flow,rockfall} AND event_granularity=single",
+    "prediction": "pipeline_decision in {kept_class1,kept_class2} AND event_type_pred=landslide AND hazard_type_pred in {landslide,debris_flow,rockfall}",
+    "unit": "article-level headline classification"
+  },
+  "primary_answered_rows": 395,
+  "labelled_rows": 389,
+  "undecidable_rows": 6,
+  "weighted_confusion": {
+    "tp": 1019.9,
+    "fp": 509.9,
+    "fn": 849.0,
+    "tn": 2448.3
+  },
+  "unweighted_confusion": {
+    "tp": 86,
+    "fp": 44,
+    "fn": 59,
+    "tn": 200
+  },
+  "weighted": {
+    "precision": 0.6666888696782663,
+    "recall": 0.5457103195597769,
+    "f1": 0.6001637073804422
+  },
+  "weighted_ci95_stratified_bootstrap": {
+    "precision": [
+      0.5827084795234915,
+      0.7444732254883532
+    ],
+    "recall": [
+      0.4733432067108925,
+      0.6234595027744638
+    ],
+    "f1": [
+      0.5322695070108718,
+      0.6621146611632355
+    ]
+  },
+  "bootstrap": {
+    "method": "within-stratum weighted percentile bootstrap",
+    "replicates": 2000,
+    "seed": 20260809,
+    "note": "Approximate design-aware interval; resampling respects the locked decision-by-language strata and uses inclusion weights."
+  },
+  "unweighted_sample_only": {
+    "precision": 0.6615384615384615,
+    "recall": 0.593103448275862,
+    "f1": 0.6254545454545454
+  },
+  "extraction_among_true_headline_articles": {
+    "district": {
+      "truth_available_n": 137,
+      "predicted_nonblank_n": 115,
+      "exact_n": 96,
+      "reportable": true,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.858860648874793,
+      "weighted_exact_accuracy": 0.7083452823729806,
+      "unweighted_exact_accuracy": 0.7007299270072993
+    },
+    "event_date": {
+      "truth_available_n": 4,
+      "predicted_nonblank_n": 2,
+      "exact_n": 1,
+      "reportable": false,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.7338761979138401,
+      "weighted_exact_accuracy": 0.4018650162306779,
+      "unweighted_exact_accuracy": 0.25
+    }
+  },
+  "per_stratum_coverage": {
+    "dropped_other|en": {
+      "labelled": 1,
+      "total": 1
+    },
+    "dropped_other|np": {
+      "labelled": 14,
+      "total": 14
+    },
+    "dropped_scope|en": {
+      "labelled": 56,
+      "total": 56
+    },
+    "dropped_scope|np": {
+      "labelled": 14,
+      "total": 14
+    },
+    "dropped_specificity|en": {
+      "labelled": 36,
+      "total": 36
+    },
+    "dropped_specificity|np": {
+      "labelled": 94,
+      "total": 94
+    },
+    "kept_class1|en": {
+      "labelled": 69,
+      "total": 69
+    },
+    "kept_class1|np": {
+      "labelled": 61,
+      "total": 61
+    },
+    "kept_class2|en": {
+      "labelled": 43,
+      "total": 43
+    },
+    "kept_class2|np": {
+      "labelled": 7,
+      "total": 7
+    }
+  },
+  "false_positive_examples": [
+    "https://ekantipur.com/lumbini-pradesh/2026/08/07/11800-households-in-lumbini-estimated-to-be-at-risk-of-monsoon-related-disasters-37-13.html",
+    "https://myrepublica.nagariknetwork.com/news/death-toll-from-kaski-landslides-reaches-37",
+    "https://myrepublica.nagariknetwork.com/news/death-toll-from-pyuthan-landslides-reaches-24",
+    "https://myrepublica.nagariknetwork.com/news/five-dead-in-landslides-related-incidents-in-gulmi",
+    "https://myrepublica.nagariknetwork.com/news/five-including-three-from-same-family-killed-in-landslides",
+    "https://myrepublica.nagariknetwork.com/news/incoming-monsoon-triggers-fears-of-landslides-accidents",
+    "https://myrepublica.nagariknetwork.com/news/landslide-blocks-kaligandaki-corridor",
+    "https://myrepublica.nagariknetwork.com/news/landslide-displaces-94-families-in-bajura",
+    "https://myrepublica.nagariknetwork.com/news/landslide-hits-villages-displaces-27-families-in-lamjung",
+    "https://myrepublica.nagariknetwork.com/news/landslides-hit-lamjung-manang-road",
+    "https://myrepublica.nagariknetwork.com/news/muglin-road-obstructed-due-to-mudslide",
+    "https://myrepublica.nagariknetwork.com/news/quake-hit-karaunja-at-risk-from-landslide-also"
+  ],
+  "false_negative_examples": [
+    "https://ekantipur.com/bagmati-pradesh/2026/08/07/tatopani-customs-unsafe-due-to-continuous-rockfall-12-06.html",
+    "https://myrepublica.nagariknetwork.com/news/acting-pm-khadka-orders-immediate-landslide-clearance",
+    "https://myrepublica.nagariknetwork.com/news/beni-darbang-road-obstructed-by-landslide",
+    "https://myrepublica.nagariknetwork.com/news/bodies-of-eight-people-missing-in-melamchi-landslide-found",
+    "https://myrepublica.nagariknetwork.com/news/govt-suggests-rs-200-000-compensation-for-families-of-simaltal-landslide-victims",
+    "https://myrepublica.nagariknetwork.com/news/gulmi-landslide-death-toll-reaches-13",
+    "https://myrepublica.nagariknetwork.com/news/landslide-blocks-besisahar-chame-road",
+    "https://myrepublica.nagariknetwork.com/news/landslide-blocks-mugling-naubise-roadway",
+    "https://myrepublica.nagariknetwork.com/news/landslide-halts-vehicular-movement-at-tinau-rural-municipality",
+    "https://myrepublica.nagariknetwork.com/news/landslide-obstructed-tribhuvan-highway-resumes",
+    "https://myrepublica.nagariknetwork.com/news/landslide-obstructs-north-south-koshi-highway-88-64.html",
+    "https://myrepublica.nagariknetwork.com/news/one-man-killed-9-vehicles-buried-in-landslide-along-munglin-narayangadh-road"
+  ],
+  "generated_at": "2026-08-09T18:34:22Z",
+  "labels_file": "locked_test_set_v2_LABEL_HERE.csv",
+  "labels_sha256": "b36141574668a310e0b5f738ad56d142219570b6c82b92c91faa015f7c33ce2e",
+  "predictions_file": "locked_test_set_v2_predictions.csv",
+  "predictions_sha256": "b720d9bd606ff6fc9df2f5e02c6b4364ce99b5a2b403fec233e7c91828abd288"
+}

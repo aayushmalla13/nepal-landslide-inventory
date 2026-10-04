@@ -1,0 +1,82 @@
+{
+  "audit": "canonical_event_level_second_review_v1",
+  "disagreement_rows": 46,
+  "first_annotators": [
+    "human"
+  ],
+  "input_sha256": {
+    "canonical_event_audit_COMPLETED.csv": "c5cbedb457b999bca3a3cc2ef92e1d62b74f57ed49f8f60417395a80a4f0a5ed",
+    "canonical_event_audit_second_COMPLETED.csv": "f384fada43a7df7ba6218acb5b71dc98a8f9c50100caf9ea43fe34e02f7160d6",
+    "canonical_event_audit_second_manifest.json": "92265446db2fa66fbf9a105e8770a8b906acbd5c754c13d7537e66aca944a01c",
+    "canonical_event_audit_second_mapping.csv": "1c3f2a119ab44818c369f70f20cea8d4dccdb48b88bb198a64b5871289d60074"
+  },
+  "metrics": {
+    "date_correct": {
+      "agreement": 0.823076923076923,
+      "cohen_kappa": 0.6132953957578893,
+      "exact_n": 107,
+      "n": 130
+    },
+    "deaths_true": {
+      "agreement": 0.9461538461538461,
+      "cohen_kappa": 0.8846641318124208,
+      "exact_n": 123,
+      "n": 130
+    },
+    "district_correct": {
+      "agreement": 0.9692307692307692,
+      "cohen_kappa": 0.8965380023875845,
+      "exact_n": 126,
+      "n": 130
+    },
+    "duplicate_merge_correct": {
+      "agreement": 0.8947368421052632,
+      "cohen_kappa": 0.7744807121661721,
+      "exact_n": 34,
+      "n": 38
+    },
+    "event_really_happened": {
+      "agreement": 0.9733333333333334,
+      "cohen_kappa": 0.8743718592964826,
+      "exact_n": 146,
+      "n": 150
+    },
+    "event_type_true": {
+      "agreement": 0.9769230769230769,
+      "cohen_kappa": 0.9527730685395979,
+      "exact_n": 127,
+      "n": 130
+    },
+    "hazard_type_true": {
+      "agreement": 0.9692307692307692,
+      "cohen_kappa": 0.7052154195011336,
+      "exact_n": 126,
+      "n": 130
+    },
+    "municipality_correct": {
+      "agreement": 0.921875,
+      "cohen_kappa": 0.26096997690531176,
+      "exact_n": 59,
+      "n": 64
+    },
+    "one_physical_event": {
+      "agreement": 0.9384615384615385,
+      "cohen_kappa": 0.8440311937612477,
+      "exact_n": 122,
+      "n": 130
+    },
+    "usable_record_status": {
+      "agreement": 0.9333333333333333,
+      "cohen_kappa": 0.8728705822527333,
+      "exact_n": 140,
+      "n": 150
+    }
+  },
+  "outputs": {
+    "canonical_event_audit_ADJUDICATE.csv": "6eaa6e5903288d59e338ab683369a9fd8cb07eb3170042b56bbcb6562924591d"
+  },
+  "rows": 150,
+  "second_annotators": [
+    "reviewer_B"
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "scoring_definition": {
+    "truth": "is_landslide_event=yes AND in_nepal=yes AND hazard_type in {landslide,debris_flow,rockfall} AND event_granularity=single",
+    "prediction": "pipeline_decision in {kept_class1,kept_class2} AND event_type_pred=landslide AND hazard_type_pred in {landslide,debris_flow,rockfall}",
+    "unit": "article-level headline classification"
+  },
+  "primary_answered_rows": 388,
+  "labelled_rows": 387,
+  "undecidable_rows": 1,
+  "weighted_confusion": {
+    "tp": 1388.4,
+    "fp": 481.9,
+    "fn": 300.7,
+    "tn": 3685.1
+  },
+  "unweighted_confusion": {
+    "tp": 125,
+    "fp": 44,
+    "fn": 14,
+    "tn": 204
+  },
+  "weighted": {
+    "precision": 0.7423286182990871,
+    "recall": 0.8219597811202692,
+    "f1": 0.7801173605109066
+  },
+  "weighted_ci95_stratified_bootstrap": {
+    "precision": [
+      0.6747925725131184,
+      0.8074338594125622
+    ],
+    "recall": [
+      0.7441402528522442,
+      0.9097799110910387
+    ],
+    "f1": [
+      0.7228430610018405,
+      0.8343128408128607
+    ]
+  },
+  "bootstrap": {
+    "method": "within-stratum weighted percentile bootstrap",
+    "replicates": 2000,
+    "seed": 20260809,
+    "note": "Approximate design-aware interval; resampling respects the locked decision-by-language strata and uses inclusion weights."
+  },
+  "unweighted_sample_only": {
+    "precision": 0.7396449704142012,
+    "recall": 0.8992805755395683,
+    "f1": 0.8116883116883117
+  },
+  "extraction_among_true_headline_articles": {
+    "district": {
+      "truth_available_n": 123,
+      "predicted_nonblank_n": 116,
+      "exact_n": 101,
+      "reportable": true,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.9273629531645161,
+      "weighted_exact_accuracy": 0.8223330425144142,
+      "unweighted_exact_accuracy": 0.8211382113821138
+    },
+    "event_date": {
+      "truth_available_n": 18,
+      "predicted_nonblank_n": 17,
+      "exact_n": 13,
+      "reportable": false,
+      "minimum_truth_rows": 30,
+      "weighted_coverage": 0.9674018376352721,
+      "weighted_exact_accuracy": 0.7296700534962643,
+      "unweighted_exact_accuracy": 0.7222222222222222
+    }
+  },
+  "per_stratum_coverage": {
+    "dropped_other|en": {
+      "labelled": 8,
+      "total": 8
+    },
+    "dropped_scope|en": {
+      "labelled": 44,
+      "total": 44
+    },
+    "dropped_scope|np": {
+      "labelled": 26,
+      "total": 26
+    },
+    "dropped_specificity|en": {
+      "labelled": 31,
+      "total": 31
+    },
+    "dropped_specificity|np": {
+      "labelled": 99,
+      "total": 99
+    },
+    "kept_class1|en": {
+      "labelled": 45,
+      "total": 45
+    },
+    "kept_class1|np": {
+      "labelled": 85,
+      "total": 85
+    },
+    "kept_class2|en": {
+      "labelled": 32,
+      "total": 32
+    },
+    "kept_class2|np": {
+      "labelled": 18,
+      "total": 18
+    }
+  },
+  "false_positive_examples": [
+    "https://deshsanchar.com/2018/05/10/52063",
+    "https://deshsanchar.com/2019/05/20/198670",
+    "https://deshsanchar.com/2019/07/12/222227",
+    "https://deshsanchar.com/2021/08/27/549155",
+    "https://deshsanchar.com/2022/08/01/687226",
+    "https://deshsanchar.com/2022/09/02/700702",
+    "https://english.onlinekhabar.com/dry-landslide-obstructs-two-highways.html",
+    "https://english.onlinekhabar.com/kalikot-landslide-eight-killed-including-seven-from-a-single-family.html",
+    "https://english.onlinekhabar.com/karnali-highway-obstructed-again.html",
+    "https://english.onlinekhabar.com/landslides-in-silichong-disrupt-power-communications-and-transport-6-families-displaced.html",
+    "https://english.onlinekhabar.com/new-record-in-air-travel-559-flights-operated-in-single-day.html",
+    "https://english.onlinekhabar.com/obstructed-karnali-highway-comes-into-operation.html"
+  ],
+  "false_negative_examples": [
+    "https://deshsanchar.com/2019/01/01/140817",
+    "https://deshsanchar.com/2021/06/20/527103",
+    "https://english.onlinekhabar.com/jayprithvi-highway-obstructed.html",
+    "https://myrepublica.nagariknetwork.com/news/dry-landslides-obstruct-rapti-highway",
+    "https://myrepublica.nagariknetwork.com/news/one-dead-two-injured-in-sankhuwasabha-landslide",
+    "https://nagariknews.nagariknetwork.com/social-affairs/156177-1533464820.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/308171-1597573248.html",
+    "https://nagariknews.nagariknetwork.com/social-affairs/rotating-hot-water-breaks-on-the-landslide",
+    "https://rajdhanidaily.com/id/17131",
+    "https://www.setopati.com/politics/278064",
+    "https://www.setopati.com/social/212461",
+    "https://www.setopati.com/social/249381"
+  ],
+  "generated_at": "2026-08-10T12:30:53Z",
+  "labels_file": "locked_test_set_v6_LABEL_HERE.csv",
+  "labels_sha256": "77c77e7ee39c6479e7e1499f5f51426ba24fc1e98d174b78aec2751364d98064",
+  "predictions_file": "locked_test_set_v6_predictions.csv",
+  "predictions_sha256": "7ce7ff67e6640fb05cee8fd44feaed1485b1b1204566a12684446db72f9e44f0"
+}

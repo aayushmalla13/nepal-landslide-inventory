@@ -1,0 +1,6 @@
+queue_id,column,old_value,new_value,reason
+V13R-020,proposed_event_type,road_obstruction,,non-retained rows must not carry proposed values
+V13R-024,proposed_municipality,Besisahar Municipality,Besishahar Municipality,canonical gazetteer alias normalization
+V13R-029,reviewed_action,retain,exclude_candidate,verified event date predates inventory scope
+V13R-029,proposed_event_date,2014-08-02,,verified event date predates inventory scope
+V13R-029,review_notes,Exact event date previously verified and replayed in the v1.3 diagnostic.,Exact event date previously verified and replayed in the v1.3 diagnostic. Event predates the inventory's 2015 start boundary; excluded from the release.,document inventory-scope exclusion

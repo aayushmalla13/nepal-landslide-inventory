@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-08-09T17:48:53Z",
+  "dataset": "development",
+  "model": "ollama/qwen2.5:7b",
+  "rows_considered": 293,
+  "rows_without_verdict": 1,
+  "cache_entries": 292,
+  "rules": {
+    "precision": 0.6029411764705882,
+    "recall": 0.47126436781609193,
+    "f1": 0.529032258064516
+  },
+  "llm": {
+    "precision": 0.638095238095238,
+    "recall": 0.7701149425287356,
+    "f1": 0.6979166666666666
+  }
+}

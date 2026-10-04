@@ -1,0 +1,530 @@
+{
+  "audit": "v15_final_locked_validation_v1",
+  "blinding": "prior labels, scores, confidence, parser, scope, and correction fields are omitted",
+  "canonical_rows": 2122,
+  "canonical_sha256": "313745c27218be7989764cc9614b71cc69a9549ff05c483247a6c89bd276ae19",
+  "eligible_frame_rows": 568,
+  "evidence_unavailable_article_count": 0,
+  "exclusion_sources": {
+    "../../corrections/article_corrections.csv": {
+      "direct_urls": 55,
+      "event_ids": 0
+    },
+    "../../corrections/dedup_merge_overrides.csv": {
+      "direct_urls": 84,
+      "event_ids": 0
+    },
+    "canonical_event_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 124,
+      "event_ids": 55
+    },
+    "canonical_event_audit_ADJUDICATE_COMPLETED.csv": {
+      "direct_urls": 126,
+      "event_ids": 46
+    },
+    "canonical_event_audit_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "canonical_event_audit_second_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "canonical_event_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 43,
+      "event_ids": 27
+    },
+    "canonical_event_true_value_REVIEW_COMPLETED.csv": {
+      "direct_urls": 43,
+      "event_ids": 37
+    },
+    "data/outputs/canonical_event_audit_LABEL_HERE.csv": {
+      "all_cluster_urls": 265,
+      "event_ids": 150
+    },
+    "data/outputs/post_correction_challenge_LABEL_HERE.csv": {
+      "all_cluster_urls": 82,
+      "event_ids": 50
+    },
+    "data/outputs/post_correction_fresh_audit_LABEL_HERE.csv": {
+      "all_cluster_urls": 218,
+      "event_ids": 150
+    },
+    "data/outputs/v08_fresh_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 215,
+      "event_ids": 150
+    },
+    "data/outputs/v09_final_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 209,
+      "event_ids": 150
+    },
+    "data/outputs/v10_final_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 181,
+      "event_ids": 150
+    },
+    "data/outputs/v11_final_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 178,
+      "event_ids": 150
+    },
+    "data/outputs/v12_final_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 195,
+      "event_ids": 150
+    },
+    "data/outputs/v13_final_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 184,
+      "event_ids": 150
+    },
+    "data/outputs/v14_final_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 189,
+      "event_ids": 150
+    },
+    "dedup_collision_review_BATCH_01_ADJUDICATED.csv": {
+      "direct_urls": 141,
+      "event_ids": 0
+    },
+    "dedup_collision_review_BATCH_01_COMPLETED.csv": {
+      "direct_urls": 141,
+      "event_ids": 0
+    },
+    "granularity_class1_COMPLETED.csv": {
+      "direct_urls": 100,
+      "event_ids": 0
+    },
+    "granularity_development_COMPLETED.csv": {
+      "direct_urls": 120,
+      "event_ids": 0
+    },
+    "locked_test_set_v7_COMPLETED.csv": {
+      "direct_urls": 397,
+      "event_ids": 0
+    },
+    "place_backfill_review_pack_COMPLETED.csv": {
+      "direct_urls": 72,
+      "event_ids": 0
+    },
+    "post_correction_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 67
+    },
+    "post_correction_challenge_COMPLETED.csv": {
+      "direct_urls": 44,
+      "event_ids": 50
+    },
+    "post_correction_fresh_audit_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "post_correction_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 61,
+      "event_ids": 45
+    },
+    "post_correction_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 55,
+      "event_ids": 25
+    },
+    "secondary_locked_v8_COMPLETED.csv": {
+      "direct_urls": 145,
+      "event_ids": 0
+    },
+    "secondary_precision_HUMAN_COMPLETED.csv": {
+      "direct_urls": 136,
+      "event_ids": 0
+    },
+    "secondary_precision_SPOTCHECK_COMPLETED.csv": {
+      "direct_urls": 30,
+      "event_ids": 0
+    },
+    "v08_fresh_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v09_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 54
+    },
+    "v09_article_membership_MAP.csv": {
+      "direct_urls": 78,
+      "event_ids": 54
+    },
+    "v09_final_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v09_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 99,
+      "event_ids": 0
+    },
+    "v09_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 24,
+      "event_ids": 0
+    },
+    "v09_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 44,
+      "event_ids": 33
+    },
+    "v09_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 39,
+      "event_ids": 25
+    },
+    "v09_structured_attribute_REVIEW_SUBMITTED.csv": {
+      "direct_urls": 39,
+      "event_ids": 25
+    },
+    "v10_final_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v11_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 36
+    },
+    "v11_article_membership_MAP.csv": {
+      "direct_urls": 43,
+      "event_ids": 36
+    },
+    "v11_final_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v11_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 71,
+      "event_ids": 0
+    },
+    "v11_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 11,
+      "event_ids": 0
+    },
+    "v11_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 68,
+      "event_ids": 49
+    },
+    "v11_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 47,
+      "event_ids": 38
+    },
+    "v12_final_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v13_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 22
+    },
+    "v13_article_membership_MAP.csv": {
+      "direct_urls": 30,
+      "event_ids": 22
+    },
+    "v13_date_remediation_replay.csv": {
+      "direct_urls": 23,
+      "event_ids": 0
+    },
+    "v13_final_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v13_identity_plan_MERGES_EXISTING.csv": {
+      "direct_urls": 5,
+      "event_ids": 0
+    },
+    "v13_identity_plan_NEW_EVENTS.csv": {
+      "direct_urls": 5,
+      "event_ids": 0
+    },
+    "v13_identity_plan_REMOVE_OLD_EVENTS.csv": {
+      "direct_urls": 0,
+      "event_ids": 0
+    },
+    "v13_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 20,
+      "event_ids": 0
+    },
+    "v13_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 5,
+      "event_ids": 0
+    },
+    "v13_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 54,
+      "event_ids": 45
+    },
+    "v13_remediation_BATCH_TRUE_VALUE_REVIEW_SUBMITTED.csv": {
+      "direct_urls": 54,
+      "event_ids": 45
+    },
+    "v13_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 39,
+      "event_ids": 24
+    },
+    "v14_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 30
+    },
+    "v14_article_membership_MAP.csv": {
+      "direct_urls": 33,
+      "event_ids": 30
+    },
+    "v14_final_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v14_identity_plan_MERGES_EXISTING.csv": {
+      "direct_urls": 2,
+      "event_ids": 0
+    },
+    "v14_identity_plan_NEW_EVENTS.csv": {
+      "direct_urls": 11,
+      "event_ids": 0
+    },
+    "v14_identity_plan_REMOVE_OLD_EVENTS.csv": {
+      "direct_urls": 0,
+      "event_ids": 0
+    },
+    "v14_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 29,
+      "event_ids": 0
+    },
+    "v14_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 11,
+      "event_ids": 0
+    },
+    "v14_release_identity_EXCLUDED_CANDIDATES.csv": {
+      "direct_urls": 3,
+      "event_ids": 0
+    },
+    "v14_release_identity_NEW_EVENTS.csv": {
+      "direct_urls": 9,
+      "event_ids": 0
+    },
+    "v14_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 44,
+      "event_ids": 35
+    },
+    "v14_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 22,
+      "event_ids": 18
+    },
+    "v15_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 46
+    },
+    "v15_article_membership_MAP.csv": {
+      "direct_urls": 61,
+      "event_ids": 46
+    },
+    "v15_identity_plan_MERGES_EXISTING.csv": {
+      "direct_urls": 10,
+      "event_ids": 0
+    },
+    "v15_identity_plan_NEW_EVENTS.csv": {
+      "direct_urls": 21,
+      "event_ids": 0
+    },
+    "v15_identity_plan_REMOVE_OLD_EVENTS.csv": {
+      "direct_urls": 0,
+      "event_ids": 0
+    },
+    "v15_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 69,
+      "event_ids": 0
+    },
+    "v15_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 21,
+      "event_ids": 0
+    },
+    "v15_release_identity_EXCLUDED_CANDIDATES.csv": {
+      "direct_urls": 11,
+      "event_ids": 0
+    },
+    "v15_release_identity_NEW_EVENTS.csv": {
+      "direct_urls": 11,
+      "event_ids": 0
+    },
+    "v15_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 27,
+      "event_ids": 25
+    },
+    "v15_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 41,
+      "event_ids": 33
+    }
+  },
+  "inputs": {
+    "data/outputs/../../corrections/article_corrections.csv": "f5fc330f33bf75925d31c254ce366885e8fcd15f310a12a3ab0fe9695012fb74",
+    "data/outputs/../../corrections/dedup_merge_overrides.csv": "cad6276067e7cff3bc749be68af1a8f36d9a1c579b6917fb1ec1cefe4ddf61b8",
+    "data/outputs/canonical_event_article_mapping_DECISIONS_COMPLETED.csv": "0274f248ed67e5404cb5cfbfdc9f746cf9556b3541993ced6a737c89cd8ae163",
+    "data/outputs/canonical_event_audit_ADJUDICATE_COMPLETED.csv": "f947bdd17dfc1a3db0a9f823d943eabb50b99253884d7bcdaec5971109e9deaf",
+    "data/outputs/canonical_event_audit_COMPLETED.csv": "c5cbedb457b999bca3a3cc2ef92e1d62b74f57ed49f8f60417395a80a4f0a5ed",
+    "data/outputs/canonical_event_audit_LABEL_HERE.csv": "786b54256bfdd4a33e0e9cde94413ec89b7cd33da5943be4b70f6ce03a8bcb02",
+    "data/outputs/canonical_event_audit_second_COMPLETED.csv": "f384fada43a7df7ba6218acb5b71dc98a8f9c50100caf9ea43fe34e02f7160d6",
+    "data/outputs/canonical_event_structured_attribute_REVIEW_COMPLETED.csv": "5a6c4b2309359542fcca7b0d2439099e6e1690cb55b4235ae714c83f137ca97c",
+    "data/outputs/canonical_event_true_value_REVIEW_COMPLETED.csv": "2022c31b979eb5b2c20b9092dfe136ac6044e54617d584e953422688a79af5af",
+    "data/outputs/dedup_collision_review_BATCH_01_ADJUDICATED.csv": "c86d3a5725182f37a60cec8f4e8eaf7fa65a22f88f1c05fc1ae762565d9f45dc",
+    "data/outputs/dedup_collision_review_BATCH_01_COMPLETED.csv": "43aadd4e19e17b202c98b722262ccfd9a71f1504e5519db3ed2f270436c2cfdc",
+    "data/outputs/granularity_class1_COMPLETED.csv": "e51d031bdf59364ea7854806b006958e5be0d9ed02f143f169a1e4538c8c78cc",
+    "data/outputs/granularity_development_COMPLETED.csv": "6eca8d46884b299391eca3ed77c8e1b0dd095c1959572181a0ec51180d92a50a",
+    "data/outputs/locked_test_set_v7_COMPLETED.csv": "1ab5f36ca1593259b37e3f8bba865dc018200b05fbaa919d3cf37801f9eab65e",
+    "data/outputs/place_backfill_review_pack_COMPLETED.csv": "c14653c6d0aec2f561ea31388835894cd8ab1c508ba38a7fbe34eaad2270e408",
+    "data/outputs/post_correction_article_mapping_DECISIONS_COMPLETED.csv": "262b7d46ad27cc3da9463a0702c65f00f1c5f4d92397b0de9033cc36bcd99934",
+    "data/outputs/post_correction_challenge_COMPLETED.csv": "fb4cb0c618a7eca8a84199df3e8dd41b4e04dc62178db81ec1397707f8281978",
+    "data/outputs/post_correction_challenge_LABEL_HERE.csv": "9b93ac97152bf458a161bf62272b7d9becc78f26cd625981393488bb5506898e",
+    "data/outputs/post_correction_fresh_audit_COMPLETED.csv": "060266bca594690d9ace5df8c851ecee31e0ea987e45f0a93bf162f196667484",
+    "data/outputs/post_correction_fresh_audit_LABEL_HERE.csv": "0b18e208add792920be119e3cd5644c7284966d278289d1a251d6b7c61b6f14c",
+    "data/outputs/post_correction_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "8016a7f6fdea628b8c2298288a354c90aff46422b0af29abbface4ff91a62d8e",
+    "data/outputs/post_correction_structured_attribute_REVIEW_COMPLETED.csv": "6738e388b3e9cd3c430a5aadf4ce03a1e6d8935ebc7399598fef4fb4e4a6ea18",
+    "data/outputs/secondary_locked_v8_COMPLETED.csv": "c4febfaacaab6e8fc1c60d282055a2fd63e3807d46fe935589cccb173a3d995c",
+    "data/outputs/secondary_precision_HUMAN_COMPLETED.csv": "00c5409285b2608556efecd0fd8705085343794490ee50cd924b1be8a7d55eb7",
+    "data/outputs/secondary_precision_SPOTCHECK_COMPLETED.csv": "e68d6a639cb91edb50aaa69b7e43ad5e12d0c2181d8959d35923dfe3005e7efe",
+    "data/outputs/v08_fresh_validation_COMPLETED.csv": "03a58c6c55ec407e023c3cb05755063eb1f45c7cc012c9426e43914b0ba366c4",
+    "data/outputs/v08_fresh_validation_LABEL_HERE.csv": "52b875e3dab53df855f2cbc7aeeb4615c15e6584d421ddb37bb41c38c198b872",
+    "data/outputs/v09_article_mapping_DECISIONS_COMPLETED.csv": "280796cbc57d037740cd8954a45cb4a8344b80b43bc25e66276b55196cc360f1",
+    "data/outputs/v09_article_membership_MAP.csv": "351e14a6ff95f43f18d2ea897652e64c78e8ab8c5216878a11044fe8108ae93f",
+    "data/outputs/v09_final_validation_COMPLETED.csv": "0ba34e06adc505a15fc151f373c6ac4e220f210fdb2300ec1e89f0bc5a458c44",
+    "data/outputs/v09_final_validation_LABEL_HERE.csv": "71b04753b534b10f7d5e4b3c63949e9c9205ffcf49e88df4660fc52ce0cf9eda",
+    "data/outputs/v09_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "94d6843d3e4cccca69d3db293a7e8a1ac7687c37b210357b17cd261e4e8866f2",
+    "data/outputs/v09_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "b923b3a9ba3e0460c6a88a075c4931eba6700bbdd9a78be78137608be394f0f5",
+    "data/outputs/v09_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "c0ff3b8a9e8f3ede481615ed4dd26687f287d222efdf70bf87c9267c464882f8",
+    "data/outputs/v09_structured_attribute_REVIEW_COMPLETED.csv": "19ccf66e6fb564bbd3ac3b83de52bdbd180b3dec26537b9532d911582f72e1dd",
+    "data/outputs/v09_structured_attribute_REVIEW_SUBMITTED.csv": "6c3ec32f20fa6b20ad4a9b89ddbcd247599894206f35b24742a17afebc54f1eb",
+    "data/outputs/v10_final_validation_COMPLETED.csv": "e8a6b8c242ec6e6cf011a5c8d0dfb7a222cd332712bbedc4f872f9d392ec50ab",
+    "data/outputs/v10_final_validation_LABEL_HERE.csv": "cce26b3d075859dc9b253467437391ac1600caa3646bfa0c4e2a5bfb55a5a90b",
+    "data/outputs/v11_article_mapping_DECISIONS_COMPLETED.csv": "34fe99f8b04f5510b02ddb315b656f0416d19be4146797b2f0659b7c1835e45b",
+    "data/outputs/v11_article_membership_MAP.csv": "1587e8292e0e95ec06d9eddaf8ea081add0794534d5bb375e561671330b3ed75",
+    "data/outputs/v11_final_validation_COMPLETED.csv": "05ca33e58cf4f0996f764b5da77de81ca7d3b79b62976d9f4997c9319954e4fa",
+    "data/outputs/v11_final_validation_LABEL_HERE.csv": "846b1ff200762dce81425a19f49a0c57bc06f2097c981916ea7e96c7bd508372",
+    "data/outputs/v11_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "ab8220146c4150af651bbd7fa58b798b1940785b8d4af2b56623221fe63c1b57",
+    "data/outputs/v11_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "1fe43fff9ed6410fa04dddbdb58486fa0eb7fa332c23ddf7d412642d0af35e82",
+    "data/outputs/v11_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "8ae7b09125e4800a804ef0b533140b6f21ab4a717dec6820601489b5011bc0b6",
+    "data/outputs/v11_structured_attribute_REVIEW_COMPLETED.csv": "26d7c9e3dda6ec420a439555dc053e13a4a455217892a9404e1cb726c70b3338",
+    "data/outputs/v12_final_validation_COMPLETED.csv": "85fec0d7673afa0f2990bbf48a81146df00f9d99c94373c4cbeb1c1f7cb3d097",
+    "data/outputs/v12_final_validation_LABEL_HERE.csv": "a0025cc4e41cf077eca33c2e26ad80a945e5a74d0042023fb69bb14f35f45755",
+    "data/outputs/v13_article_mapping_DECISIONS_COMPLETED.csv": "9aa4d74e5d6fa1cc7812a564e48e77e3a72a22554d04b3eec1d75d848ee65286",
+    "data/outputs/v13_article_membership_MAP.csv": "476fc63551bac937fafdf81845c37d1e1652d29b08eab5c200334ba2f0c64262",
+    "data/outputs/v13_date_remediation_replay.csv": "e47bbda70ed7eb38331871025dd43ac069e4231ca291531eb8ac4b2ed45ad909",
+    "data/outputs/v13_final_validation_COMPLETED.csv": "e89c12bd72faef1daac26a4613c8c751cb543117c8acf974096bee97d87a614f",
+    "data/outputs/v13_final_validation_LABEL_HERE.csv": "475b736e221c9a8b46a9e9cc4bee6f190ad8ed0728d80c96deb67be62b1e0562",
+    "data/outputs/v13_identity_plan_MERGES_EXISTING.csv": "ea80564aa84bcc0e1ac1828b0c16dfdecc6e593a375180fe655f32d2c3454513",
+    "data/outputs/v13_identity_plan_NEW_EVENTS.csv": "f385eea38f35943f57b7457df11a358100c30daaddf197248bc88cfeba7f8660",
+    "data/outputs/v13_identity_plan_REMOVE_OLD_EVENTS.csv": "7f480848ab90f2b052837c65ae34de89e745dcba640704289ba5e6eb0413e075",
+    "data/outputs/v13_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "58be35d6b152d6b1a329b42e34437a81e31c2f86004ee7eb04e2f1ceeabc0eb8",
+    "data/outputs/v13_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "73550594bba6bfee3b34f47e9c34a16b5b694391e3082831e53f6dee1b5972da",
+    "data/outputs/v13_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "52df0897869f4037fcd7578caed2597a811be67a454bb074e199fbe18cd7e296",
+    "data/outputs/v13_remediation_BATCH_TRUE_VALUE_REVIEW_SUBMITTED.csv": "1b15cf75c1847f6414b1209208c2871000b6ae3ce2821fe0a8bb5d8f639af49c",
+    "data/outputs/v13_structured_attribute_REVIEW_COMPLETED.csv": "43f293cfc8bdb420f558e8de62e2ed225ced1c37406e5dc28b35fb70bfbab004",
+    "data/outputs/v14_article_mapping_DECISIONS_COMPLETED.csv": "32733924690804fe9a45423609ffad3e6081fffc5b9910f9fa8cc8385e93a61f",
+    "data/outputs/v14_article_membership_MAP.csv": "b7d592d783e6891f915b74b4008ee6fbae9f2be598a1b2b27b00b08bafe4d321",
+    "data/outputs/v14_final_validation_COMPLETED.csv": "fa44fc83e1ba2f1ef67b34d909978f717c7c02107d8c7946960dfe64cfdd0794",
+    "data/outputs/v14_final_validation_LABEL_HERE.csv": "9645232b75cad571defac1eeaa46df9ef39845552977a16316501ce4975010ca",
+    "data/outputs/v14_identity_plan_MERGES_EXISTING.csv": "778e8a78a11aa95c21ddc996fd0003c4638699e023f213e662f4d5df9ef64d55",
+    "data/outputs/v14_identity_plan_NEW_EVENTS.csv": "ab1468696056d8917956a7ea9269d97fe1a004e5aa8359ff4892cd648645693f",
+    "data/outputs/v14_identity_plan_REMOVE_OLD_EVENTS.csv": "f716c9e37238fe1d6d90b5aa1fe1e578b74c2509ce7f6a46717a8c6c7fcef42d",
+    "data/outputs/v14_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "c7628e27a3cd81733e758add866d34864d0a334b0046f95d8311e91d9a88cb0b",
+    "data/outputs/v14_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "72d6e4cce6bf31a7c96fb610029cb1884eaeb8b0a57091ecf7807ae7f9663d9c",
+    "data/outputs/v14_release_identity_EXCLUDED_CANDIDATES.csv": "0671299dd194913b66d0b5d590969bd2d20b0a9094e5bf58535410cb5cdc0b2f",
+    "data/outputs/v14_release_identity_NEW_EVENTS.csv": "e8d59a3f15e3e87e2e984d8493b67b80ef1a886ef52991fd7ccdfb6a08ae0f57",
+    "data/outputs/v14_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "5f9b66d56230c7a1512de3b220d0811701057f649fc17d980897b068f175f207",
+    "data/outputs/v14_structured_attribute_REVIEW_COMPLETED.csv": "ba2957c53ead0b4b3351522b8c4ce13b480bb75e8265e05dc87d06488c64ac1c",
+    "data/outputs/v15_article_mapping_DECISIONS_COMPLETED.csv": "fd455fd3e36e9d76d25ad2924360029ef07e2159c4e55b1ac24ce65367642057",
+    "data/outputs/v15_article_membership_MAP.csv": "779b706bf887b229eb7e1469cd91189ed3591e6169600958453e26fd1a0aa05c",
+    "data/outputs/v15_identity_plan_MERGES_EXISTING.csv": "3509072b4fb3aafd6a634ed537f7b5d50bb8dcfd836c52227989c1b6b3547e43",
+    "data/outputs/v15_identity_plan_NEW_EVENTS.csv": "6fd97cfc573b1c69064ddde0fba7179a2e4d639837df757e31d8f8f3db280222",
+    "data/outputs/v15_identity_plan_REMOVE_OLD_EVENTS.csv": "97c50e909ebbe3ef1c083f2231329fc15142b318144377b49a3ce3b748ecd843",
+    "data/outputs/v15_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "ee55c210be9ab682c8203968252614f6fd04771e649d68b5037fa199b9b32c34",
+    "data/outputs/v15_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "9da3b8f4ec9ecf3038bc83aaf620e772c7e58f8ec55157b83724ec83020c5261",
+    "data/outputs/v15_release_identity_EXCLUDED_CANDIDATES.csv": "465b05587cca90151d664364514330f9a96ed00c2b25f159647ad58658582d68",
+    "data/outputs/v15_release_identity_NEW_EVENTS.csv": "927dcaac10f28de85ebb432f0f44f8f13ecdb62dd772fcd5745aec9694ce7566",
+    "data/outputs/v15_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "3eba8e4236e1bfbe4120410f02cce88c179519324cf35aca0bd3136fcd1839ff",
+    "data/outputs/v15_structured_attribute_REVIEW_COMPLETED.csv": "fc14972b45947cb26e4247565d6e2a4edf70be5ec8b083cb28263b1046c5796e",
+    "data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/canonical_events_final.csv": "3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8",
+    "data/releases/nepal_landslide_inventory_v0.7.0_candidate_20260916/canonical_events_final.csv": "182071353abd87fed8404d0ae82b172b64d410599bf6e36a532c363cb6fdf663",
+    "data/releases/nepal_landslide_inventory_v0.8.0_candidate_20260923/canonical_events_final.csv": "0822515b56693af22daf2e3cc6e63b178eb41fefa46a8b607a47d6da9efdcd07",
+    "data/releases/nepal_landslide_inventory_v0.9.0_candidate_20260924/canonical_events_final.csv": "9331668017b1ea34709acfbda34ec9a52c4ab5a02bcdc127cab0a58769379f22",
+    "data/releases/nepal_landslide_inventory_v1.0.0_candidate_20260927/canonical_events_final.csv": "68f2efd27a2c929c0df879974afcde14560ecbd6edf2ce389cc03a18f0857c8a",
+    "data/releases/nepal_landslide_inventory_v1.1.0_candidate_20260928/canonical_events_final.csv": "eca57e481a01b29ad38b0c6b9203aab5f080a631def887646bbac9a8e4583581",
+    "data/releases/nepal_landslide_inventory_v1.2.0_candidate_20260929/canonical_events_final.csv": "0c077fab7290b3fbc3f9a74dacb3adfa827e19466433221b4424b4cd75162643",
+    "data/releases/nepal_landslide_inventory_v1.2.0_candidate_20260929/landslide_inventory.sqlite": "f5af3c3c0d256f74d9350a6190ff2152216f8d08f0cc311e83c9d221d7e1a9aa",
+    "data/releases/nepal_landslide_inventory_v1.3.0_candidate_20260930/canonical_events_final.csv": "9e8d44be3bf08b649d34c9b06f0e3d26e1983c46ee389b4295ac4f8416914c3e",
+    "data/releases/nepal_landslide_inventory_v1.4.0_candidate_20261002/canonical_events_final.csv": "bbf0f77960da94d7199268a3521715762ff833c0a4283ef3badedbe6d9ee9541",
+    "data/releases/nepal_landslide_inventory_v1.5.0_candidate_20261003/canonical_events_final.csv": "313745c27218be7989764cc9614b71cc69a9549ff05c483247a6c89bd276ae19",
+    "data/releases/nepal_landslide_inventory_v1.5.0_candidate_20261003/release_manifest.json": "a99f4328fc46175a9cc77e2eb190b69d067993aaa6c8c3cdd207afef498197b8",
+    "scripts/draw_v15_final_validation.py": "09ab6e66a3a1f3b1d3b863c90c30c16fb32a7ac56743b146d675c48f644eddb8",
+    "scripts/score_v15_final_validation.py": "e89057c25fbefc3f96a5f7514fab8f6ea7c2fe3ece283347059f18344154c75f"
+  },
+  "inventory_release": "nepal_landslide_inventory_v1.5.0_candidate_20261003",
+  "notes": "Final independent audit of v1.5; all traceable prior reviewed event IDs and article URLs through v1.4, plus every v1.5 remediation layer, are excluded. Promotion thresholds are unchanged.",
+  "outputs": {
+    "v15_final_validation_LABEL_HERE.csv": "e77f9281c8f3ddd1e0c7ce2d4cfbecc2582e89de560166d35faeb7173c192975",
+    "v15_final_validation_reading_pack.csv": "ada81540eef63110a040b4f73d253f5e4339ffcf8daa510a8edfc5bc13aa3899",
+    "v15_final_validation_weights.csv": "7eaa5beb5f01edf21c2aed1448b331899fd8984fbed780ec822309e38e8ec8f3"
+  },
+  "population_by_stratum": {
+    "en|2015-2018|landslide|single_article": 60,
+    "en|2015-2018|road_obstruction|single_article": 17,
+    "en|2019-2022|landslide|multi_article": 8,
+    "en|2019-2022|landslide|single_article": 28,
+    "en|2019-2022|road_obstruction|single_article": 12,
+    "en|2023-2026|landslide|multi_article": 1,
+    "en|2023-2026|landslide|single_article": 14,
+    "en|2023-2026|road_obstruction|single_article": 25,
+    "np|2015-2018|landslide|single_article": 22,
+    "np|2015-2018|road_obstruction|single_article": 1,
+    "np|2019-2022|landslide|multi_article": 3,
+    "np|2019-2022|landslide|single_article": 96,
+    "np|2019-2022|road_obstruction|single_article": 41,
+    "np|2023-2026|landslide|multi_article": 23,
+    "np|2023-2026|landslide|single_article": 115,
+    "np|2023-2026|road_obstruction|multi_article": 11,
+    "np|2023-2026|road_obstruction|single_article": 91
+  },
+  "promotion_rule_prespecified": {
+    "date_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "decision": "promote only if every threshold passes; otherwise retain candidate status",
+    "district_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "event_existence_precision": {
+      "minimum_ci95_lower": 0.85,
+      "minimum_estimate": 0.9
+    },
+    "maximum_event_existence_unclear_fraction": 0.05,
+    "single_event_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "usable_record_precision": {
+      "minimum_ci95_lower": 0.6,
+      "minimum_estimate": 0.7
+    }
+  },
+  "reviewed_article_urls_excluded": 2986,
+  "reviewed_event_ids_excluded": 1383,
+  "sample_by_stratum": {
+    "en|2015-2018|landslide|single_article": 16,
+    "en|2015-2018|road_obstruction|single_article": 4,
+    "en|2019-2022|landslide|multi_article": 3,
+    "en|2019-2022|landslide|single_article": 7,
+    "en|2019-2022|road_obstruction|single_article": 3,
+    "en|2023-2026|landslide|multi_article": 1,
+    "en|2023-2026|landslide|single_article": 3,
+    "en|2023-2026|road_obstruction|single_article": 6,
+    "np|2015-2018|landslide|single_article": 5,
+    "np|2015-2018|road_obstruction|single_article": 1,
+    "np|2019-2022|landslide|multi_article": 3,
+    "np|2019-2022|landslide|single_article": 25,
+    "np|2019-2022|road_obstruction|single_article": 10,
+    "np|2023-2026|landslide|multi_article": 6,
+    "np|2023-2026|landslide|single_article": 30,
+    "np|2023-2026|road_obstruction|multi_article": 3,
+    "np|2023-2026|road_obstruction|single_article": 24
+  },
+  "sample_rows": 150,
+  "seed": 20261003,
+  "stratification": [
+    "title_language",
+    "period",
+    "event_type",
+    "article_support"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "input_sha256": {
+    "data/releases/nepal_landslide_inventory_v0.7.0_candidate_20260916/canonical_events_final.csv": "182071353abd87fed8404d0ae82b172b64d410599bf6e36a532c363cb6fdf663",
+    "post_correction_identity_plan_MERGES_EXISTING.csv": "b15bda0c93b61078d742f3ddf901291158e0901f027035fd7c97e5738f3f1401",
+    "post_correction_identity_plan_REMOVE_OLD_EVENTS.csv": "38983f07b3543d29b3275c856b2dae770e5665743b93459b999a13b833aa2c12",
+    "post_correction_identity_plan_manifest.json": "ece4d249ce5dfbbfdd435ac1ece87f32ca563a20987d1b15ce90dfaf7b7e98ee",
+    "post_correction_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "8016a7f6fdea628b8c2298288a354c90aff46422b0af29abbface4ff91a62d8e",
+    "post_correction_structured_attribute_REVIEW_COMPLETED.csv": "6738e388b3e9cd3c430a5aadf4ce03a1e6d8935ebc7399598fef4fb4e4a6ea18",
+    "post_correction_structured_attribute_review_validation.json": "347422b42a987ef7c9de0ef3df0d493aacc23910ac8d83522a117c2f1103bff6",
+    "post_correction_true_value_plan_manifest.json": "540df34aadd96ec125e02ff106e29bd92d109010f73c5d8dad57b3ce5445a4f6"
+  },
+  "net_delta_from_source_inventory": -32,
+  "output_sha256": {
+    "post_correction_structured_attribute_plan_CORRECTIONS.csv": "b3eff36e7d6e774eaef3e549ebdd175e35979c1d28e9ce711efbf21990cec8e1",
+    "post_correction_structured_attribute_plan_EXCLUSIONS.csv": "3ecdc3f2666e823a4de8116f5cbd448825a4589ad273c1e86f67b780fe8ebe84"
+  },
+  "planned_corrections": 25,
+  "planned_exclusions": 0,
+  "prior_gate_overlap_count": 0,
+  "provisional_rows_after_all_manual_plans": 2872,
+  "review_rows": 25,
+  "source_inventory_rows": 2904,
+  "status": "all_post_correction_manual_gates_complete_candidate_assembly_pending"
+}

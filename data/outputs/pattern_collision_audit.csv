@@ -1,0 +1,297 @@
+pattern_list,pattern,pattern_len,matched,dropped_via_reason,suspect_false_negatives,collision_rate,severity,example_suspect_title
+ROUNDUP_PATTERNS,कुल,3,649,478,65,0.136,high,एउटा घर खोजिरहेको सिंगो गाउँ
+ROUNDUP_PATTERNS,अहिलेसम्म,9,503,388,55,0.1418,high,एउटा घर खोजिरहेको सिंगो गाउँ
+FOLLOWUP_PATTERNS,सञ्चालनमा,9,639,110,54,0.4909,high,नारायणगढ–मुग्लिन सडकखण्ड ११ घण्टा पछि सञ्चालनमा
+ROUNDUP_PATTERNS,across the country,18,140,119,48,0.4034,high,11 national highways completely blocked - OnlineKhabar English News
+ROUNDUP_PATTERNS,हालसम्म,7,338,269,46,0.171,high,अविरल वर्षाका कारण प्रदेश एकमा १४ जनाले ज्यान गुमाए
+RISK_PATTERNS,high risk,9,211,84,34,0.4048,high,"Flood risks in Kathmandu, KMC launches helpline service - OnlineKhabar English News"
+ROUNDUP_PATTERNS,देशभर,5,526,476,29,0.0609,high,संसद बैठकमा पुनः अवरोध गर्ने तयारीमा विपक्षी
+RISK_PATTERNS,risk of landslides,18,136,58,26,0.4483,high,"200 households leave Karauja VDC out of landslide fears - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,बजेट,4,376,263,26,0.0989,high,सडकमा भएको करोडौं लगानी बर्खे भेलसँगै बग्यो
+CONTEXT_ONLY_PATTERNS,पहिरो नियन्त्रण,15,112,80,22,0.275,high,गृह जिल्लाको पहिरो प्रभावित क्षेत्र पुगे बागमतीका अर्थमन्त्री काफ्ले | Nagarik News
+RISK_PATTERNS,at high risk of landslide,25,87,54,21,0.3889,high,"200 households leave Karauja VDC out of landslide fears - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+FOLLOWUP_PATTERNS,खुल्यो,6,123,29,16,0.5517,medium,एघार घण्टापछि नारायणगढ-मुग्लिन सडक खुल्यो
+FOLLOWUP_PATTERNS,खुलेको,6,208,34,14,0.4118,medium,मुग्लिन–नारायणगढ सडकखण्ड एकतर्फी खुल्यो
+FOLLOWUP_PATTERNS,पन्छाएपछि,9,88,27,13,0.4815,medium,नारायणगढ–मुग्लिन सडकखण्ड ११ घण्टा पछि सञ्चालनमा
+ROUNDUP_PATTERNS,various districts,17,21,20,12,0.6,medium,Efforts underway to reopen landslide-blocked roads - OnlineKhabar English News
+CONTEXT_ONLY_PATTERNS,चुनौती,6,242,185,11,0.0595,medium,सडकमा भएको करोडौं लगानी बर्खे भेलसँगै बग्यो
+FOLLOWUP_PATTERNS,पुनः सञ्चालन,12,68,14,10,0.7143,medium,"ठूला मालबाहक गाडी अलपत्र, आठ दिनदेखि ट्रकको बास"
+CONTEXT_ONLY_PATTERNS,affected people,15,27,17,10,0.5882,medium,Integrated settlements: How Nepal failed to implement this solution even after the devastating earthquake - OnlineKhabar English News
+CONTEXT_ONLY_PATTERNS,reconstruction,14,48,30,9,0.3,medium,Chepangs in crisis: CNP's eviction is latest in already long series of their trouble - OnlineKhabar English News
+ROUNDUP_PATTERNS,overall,7,40,32,9,0.2812,medium,PNG's 2024 vs Nepal's 2014 Jure Landslides: Lessons and mitigation in fragile geologies - OnlineKhabar English News
+CONTEXT_ONLY_PATTERNS,पुनर्निर्माण,12,135,63,9,0.1429,medium,नारायणगढ-मुग्लिङ सडकखण्डको १७ किलो भाँसियो
+DAMAGE_ONLY_PATTERNS,क्षति,5,1524,332,9,0.0271,medium,मर्स्याङ्दी नदीको बाढीले ङिस्याङको झोलुङ्गे पुल बगायो
+ROUNDUP_PATTERNS,death toll reaches,18,28,8,8,1.0,medium,"Death toll reaches 188 in floods and landslides, 41 still missing - OnlineKhabar English News"
+ROUNDUP_PATTERNS,this monsoon,12,29,18,7,0.3889,medium,Monsoon-related disasters kill 92 in Nepal - OnlineKhabar English News
+ROUNDUP_PATTERNS,मृत्यु हुनेको संख्या,20,83,43,7,0.1628,medium,आत्महत्या कायरताको उपज कि मानसिक दुर्घटना?
+ROUNDUP_PATTERNS,समग्र,5,165,136,5,0.0368,medium,"सुनकोशी बगरमा ठेकेदारको जथाभावी उत्खनन्‌, जोखिममा धुस्कुन बस्ती"
+CONTEXT_ONLY_PATTERNS,permanent solution,18,7,5,4,0.8,ok,"Lawmakers for permanent solution to floods, landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,toll rises to,13,18,6,4,0.6667,ok,"From the Kathmandu Press: Sunday, July 14, 2019 - OnlineKhabar English News"
+ROUNDUP_PATTERNS,disaster incidents,18,12,11,4,0.3636,ok,"73 incidences of natural disasters in a day: 2 dead, 1 missing - OnlineKhabar English News"
+CONTEXT_ONLY_PATTERNS,mitigation,10,36,15,4,0.2667,review_short_pattern,Landslide susceptibility and monsoon preparedness in Nepal: An engineering perspective - OnlineKhabar English News
+RISK_PATTERNS,पहिरोको जोखिम,13,338,29,4,0.1379,ok,'सरकारले ओडारबाट घरमा सार्‍यो तर खान दिएन'
+FOLLOWUP_PATTERNS,road reopens,12,13,4,3,0.75,ok,Beni-Jomsom road reopens after six days - OnlineKhabar English News
+CONTEXT_ONLY_PATTERNS,control landslide,17,10,5,3,0.6,ok,"Fear of landslide grips villagers in Beni ahead of monsoon - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,control landslides,18,9,5,3,0.6,ok,"Fear of landslide grips villagers in Beni ahead of monsoon - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+FOLLOWUP_PATTERNS,खुलेन,5,20,5,3,0.6,review_short_pattern,चार दिनसम्म पनि खुलेन पासाङल्हामु राजमार्ग
+ROUNDUP_PATTERNS,death toll rises to,19,17,5,3,0.6,ok,"From the Kathmandu Press: Sunday, July 14, 2019 - OnlineKhabar English News"
+ROUNDUP_PATTERNS,over the last,13,11,5,3,0.6,ok,"From the Kathmandu Press: Tuesday, July 16, 2019 - OnlineKhabar English News"
+FOLLOWUP_PATTERNS,अपडेट,5,108,6,3,0.5,review_short_pattern,नारायणगढ–मुग्लिन सडकको सूचना अब ‘एसएमएस’बाटै
+FOLLOWUP_PATTERNS,सञ्चालनमा आयो,13,14,6,3,0.5,ok,पुनः सञ्चालनमा आयो नारायणगढ–मुग्लिन सडकखण्ड
+ROUNDUP_PATTERNS,has killed,10,12,7,3,0.4286,review_short_pattern,"It's time to restructure conservation area projects in Nepal, says conservationist writer - OnlineKhabar English News"
+FOLLOWUP_PATTERNS,हटाएपछि,7,52,16,3,0.1875,review_short_pattern,त्रिभुवन राजपथ सञ्चालनमा
+RISK_PATTERNS,उच्च जोखिम,10,317,32,3,0.0938,review_short_pattern,विकासले निम्त्याएको विनाश : RajdhaniDaily.com
+ROUNDUP_PATTERNS,देशभरि,6,42,36,3,0.0833,review_short_pattern,वाईसिएलले मदन भण्डारी लोकमार्गको पहिरो हटायो | Nagarik News
+RISK_PATTERNS,risk of a landslide,19,12,7,2,0.2857,ok,"45 families at high risk of landslide - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+RISK_PATTERNS,warning,7,86,11,2,0.1818,review_short_pattern,"Devastating Floods and Landslides in Nepal: Costly Lessons for Future - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,affects road transport,22,1,1,1,1.0,ok,"Vegetables rot on the farmland as landslide triggered by monsoon rainfall affects road transport - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Rep"
+CONTEXT_ONLY_PATTERNS,call for prompt relief,22,1,1,1,1.0,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,drawn the attention of the government,37,1,1,1,1.0,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,expresses sorrow,16,1,1,1,1.0,ok,"NC expresses sorrow over loss of life and property due to floods, landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,lawmakers speaking in the meeting,33,1,1,1,1.0,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,vegetables rot,14,1,1,1,1.0,ok,"Vegetables rot on the farmland as landslide triggered by monsoon rainfall affects road transport - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Rep"
+CONTEXT_ONLY_PATTERNS,सञ्चालन अनिश्चित,16,2,1,1,1.0,ok,बीपी राजमार्ग सञ्चालन अनिश्चित | Nepal's first 24-hour updated news portal - Ratopati
+FOLLOWUP_PATTERNS,highway reopens,15,4,1,1,1.0,ok,BP Highway reopens after three days following diversion construction - OnlineKhabar English News
+RISK_PATTERNS,पहिरो जान सक्ने,15,38,1,1,1.0,ok,"उत्तरी गोरखामा लगातार पहिरो, भूकम्पपीडितले अस्थायी टहरा छाडे | Nagarik News"
+ROUNDUP_PATTERNS,in 10 years,11,1,1,1,1.0,review_short_pattern,"21 dead, 38 missing in floods and landslides in Sankhuwasabha in 10 years - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+ROUNDUP_PATTERNS,this year alone,15,2,1,1,1.0,ok,This is how civil engineers can contribute to landslide prevention in Nepal - OnlineKhabar English News
+ROUNDUP_PATTERNS,कहाँ कस्तो छ क्षति,18,1,1,1,1.0,ok,"बाढी पहिरोको कारण कोशी, मधेस र बागमती प्रदेशमा कहाँ कस्तो छ क्षति?"
+ROUNDUP_PATTERNS,प्रदेशमा कहाँ कस्तो,19,1,1,1,1.0,ok,"बाढी पहिरोको कारण कोशी, मधेस र बागमती प्रदेशमा कहाँ कस्तो छ क्षति?"
+FOREIGN_TERMS,assam,5,12,2,1,0.5,review_short_pattern,"34 killed, 28 missing in Manipur Landslide"
+RISK_PATTERNS,experts warn,12,9,2,1,0.5,ok,"Experts warn big landslides in Lamjung villages - The Himalayan Times - Nepal's No.1 English Daily Newspaper | Nepal News, Latest Politics, Business, World, Sports, Entertainment, Travel, Life Style N"
+ROUNDUP_PATTERNS,highest number of fatalities,28,3,2,1,0.5,ok,PNG's 2024 vs Nepal's 2014 Jure Landslides: Lessons and mitigation in fragile geologies - OnlineKhabar English News
+ROUNDUP_PATTERNS,बाढीपहिरोले देशभर,17,2,2,1,0.5,ok,बाढीपहिरोले देशभर कहाँ के भयो?
+CONTEXT_ONLY_PATTERNS,expressed sorrow,16,3,3,1,0.3333,ok,"NC expresses sorrow over loss of life and property due to floods, landslides - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,बायो–इन्जिनियरिङ,16,4,3,1,0.3333,ok,"जयपृथ्वी राजमार्गको पहिरो नियन्त्रणका लागि ‘बायो–इन्जिनियरिङ’ सिफारिस, छुट्टै बजेट माग्ने तयारी | Nepal's first 24-hour updated news portal - Ratopati"
+ROUNDUP_PATTERNS,बाढीपहिरोमा परी मृत्यु हुनेको संख्या,36,3,3,1,0.3333,ok,बाढीपहिरोमा परी मृत्यु हुनेको संख्या २४४ पुग्यो
+CONTEXT_ONLY_PATTERNS,landslide control,17,9,4,1,0.25,ok,Delay in landslide prevention works along Narayangadh-Muglin road sparks fear - OnlineKhabar English News
+CONTEXT_ONLY_PATTERNS,नियन्त्रण आयोजना,16,9,4,1,0.25,ok,"अरनिको राजमार्गको कोदारीमा ४७ करोडको विशाल पहिरो नियन्त्रण आयोजना सुरु, २५० घर जोगिने | Nepal's first 24-hour updated news portal - Ratopati"
+FOREIGN_TERMS,darjeeling,10,4,4,1,0.25,review_short_pattern,"34 killed, 28 missing in Manipur Landslide"
+RISK_PATTERNS,पूर्वानुमान,11,329,4,1,0.25,review_short_pattern,१२ दिनमा गयो १७ जनाको ज्यान : RajdhaniDaily.com
+ROUNDUP_PATTERNS,recent landslides and floods,28,4,4,1,0.25,ok,"111 people so far killed in landslide and flood - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+CONTEXT_ONLY_PATTERNS,meeting of the house of representatives,39,6,5,1,0.2,ok,"Lawmakers call for prompt relief to flood and landslide affected people - myRepublica - The New York Times Partner, Latest news of Nepal in English, Latest News Articles | Republica"
+FOLLOWUP_PATTERNS,सञ्चालनमा आउने,14,34,5,1,0.2,ok,कान्ति लोकपथ एकतर्फी सञ्चालन | Nepal's first 24-hour updated news portal - Ratopati
+FOLLOWUP_PATTERNS,सनाखत,5,70,5,1,0.2,review_short_pattern,"दर्जनौं बस्तीमा पहिरो, कम्तीमा ५५ को मृत्यु् | Nagarik News"
+RISK_PATTERNS,भारी वर्षा,10,464,6,1,0.1667,review_short_pattern,१२ दिनमा गयो १७ जनाको ज्यान : RajdhaniDaily.com
+RISK_PATTERNS,सतर्कता,7,361,7,1,0.1429,review_short_pattern,१२ दिनमा गयो १७ जनाको ज्यान : RajdhaniDaily.com
+FOLLOWUP_PATTERNS,पुन: सञ्चालन,12,12,8,1,0.125,ok,पुन: सञ्चालनमा आयाे नारायणगढ-मुग्लिन सडकखण्ड
+DAMAGE_ONLY_PATTERNS,घर क्षति,8,35,9,1,0.1111,review_short_pattern,वर्षे विपद्को जोखिम र सतर्कता : RajdhaniDaily.com
+ROUNDUP_PATTERNS,over the years,14,12,9,1,0.1111,ok,Don’t just blame God for floods and landslides - Nepali Times
+CONTEXT_ONLY_PATTERNS,दुःख व्यक्त,11,40,11,1,0.0909,review_short_pattern,प्रतिकुल मौसमले राजमार्ग प्रभावित–आन्तरिक उडान पनि ठप्प | Nepal's first 24-hour updated news portal - Ratopati
+DAMAGE_ONLY_PATTERNS,घरमा क्षति,10,94,13,1,0.0769,review_short_pattern,"चुरे अतिक्रमणले निम्त्यायो विनाश, बुटवलका तीन बस्ती जोखिममा"
+ROUNDUP_PATTERNS,देशैभरि,7,18,16,1,0.0625,review_short_pattern,"अविरल वर्षाले तराईमा डुबान, पहाडमा पहिरो"
+CONTEXT_ONLY_PATTERNS,जोगिने,6,25,18,1,0.0556,review_short_pattern,"अरनिको राजमार्गको कोदारीमा ४७ करोडको विशाल पहिरो नियन्त्रण आयोजना सुरु, २५० घर जोगिने | Nepal's first 24-hour updated news portal - Ratopati"
+FOREIGN_TERMS,india,5,1180,119,1,0.0084,review_short_pattern,"34 killed, 28 missing in Manipur Landslide"
+CONTEXT_ONLY_PATTERNS,bio-engineering,15,6,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,blamed for poor,15,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,budget for flood,16,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,budget for landslide,20,2,0,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,dpr to control,14,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,effective relief and rescue efforts,35,0,0,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,joint press statement,21,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,landslide challenge,19,0,0,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,operation uncertain,19,0,0,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,poor slc results,16,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,"provide food, shelter and other relief materials",48,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,relief and rescue efforts effective,35,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,"those affected by floods, landslides and inundation",51,1,1,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,क्षतिबारे जानकारी,17,11,2,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,खोजी र राहतमा जुट्न,19,1,0,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,गृहले भन्यो,11,2,1,0,0.0,review_short_pattern,
+CONTEXT_ONLY_PATTERNS,बायो-इन्जिनियरिङ,16,0,0,0,0.0,ok,
+CONTEXT_ONLY_PATTERNS,हेलिकोप्टरबाट उद्धार गर्न,25,1,0,0,0.0,ok,
+DAMAGE_ONLY_PATTERNS,damaged houses,14,7,0,0,0.0,ok,
+DAMAGE_ONLY_PATTERNS,houses damaged,14,5,0,0,0.0,ok,
+DAMAGE_ONLY_PATTERNS,loss,4,226,33,0,0.0,review_short_pattern,
+DAMAGE_ONLY_PATTERNS,property damage,15,6,2,0,0.0,ok,
+DAMAGE_ONLY_PATTERNS,road damage,11,5,1,0,0.0,review_short_pattern,
+DAMAGE_ONLY_PATTERNS,road section damaged,20,1,0,0,0.0,ok,
+DAMAGE_ONLY_PATTERNS,भौतिक क्षति,11,95,26,0,0.0,review_short_pattern,
+DAMAGE_ONLY_PATTERNS,सडकमा क्षति,11,29,3,0,0.0,review_short_pattern,
+FOLLOWUP_PATTERNS,bodies recovered after,22,0,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,body recovered after,20,0,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,compensation to the families,28,1,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,debris cleared,14,1,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,families to receive relief,26,0,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,highway reopened,16,1,1,0,0.0,ok,
+FOLLOWUP_PATTERNS,identified among the dead,25,0,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,landslide debris cleared,24,1,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,opened one-way,14,1,1,0,0.0,ok,
+FOLLOWUP_PATTERNS,opened to one-way traffic,25,0,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,relief to the families,22,4,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,road reopened,13,1,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,route opened,12,1,1,0,0.0,ok,
+FOLLOWUP_PATTERNS,survivors continue,18,1,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,victims get relief,18,4,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,उपचार हुँदै,11,3,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,क्षतिपूर्ति,11,98,8,0,0.0,review_short_pattern,
+FOLLOWUP_PATTERNS,पन्छाइएपछि,10,11,3,0,0.0,review_short_pattern,
+FOLLOWUP_PATTERNS,पहिचान खुल्यो,13,11,1,0,0.0,ok,
+FOLLOWUP_PATTERNS,मृतकका परिवारलाई,16,25,1,0,0.0,ok,
+FOLLOWUP_PATTERNS,राहत दिइने,10,6,0,0,0.0,ok,
+FOLLOWUP_PATTERNS,शव फेला,7,215,8,0,0.0,review_short_pattern,
+FOLLOWUP_PATTERNS,हटाइयो,6,19,6,0,0.0,review_short_pattern,
+FOREIGN_TERMS,afghanistan,11,5,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,austria,7,1,0,0,0.0,ok,
+FOREIGN_TERMS,bangladesh,10,30,9,0,0.0,review_short_pattern,
+FOREIGN_TERMS,beijing,7,47,39,0,0.0,review_short_pattern,
+FOREIGN_TERMS,bhutan,6,281,24,0,0.0,review_short_pattern,
+FOREIGN_TERMS,bolivia,7,0,0,0,0.0,ok,
+FOREIGN_TERMS,brazil,6,8,4,0,0.0,review_short_pattern,
+FOREIGN_TERMS,california,10,11,10,0,0.0,review_short_pattern,
+FOREIGN_TERMS,cambodia,8,3,0,0,0.0,ok,
+FOREIGN_TERMS,cameroon,8,0,0,0,0.0,ok,
+FOREIGN_TERMS,chile,5,1,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,china,5,133,59,0,0.0,review_short_pattern,
+FOREIGN_TERMS,colombia,8,7,4,0,0.0,review_short_pattern,
+FOREIGN_TERMS,congo,5,2,0,0,0.0,ok,
+FOREIGN_TERMS,delhi,5,44,29,0,0.0,review_short_pattern,
+FOREIGN_TERMS,ecuador,7,2,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,ethiopia,8,3,3,0,0.0,review_short_pattern,
+FOREIGN_TERMS,georgia,7,1,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,guatemala,9,6,4,0,0.0,review_short_pattern,
+FOREIGN_TERMS,haiti,5,3,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,himachal,8,11,7,0,0.0,review_short_pattern,
+FOREIGN_TERMS,himachal pradesh,16,11,7,0,0.0,ok,
+FOREIGN_TERMS,hong kong,9,12,6,0,0.0,review_short_pattern,
+FOREIGN_TERMS,indonesia,9,33,30,0,0.0,review_short_pattern,
+FOREIGN_TERMS,istanbul,8,1,0,0,0.0,ok,
+FOREIGN_TERMS,italy,5,3,0,0,0.0,ok,
+FOREIGN_TERMS,japan,5,28,11,0,0.0,review_short_pattern,
+FOREIGN_TERMS,kalimpong,9,2,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,kashmir,7,2,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,kenya,5,5,3,0,0.0,review_short_pattern,
+FOREIGN_TERMS,kerala,6,9,7,0,0.0,review_short_pattern,
+FOREIGN_TERMS,ladakh,6,1,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,maharashtra,11,5,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,malaysia,8,16,4,0,0.0,review_short_pattern,
+FOREIGN_TERMS,maldives,8,1,0,0,0.0,ok,
+FOREIGN_TERMS,meghalaya,9,0,0,0,0.0,ok,
+FOREIGN_TERMS,mexico,6,3,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,myanmar,7,35,29,0,0.0,review_short_pattern,
+FOREIGN_TERMS,nigeria,7,0,0,0,0.0,ok,
+FOREIGN_TERMS,north korea,11,2,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,norway,6,4,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,pakistan,8,21,5,0,0.0,review_short_pattern,
+FOREIGN_TERMS,papua new guinea,16,3,2,0,0.0,ok,
+FOREIGN_TERMS,peru,4,2,0,0,0.0,ok,
+FOREIGN_TERMS,philippines,11,16,10,0,0.0,review_short_pattern,
+FOREIGN_TERMS,russia,6,3,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,rwanda,6,1,0,0,0.0,ok,
+FOREIGN_TERMS,sierra leone,12,5,5,0,0.0,ok,
+FOREIGN_TERMS,sikkim,6,5,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,south africa,12,1,0,0,0.0,ok,
+FOREIGN_TERMS,south korea,11,10,4,0,0.0,review_short_pattern,
+FOREIGN_TERMS,sri lanka,9,24,13,0,0.0,review_short_pattern,
+FOREIGN_TERMS,sudan,5,7,0,0,0.0,ok,
+FOREIGN_TERMS,switzerland,11,6,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,taiwan,6,10,9,0,0.0,review_short_pattern,
+FOREIGN_TERMS,tanzania,8,0,0,0,0.0,ok,
+FOREIGN_TERMS,thailand,8,6,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,tibet,5,29,6,0,0.0,review_short_pattern,
+FOREIGN_TERMS,turkey,6,5,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,uganda,6,3,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,ukraine,7,3,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,uttarakhand,11,25,16,0,0.0,review_short_pattern,
+FOREIGN_TERMS,venezuela,9,3,0,0,0.0,ok,
+FOREIGN_TERMS,vietnam,7,14,10,0,0.0,review_short_pattern,
+FOREIGN_TERMS,अफगानिस्तान,11,13,3,0,0.0,review_short_pattern,
+FOREIGN_TERMS,असम,3,74,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,अस्ट्रिया,9,1,0,0,0.0,ok,
+FOREIGN_TERMS,इक्वेडर,7,0,0,0,0.0,ok,
+FOREIGN_TERMS,इटाली,5,9,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,इथियोपिया,9,7,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,इन्डोनेसिया,11,18,9,0,0.0,review_short_pattern,
+FOREIGN_TERMS,उत्तर कोरिया,12,1,0,0,0.0,ok,
+FOREIGN_TERMS,उत्तराखंड,9,0,0,0,0.0,ok,
+FOREIGN_TERMS,उत्तराखण्ड,10,26,19,0,0.0,review_short_pattern,
+FOREIGN_TERMS,कंगो,4,1,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,कस्मिर,6,2,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,कास्मिर,7,2,0,0,0.0,ok,
+FOREIGN_TERMS,केन्या,6,3,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,केरला,5,10,6,0,0.0,review_short_pattern,
+FOREIGN_TERMS,कोलम्बिया,9,4,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,ग्वाटेमाला,10,0,0,0,0.0,ok,
+FOREIGN_TERMS,चिली,4,0,0,0,0.0,ok,
+FOREIGN_TERMS,चीन,3,243,25,0,0.0,review_short_pattern,
+FOREIGN_TERMS,जापान,5,81,14,0,0.0,review_short_pattern,
+FOREIGN_TERMS,टर्की,5,8,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,ताइवान,6,8,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,तिब्बत,6,37,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,दक्षिण कोरिया,13,9,2,0,0.0,ok,
+FOREIGN_TERMS,दार्जिलिंग,10,0,0,0,0.0,ok,
+FOREIGN_TERMS,दार्जिलिङ,9,2,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,नर्वे,5,9,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,नाइजेरिया,9,3,0,0,0.0,ok,
+FOREIGN_TERMS,न्युजिल्यान्ड,13,10,3,0,0.0,ok,
+FOREIGN_TERMS,न्युजील्यान्ड,13,0,0,0,0.0,ok,
+FOREIGN_TERMS,न्यूजिल्यान्ड,13,1,0,0,0.0,ok,
+FOREIGN_TERMS,न्यूजील्यान्ड,13,0,0,0,0.0,ok,
+FOREIGN_TERMS,पपुवा न्यू गिनी,15,0,0,0,0.0,ok,
+FOREIGN_TERMS,पाकिस्तान,9,43,9,0,0.0,review_short_pattern,
+FOREIGN_TERMS,पेरु,4,2,0,0,0.0,ok,
+FOREIGN_TERMS,बंगलादेश,8,32,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,बोलिभिया,8,0,0,0,0.0,ok,
+FOREIGN_TERMS,ब्राजिल,7,24,4,0,0.0,review_short_pattern,
+FOREIGN_TERMS,भारत,4,546,57,0,0.0,review_short_pattern,
+FOREIGN_TERMS,भियतनाम,7,13,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,भुटान,5,15,0,0,0.0,ok,
+FOREIGN_TERMS,भूटान,5,6,0,0,0.0,ok,
+FOREIGN_TERMS,भेनेजुएला,9,3,0,0,0.0,ok,
+FOREIGN_TERMS,मलेसिया,7,19,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,मेक्सिको,8,12,0,0,0.0,ok,
+FOREIGN_TERMS,म्यानमार,8,10,3,0,0.0,review_short_pattern,
+FOREIGN_TERMS,युक्रेन,7,13,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,युगाण्डा,8,1,0,0,0.0,ok,
+FOREIGN_TERMS,रुस,3,203,7,0,0.0,review_short_pattern,
+FOREIGN_TERMS,लद्दाख,6,0,0,0,0.0,ok,
+FOREIGN_TERMS,श्रीलंका,8,25,1,0,0.0,review_short_pattern,
+FOREIGN_TERMS,श्रीलङ्का,9,2,2,0,0.0,review_short_pattern,
+FOREIGN_TERMS,सिक्किम,7,9,5,0,0.0,review_short_pattern,
+FOREIGN_TERMS,सुडान,5,11,6,0,0.0,review_short_pattern,
+FOREIGN_TERMS,सूडान,5,0,0,0,0.0,ok,
+FOREIGN_TERMS,स्विट्जरल्यान्ड,15,3,1,0,0.0,ok,
+FOREIGN_TERMS,हिमाचल,6,9,9,0,0.0,review_short_pattern,
+FOREIGN_TERMS,हैटी,4,1,0,0,0.0,ok,
+METAPHOR_PATTERNS,commanding lead,15,1,0,0,0.0,ok,
+METAPHOR_PATTERNS,double lead,11,0,0,0,0.0,ok,
+METAPHOR_PATTERNS,election lead,13,0,0,0,0.0,ok,
+METAPHOR_PATTERNS,historic landslide,18,1,1,0,0.0,ok,
+METAPHOR_PATTERNS,landslide victory,17,33,16,0,0.0,ok,
+METAPHOR_PATTERNS,landslide win,13,6,3,0,0.0,ok,
+METAPHOR_PATTERNS,landslide wins,14,1,1,0,0.0,ok,
+METAPHOR_PATTERNS,maintains lead,14,0,0,0,0.0,ok,
+METAPHOR_PATTERNS,outright majority,17,1,1,0,0.0,ok,
+METAPHOR_PATTERNS,parliamentary elections,23,5,1,0,0.0,ok,
+METAPHOR_PATTERNS,prime ministerial candidate,27,2,0,0,0.0,ok,
+METAPHOR_PATTERNS,takes commanding lead,21,0,0,0,0.0,ok,
+METAPHOR_PATTERNS,vote count,10,7,2,0,0.0,review_short_pattern,
+METAPHOR_PATTERNS,wins by landslide,17,0,0,0,0.0,ok,
+METAPHOR_PATTERNS,won by landslide,16,0,0,0,0.0,ok,
+METAPHOR_PATTERNS,मतगणना,6,3,0,0,0.0,ok,
+RISK_PATTERNS,could trigger landslides,24,0,0,0,0.0,ok,
+RISK_PATTERNS,forecast,8,76,10,0,0.0,review_short_pattern,
+RISK_PATTERNS,growing incidents of landslide,30,1,0,0,0.0,ok,
+RISK_PATTERNS,heavy rainfall likely,21,0,0,0,0.0,ok,
+RISK_PATTERNS,houses at risk of being washed away,35,1,0,0,0.0,ok,
+RISK_PATTERNS,चेतावनी,7,113,0,0,0.0,ok,
+ROUNDUP_PATTERNS,across various districts,24,0,0,0,0.0,ok,
+ROUNDUP_PATTERNS,cumulative,10,8,7,0,0.0,review_short_pattern,
+ROUNDUP_PATTERNS,death toll climbed to,21,0,0,0,0.0,ok,
+ROUNDUP_PATTERNS,district-wide total,19,0,0,0,0.0,ok,
+ROUNDUP_PATTERNS,in 20 years,11,1,0,0,0.0,ok,
+ROUNDUP_PATTERNS,in 5 years,10,1,1,0,0.0,review_short_pattern,
+ROUNDUP_PATTERNS,nationwide total,16,0,0,0,0.0,ok,
+ROUNDUP_PATTERNS,number of fatalities due to,27,1,1,0,0.0,ok,
+ROUNDUP_PATTERNS,province-wide total,19,0,0,0,0.0,ok,
+ROUNDUP_PATTERNS,so far this monsoon,19,0,0,0,0.0,ok,
+ROUNDUP_PATTERNS,toll climbs to,14,6,1,0,0.0,ok,
+ROUNDUP_PATTERNS,जिल्लामा बाढीपहिरोबाट,21,4,4,0,0.0,ok,
+ROUNDUP_PATTERNS,देशभर १३ जनाको मृत्यु,21,1,1,0,0.0,ok,
+ROUNDUP_PATTERNS,बाढी पहिरोको वितण्डा,20,2,1,0,0.0,ok,
+ROUNDUP_PATTERNS,बाढी पहिरोपीडित,15,3,3,0,0.0,ok,
+ROUNDUP_PATTERNS,बाढी-पहिरोले देशभर,18,1,1,0,0.0,ok,
+ROUNDUP_PATTERNS,बाढीपहिरोको वितण्डा,19,1,1,0,0.0,ok,
+ROUNDUP_PATTERNS,मृतकको संख्या,13,24,7,0,0.0,ok,
+ROUNDUP_PATTERNS,यति वर्षमा,10,0,0,0,0.0,ok,
+ROUNDUP_PATTERNS,यो मनसुन,8,10,6,0,0.0,review_short_pattern,

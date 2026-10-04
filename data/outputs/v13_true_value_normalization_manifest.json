@@ -1,0 +1,8 @@
+{
+  "audit": "v13_true_value_submission_normalization_v1",
+  "change_count": 5,
+  "log_sha256": "6413d9c0b72d1bd613a544f5ccab746d0c17398f838a028e3495361526bc8de2",
+  "normalized_sha256": "52df0897869f4037fcd7578caed2597a811be67a454bb074e199fbe18cd7e296",
+  "status": "normalized_editable_fields_only_pending_validation",
+  "submitted_sha256": "1b15cf75c1847f6414b1209208c2871000b6ae3ce2821fe0a8bb5d8f639af49c"
+}

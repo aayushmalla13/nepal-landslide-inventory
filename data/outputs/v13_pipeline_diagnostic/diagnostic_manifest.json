@@ -1,0 +1,111 @@
+{
+  "after": {
+    "by_article_role": {
+      "first_report": 1989,
+      "follow_up": 162,
+      "retrospective": 1
+    },
+    "by_event_granularity": {
+      "single": 2152
+    },
+    "by_event_type": {
+      "landslide": 1353,
+      "road_obstruction": 799
+    },
+    "by_hazard_type": {
+      "debris_flow": 166,
+      "landslide": 1949,
+      "rockfall": 37
+    },
+    "canonical_events": 2152,
+    "raw_articles": 10203
+  },
+  "before": {
+    "by_article_role": {
+      "first_report": 1997,
+      "follow_up": 162,
+      "retrospective": 1
+    },
+    "by_event_granularity": {
+      "single": 2160
+    },
+    "by_event_type": {
+      "landslide": 1358,
+      "road_obstruction": 802
+    },
+    "by_hazard_type": {
+      "debris_flow": 166,
+      "landslide": 1957,
+      "rockfall": 37
+    },
+    "canonical_events": 2160,
+    "raw_articles": 10203
+  },
+  "canonical_export": "data/outputs/v13_pipeline_diagnostic/outputs/canonical_events_final.csv",
+  "canonical_export_sha256": "e76947208e37c2482350e53c0ab523383861371541668d16f3d494962b18db6b",
+  "diagnostic_database_sha256": "e2221c1fba6eddf14388a79a122cfa50e95109f47df762cafb967da485c4d0e0",
+  "generated_at": "2026-09-29T13:26:25.685905+00:00",
+  "notes": "Isolated v1.3 remediation rebuild from the frozen v1.2 candidate. This diagnostic does not modify or supersede the v1.2 release, and the spent v1.2 validation sample is used only for repair replay.",
+  "resumed_from": null,
+  "source_database": "data/releases/nepal_landslide_inventory_v1.2.0_candidate_20260929/landslide_inventory.sqlite",
+  "source_database_sha256": "f5af3c3c0d256f74d9350a6190ff2152216f8d08f0cc311e83c9d221d7e1a9aa",
+  "stage_results": {
+    "corrections": {
+      "configured": true,
+      "report": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/outputs/v13_pipeline_diagnostic/outputs/reviewed_corrections_applied.csv",
+      "rows": 48,
+      "sha256": "f5fc330f33bf75925d31c254ce366885e8fcd15f310a12a3ab0fe9695012fb74",
+      "source": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/corrections/article_corrections.csv"
+    },
+    "dedup": 2152,
+    "event_specificity": 10203,
+    "event_typing": {
+      "by_article_role": {
+        "first_report": 1989,
+        "follow_up": 162,
+        "retrospective": 1
+      },
+      "by_event_granularity": {
+        "single": 2152
+      },
+      "by_event_type": {
+        "landslide": 1353,
+        "road_obstruction": 799
+      },
+      "by_extraction_basis": {
+        "full_text": 2090,
+        "title_only": 62
+      },
+      "by_hazard_type": {
+        "debris_flow": 166,
+        "landslide": 1949,
+        "rockfall": 37
+      },
+      "generated_at": "2026-09-29T13:26:25Z",
+      "headline_events": 2152,
+      "non_landslide_hazard": 0,
+      "report": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/outputs/v13_pipeline_diagnostic/outputs/event_typing.csv",
+      "road_obstruction": 799,
+      "title_only_confidence_multiplier": 0.6,
+      "total": 2152
+    },
+    "export_final": {
+      "path": "/Users/aayush/Library/CloudStorage/Box-Box/nepal_landslide_inventory/data/outputs/v13_pipeline_diagnostic/outputs/canonical_events_final.csv",
+      "rows": 2152
+    },
+    "extract": 10203,
+    "filter_scope": 10203,
+    "location_consistency": 2720
+  },
+  "stages": [
+    "extract",
+    "event_specificity",
+    "location_consistency",
+    "filter_scope",
+    "corrections",
+    "dedup",
+    "event_typing",
+    "export_final"
+  ],
+  "status": "v13_pipeline_diagnostic_only"
+}

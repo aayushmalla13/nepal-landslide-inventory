@@ -1,0 +1,35 @@
+{
+  "changed_field_counts": {
+    "deaths": 3,
+    "district": 10,
+    "event_date": 19,
+    "event_type": 4,
+    "hazard_type": 1
+  },
+  "identity_overlap_count": 0,
+  "input_sha256": {
+    "data/releases/nepal_landslide_inventory_v0.8.0_candidate_20260923/canonical_events_final.csv": "0822515b56693af22daf2e3cc6e63b178eb41fefa46a8b607a47d6da9efdcd07",
+    "v09_identity_plan_MERGES_EXISTING.csv": "f14a3e8157ae95143049835bc590a3b2e5ab4a0a18899aa0a4beaa0ca64ebf4b",
+    "v09_identity_plan_REMOVE_OLD_EVENTS.csv": "a0f662ce5fbe228152ce8c95b4fc11d2eaeea56ddd5653f82ce207ec7c83a1da",
+    "v09_identity_plan_manifest.json": "47697691e5381b4705952c77cd33dc74f21bc26b373cd8bb112175c29cca09c8",
+    "v09_remediation_BATCH_TRUE_VALUE_REVIEW.csv": "0d4d05f62107923a2a31d3b0a1c510907de386b7860caf2792cd8a1645400cce",
+    "v09_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "c0ff3b8a9e8f3ede481615ed4dd26687f287d222efdf70bf87c9267c464882f8",
+    "v09_remediation_manifest.json": "2053d2bf74f5e1224032497188075501b8b93bf94a1ce420e24ba5dbeda384b5"
+  },
+  "record_action_counts": {
+    "exclude_candidate": 8,
+    "retain": 25
+  },
+  "retained_no_change_count": 1,
+  "retained_no_change_rows": [
+    "V9R-015"
+  ],
+  "review_rows": 33,
+  "source_release_date_extent": [
+    "2015-03-07",
+    "2026-08-09"
+  ],
+  "status": "validated_true_values_not_yet_applied",
+  "unresolved_count": 0,
+  "unresolved_rows": []
+}

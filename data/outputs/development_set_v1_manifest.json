@@ -1,0 +1,191 @@
+{
+  "design": "development_only_not_for_evaluation",
+  "version": "v1",
+  "created_at": "2026-08-09T16:42:00Z",
+  "seed": 20260810,
+  "allocation": {
+    "kept_class1": 60,
+    "kept_class2": 50,
+    "dropped_specificity": 120,
+    "dropped_scope": 60,
+    "dropped_other": 10
+  },
+  "frame_size_after_assisted_exclusion": 4889,
+  "prior_evaluation_urls_found": 914,
+  "prior_evaluation_urls_in_frame": 913,
+  "eligible_frame_size": 3976,
+  "sample_size": 300,
+  "strata": {
+    "kept_class1|en": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "en",
+      "eligible_population_n": 676,
+      "requested_n": 30,
+      "sampled_n": 30
+    },
+    "kept_class1|np": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "np",
+      "eligible_population_n": 581,
+      "requested_n": 30,
+      "sampled_n": 30
+    },
+    "kept_class2|en": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "en",
+      "eligible_population_n": 323,
+      "requested_n": 25,
+      "sampled_n": 25
+    },
+    "kept_class2|np": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "np",
+      "eligible_population_n": 53,
+      "requested_n": 25,
+      "sampled_n": 25
+    },
+    "dropped_specificity|en": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "en",
+      "eligible_population_n": 565,
+      "requested_n": 60,
+      "sampled_n": 60
+    },
+    "dropped_specificity|np": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "np",
+      "eligible_population_n": 1587,
+      "requested_n": 60,
+      "sampled_n": 60
+    },
+    "dropped_scope|en": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "en",
+      "eligible_population_n": 139,
+      "requested_n": 30,
+      "sampled_n": 30
+    },
+    "dropped_scope|np": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "np",
+      "eligible_population_n": 40,
+      "requested_n": 30,
+      "sampled_n": 30
+    },
+    "dropped_other|np": {
+      "pipeline_decision": "dropped_other",
+      "route_lang": "np",
+      "eligible_population_n": 12,
+      "requested_n": 10,
+      "sampled_n": 10
+    }
+  },
+  "exclusion_sources": [
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_LABEL_HERE.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 395
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_labels.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_labels_filled.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_labels_filled_111.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v2_LABEL_HERE.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 355
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v2_labels.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v2_labels_final.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "docs/locked_test_set_v1_labels_final.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "docs/locked_test_set_v1_labels_round1.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_batch2.csv",
+      "rows_seen": 50,
+      "urls_in_file": 50,
+      "new_unique_exclusions": 43
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample.csv",
+      "rows_seen": 200,
+      "urls_in_file": 200,
+      "new_unique_exclusions": 121
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample_200.csv",
+      "rows_seen": 200,
+      "urls_in_file": 199,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample_pre_batch2_backup.csv",
+      "rows_seen": 150,
+      "urls_in_file": 149,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample_refreshed.csv",
+      "rows_seen": 200,
+      "urls_in_file": 200,
+      "new_unique_exclusions": 0
+    }
+  ],
+  "overlap_with_prior_evaluation": 0,
+  "url_lock_hash": "21a80ccfadee8ef84cf2268760382a36df2aeb3a0fabc9ac0995844e7babe822",
+  "labels_file": "development_set_v1_labels.csv",
+  "working_labels_file": "development_set_v1_LABEL_HERE.csv",
+  "predictions_file": "development_set_v1_predictions.csv",
+  "labels_sha256": "31c8b405df489736ba6631128bc1e66a184eb4769b5eaa795f13a3210deeef04",
+  "predictions_sha256": "4faf3e6055587323030b4042ad4df873f6dbea2633ea915c2c450c5707cca7ed",
+  "notes": "For pipeline diagnosis and tuning only. Never report metrics from this sample as held-out performance. Truth and predictions remain in separate files."
+}

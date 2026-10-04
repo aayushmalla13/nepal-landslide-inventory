@@ -1,0 +1,17 @@
+{
+  "action_counts": {
+    "exclude_candidate": 2,
+    "merge_existing": 12,
+    "new_event": 85
+  },
+  "decision_rows": 99,
+  "inputs": {
+    "canonical_event_collision_gate_FINAL_manifest.json": "8ae8283f3a8efb6e042f46bc1ba3d183d6003e027a72503c49f2bb2a7dc7a458",
+    "canonical_event_reconstruction_FINAL_COLLISION_DECISIONS.csv": "a180f103da292e3e0b3cc4aa2502ca8336d594339f95b5bb06a35b037091e174",
+    "canonical_event_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "2de838fb0cdcba2701ea29f8b0ded158a2bc71259e9fa0b38ce074ae01f068dc",
+    "canonical_event_reconstruction_FINAL_COLLISION_PAIRS.csv": "a2d91c2aa3662996b36120f58597c2f37f25e0b367c7ac227d60f794ad7a296d"
+  },
+  "status": "validated_collision_decisions_not_yet_applied",
+  "unique_merge_targets": 12,
+  "unresolved_rows": 0
+}

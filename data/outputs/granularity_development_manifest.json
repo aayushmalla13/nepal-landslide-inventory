@@ -1,0 +1,43 @@
+{
+  "purpose": "Human granularity labels for designing a fix. This is a DEVELOPMENT set: it may be inspected while designing. The fix must then be evaluated on a newly drawn, human-labelled locked set v8.",
+  "seed": 20260904,
+  "classes_drawn_from": [
+    "1",
+    "2",
+    "3"
+  ],
+  "why_not_class_1_only": "The class-1 gate requires headline eligibility, which requires granularity=single, so all 3,397 class-1 articles are predicted single by construction and carry no multi or roundup contrast.",
+  "per_stratum": 20,
+  "rows": 120,
+  "strata": {
+    "en:multi": 195,
+    "en:roundup": 466,
+    "en:single": 2070,
+    "np:multi": 461,
+    "np:roundup": 1336,
+    "np:single": 4980
+  },
+  "drawn_per_stratum": {
+    "np:single": 20,
+    "np:roundup": 20,
+    "np:multi": 20,
+    "en:multi": 20,
+    "en:roundup": 20,
+    "en:single": 20
+  },
+  "excluded_previously_labelled_urls": 695,
+  "excluded_sets": [
+    "data/outputs/locked_test_set_v7_labels_final.csv",
+    "data/outputs/development_set_v1_labels_final.csv",
+    "data/outputs/locked_test_set_v6_labels_final.csv"
+  ],
+  "label_file_sha256": "ae82890287d6e9abe7dffb5030bf8d1178e162a58b9cdd44c646d25102828476",
+  "why_development_set_v1_is_not_used": "Its granularity labels are model-produced and unreliable for this field: on the 51 articles matching the pipeline's documented road-obstruction rule it split 28 single / 22 multi, and 31 of its 63 multi articles have a singular landslide subject in the title.",
+  "post_draw_disjointness_audit": {
+    "audited_on": "2026-09-15",
+    "model_label_overlap_rows": 1,
+    "model_label_overlap_set": "data/outputs/locked_test_set_v6_labels_final.csv",
+    "human_truth_overlap_rows": 0,
+    "interpretation": "One exact URL overlaps model-labelled v6 despite the configured exclusion. V6 was labelled entirely by gpt-5.6-sol and its answers were not exposed in this human label pack. The defensible claim is therefore no prior human-truth overlap, not no prior model-labelled overlap."
+  }
+}

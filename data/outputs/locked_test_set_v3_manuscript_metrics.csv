@@ -1,0 +1,7 @@
+measure,estimate,ci95_lower,ci95_upper,truth_available_n,reportable,unit,notes
+article_precision,0.6802513406175388,0.6094091831521554,0.74865568141105,382,yes,article-level headline classification,Population-weighted; within-stratum bootstrap CI
+article_recall,0.8514424204533703,0.7867173369913512,0.9148700689946105,382,yes,article-level headline classification,Population-weighted; within-stratum bootstrap CI
+article_f1,0.7562802208805676,0.7021143274540559,0.8088961780456521,382,yes,article-level headline classification,Population-weighted; within-stratum bootstrap CI
+district_exact_accuracy,0.8191656418332871,,,123,yes,true headline articles with district truth,Population-weighted exact match
+district_coverage,0.9215739576279794,,,123,yes,true headline articles with district truth,Population-weighted nonblank prediction coverage
+event_date_exact_accuracy,,,,5,no,true headline articles with event-date truth,Not reportable below minimum n=30

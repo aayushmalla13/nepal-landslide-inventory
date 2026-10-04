@@ -1,0 +1,1 @@
+candidate_event_id,queue_id,row_id,old_event_id,old_cluster_id,group_id,resolution,event_date,district,municipality,event_type,hazard_type,deaths,article_mapping_ids_json,article_urls_json,evidence,exclusion_stage,duplicate_of_candidate_event_id,reviewed_by,review_notes,production_status

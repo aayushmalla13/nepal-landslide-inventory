@@ -1,0 +1,21 @@
+queue_id,original_resolution,normalized_resolution,normalization_action,reason
+V9R-001,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-006,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-014,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-020,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-022,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-031,decompose_source_article,decompose_source_article,retain_complete_event_groups_only,Retained only reviewer-defined groups with nonblank required date and district fields.
+V9R-036,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-041,recluster_and_decompose,recluster_and_decompose,retain_complete_event_groups_only,Retained only reviewer-defined groups with nonblank required date and district fields.
+V9R-042,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-043,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-045,decompose_source_article,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-047,decompose_source_article,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-048,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-054,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-060,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-061,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-070,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-081,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-108,decompose_source_article,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."
+V9R-112,unclear,unclear,clear_non_actionable_event_fields,"Reviewer notes do not support every required event attribute; no date, district, group, or exclusion was invented."

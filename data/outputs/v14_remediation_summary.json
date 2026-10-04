@@ -1,0 +1,75 @@
+{
+  "action_counts": {
+    "clear_deaths": 3,
+    "correct_date": 30,
+    "correct_deaths": 24,
+    "correct_district": 8,
+    "correct_event_type": 14,
+    "correct_hazard_type": 5,
+    "correct_municipality": 9,
+    "exclude_false_event": 7,
+    "review_date": 9,
+    "review_deaths": 1,
+    "review_district": 2,
+    "review_duplicate_merge": 1,
+    "review_event_granularity": 4,
+    "review_municipality": 1,
+    "split_or_exclude_aggregate": 19
+  },
+  "audit": "v14_remediation_queue_v1",
+  "certainty_counts": {
+    "confirmed": 70,
+    "mixed_confirmed_and_review": 9,
+    "requires_review": 4
+  },
+  "input_sha256": {
+    "data/outputs/v13_final_validation_COMPLETED.csv": "e89c12bd72faef1daac26a4613c8c751cb543117c8acf974096bee97d87a614f",
+    "data/outputs/v13_final_validation_manifest.json": "f38565b457c967211eb17a55f14aca8e1ad1ff0df9ce3b96bad16d543c8593ae",
+    "data/outputs/v13_final_validation_reading_pack.csv": "d0fdfeecaf83d8f7dc856cb2b7f1fca184936d6a55b78e597553f5de34379a09",
+    "data/outputs/v13_final_validation_score.json": "2aa416621b4a00bfe521145f0a317a39c42a0813b39da094c8c567a16dcc7886",
+    "data/outputs/v13_final_validation_weights.csv": "2533fdf62edd65c1d743ef1a303ec7ab24f00fa4868840c97d4e4adb0524c803",
+    "scripts/build_v14_remediation_queue.py": "f79364cceab92b8e1c88ad9ba61152f606d6eb6696c09baa84d92cfde359cf68",
+    "src/landslide_inventory/validation/correction_candidates.py": "3e844b11f09d7acf2f0284c3d284807e8ac99dc068e17307131542a171ea8e70"
+  },
+  "interpretation": "Queue membership means at least one scored field requires correction or review. The weighted flagged share is not an invalid-event rate because valid events can have one incorrect attribute.",
+  "population_weighted_flagged_share": 0.559283277381649,
+  "priority_counts": {
+    "P0_identity_or_linkage": 63,
+    "P1_attribute": 19,
+    "P2_uncertain": 1
+  },
+  "queue_rows": 83,
+  "queue_status": "frozen_unapplied",
+  "readiness_counts": {
+    "requires_article_mapping": 30,
+    "requires_true_value_review": 35,
+    "structured_attribute_candidate": 18
+  },
+  "source_candidate": "nepal_landslide_inventory_v1.3.0_candidate_20260930",
+  "source_domain_counts": {
+    "deshsanchar.com": 4,
+    "english.onlinekhabar.com": 4,
+    "myrepublica.nagariknetwork.com": 9,
+    "nagariknews.nagariknetwork.com": 13,
+    "nepalpress.com": 7,
+    "onlinekhabar.com": 3,
+    "rajdhanidaily.com": 5,
+    "ratopati.com": 1,
+    "risingnepaldaily.com": 1,
+    "setopati.com": 19,
+    "thehimalayantimes.com": 10,
+    "ujyaaloonline.com": 7
+  },
+  "systematic_issue_counts": {
+    "casualty_extraction": 28,
+    "deduplication": 1,
+    "event_date_resolution": 39,
+    "event_granularity": 23,
+    "event_type_classification": 14,
+    "hazard_type_classification": 5,
+    "location_role_resolution": 20,
+    "scope_or_event_specificity": 7
+  },
+  "target_candidate": "nepal_landslide_inventory_v1.4.0_candidate",
+  "validation_rows": 150
+}

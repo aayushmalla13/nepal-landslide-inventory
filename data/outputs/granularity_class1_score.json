@@ -1,0 +1,273 @@
+{
+  "set": "development_set_v1",
+  "annotator_caveat": "development_set_v1 was annotated by a language model, not a human. Use it to find mechanisms, not to fit thresholds; confirm on a human-labelled locked set.",
+  "labelled_rows": 100,
+  "scored": 99,
+  "excluded_unclear_or_blank": 1,
+  "missing_from_corpus": 0,
+  "baseline": {
+    "n": 99,
+    "accuracy": 0.4343,
+    "matrix": {
+      "multi": {
+        "multi": 0,
+        "not_applicable": 0,
+        "roundup": 0,
+        "single": 47
+      },
+      "not_applicable": {
+        "multi": 0,
+        "not_applicable": 0,
+        "roundup": 0,
+        "single": 4
+      },
+      "roundup": {
+        "multi": 0,
+        "not_applicable": 0,
+        "roundup": 0,
+        "single": 5
+      },
+      "single": {
+        "multi": 0,
+        "not_applicable": 0,
+        "roundup": 0,
+        "single": 43
+      }
+    },
+    "per_class": {
+      "multi": {
+        "support": 47,
+        "predicted": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "not_applicable": {
+        "support": 4,
+        "predicted": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "roundup": {
+        "support": 5,
+        "predicted": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "single": {
+        "support": 43,
+        "predicted": 99,
+        "precision": 0.4343,
+        "recall": 1.0
+      }
+    }
+  },
+  "population_estimates": {
+    "note": "Weighted by stratum inclusion weight, so these describe the class-1 inventory rather than the enriched sample.",
+    "estimated_share_by_truth": {
+      "multi": 0.293,
+      "not_applicable": 0.0457,
+      "roundup": 0.0763,
+      "single": 0.585
+    },
+    "weighted_accuracy": 0.585,
+    "per_stratum_unweighted": {
+      "en:plain": {
+        "n": 25,
+        "accuracy": 0.68,
+        "multi_rate": 0.28
+      },
+      "en:signal": {
+        "n": 25,
+        "accuracy": 0.2,
+        "multi_rate": 0.76
+      },
+      "np:plain": {
+        "n": 24,
+        "accuracy": 0.6667,
+        "multi_rate": 0.1667
+      },
+      "np:signal": {
+        "n": 25,
+        "accuracy": 0.2,
+        "multi_rate": 0.68
+      }
+    }
+  },
+  "misclassified_examples": [
+    {
+      "row_id": "c1-0002",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "मध्यपहाडी लोकमार्ग र बागलुङ-म्याग्दी सडक अवरुद्ध",
+      "url": "https://deshsanchar.com/2022/06/29/672656"
+    },
+    {
+      "row_id": "c1-0004",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "At least 14 dead in Ilam landslides – Nepal Press",
+      "url": "https://english.nepalpress.com/2025/10/05/at-least-14-dead-in-ilam-landslides"
+    },
+    {
+      "row_id": "c1-0005",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "17 killed in landslides in Ilam - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/17-killed-in-landslides-in-ilam.html"
+    },
+    {
+      "row_id": "c1-0006",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "3 killed, 28 missing in Sindhupalchok landslides - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/3-killed-28-missing-in-sindhupalchok-landslides.html"
+    },
+    {
+      "row_id": "c1-0007",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Landslides affect Narayangadh-Muglin road - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/landslides-affect-narayangadh-muglin-road.html"
+    },
+    {
+      "row_id": "c1-0008",
+      "truth": "roundup",
+      "predicted": "single",
+      "title": "Landslides leave Ilam reeling after deadly October rains - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/landslides-leave-ilam-reeling.html"
+    },
+    {
+      "row_id": "c1-0009",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "People stranded without food and water after Karnali Highway landslide - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/people-stranded-without-food-and-water-after-karnali-highway-landslide.html"
+    },
+    {
+      "row_id": "c1-0010",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Six killed, two injured in Gulmi landslides - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/six-killed-two-injured-in-gulmi-landslides.html"
+    },
+    {
+      "row_id": "c1-0011",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Traffic obstructed due to landslide on Beni-Jomsom road - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/traffic-obstructed-due-to-landslide-on-beni-jomsom-road.html"
+    },
+    {
+      "row_id": "c1-0012",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Ward offices at risk due to landslides in Solukhumbu, 11 families displaced - OnlineKhabar English News",
+      "url": "https://english.onlinekhabar.com/ward-offices-at-risk-due-to-landslides-in-solukhumbu-11-families-displaced.html"
+    },
+    {
+      "row_id": "c1-0017",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Monsoon brings more misery to Dhading villages",
+      "url": "https://kathmandupost.com/province-no-3/2022/06/22/monsoon-brings-more-misery-to-dhading-villages"
+    },
+    {
+      "row_id": "c1-0019",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Vehicles stranded for hours due to delay in clearing landslide debris - myRepublica - The New York Times Partn",
+      "url": "https://myrepublica.nagariknetwork.com/news/18-km-long-traffic-jam-along-mugling-narayangad-road-section"
+    },
+    {
+      "row_id": "c1-0020",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Khumbu locals reopen trekking trail blocked by landslides - myRepublica - The New York Times Partner, Latest n",
+      "url": "https://myrepublica.nagariknetwork.com/news/authorities-inaction-prompts-locals-to-reopen-blocked-khumbu-trekking-route"
+    },
+    {
+      "row_id": "c1-0021",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Badigad landslide leaves 50 families displaced - myRepublica - The New York Times Partner, Latest news of Nepa",
+      "url": "https://myrepublica.nagariknetwork.com/news/badigad-landslide-leaves-50-families-displaced"
+    },
+    {
+      "row_id": "c1-0022",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Beni-Jomsom road: 'Rock anchoring' to prevent landslide on Baisari cliff - myRepublica - The New York Times Pa",
+      "url": "https://myrepublica.nagariknetwork.com/news/beni-jomsom-road-rock-anchoring-to-prevent-landslide-on-baisari-cliff"
+    },
+    {
+      "row_id": "c1-0023",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Dead body of a man buried in landslide retrieved after 11 hours - myRepublica - The New York Times Partner, La",
+      "url": "https://myrepublica.nagariknetwork.com/news/dead-body-of-a-man-buried-in-landslide-retrieved-after-11-hours"
+    },
+    {
+      "row_id": "c1-0025",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Five dead in landslides-related incidents in Gulmi - myRepublica - The New York Times Partner, Latest news of ",
+      "url": "https://myrepublica.nagariknetwork.com/news/five-dead-in-landslides-related-incidents-in-gulmi"
+    },
+    {
+      "row_id": "c1-0026",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Home Minister Khand directs local administrations to ensure speedy rescue of those injured in Achham landslide",
+      "url": "https://myrepublica.nagariknetwork.com/news/home-minister-khand-directs-local-administrations-to-ensure-speedy-rescue-of-those-injured-in-achham-landslide"
+    },
+    {
+      "row_id": "c1-0027",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Jeep buried as landslide obstructs Narayangadh - Mugling road - myRepublica - The New York Times Partner, Late",
+      "url": "https://myrepublica.nagariknetwork.com/news/jeep-buried-as-landslide-obstructs-narayangadh-mugling-road"
+    },
+    {
+      "row_id": "c1-0028",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Kaski landslide death toll reaches 32 - myRepublica - The New York Times Partner, Latest news of Nepal in Engl",
+      "url": "https://myrepublica.nagariknetwork.com/news/kaski-landslide-death-toll-reaches-32"
+    },
+    {
+      "row_id": "c1-0032",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Landslide obstructs traffic on Beni-Jomsom road - myRepublica - The New York Times Partner, Latest news of Nep",
+      "url": "https://myrepublica.nagariknetwork.com/news/landslide-obstructs-traffic-on-beni-jomsom-road"
+    },
+    {
+      "row_id": "c1-0033",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Landslides hit Lamjung-Manang road - myRepublica - The New York Times Partner, Latest news of Nepal in English",
+      "url": "https://myrepublica.nagariknetwork.com/news/landslides-hit-lamjung-manang-road"
+    },
+    {
+      "row_id": "c1-0034",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Midnight landslide kills 9 in Rasuwa village, 12 rescued - myRepublica - The New York Times Partner, Latest ne",
+      "url": "https://myrepublica.nagariknetwork.com/news/midnight-landslide-kills-9-in-rasuwa-village-12-rescued"
+    },
+    {
+      "row_id": "c1-0035",
+      "truth": "multi",
+      "predicted": "single",
+      "title": "Myagdi landslides sweep away water pipelines causing acute shortage of drinking water in Bagarphant village - ",
+      "url": "https://myrepublica.nagariknetwork.com/news/myagdi-landslides-sweep-away-water-pipelines-causing-acute-shortage-of-drinking-water-in-bagarphant-village"
+    },
+    {
+      "row_id": "c1-0038",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "जनमत पार्टीमा स्पष्टीकरणको पहिरो | Nagarik News",
+      "url": "https://nagariknews.nagariknetwork.com/politics/1467720-1741569103.html"
+    }
+  ]
+}

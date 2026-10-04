@@ -1,0 +1,14 @@
+{
+  "start": "2015-01-01",
+  "end": "2026-07-31",
+  "days": 4230,
+  "rows": 325710,
+  "expected_rows": 325710,
+  "coverage_fraction": 1.0,
+  "observed_districts": 77,
+  "expected_districts": 77,
+  "missing_districts": [],
+  "unexpected_districts": [],
+  "incomplete_days": 0,
+  "incomplete_day_examples": []
+}

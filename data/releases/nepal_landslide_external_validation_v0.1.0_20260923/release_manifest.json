@@ -1,0 +1,83 @@
+{
+  "bundle_lock_hash": "cfdb4fa1961b0c4635da722a3903867f176e7f9c3ae9d0c6c5793b48a8463324",
+  "checks": {
+    "bipad_snapshot_hash_matches_agreement": true,
+    "bipad_snapshot_rows_match_agreement": true,
+    "canonical_hash_matches_inventory_release": true,
+    "input_hashes_present_in_report": true,
+    "inventory_fresh_validation_complete": false,
+    "match_table_reconciles_to_agreement": true
+  },
+  "comparison_period": {
+    "end": "2026-08-08",
+    "start": "2015-01-01"
+  },
+  "files": [
+    {
+      "bytes": 35537,
+      "file": "external_agreement.json",
+      "sha256": "9c31a4c8a7c7c100e37f5cea643fbeaab1ff497cb941bb9a058143821e165b5c"
+    },
+    {
+      "bytes": 1417,
+      "file": "external_match_report.md",
+      "sha256": "bc2bf4b5712052e94d53a99f2027405ab1aeb09afcbbd77e63727c9bf9d5a2d3"
+    },
+    {
+      "bytes": 736549,
+      "file": "external_bipad_input_snapshot.csv",
+      "sha256": "0f8ffe6210e78560a23d4b07fee5c61ccfa73e7ca389f05415553d89ed81f2dc"
+    },
+    {
+      "bytes": 1831010,
+      "file": "external_bipad_match_candidates.csv",
+      "sha256": "512a8d1c5c0030c179b7d971384df5f1a0952cdcb7d77d4365abc6c4c96ffd62"
+    },
+    {
+      "bytes": 1180145,
+      "file": "external_search_seeds.csv",
+      "sha256": "4b050ab9d4a4f21ff868696cc39f0bcc786d759d8fef0b3394505f52cdb0f7c3"
+    },
+    {
+      "bytes": 654216,
+      "file": "external_unmatched_news.csv",
+      "sha256": "e6e8480dc3c5d4ff2a398f93a5093dd02f2c5b8655fb369822039d244c409625"
+    },
+    {
+      "bytes": 594,
+      "file": "external_coolr_inventories.csv",
+      "sha256": "6adaada1bd747d3f68217dd966480aad3582f285cbf9def3dd361e4d081dfeb8"
+    },
+    {
+      "bytes": 451,
+      "file": "EXTERNAL_VALIDATION_README.md",
+      "sha256": "6b34ee93857b58f324986a6beef154d90a239f5eb95d3495603a9be7bbe780ac"
+    }
+  ],
+  "generated_at": "2026-09-23T15:16:42.177222+00:00",
+  "inputs": {
+    "bipad_snapshot": {
+      "path": "external_bipad_input_snapshot.csv",
+      "rows": 5345,
+      "sha256": "0f8ffe6210e78560a23d4b07fee5c61ccfa73e7ca389f05415553d89ed81f2dc"
+    },
+    "canonical_events": {
+      "path": "data/releases/nepal_landslide_inventory_v0.8.0_candidate_20260923/canonical_events_final.csv",
+      "sha256": "0822515b56693af22daf2e3cc6e63b178eb41fefa46a8b607a47d6da9efdcd07"
+    }
+  },
+  "inventory_release": "nepal_landslide_inventory_v0.8.0_candidate_20260923",
+  "inventory_validation_status": "pending_fresh_validation",
+  "notes": "Agreement between incomplete observation systems; BIPAD is not ground truth and precision/recall must not be derived from this release.",
+  "release_id": "nepal_landslide_external_validation_v0.1.0_20260923",
+  "status": "analysis_complete_inventory_candidate_pending_validation",
+  "summary": {
+    "bipad_incident_clusters": 4095,
+    "candidate_pairs": 4309,
+    "eligible_news_events": 2868,
+    "search_seeds": 3516,
+    "tier_a_chance_corrected": 0.0897,
+    "tier_a_observed_overlap": 0.151,
+    "unmatched_news_events": 2265
+  }
+}

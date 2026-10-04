@@ -1,0 +1,15 @@
+{
+  "audit": "v09_article_mapping_submission_normalization_v1",
+  "input_sha256": {
+    "v09_article_mapping_DECISIONS_SUBMITTED.csv": "4112692373007d1767472f8615f619715f588931a9e889abf4a14fab819b749b"
+  },
+  "normalized_rows": 20,
+  "output_sha256": {
+    "normalize_v09_article_mapping_submission.py": "3348e56be16ae49ae32c56f8e75a02537cf082965ee94b1b398aae9d70207368",
+    "v09_article_mapping_DECISIONS_COMPLETED.csv": "280796cbc57d037740cd8954a45cb4a8344b80b43bc25e66276b55196cc360f1",
+    "v09_article_mapping_normalization_log.csv": "d048a759fd8452533fea1d473d62cec8853bfed3354fcb0132a7287c5818a2bc"
+  },
+  "partial_group_rows": 2,
+  "policy": "Preserve the original submission; clear unresolved event definitions and retain only reviewer-defined groups with complete required attributes.",
+  "unclear_rows": 18
+}

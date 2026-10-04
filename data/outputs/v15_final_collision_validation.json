@@ -1,0 +1,14 @@
+{
+  "action_counts": {
+    "new_event": 50
+  },
+  "decision_rows": 50,
+  "input_sha256": {
+    "v15_final_collision_manifest.json": "78a1d2250aa984c1a9e5a7ed117989bacbff7924b39d80045e2612d4fe0d1ed0",
+    "v15_reconstruction_FINAL_COLLISION_DECISIONS.csv": "877dcfd8d67d4bb2a1aa1fbedbd528cf5ccdfb894909382cba8185f322de6b5f",
+    "v15_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "9da3b8f4ec9ecf3038bc83aaf620e772c7e58f8ec55157b83724ec83020c5261",
+    "v15_reconstruction_FINAL_COLLISION_PAIRS.csv": "29992f5de86882ef77d10cee8c232a85032e75ea7f9278bd581df93a7ea2af3c"
+  },
+  "status": "validated_final_candidate_collisions_unapplied",
+  "unresolved_rows": 0
+}

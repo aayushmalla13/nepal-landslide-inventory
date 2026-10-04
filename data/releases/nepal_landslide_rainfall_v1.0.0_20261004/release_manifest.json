@@ -1,0 +1,437 @@
+{
+  "release_id": "nepal_landslide_rainfall_v1.0.0_20261004",
+  "generated_at": "2026-10-04T08:30:26+00:00",
+  "status": "analysis_complete_inventory_event_detection_validated",
+  "inventory_release": "nepal_landslide_inventory_v1.5.0_event_detection_validated_20261004",
+  "inventory_validation_status": "validated_event_detection_only",
+  "rainfall_product": "UCSB CHIRPS v2.0 Final",
+  "analysis_period": {
+    "start": "2015-01-01",
+    "end": "2026-07-31"
+  },
+  "rainfall_rows": 325710,
+  "districts": 77,
+  "primary_cases": 1278,
+  "primary_controls": 5460,
+  "primary_temporal_test_result": {
+    "variant": "primary_conf_ge_0.78",
+    "exposure": "concurrent_incl_event_day",
+    "split": "temporal_test",
+    "window_days": 3,
+    "threshold_mm": 31.665179,
+    "threshold_fitted_on": "development",
+    "threshold_ci_low": 15.202707,
+    "threshold_ci_high": 38.167824,
+    "threshold_ci_split": "development",
+    "train_case_p10_mm": 0.719288,
+    "train_case_p50_mm": 36.030749,
+    "train_control_p90_mm": 68.787076,
+    "n_cases": 566,
+    "n_controls": 2308,
+    "sensitivity": 0.473498,
+    "specificity": 0.788562,
+    "precision": 0.354497,
+    "balanced_accuracy": 0.63103,
+    "tp": 268.0,
+    "fp": 488.0,
+    "tn": 1820.0,
+    "fn": 298.0,
+    "auc": 0.68639,
+    "auc_ci_low": 0.646587,
+    "auc_ci_high": 0.722133,
+    "sensitivity_ci_low": 0.413948,
+    "sensitivity_ci_high": 0.53756,
+    "specificity_ci_low": 0.757341,
+    "specificity_ci_high": 0.817493,
+    "precision_ci_low": 0.307282,
+    "precision_ci_high": 0.39829,
+    "balanced_accuracy_ci_low": 0.600545,
+    "balanced_accuracy_ci_high": 0.663444
+  },
+  "primary_selected_by_exposure": {
+    "concurrent_incl_event_day": {
+      "development": {
+        "variant": "primary_conf_ge_0.78",
+        "exposure": "concurrent_incl_event_day",
+        "split": "development",
+        "window_days": 3,
+        "threshold_mm": 31.665179,
+        "threshold_fitted_on": "development",
+        "threshold_ci_low": 15.202707,
+        "threshold_ci_high": 38.167824,
+        "threshold_ci_split": "development",
+        "train_case_p10_mm": 0.719288,
+        "train_case_p50_mm": 36.030749,
+        "train_control_p90_mm": 68.787076,
+        "n_cases": 712,
+        "n_controls": 3152,
+        "sensitivity": 0.563202,
+        "specificity": 0.664975,
+        "precision": 0.275223,
+        "balanced_accuracy": 0.614088,
+        "tp": 401.0,
+        "fp": 1056.0,
+        "tn": 2096.0,
+        "fn": 311.0,
+        "auc": 0.646231
+      },
+      "temporal_test": {
+        "variant": "primary_conf_ge_0.78",
+        "exposure": "concurrent_incl_event_day",
+        "split": "temporal_test",
+        "window_days": 3,
+        "threshold_mm": 31.665179,
+        "threshold_fitted_on": "development",
+        "threshold_ci_low": 15.202707,
+        "threshold_ci_high": 38.167824,
+        "threshold_ci_split": "development",
+        "train_case_p10_mm": 0.719288,
+        "train_case_p50_mm": 36.030749,
+        "train_control_p90_mm": 68.787076,
+        "n_cases": 566,
+        "n_controls": 2308,
+        "sensitivity": 0.473498,
+        "specificity": 0.788562,
+        "precision": 0.354497,
+        "balanced_accuracy": 0.63103,
+        "tp": 268.0,
+        "fp": 488.0,
+        "tn": 1820.0,
+        "fn": 298.0,
+        "auc": 0.68639,
+        "auc_ci_low": 0.646587,
+        "auc_ci_high": 0.722133,
+        "sensitivity_ci_low": 0.413948,
+        "sensitivity_ci_high": 0.53756,
+        "specificity_ci_low": 0.757341,
+        "specificity_ci_high": 0.817493,
+        "precision_ci_low": 0.307282,
+        "precision_ci_high": 0.39829,
+        "balanced_accuracy_ci_low": 0.600545,
+        "balanced_accuracy_ci_high": 0.663444
+      },
+      "test_minus_development_auc": 0.040159
+    },
+    "strictly_antecedent_excl_event_day": {
+      "development": {
+        "variant": "primary_conf_ge_0.78",
+        "exposure": "strictly_antecedent_excl_event_day",
+        "split": "development",
+        "window_days": 3,
+        "threshold_mm": 20.999203,
+        "threshold_fitted_on": "development",
+        "threshold_ci_low": 14.733849,
+        "threshold_ci_high": 29.140004,
+        "threshold_ci_split": "development",
+        "train_case_p10_mm": 0.427509,
+        "train_case_p50_mm": 31.746132,
+        "train_control_p90_mm": 68.720378,
+        "n_cases": 712,
+        "n_controls": 3152,
+        "sensitivity": 0.661517,
+        "specificity": 0.536802,
+        "precision": 0.243915,
+        "balanced_accuracy": 0.599159,
+        "tp": 471.0,
+        "fp": 1460.0,
+        "tn": 1692.0,
+        "fn": 241.0,
+        "auc": 0.621434
+      },
+      "temporal_test": {
+        "variant": "primary_conf_ge_0.78",
+        "exposure": "strictly_antecedent_excl_event_day",
+        "split": "temporal_test",
+        "window_days": 3,
+        "threshold_mm": 20.999203,
+        "threshold_fitted_on": "development",
+        "threshold_ci_low": 14.733849,
+        "threshold_ci_high": 29.140004,
+        "threshold_ci_split": "development",
+        "train_case_p10_mm": 0.427509,
+        "train_case_p50_mm": 31.746132,
+        "train_control_p90_mm": 68.720378,
+        "n_cases": 566,
+        "n_controls": 2308,
+        "sensitivity": 0.556537,
+        "specificity": 0.668544,
+        "precision": 0.291667,
+        "balanced_accuracy": 0.612541,
+        "tp": 315.0,
+        "fp": 765.0,
+        "tn": 1543.0,
+        "fn": 251.0,
+        "auc": 0.645702,
+        "auc_ci_low": 0.603963,
+        "auc_ci_high": 0.682377,
+        "sensitivity_ci_low": 0.495796,
+        "sensitivity_ci_high": 0.611975,
+        "specificity_ci_low": 0.634338,
+        "specificity_ci_high": 0.701333,
+        "precision_ci_low": 0.249757,
+        "precision_ci_high": 0.337295,
+        "balanced_accuracy_ci_low": 0.577523,
+        "balanced_accuracy_ci_high": 0.643975
+      },
+      "test_minus_development_auc": 0.024268
+    }
+  },
+  "matching_diagnostics": {
+    "strata": 1278,
+    "strata_without_controls": 131,
+    "strata_without_controls_fraction": 0.102504,
+    "controls_per_case_distribution": {
+      "0": 131,
+      "1": 19,
+      "2": 40,
+      "3": 24,
+      "4": 31,
+      "5": 1033
+    },
+    "control_rows": 5460,
+    "distinct_control_district_days": 4373,
+    "reused_control_district_days": 745,
+    "duplicate_control_rows": 1087,
+    "duplicate_control_row_fraction": 0.199084,
+    "max_control_reuse": 6
+  },
+  "resampled_validation": {
+    "leave_one_year_out:concurrent_incl_event_day": {
+      "window_days": 3,
+      "folds": 12.0,
+      "auc_median": 0.663413,
+      "auc_min": 0.575664,
+      "auc_max": 0.71084,
+      "auc_sd": 0.044519,
+      "threshold_min_mm": 31.665179,
+      "threshold_max_mm": 31.668579
+    },
+    "spatial_holdout:concurrent_incl_event_day": {
+      "window_days": 3,
+      "folds": 5.0,
+      "auc_median": 0.662839,
+      "auc_min": 0.640336,
+      "auc_max": 0.687195,
+      "auc_sd": 0.020438,
+      "threshold_min_mm": 20.394677,
+      "threshold_max_mm": 31.668579
+    },
+    "leave_one_year_out:strictly_antecedent_excl_event_day": {
+      "window_days": 3,
+      "folds": 12.0,
+      "auc_median": 0.630958,
+      "auc_min": 0.565887,
+      "auc_max": 0.675616,
+      "auc_sd": 0.042166,
+      "threshold_min_mm": 20.999203,
+      "threshold_max_mm": 21.847831
+    },
+    "spatial_holdout:strictly_antecedent_excl_event_day": {
+      "window_days": 3,
+      "folds": 5.0,
+      "auc_median": 0.619727,
+      "auc_min": 0.599282,
+      "auc_max": 0.652765,
+      "auc_sd": 0.022302,
+      "threshold_min_mm": 20.999203,
+      "threshold_max_mm": 22.761813
+    }
+  },
+  "inputs": {
+    "rainfall": {
+      "path": "data/external/chirps_daily_districts.csv",
+      "sha256": "5cf8152e1a47faae27874670d53d621907930e0e84fc26cc89562eca385d1491"
+    },
+    "canonical_events": {
+      "path": "data/releases/nepal_landslide_inventory_v1.5.0_event_detection_validated_20261004/canonical_events_final.csv",
+      "sha256": "313745c27218be7989764cc9614b71cc69a9549ff05c483247a6c89bd276ae19"
+    }
+  },
+  "supersedes": "nepal_landslide_rainfall_v0.9.0_20260923",
+  "checks": {
+    "rainfall_coverage_complete": true,
+    "all_77_districts_present": true,
+    "no_incomplete_days": true,
+    "temporal_holdout_not_empty": true,
+    "co_primary_present": true,
+    "input_paths_are_repository_relative": true,
+    "conditional_models_converged": true,
+    "inventory_canonical_hash_matches": true,
+    "inventory_fresh_event_detection_validation_complete": true,
+    "inventory_fresh_full_record_validation_complete": false
+  },
+  "files": [
+    {
+      "file": "rainfall_daily_quality.json",
+      "bytes": 310,
+      "sha256": "0a0e653b2f55b4b5df76beeca63e3e674b70b29441a8b8ad94891eaba68e1143"
+    },
+    {
+      "file": "rainfall_matching_diagnostics.json",
+      "bytes": 437,
+      "sha256": "97fb78e8854b2bc4fbed3098d577201144571eac0f2c1d5771bb6a6e86552360"
+    },
+    {
+      "file": "event_antecedent_rainfall.csv",
+      "bytes": 202121,
+      "sha256": "9f4d4785accd143cfb1feb5642b5cc610cd46adfe524c717c9c88e1be8a45fce"
+    },
+    {
+      "file": "rainfall_controls.csv",
+      "bytes": 848495,
+      "sha256": "af2f15fa866e4ecb3ef491141ad12a46604eb728f092114a40f35aec64bb7d26"
+    },
+    {
+      "file": "rainfall_threshold_metrics.csv",
+      "bytes": 40027,
+      "sha256": "fcab01a113ae5eda38ea41f6bd390366eb5119c2990a15c86d7c290319289c24"
+    },
+    {
+      "file": "rainfall_sensitivity_summary.csv",
+      "bytes": 3219,
+      "sha256": "d2eba5778ec28fa67775f836722710469789ef18f3943971d902abbf5115ac9c"
+    },
+    {
+      "file": "rainfall_primary_test_roc.csv",
+      "bytes": 843378,
+      "sha256": "c22ad076d1d8c54160a2bd2eebaf5ae5e6acb2f8920d9a178298d11f9aac52e2"
+    },
+    {
+      "file": "rainfall_conditional_models.csv",
+      "bytes": 4064,
+      "sha256": "d27bd12f764cba5a82181dc3e29c9d2990ba844f080481564894cefcb8d30710"
+    },
+    {
+      "file": "rainfall_resampled_validation.csv",
+      "bytes": 3948,
+      "sha256": "538bb0c3e372a4a38daac5c44983b7df413480e5602dce4c6f1e5eaf453f2f40"
+    },
+    {
+      "file": "rainfall_season_stratified.csv",
+      "bytes": 1884,
+      "sha256": "6cf4f82233aba1011fce3fb9906d6599ee9b6a884b8de347b388e0b95bcb1069"
+    },
+    {
+      "file": "rainfall_case_control_distributions.csv",
+      "bytes": 6365,
+      "sha256": "f04e9f22fd7a3a8a93e32993dc947d52f42f54cc186212bcc3d6a14ae2a743a5"
+    },
+    {
+      "file": "district_month_rainfall_association.csv",
+      "bytes": 306721,
+      "sha256": "61c2e286261c69e12b25eec52bf1a8b550d171193bdb3f35107f31cabb5edbbb"
+    },
+    {
+      "file": "inventory_reporting_composition.csv",
+      "bytes": 1082,
+      "sha256": "b6b441f7d1557c9607e5e5f8f78569dac5b216fc1f715a0399b1a2b9e3af3b8c"
+    },
+    {
+      "file": "inventory_district_summary.csv",
+      "bytes": 4650,
+      "sha256": "43a36f935bba79ebfd939b0a80a73e9a16053f6088eceddf5303d86ed5d522be"
+    },
+    {
+      "file": "inventory_province_summary.csv",
+      "bytes": 239,
+      "sha256": "9015717e8f160da442f5f0dd5992c0d921f8dbdc86bf4a66cef6018ff4c06300"
+    },
+    {
+      "file": "inventory_month_summary.csv",
+      "bytes": 419,
+      "sha256": "c9a0397ba0133ab171cf3095fa300659c586644fdf508861b733fbf48219469d"
+    },
+    {
+      "file": "rainfall_analysis_report.json",
+      "bytes": 51529,
+      "sha256": "ba1634cf05ad480e707da4f9468b9513fcd638b764479618864b9307d8711ec3"
+    },
+    {
+      "file": "rainfall_analysis_report.md",
+      "bytes": 1396,
+      "sha256": "7a45b49dfea5254a535a4d8d816cf18250d925eab0893db518288584b08852fb"
+    },
+    {
+      "file": "rainfall_case_integrity_audit.csv",
+      "bytes": 9936,
+      "sha256": "b24a43c417e45658922c5379755ac0d536e25b7bd15bdef4dd49f987c2bc0f9b"
+    },
+    {
+      "file": "rainfall_case_integrity_audit.json",
+      "bytes": 548,
+      "sha256": "2b6a7d921ca15b033e4007ecdafe9d536b32f883654ea57be8f41299a5de7e42"
+    },
+    {
+      "file": "rainfall_case_integrity_audit_excludable_case_days.csv",
+      "bytes": 84,
+      "sha256": "c4b28cce58617af7ac575414efa1179c53eaae28ba09d2ba9eb11b63ef09235b"
+    },
+    {
+      "file": "rainfall_integrity_sensitivity.json",
+      "bytes": 3209,
+      "sha256": "eb9b85c4d189ec4d2fbca8a86b1ccab251210aff83bf5df9f8c46db13ab55d48"
+    },
+    {
+      "file": "rainfall_results_figure.svg",
+      "bytes": 37821,
+      "sha256": "8ceb6900039c460072a162ef870f3c83943206ee983e96d90a07a8ab520f5ac5"
+    },
+    {
+      "file": "inventory_map_figure.svg",
+      "bytes": 649257,
+      "sha256": "24cec7c042def955cfbb3d49a309df26cebfa90ad22a525d42f2fd2969287551"
+    },
+    {
+      "file": "rainfall_distributions_figure.svg",
+      "bytes": 7963,
+      "sha256": "ce65a02a821a5e9af9458248a3db17b6d5a2cb118958c907990d6b44261bd656"
+    },
+    {
+      "file": "rainfall_validation_figure.svg",
+      "bytes": 8619,
+      "sha256": "a71282e70059b9519c91f55d1bb3217e40f4249a5389a53413be04100eb0b7f5"
+    },
+    {
+      "file": "RAINFALL_ANALYSIS.md",
+      "bytes": 11409,
+      "sha256": "9403d1c673802ce8028f5c95f7f263502d916aed88dc3641ef22706059b1e391"
+    },
+    {
+      "file": "RAINFALL_MANUSCRIPT_DRAFT_V15.md",
+      "bytes": 6209,
+      "sha256": "89a03a84138abeb3e2d235e2676a28cac81e5a865dabd3b061033b0e71fa3a82"
+    },
+    {
+      "file": "RAINFALL_MANUSCRIPT_TABLES.md",
+      "bytes": 6366,
+      "sha256": "bebcf5de7c6f8913f8851b21c57256ef8d1b7219660c8ce631c72f0c09e7986a"
+    },
+    {
+      "file": "RAINFALL_CHANGELOG.md",
+      "bytes": 30509,
+      "sha256": "43c0b785cced50a58dfae814d4f532a2e78844e54c23155107d176c3fa405934"
+    },
+    {
+      "file": "V15_PAPER_SUMMARY.md",
+      "bytes": 3274,
+      "sha256": "ac6626d925201c99990630952489e080b67a7c4e05dd41c407bce386f12406c9"
+    },
+    {
+      "file": "chirps_daily_districts.csv",
+      "bytes": 24932145,
+      "sha256": "5cf8152e1a47faae27874670d53d621907930e0e84fc26cc89562eca385d1491"
+    },
+    {
+      "file": "nepal_districts_77.geojson",
+      "bytes": 2351978,
+      "sha256": "2c77e563c9df54270744f2e2b19a69f91dc5ca0ce7800025c0323d8b01c00c2f"
+    },
+    {
+      "file": "inventory_release_manifest.json",
+      "bytes": 4121,
+      "sha256": "2e410b335fe07be2ee1fc2d8c8db7e2848df772abcb96a5290ecfa6c097f647f"
+    }
+  ],
+  "bundle_lock_hash": "2ea2ecae304231d69897db9af39b3dbde40c8c5b19922c1450c7a86511e92f22",
+  "notes": "This is an analysis release linked to nepal_landslide_inventory_v1.5.0_event_detection_validated_20261004. It is not an operational landslide-warning threshold. The headline cutpoint uses a window that includes the reported event day; the strictly antecedent co-primary result bounds the signal available before failure. Read the single temporal-test AUC against the leave-one-year-out distribution in resampled_validation. Exact-date accuracy did not pass the inventory validation threshold; interpret results with the confidence and +/-1/+/-3-day sensitivities."
+}

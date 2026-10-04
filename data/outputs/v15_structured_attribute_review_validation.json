@@ -1,0 +1,19 @@
+{
+  "changed_field_counts": {
+    "deaths": 17,
+    "event_type": 10,
+    "hazard_type": 14
+  },
+  "input_sha256": {
+    "v15_structured_attribute_REVIEW.csv": "23fc33913c33793be8ca806433ea9e621122219b75ada450d6a361c68c9875ee",
+    "v15_structured_attribute_REVIEW_COMPLETED.csv": "fc14972b45947cb26e4247565d6e2a4edf70be5ec8b083cb28263b1046c5796e",
+    "v15_structured_attribute_review_manifest.json": "3d9a66896f35d9762b9cbcfac2bd21b8f20b2a676cefa79baf81685661742370"
+  },
+  "record_action_counts": {
+    "retain": 33
+  },
+  "review_rows": 33,
+  "status": "validated_structured_attributes_not_yet_applied",
+  "unresolved_count": 0,
+  "unresolved_rows": []
+}

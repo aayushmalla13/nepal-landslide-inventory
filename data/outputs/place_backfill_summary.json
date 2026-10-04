@@ -1,0 +1,31 @@
+{
+  "articles_considered": 3397,
+  "articles_with_a_proposed_fill": 1707,
+  "municipality_fills": 84,
+  "municipality_fills_with_a_shared_name": 79,
+  "ward_fills": 1696,
+  "by_language": {
+    "en": {
+      "ward": 342,
+      "municipality": 20
+    },
+    "np": {
+      "ward": 1354,
+      "municipality": 64
+    }
+  },
+  "review_pack_rows": 60,
+  "review_strata": {
+    "en:municipality_only": 5,
+    "en:ward": 342,
+    "np:municipality_only": 6,
+    "np:ward": 1354
+  },
+  "rules": [
+    "additive only: an existing value is never overwritten",
+    "a municipality is accepted only if the gazetteer places it in the article district",
+    "a ward is accepted only when adjacent to an accepted municipality mention",
+    "no value is imputed when the text does not state one"
+  ],
+  "status": "PROPOSED, NOT APPLIED. Precision must be measured on the labelled review pack before these values enter a versioned inventory release."
+}

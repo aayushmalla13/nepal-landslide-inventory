@@ -1,0 +1,18 @@
+{
+  "candidates_excluded": 29,
+  "dates_resolved": 1,
+  "input_candidates": 93,
+  "input_sha256": {
+    "post_correction_date_review_manifest.json": "a480f2a7bd3d1e1a95dc200950e6253c82bf27bbc1584c02cb9f69089dec5e0a",
+    "post_correction_reconstruction_DATE_REVIEW.csv": "f3f8db463420ebe9b9982379a9910451dd3ee3201c4e05dac2e931e246e0e94a",
+    "post_correction_reconstruction_DATE_REVIEW_COMPLETED.csv": "41b0d64a1a7666b673f554e9c865a0968107bd67988026f5989364b46a899649",
+    "post_correction_reconstruction_GROUPS.csv": "605651e8963e2346c9b66b7c2cba5cd8f546c24d37b1d936dec6bb2f9d0549a0",
+    "post_correction_reconstruction_manifest.json": "3ccf2aeb06a673ca00413c79d9b3d653af9c6f2e978349628d4bf1d027782c64"
+  },
+  "output_sha256": {
+    "post_correction_reconstruction_DATE_EXCLUDED.csv": "44d43e7cb4eb67913d917d3899d9424d84a9dcd8eb7a6849ce389f7d38571bac",
+    "post_correction_reconstruction_GROUPS_DATE_RESOLVED.csv": "21eb4a553d03401c0fd8899a2ce58356868baf15e3c4c9e41cc80e7940c7d0b9"
+  },
+  "retained_candidates": 64,
+  "status": "date_resolved_collision_check_required"
+}

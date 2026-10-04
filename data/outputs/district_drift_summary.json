@@ -1,0 +1,29 @@
+{
+  "articles": 6344,
+  "class_one_articles": 6344,
+  "all_articles": {
+    "unchanged": 6241,
+    "changed": 92,
+    "lost": 11
+  },
+  "class_one_articles_outcomes": {
+    "unchanged": 6241,
+    "changed": 92,
+    "lost": 11
+  },
+  "class_transitions": {
+    "1->2": 15
+  },
+  "municipality_newly_assigned": 1131,
+  "class_one_districts_lost_by_district": {
+    "Bajura": 2,
+    "Myagdi": 2,
+    "Lalitpur": 2,
+    "Sindhupalchok": 2,
+    "Humla": 1,
+    "Rolpa": 1,
+    "Sindhuli": 1
+  },
+  "interpretation": "Only 'changed' and 'lost' on class-1 articles can invalidate an existing released event. 'gained' is additive. A non-zero changed or lost count on class-1 articles means the rainfall analysis must be re-run and re-released alongside a new inventory version.",
+  "verdict": "DRIFT DETECTED: see district_drift_rows.csv"
+}

@@ -1,0 +1,29 @@
+{
+  "version": "casualty_v1",
+  "seed": 20260903,
+  "allocation": {
+    "death_language_no_count": 70,
+    "explicit_no_casualty": 30,
+    "not_yet_known": 20,
+    "has_count": 20
+  },
+  "population_by_stratum": {
+    "death_language_no_count": 1315,
+    "explicit_no_casualty": 45,
+    "not_yet_known": 144,
+    "has_count": 849
+  },
+  "sampled": 140,
+  "sampled_by_stratum": {
+    "death_language_no_count": 70,
+    "explicit_no_casualty": 30,
+    "not_yet_known": 20,
+    "has_count": 20
+  },
+  "sampled_by_language": {
+    "np": 70,
+    "en": 70
+  },
+  "prior_evaluation_urls_excluded": 1090,
+  "note": "Development sample for casualty-rule design. Blank means unknown; 0 means the article states that nobody was harmed. Never write 0 for an article that is merely silent about casualties."
+}

@@ -1,0 +1,46 @@
+{
+  "purpose": "Human granularity labels for designing a fix. This is a DEVELOPMENT set: it may be inspected while designing. The fix must then be evaluated on a newly drawn, human-labelled locked set v8.",
+  "seed": 20260905,
+  "row_id_prefix": "c1",
+  "classes_drawn_from": [
+    "1"
+  ],
+  "why_not_class_1_only": "The class-1 gate requires headline eligibility, which requires granularity=single, so all 3,397 class-1 articles are predicted single by construction and carry no multi or roundup contrast.",
+  "per_stratum": 25,
+  "rows": 100,
+  "stratify_by": "body_signal",
+  "strata": {
+    "en:plain": 826,
+    "en:signal": 98,
+    "np:plain": 1788,
+    "np:signal": 470
+  },
+  "drawn_per_stratum": {
+    "np:plain": 25,
+    "np:signal": 25,
+    "en:signal": 25,
+    "en:plain": 25
+  },
+  "inclusion_weights": {
+    "np:plain": 71.52,
+    "np:signal": 18.8,
+    "en:signal": 3.92,
+    "en:plain": 33.04
+  },
+  "excluded_previously_labelled_urls": 815,
+  "excluded_sets": [
+    "data/outputs/locked_test_set_v7_labels_final.csv",
+    "data/outputs/development_set_v1_labels_final.csv",
+    "data/outputs/locked_test_set_v6_labels_final.csv",
+    "data/outputs/granularity_development_COMPLETED.csv"
+  ],
+  "label_file_sha256": "ec90d115498937882c6293389683b700235dd924eca739f63b6221d4d9b91931",
+  "why_development_set_v1_is_not_used": "Its granularity labels are model-produced and unreliable for this field: on the 51 articles matching the pipeline's documented road-obstruction rule it split 28 single / 22 multi, and 31 of its 63 multi articles have a singular landslide subject in the title.",
+  "post_draw_disjointness_audit": {
+    "audited_on": "2026-09-15",
+    "model_label_overlap_rows": 5,
+    "model_label_overlap_set": "data/outputs/locked_test_set_v6_labels_final.csv",
+    "human_truth_overlap_rows": 0,
+    "interpretation": "Five exact URLs overlap model-labelled v6 despite the configured exclusion. V6 was labelled entirely by gpt-5.6-sol and its answers were not exposed in this human label pack. The defensible claim is therefore no prior human-truth overlap, not no prior model-labelled overlap."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "candidates_with_collision_pairs": 84,
+  "collision_pair_tiers": {
+    "high": 4,
+    "low": 166,
+    "medium": 40
+  },
+  "collision_pairs": 210,
+  "date_review_rows": 0,
+  "dated_candidates_screened": 99,
+  "inputs": {
+    "canonical_event_article_mapping_DECISIONS_COMPLETED.csv": "0274f248ed67e5404cb5cfbfdc9f746cf9556b3541993ced6a737c89cd8ae163",
+    "canonical_event_article_membership_MAP.csv": "0fc182e2e0807fa00cd4fe86dd7e32fcf6d24a14742a6bddf671e87a0c8480cc",
+    "canonical_event_reconstruction_GROUPS_DATE_RESOLVED.csv": "73d4406b399325c635ce782000068c1f93c2b8cbc8c541c4a1f34acd86d3c3ca",
+    "canonical_event_reconstruction_date_resolution_manifest.json": "ab009f7c81c7f5e553b3df6aae95628f861311d395afe4ac50deb261cc417692",
+    "data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/canonical_events_final.csv": "3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8"
+  },
+  "outputs": {
+    "canonical_event_reconstruction_FINAL_COLLISION_DECISIONS.csv": "a180f103da292e3e0b3cc4aa2502ca8336d594339f95b5bb06a35b037091e174",
+    "canonical_event_reconstruction_FINAL_COLLISION_PAIRS.csv": "a2d91c2aa3662996b36120f58597c2f37f25e0b367c7ac227d60f794ad7a296d",
+    "canonical_event_reconstruction_FINAL_DATE_REVIEW.csv": "3b832b74367f616769b3c38794a1376cc46e7af6fdb778dd736302a932d990ad"
+  },
+  "reconstruction_candidates": 99,
+  "status": "review_packs_only_no_production_changes",
+  "unaffected_frozen_events": 2830
+}

@@ -1,0 +1,102 @@
+{
+  "design": "Period is held fixed and only the rainfall product varies. Both runs cover 2015-01-01 to 2025-09-30. The published v0.5.0 CHIRPS result is untouched and is NOT the comparator: comparing IMERG against it would vary product and period together.",
+  "common_end_date": "2025-09-30",
+  "chirps_district_days_dropped_for_the_control": 23408,
+  "aggregation_caveat": "CHIRPS district means are ClimateSERV's area-weighted server-side mean; IMERG district means are unweighted means of 0.1-degree cell centres. The two runs differ in aggregation as well as in product.",
+  "runs": {
+    "chirps_truncated": {
+      "rainfall_product": "UCSB CHIRPS v2.0 Final (truncated to 2025-09-30)",
+      "rainfall_input_sha256": "75d9e10b9d05dda69b27070e7f87489d20cd9bd98a92ee85b9ac36fddcbd65c0",
+      "available_rainfall_end": "2025-09-30",
+      "window_days": 5,
+      "threshold_mm": 51.599922,
+      "threshold_ci_low": 33.742649,
+      "threshold_ci_high": 61.664806,
+      "development_auc": 0.646274,
+      "development_n_cases": 839,
+      "development_n_controls": 3587,
+      "test_auc": 0.657603,
+      "test_auc_ci_low": 0.623456,
+      "test_auc_ci_high": 0.685684,
+      "test_sensitivity": 0.458256,
+      "test_specificity": 0.755523,
+      "test_n_cases": 539,
+      "test_n_controls": 2037,
+      "events_after_available_rainfall_end": 181,
+      "config": "config.sensitivity_chirps_truncated.yaml",
+      "outputs_dir": "data/sensitivity/product/chirps_truncated"
+    },
+    "imerg": {
+      "rainfall_product": "NASA IMERG Final Run v07 (GPM_3IMERGDF)",
+      "rainfall_input_sha256": "efe7e4e549b1720f86f71659bf823607c2573c82962831a4d7380c51b6859e96",
+      "available_rainfall_end": "2025-09-30",
+      "window_days": 3,
+      "threshold_mm": 28.26913,
+      "threshold_ci_low": 24.237353,
+      "threshold_ci_high": 36.512777,
+      "development_auc": 0.704817,
+      "development_n_cases": 839,
+      "development_n_controls": 3587,
+      "test_auc": 0.701477,
+      "test_auc_ci_low": 0.676278,
+      "test_auc_ci_high": 0.726951,
+      "test_sensitivity": 0.669759,
+      "test_specificity": 0.648994,
+      "test_n_cases": 539,
+      "test_n_controls": 2037,
+      "events_after_available_rainfall_end": 181,
+      "config": "config.sensitivity_imerg.yaml",
+      "outputs_dir": "data/sensitivity/product/imerg"
+    }
+  },
+  "window_matched_thresholds": {
+    "R1": {
+      "chirps_threshold_mm": 15.9455,
+      "imerg_threshold_mm": 8.5115,
+      "ratio_imerg_over_chirps": 0.5338,
+      "chirps_auc": 0.614,
+      "imerg_auc": 0.6766,
+      "auc_difference": 0.0626
+    },
+    "R3": {
+      "chirps_threshold_mm": 31.6466,
+      "imerg_threshold_mm": 28.2691,
+      "ratio_imerg_over_chirps": 0.8933,
+      "chirps_auc": 0.6432,
+      "imerg_auc": 0.7048,
+      "auc_difference": 0.0616
+    },
+    "R5": {
+      "chirps_threshold_mm": 51.5999,
+      "imerg_threshold_mm": 39.0668,
+      "ratio_imerg_over_chirps": 0.7571,
+      "chirps_auc": 0.6463,
+      "imerg_auc": 0.6981,
+      "auc_difference": 0.0519
+    },
+    "R7": {
+      "chirps_threshold_mm": 75.9539,
+      "imerg_threshold_mm": 88.3927,
+      "ratio_imerg_over_chirps": 1.1638,
+      "chirps_auc": 0.6364,
+      "imerg_auc": 0.6884,
+      "auc_difference": 0.052
+    }
+  },
+  "comparison": {
+    "selected_window_chirps": 5,
+    "selected_window_imerg": 3,
+    "windows_agree": false,
+    "threshold_ratios_by_window": {
+      "R1": 0.5338,
+      "R3": 0.8933,
+      "R5": 0.7571,
+      "R7": 1.1638
+    },
+    "note_on_cross_window_ratios": "Thresholds are comparable only within a window. The two runs select different windows in development, so no ratio between their selected thresholds is reported: it would divide R3 millimetres by R5 millimetres.",
+    "test_auc_difference_imerg_minus_chirps": 0.0439,
+    "imerg_threshold_inside_chirps_bootstrap_interval": false,
+    "chirps_threshold_inside_imerg_bootstrap_interval": false,
+    "auc_intervals_overlap": true
+  }
+}

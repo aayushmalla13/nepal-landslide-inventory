@@ -1,0 +1,16 @@
+{
+  "decision_counts": {
+    "keep_distinct": 5,
+    "merge": 45
+  },
+  "inputs": {
+    "dedup_collision_review_BATCH_01_ADJUDICATED.csv": "c86d3a5725182f37a60cec8f4e8eaf7fa65a22f88f1c05fc1ae762565d9f45dc",
+    "dedup_collision_review_BATCH_01_LABEL_HERE.csv": "953248277166faca5d2ecbc12e2da8b8b1b6305f9cf348a9ba2b2be68eb00d48",
+    "dedup_collision_review_manifest.json": "943832a24d8d6db8b7b1127b67fb91f32c37546831b501c3534513241038f522"
+  },
+  "review_rows": 50,
+  "status": "validated_collision_batch_not_yet_applied",
+  "survivor_conflict_components": {},
+  "survivor_conflict_count": 0,
+  "unresolved_rows": 0
+}

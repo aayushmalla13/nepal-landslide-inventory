@@ -1,0 +1,137 @@
+{
+  "release_id": "nepal_landslide_rainfall_v0.1.0_20260813",
+  "generated_at": "2026-08-13T17:22:34+00:00",
+  "status": "analysis_complete_manuscript_draft",
+  "inventory_release": "nepal_landslide_inventory_v0.4.0_v6_20260810",
+  "rainfall_product": "UCSB CHIRPS v2.0 Final",
+  "analysis_period": {
+    "start": "2015-01-01",
+    "end": "2026-06-30"
+  },
+  "rainfall_rows": 323323,
+  "districts": 77,
+  "primary_cases": 1514,
+  "primary_controls": 6196,
+  "primary_temporal_test_result": {
+    "variant": "primary_conf_ge_0.78",
+    "split": "temporal_test",
+    "window_days": 5,
+    "threshold_mm": 45.381465,
+    "threshold_ci_low": 26.827030999999998,
+    "threshold_ci_high": 72.104541,
+    "train_case_p10_mm": 3.3274487000000015,
+    "train_case_p50_mm": 57.82176799999999,
+    "train_control_p90_mm": 99.214412,
+    "n_cases": 642,
+    "n_controls": 2480,
+    "sensitivity": 0.5093457943925234,
+    "specificity": 0.7641129032258065,
+    "precision": 0.35855263157894735,
+    "balanced_accuracy": 0.636729348809165,
+    "tp": 327.0,
+    "fp": 585.0,
+    "tn": 1895.0,
+    "fn": 315.0,
+    "auc": 0.6925999899507587,
+    "auc_ci_low": 0.6570323646836197,
+    "auc_ci_high": 0.7224379085482889,
+    "sensitivity_ci_low": 0.4492586664769763,
+    "sensitivity_ci_high": 0.5665360782715043,
+    "specificity_ci_low": 0.7183103364454714,
+    "specificity_ci_high": 0.8087585082925894,
+    "precision_ci_low": 0.3048090936798648,
+    "precision_ci_high": 0.41402646426107076,
+    "balanced_accuracy_ci_low": 0.6109500805778564,
+    "balanced_accuracy_ci_high": 0.6606870817627992
+  },
+  "checks": {
+    "rainfall_coverage_complete": true,
+    "all_77_districts_present": true,
+    "no_incomplete_days": true,
+    "temporal_holdout_not_empty": true
+  },
+  "files": [
+    {
+      "file": "rainfall_daily_quality.json",
+      "bytes": 310,
+      "sha256": "9bc2bcd46a4893bd74bb4c125f932a8872174682feb385d5419f01d9c92a82a0"
+    },
+    {
+      "file": "event_antecedent_rainfall.csv",
+      "bytes": 248816,
+      "sha256": "06f34a50db285e92433cadb9b63624e3f217d8a78e7adec756f9502b4a32f959"
+    },
+    {
+      "file": "rainfall_controls.csv",
+      "bytes": 1000543,
+      "sha256": "d6b12a9a16b9bfc8fe190ec0e52ba043787f331a41fb5df3f37fa8efc407a88e"
+    },
+    {
+      "file": "rainfall_threshold_metrics.csv",
+      "bytes": 13919,
+      "sha256": "decc7c234f759bda7682e1692240ecbda1873311f57e610e9f5c73979e565520"
+    },
+    {
+      "file": "rainfall_sensitivity_summary.csv",
+      "bytes": 1120,
+      "sha256": "53194ed4ccb2fad78cbe26cfc558360ac82670faabe9f612ded36860a593b782"
+    },
+    {
+      "file": "rainfall_primary_test_roc.csv",
+      "bytes": 379622,
+      "sha256": "987d17e6780d98f09bd34279632739307b7a6056096f1e7cf42c11895e94264d"
+    },
+    {
+      "file": "district_month_rainfall_association.csv",
+      "bytes": 343187,
+      "sha256": "5de3709fc7b49aa62807551ed1556656204208190c4f8749ac3b65ce6d9d2431"
+    },
+    {
+      "file": "rainfall_analysis_report.json",
+      "bytes": 9016,
+      "sha256": "23edec53bf5626498cf654d6c404b973e23c52d4675f5f27d5c0f37f80e6dba8"
+    },
+    {
+      "file": "rainfall_analysis_report.md",
+      "bytes": 850,
+      "sha256": "efe2a50a5784d602b179384640560ad8dca8e36bbda95de4020b9be1da16c038"
+    },
+    {
+      "file": "rainfall_results_figure.svg",
+      "bytes": 35752,
+      "sha256": "7f1dd98b8f9d1d68b94e9b7788a5da278b706d4bd88231e1b820c0c6d925ffab"
+    },
+    {
+      "file": "RAINFALL_ANALYSIS.md",
+      "bytes": 3965,
+      "sha256": "f695b675578338f1172081a2f49f8e563252f78a77a4fbc8abfc06b42c057061"
+    },
+    {
+      "file": "RAINFALL_MANUSCRIPT_DRAFT.md",
+      "bytes": 17181,
+      "sha256": "8d3861e848bc4ca6f4fea1f67c486fb3b0d70955107e729e50a8ae327e739550"
+    },
+    {
+      "file": "RAINFALL_MANUSCRIPT_TABLES.md",
+      "bytes": 1644,
+      "sha256": "d34c0cc8954636d76c8afd7291697544056277b964156436bbc64d8865e31369"
+    },
+    {
+      "file": "chirps_daily_districts.csv",
+      "bytes": 24748854,
+      "sha256": "0110c54a23a1f7dbd9bcf5d0904a2a033273b55b275bc598fc400ea4b31b03e0"
+    },
+    {
+      "file": "nepal_districts_77.geojson",
+      "bytes": 2351978,
+      "sha256": "2c77e563c9df54270744f2e2b19a69f91dc5ca0ce7800025c0323d8b01c00c2f"
+    },
+    {
+      "file": "inventory_v0.4.0_release_manifest.json",
+      "bytes": 3338,
+      "sha256": "a2b287ed41e3a9070a2dad5e68dd7f0710eb8684b43ca58a8aadde6ff7804564"
+    }
+  ],
+  "bundle_lock_hash": "b22e9008a3cb96ce355fcf59c8b7b0a8b372a4810ff6e1a0744dc4cac1e273d1",
+  "notes": "This is an analysis release linked to the frozen inventory v0.4.0. It is not an operational landslide-warning threshold."
+}

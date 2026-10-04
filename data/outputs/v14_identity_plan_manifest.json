@@ -1,0 +1,37 @@
+{
+  "blocked_reconstruction_candidates": 4,
+  "excluded_article_memberships": 10,
+  "excluded_reconstruction_candidates": 0,
+  "input_sha256": {
+    "data/outputs/v14_article_mapping_DECISIONS_COMPLETED.csv": "32733924690804fe9a45423609ffad3e6081fffc5b9910f9fa8cc8385e93a61f",
+    "data/outputs/v14_existing_collision_BLOCKED_CANDIDATES.csv": "11bb90713d54b3104fac46bc152a99e44b42725be3d6bf965327e3618b309049",
+    "data/outputs/v14_existing_collision_EXCLUDED.csv": "fe64a437a722ab412f4cd3289b0c92b91ce9ed0c776a960a78dab7ac01664a11",
+    "data/outputs/v14_existing_collision_MERGES.csv": "6ce70620bf592e6499fda2e5e1cf454aa77b4402941e7224ea3964a651f1052e",
+    "data/outputs/v14_existing_collision_NEW_CANDIDATES.csv": "3a7c6a822880155845b23c70ce420b202a055f4db51b90e4f64463cb5b3584fc",
+    "data/outputs/v14_existing_collision_outcomes_manifest.json": "d862b3b3de2a05ded1b23ae75a69a907645c0cc590b75f57c3bb62960cdf0612",
+    "data/outputs/v14_final_collision_validation.json": "937b3053c3bad44e3dd47cffde1be1281d6c8bde7a7f7d11e0b2e66524f829f1",
+    "data/outputs/v14_reconstruction_EXCLUDED_ARTICLES.csv": "fdf82a3a67fe51ae6bf2c064ce40b6306e9e95c62c4a663c2eeff3a8f418b5e3",
+    "data/outputs/v14_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "72d6e4cce6bf31a7c96fb610029cb1884eaeb8b0a57091ecf7807ae7f9663d9c",
+    "data/outputs/v14_reconstruction_manifest.json": "d3a67261fbd1063e6e59ce32cdbb47aa63082427fe4a38d8b478b5675572ecb9",
+    "data/releases/nepal_landslide_inventory_v1.3.0_candidate_20260930/canonical_events_final.csv": "9e8d44be3bf08b649d34c9b06f0e3d26e1983c46ee389b4295ac4f8416914c3e"
+  },
+  "net_identity_layer_delta": 2,
+  "output_sha256": {
+    "v14_identity_plan_BLOCKED_CANDIDATES.csv": "4a4e2ea797e387a3112359e9fb5471a9ec056354750e260317110d039b8e7e48",
+    "v14_identity_plan_EXCLUDED_CANDIDATES.csv": "65203a6e1364dcb3dbd92aef5974ee6425f5e9f5025bdb3e59b4aeca05668aec",
+    "v14_identity_plan_MERGES_CANDIDATES.csv": "843d392101d529994954dfdcbe0145fda51743d6c456680c55541801b0baad77",
+    "v14_identity_plan_MERGES_EXISTING.csv": "778e8a78a11aa95c21ddc996fd0003c4638699e023f213e662f4d5df9ef64d55",
+    "v14_identity_plan_NEW_EVENTS.csv": "ab1468696056d8917956a7ea9269d97fe1a004e5aa8359ff4892cd648645693f",
+    "v14_identity_plan_REMOVE_OLD_EVENTS.csv": "f716c9e37238fe1d6d90b5aa1fe1e578b74c2509ce7f6a46717a8c6c7fcef42d",
+    "v14_identity_plan_RETAINED_OLD_EVENTS.csv": "e5634da3d3c44b8f5200d0d327e8debf55e7631fb1488478ae59d7f164e8cd21"
+  },
+  "planned_identity_layer_rows": 2148,
+  "planned_merges_into_candidates": 0,
+  "planned_merges_into_existing": 3,
+  "planned_new_events": 22,
+  "reviewed_old_events_retained": 10,
+  "source_inventory_rows": 2146,
+  "source_release": "nepal_landslide_inventory_v1.3.0_candidate_20260930",
+  "status": "v14_identity_plan_unapplied_true_value_and_structured_attribute_gates_pending",
+  "superseded_old_events": 20
+}

@@ -1,0 +1,88 @@
+{
+  "labelled_rows": 72,
+  "candidate_rows": 1707,
+  "reviewers": [
+    "GS"
+  ],
+  "unsure_policy": "Excluded from both numerator and denominator, and reported. Counting them as accepts would flatter the estimate; as rejects would punish the proposal for the reviewer's uncertainty.",
+  "municipality": {
+    "field": "municipality",
+    "population_with_a_proposal": 84,
+    "labelled_decided": 15,
+    "accept": 9,
+    "reject": 6,
+    "unsure_excluded": 0,
+    "stratified_precision": 0.6402,
+    "pooled_precision": 0.6,
+    "pooled_wilson_ci": [
+      0.3575,
+      0.8018
+    ],
+    "strata": {
+      "en:municipality": {
+        "population": 20,
+        "labelled_decided": 9,
+        "accept": 5,
+        "reject": 4,
+        "unsure": 0,
+        "precision": 0.5556,
+        "wilson_ci": [
+          0.2666,
+          0.8112
+        ]
+      },
+      "np:municipality": {
+        "population": 64,
+        "labelled_decided": 6,
+        "accept": 4,
+        "reject": 2,
+        "unsure": 0,
+        "precision": 0.6667,
+        "wilson_ci": [
+          0.3,
+          0.9032
+        ]
+      }
+    }
+  },
+  "ward": {
+    "field": "ward",
+    "population_with_a_proposal": 1696,
+    "labelled_decided": 56,
+    "accept": 48,
+    "reject": 8,
+    "unsure_excluded": 4,
+    "stratified_precision": 0.8765,
+    "pooled_precision": 0.8571,
+    "pooled_wilson_ci": [
+      0.7426,
+      0.9258
+    ],
+    "strata": {
+      "en:ward": {
+        "population": 342,
+        "labelled_decided": 29,
+        "accept": 24,
+        "reject": 5,
+        "unsure": 1,
+        "precision": 0.8276,
+        "wilson_ci": [
+          0.6545,
+          0.924
+        ]
+      },
+      "np:ward": {
+        "population": 1354,
+        "labelled_decided": 27,
+        "accept": 24,
+        "reject": 3,
+        "unsure": 3,
+        "precision": 0.8889,
+        "wilson_ci": [
+          0.7194,
+          0.9615
+        ]
+      }
+    }
+  }
+}

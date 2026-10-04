@@ -1,0 +1,241 @@
+{
+  "set": "development_set_v1",
+  "annotator_caveat": "development_set_v1 was annotated by a language model, not a human. Use it to find mechanisms, not to fit thresholds; confirm on a human-labelled locked set.",
+  "labelled_rows": 300,
+  "scored": 298,
+  "excluded_unclear_or_blank": 2,
+  "missing_from_corpus": 0,
+  "baseline": {
+    "n": 298,
+    "accuracy": 0.5503,
+    "matrix": {
+      "multi": {
+        "multi": 19,
+        "not_applicable": 0,
+        "roundup": 12,
+        "single": 32
+      },
+      "not_applicable": {
+        "multi": 3,
+        "not_applicable": 0,
+        "roundup": 11,
+        "single": 61
+      },
+      "roundup": {
+        "multi": 1,
+        "not_applicable": 0,
+        "roundup": 34,
+        "single": 7
+      },
+      "single": {
+        "multi": 5,
+        "not_applicable": 0,
+        "roundup": 2,
+        "single": 111
+      }
+    },
+    "per_class": {
+      "multi": {
+        "support": 63,
+        "predicted": 28,
+        "precision": 0.6786,
+        "recall": 0.3016
+      },
+      "not_applicable": {
+        "support": 75,
+        "predicted": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "roundup": {
+        "support": 42,
+        "predicted": 59,
+        "precision": 0.5763,
+        "recall": 0.8095
+      },
+      "single": {
+        "support": 118,
+        "predicted": 211,
+        "precision": 0.5261,
+        "recall": 0.9407
+      }
+    }
+  },
+  "misclassified_examples": [
+    {
+      "row_id": "dev-v1-0001",
+      "truth": "not_applicable",
+      "predicted": "multi",
+      "title": "डोटीमा भारतको सहयोगमा निर्मित बहुमुखी क्याम्पसको उद्घाटन - कान्तिपुर",
+      "url": "https://ekantipur.com/Education/2026/07/26/inauguration-of-a-multi-purpose-campus-built-with-indian-assistance-in-doti-40-21.html"
+    },
+    {
+      "row_id": "dev-v1-0002",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "[अर्काइभ] काली नदीको मुहान खोज्न कालापानी जाने संसदीय समितिको त्यो निर्णय... - कान्तिपुर",
+      "url": "https://ekantipur.com/Kantipur-Archive/2026/03/22/archive-that-decision-by-the-parliamentary-committee-to-go-to-kalapani-to-find-the-source-of-the-kali-river-14-11.html"
+    },
+    {
+      "row_id": "dev-v1-0003",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "[अर्काइभ] विमान जुधेर ५३ नेपालीको मृत्यु भएको त्यो कहालीलाग्दो दुर्घटना... - कान्तिपुर",
+      "url": "https://ekantipur.com/Kantipur-Archive/2026/03/23/archive-the-horrific-plane-crash-that-killed-53-nepalis-46-19.html"
+    },
+    {
+      "row_id": "dev-v1-0004",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "[अर्काइभ] राजा वीरेन्द्रको निमन्त्रणामा चिनियाँ राष्ट्रपतिको त्यो भ्रमण... - कान्तिपुर",
+      "url": "https://ekantipur.com/Kantipur-Archive/2026/03/25/archive-the-visit-of-the-chinese-president-at-the-invitation-of-king-birendra-42-39.html"
+    },
+    {
+      "row_id": "dev-v1-0005",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "[अर्काइभ] कृष्णप्रसादलाई प्रधानमन्त्री हुने इच्छा जागेपछि... - कान्तिपुर",
+      "url": "https://ekantipur.com/Kantipur-Archive/2026/08/06/archive-after-krishna-prasads-desire-to-become-prime-minister-08-37.html"
+    },
+    {
+      "row_id": "dev-v1-0006",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "फिस्लिङमा गाडीले ठक्कर दिँदा महिलाको मृत्यु - कान्तिपुर",
+      "url": "https://ekantipur.com/bagmati-pradesh/2026/03/23/woman-dies-after-being-hit-by-vehicle-in-fisling-04-12.html"
+    },
+    {
+      "row_id": "dev-v1-0007",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "कान्ति लोकपथमा ट्रक दुर्घटना : एकको मृत्यु, चालक घाइते - कान्तिपुर",
+      "url": "https://ekantipur.com/bagmati-pradesh/2026/03/25/truck-accident-on-kanti-lokpath-one-dead-driver-injured-30-37.html"
+    },
+    {
+      "row_id": "dev-v1-0008",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "चुँडिएको तारबाट करेन्ट लागेर वडा सदस्यको मृत्यु - कान्तिपुर",
+      "url": "https://ekantipur.com/bagmati-pradesh/2026/03/25/ward-member-dies-after-being-electrocuted-by-a-broken-wire-13-06.html"
+    },
+    {
+      "row_id": "dev-v1-0009",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "भरतपुर महानगरको विकास खर्च एक चौथाई मात्र - कान्तिपुर",
+      "url": "https://ekantipur.com/bagmati-pradesh/2026/03/26/bharatpur-metropolitan-citys-development-expenditure-is-only-one-fourth-37-51.html"
+    },
+    {
+      "row_id": "dev-v1-0010",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "एघार दिनमै बढ्यो पेट्रोलियम पदार्थको मूल्य, काठमाडौंमा पेट्रोल प्रतिलिटर १८७ रुपैयाँ - कान्तिपुर",
+      "url": "https://ekantipur.com/business/2026/03/25/prices-of-petroleum-products-have-increased-in-eleven-days-petrol-is-rs-187-per-liter-in-kathmandu-42-40.html"
+    },
+    {
+      "row_id": "dev-v1-0011",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "‘दृश्यम ३’ को प्रदर्शन मिति सारियो - कान्तिपुर",
+      "url": "https://ekantipur.com/entertainment/2026/03/24/the-release-date-of-drishyam-3-has-been-postponed-45-03.html"
+    },
+    {
+      "row_id": "dev-v1-0012",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "जब आफ्नै मान्छे ‘शत्रु’ देखिन थाल्छन् - कान्तिपुर",
+      "url": "https://ekantipur.com/entertainment/2026/08/07/when-your-own-people-start-to-appear-as-enemies-08-50.html"
+    },
+    {
+      "row_id": "dev-v1-0013",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "भुटेको मकै : अब सहरियाको ‘हेल्दी स्न्याक्स’ - कान्तिपुर",
+      "url": "https://ekantipur.com/feature/2026/08/05/a-new-market-for-traditional-flavors-growing-demand-for-roasted-corn-38-00.html"
+    },
+    {
+      "row_id": "dev-v1-0014",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "पर्वतमा जिप दुर्घटना : चालकको मृत्यु - कान्तिपुर",
+      "url": "https://ekantipur.com/gandaki-pradesh/2026/03/24/jeep-accident-in-parbat-driver-dies-02-33.html"
+    },
+    {
+      "row_id": "dev-v1-0015",
+      "truth": "not_applicable",
+      "predicted": "roundup",
+      "title": "सल्लेरी राष्ट्रिय वनका पुराना रुखले स्थानीय सधैँ त्रसित - कान्तिपुर",
+      "url": "https://ekantipur.com/koshi-pradesh/2026/03/24/the-old-trees-in-the-forest-always-terrify-locals-15-20.html"
+    },
+    {
+      "row_id": "dev-v1-0017",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "‘धेरै कस्मेटिक प्रयोगले छाला बिगार्छ’ - कान्तिपुर",
+      "url": "https://ekantipur.com/lifestyle/2026/03/01/using-too-many-cosmetics-damages-the-skin-45-22.html"
+    },
+    {
+      "row_id": "dev-v1-0018",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "गुल्मीमा भीसी कर्नबहादुर रानामगरको सालिक अनावरण - कान्तिपुर",
+      "url": "https://ekantipur.com/lumbini-pradesh/2026/03/25/statue-of-vc-karna-bahadur-rana-magar-unveiled-in-gulmi-24-03.html"
+    },
+    {
+      "row_id": "dev-v1-0021",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "क्षितिजलाई ‘मिस्टर रामापिथेकस’ उपाधि - कान्तिपुर",
+      "url": "https://ekantipur.com/market/2026/03/24/mr-ramapithecus-in-butwal-kshitij-and-shila-awarded-title-21-08.html"
+    },
+    {
+      "row_id": "dev-v1-0022",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "इनिशा विक मृत्यु प्रकरण : सामूहिक बलात्कार नभएको प्रहरीको निष्कर्ष - कान्तिपुर",
+      "url": "https://ekantipur.com/news/2026/03/25/inisha-biks-death-case-police-conclude-that-there-was-no-gang-rape-28-22.html"
+    },
+    {
+      "row_id": "dev-v1-0023",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "रवि लामिछानेको अभियोगपत्र संशोधन गर्ने निर्णयविरुद्धको रिट ‘हेर्दाहेर्दै’ मा - कान्तिपुर",
+      "url": "https://ekantipur.com/news/2026/03/26/writ-petition-against-decision-to-amend-ravi-lamichhanes-charge-sheet-in-hindsight-18-24.html"
+    },
+    {
+      "row_id": "dev-v1-0025",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "चिनियाँ दबाबपछि तिब्बती अध्ययनसम्बन्धी सम्मेलन रद्द - कान्तिपुर",
+      "url": "https://ekantipur.com/news/2026/08/06/conference-on-tibetan-studies-canceled-after-chinese-pressure-34-35.html"
+    },
+    {
+      "row_id": "dev-v1-0026",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "३८ दिनपछि भारतीय जेलबाट रिहा भए सर्लाहीका किसान दाजुभाइ - कान्तिपुर",
+      "url": "https://ekantipur.com/news/2026/08/07/sarlahi-farmer-brothers-released-from-indian-jail-after-38-days-23-17.html"
+    },
+    {
+      "row_id": "dev-v1-0027",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "नवनिर्वाचित प्रतिनिधिसभा सदस्यको शपथ आज - कान्तिपुर",
+      "url": "https://ekantipur.com/politics/2026/03/26/newly-elected-members-of-the-house-of-representatives-to-be-sworn-in-today-26-16.html"
+    },
+    {
+      "row_id": "dev-v1-0028",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "२४ घण्टाभित्र झन्डै १ हजार रुसी ड्रोनले गरे युक्रेनमा आक्रमण - कान्तिपुर",
+      "url": "https://ekantipur.com/world/2026/03/25/nearly-1000-russian-drones-attacked-ukraine-in-24-hours-19-45.html"
+    },
+    {
+      "row_id": "dev-v1-0029",
+      "truth": "not_applicable",
+      "predicted": "single",
+      "title": "थाइल्यान्डको एक विद्यालयमा गोली चल्दा ६ जनाको मृत्यु - कान्तिपुर",
+      "url": "https://ekantipur.com/world/2026/08/07/six-killed-in-shooting-at-thai-school-10-26.html"
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+action,event_id,candidate_id,layer,changed_fields_json,reviewed_by,review_notes
+remove_superseded,event_22e0bf509686dc38,,identity,[],reviewer_D,One article contains two distinct road-blocking landslides in Besisahar-6.
+remove_superseded,event_d2e69ba486ee14c9,,identity,[],reviewer_D,Aug. 31 and Sep. 1 Kerabari reports are separate physical failures.
+remove_superseded,event_a7451ca16f82dfe0,,identity,[],reviewer_D,The source clearly identifies two separate road-blocking failures.
+remove_superseded,event_259619074799e501,,identity,[],reviewer_D,No specific physical landslide event is reported; landslides are only a general climate hazard.
+remove_superseded,event_4204b64c16865d2e,,identity,[],reviewer_D,The roundup names eight distinct landslide locations; road subsidence and fallen trees were not treated as landslide events.
+remove_superseded,event_c230f5636445149a,,identity,[],reviewer_D,Same location but different-day failures are kept as separate physical events.
+remove_superseded,event_54e8851407b95364,,identity,[],reviewer_D,June 22 Kalikhola and the June 27 failures are distinct events.
+remove_superseded,event_68e5449b465811d1,,identity,[],reviewer_D,Opinion/analysis piece; no specific physical landslide event in Bara is reported.
+remove_superseded,event_cfa4b1571ae562ee,,identity,[],reviewer_D,Scientific study summary about landslide patterns; not a report of one specific event.
+remove_superseded,event_384f348ca193a86c,,identity,[],reviewer_D,Aug. 7 Nagdi Khola coverage is one event; Aug. 14 coverage contains three separate failures.
+remove_superseded,event_b8919a447ecdb920,,identity,[],reviewer_D,Both named failures are in Kalikot; Surkhet is part of the highway route name.
+remove_superseded,event_684df79006907252,,identity,[],reviewer_D,The reports describe several named failures during a multi-day disruption; only individually locatable failures are retained.
+remove_superseded,event_1b08436221101dc3,,identity,[],reviewer_D,"Panchthar deaths came from several distinct Phidim failures, not one event."
+remove_superseded,event_3e20f9dbac92caa8,,identity,[],reviewer_D,Article reports earthquake impacts; landslides are only mentioned generally as secondary effects.
+remove_superseded,event_56bb5264e434d6a6,,identity,[],reviewer_D,"The landslide is a 2015 background story in a 2023 feature, not a new event on the claimed date."
+remove_superseded,event_9e4edc0b9fe94aec,,identity,[],reviewer_D,The current road closure was caused by snow; the landslide mention is an earlier cleared obstruction.
+remove_superseded,event_c5bc9f5a0bd201c3,,identity,[],reviewer_D,The source confirms two to three separate landslides near Siddhababa but does not identify enough event-level detail to create distinct canonical groups without inventing locations.
+remove_superseded,event_12d4c3995260ebee,,identity,[],reviewer_D,COP-29 travel article refers generally to past landslide damage and reports no specific current event.
+remove_superseded,event_ffb841725c4d7d44,,identity,[],reviewer_D,The reopening report describes two separate Bhimphedi road failures from Aug. 22.
+remove_superseded,event_4f578ec4050c43ff,,identity,[],reviewer_D,Detailed follow-up resolves the district total of 11 deaths into four distinct landslides.
+remove_superseded,event_278b95e14b2948e9,,identity,[],reviewer_D,Fatalities came from two distinct Khaniyabas failures; other specific same-night failures are separated. The risk-only article is excluded from event membership.
+remove_superseded,event_c08225575a51ab6a,,identity,[],reviewer_D,The article reports landslides at three to four separate spots around Satatale but does not identify the individual failures well enough for canonical event groups.
+remove_superseded,event_71131160a8ec7747,,identity,[],reviewer_D,The headline uses landslide metaphorically for political defection; no physical event occurred.
+remove_superseded,event_836bfd69dbe0fb71,,identity,[],reviewer_D,"Melamchi water-supply article refers to earlier flood/landslide damage, not a new specific event."
+remove_superseded,event_275dc0b755adf05a,,identity,[],reviewer_D,The feature describes broad flood-and-landslide disruption around Bhakundebesi/Mangaltar but no single identifiable physical landslide can be isolated.
+remove_superseded,event_4bdd61694ab9588d,,identity,[],reviewer_D,The two articles concern different Palpa landslides separated by roughly a month.
+remove_superseded,event_132c72712c1d524a,,identity,[],reviewer_D,"Ongoing landslide risk and past damage are described, but no specific dated event is identifiable."
+remove_superseded,event_f3c8f914153e68c4,,identity,[],reviewer_D,Relief/identity-card article for past victims; no specific landslide event on the claimed date is described.
+remove_superseded,event_113858d79d6c649e,,identity,[],reviewer_D,Monsoon-risk overview; Parbat is a victim-origin reference rather than a specific event location.
+remove_superseded,event_eaf022522c63cd14,,identity,[],reviewer_D,The customs-yard landslide is a specific physical event; the additional road-blocking landslides are too vague to split reliably.
+remove_superseded,event_b8294e9b885974fa,,identity,[],reviewer_D,National disaster-relief overview; no specific Kathmandu landslide/debris-flow event is identifiable.
+remove_superseded,event_31fde4e1bb845829,,identity,[],reviewer_D,The article gives three distinct fatal incidents but does not state their exact event dates.
+remove_superseded,event_58f8a5320964c15d,,identity,[],reviewer_D,Two separate failures were reported around 5:30 a.m. on July 27.
+remove_superseded,event_475be912ee51bfd4,,identity,[],reviewer_D,Two same-day Khahare recurrences and the Aug. 4 failure are separate events.
+remove_superseded,event_92d6d2d45a049b30,,identity,[],reviewer_D,The 25 articles resolve into repeated but distinct road failures across June 8-26; conflicting reports of the same overnight Nagdi episode are grouped rather than double-counted.
+remove_superseded,event_9be0d2ba87435434,,identity,[],reviewer_D,"Only titles/metadata are available. They do not establish event-level location, date, or membership well enough to construct reliable canonical groups."
+remove_superseded,event_7f3983c0699e484a,,identity,[],reviewer_D,"This January 2021 reconstruction story supports prior-monsoon events, not a new July 2021 event."
+remove_superseded,event_50c533cbdd134f81,,identity,[],reviewer_D,Jumla is the road-division/source location; the failures occurred in Kalikot.
+remove_superseded,event_4b0f6717cc03fbd8,,identity,[],reviewer_D,"The landslide was an underwater volcanic failure in Indonesia, not a Nepal event."
+remove_superseded,event_210972f0ee4cf5dc,,identity,[],reviewer_D,"June 22 Kalikhola, three June 27 morning failures, and the later Panch Kilo failure are distinct."
+remove_superseded,event_e475e15dba0e44b8,,identity,[],reviewer_D,The June 27 Panch Kilo and June 22 Char Kilo events are distinct; the multi-landslide reopening article lacks enough location detail for event-level membership.
+remove_superseded,event_837a89972cc5a50f,,identity,[],reviewer_D,The source reports 12-15 landslide-damaged locations on the Simkot-Kharpu road but gives neither separable locations nor event dates for canonical groups.
+remove_superseded,event_f3834ef9754d97b1,,identity,[],reviewer_D,The fatal Numa event and the three Kanduwa access-trail failures are separate physical events.
+remove_superseded,event_6cdbd97c87537f0f,,identity,[],reviewer_D,The July 31 Kharkhare recurrence is distinct from two July 28 obstructions.
+remove_superseded,event_2cc7e7f2568a19ff,,identity,[],reviewer_D,The article reports one failure in Lalitpur and a separate failure in Makwanpur.
+remove_superseded,event_6f875b4f349eac4f,,identity,[],reviewer_D,Nationwide roundup lists obstructed roads but not the exact physical failure points or event dates needed for canonical event groups.
+remove_superseded,event_04f022e732b1f4e3,,identity,[],reviewer_D,"The cluster contains Naugad, Malikarjun, a later dry landslide, and a separate highway obstruction."
+remove_superseded,event_b2fe2ffb3862bae5,,identity,[],reviewer_D,"The article describes plural, ongoing landslides around Bamka Bazaar without separable physical failure locations; event-level decomposition would require invention."
+remove_superseded,event_62e65dc84f17ae4d,,identity,[],reviewer_D,Article centers on flood damage; the landslide reference is too vague to identify a specific Chitwan event.
+remove_superseded,event_d483103edc00c5bf,,identity,[],reviewer_D,Editorial uses floods and landslides generically; no specific physical event is reported.
+remove_superseded,event_07d3a00f00f0e5a9,,identity,[],reviewer_D,The article explicitly states that two separate landslides fell overnight after an earlier closure.
+remove_superseded,event_04b2e8127da58989,,identity,[],reviewer_D,"The hospital article describes ongoing rain-driven mud/debris movement and landslips rather than one clearly dated, separable physical event."
+remove_superseded,event_fde4e8c08bc45a06,,identity,[],reviewer_D,The June 30 report supports separate Kerauja and Uhiya failures from the previous Wednesday; broader northern-Gorkha mentions are not individually locatable.
+remove_superseded,event_d865a3a70ef39b39,,identity,[],reviewer_D,Historical/analytical disaster overview; it does not support one specific Aug. 20 landslide event.
+remove_superseded,event_e88e6b951b783264,,identity,[],reviewer_D,National two-month disaster summary aggregates many hazards/events and does not support one canonical event.
+merge_into_existing,event_390a2e2e00258304,candidate_55816b449dc855ec,identity,[],reviewer_D,Same Aug. 31 Kerabari/Bharatpur-29 landslide and road obstruction as the existing record.
+merge_into_existing,event_7ea97925ab6b7948,candidate_207891eacec9b809,identity,[],reviewer_D,"Same Sep. 1 Kerabari mud-laden landslide; date, municipality, and road impact match the existing record."
+merge_into_existing,event_9c1fdea3e7fffb7d,candidate_c380f7b006896ae1,identity,[],reviewer_D,"Same July 9 Dalal, Besisahar-1 landslide blocking the Dumre-Besisahar road."
+merge_into_existing,event_3aaa0789b991563b,candidate_d86eafdc62dec024,identity,[],reviewer_D,Existing record covers the same Aug. 7 Nagdi Khola landslide on the Muglin-Malekhu/Prithvi Highway section.
+merge_into_existing,event_b76bb8d76e27162e,candidate_3eb388fee3a469eb,identity,[],reviewer_D,"Existing Aug. 23 follow-up describes the same overnight Baghjhora, Bhimphedi-1 obstruction before the road reopened."
+merge_into_existing,event_85fd6d42fdda3350,candidate_2feeb0162f0e0ecf,identity,[],reviewer_D,Existing same-day Netrawati Dabjong record includes the house-damaging landslide in that municipality; this candidate is the same physical failure.
+merge_into_existing,event_c252a6f699e13397,candidate_51eaa1fd442b6c6b,identity,[],reviewer_D,Existing July 12 Bhojpur record is anchored to Temkemaiyung and includes Janak BK's Lekharka incident; same physical event.
+merge_into_existing,event_975cca683aecf371,candidate_b8518ba28f57d180,identity,[],reviewer_D,Exact July 13 Ramprasad Rai-5 house landslide that killed Man Kumari Rai and her two sons.
+merge_into_existing,event_a7eb28bbde1fa242,candidate_f116056bb5a81db7,identity,[],reviewer_D,Exact June 15 Ghoptebhir landslide blocking Prithvi Highway.
+merge_into_existing,event_87925dff5f56d17e,candidate_24233bc7a66bd9ba,identity,[],reviewer_D,Exact June 18 dry landslide at Charkilo blocking the Narayangadh-Muglin road.
+merge_into_existing,event_b5fc893db464a5de,candidate_1d38700220253076,identity,[],reviewer_D,Same July 31 Kharkhare cliff failure blocking the Besisahar-Chame road.
+merge_into_existing,event_b0fe36cbc437a31a,candidate_b975491134b580cc,identity,[],reviewer_D,Existing July 25 follow-up is the same Badaligaun dry landslide in which the six-year-old child went missing on July 24.
+add_reconstructed,event_6425552803acd31a,candidate_6425552803acd31a,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_160b340bb6a2de1a,candidate_160b340bb6a2de1a,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_7d729864c134ced1,candidate_7d729864c134ced1,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_184f63e3ff3d7bcb,candidate_184f63e3ff3d7bcb,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_0494ad448a567ba7,candidate_0494ad448a567ba7,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Ghoptebhir failure."
+add_reconstructed,event_09c6efa31e5cb289,candidate_09c6efa31e5cb289,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Mauwakhola failure."
+add_reconstructed,event_9f6a3fd5d6e5f173,candidate_9f6a3fd5d6e5f173,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Datikhola failure."
+add_reconstructed,event_2a2072caa5af8efa,candidate_2a2072caa5af8efa,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Pani Dhara failure."
+add_reconstructed,event_4d031689ec5e2abb,candidate_4d031689ec5e2abb,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Tope Khola failure."
+add_reconstructed,event_fa6b5206edb969ec,candidate_fa6b5206edb969ec,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Kerabari failure."
+add_reconstructed,event_5d6435bdd7073154,candidate_5d6435bdd7073154,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Ghumaune failure."
+add_reconstructed,event_177418739467f408,candidate_177418739467f408,identity,[],reviewer_D,"The existing Sep. 28 match is a broad/risk-based road-closure report, not the specific Simaltal failure."
+add_reconstructed,event_45f33ad53e2d2a0e,candidate_45f33ad53e2d2a0e,identity,[],reviewer_D,Evidence explicitly describes a new Dalal landslide on July 10 after the July 9 event; retain separately.
+add_reconstructed,event_87104c45ca2bfb9b,candidate_87104c45ca2bfb9b,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_282671a7347db56b,candidate_282671a7347db56b,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_68e0bf81c597d527,candidate_68e0bf81c597d527,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_79b8425bfd5825bb,candidate_79b8425bfd5825bb,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_27f1f64d220470ad,candidate_27f1f64d220470ad,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_f8ae6ef70b13672f,candidate_f8ae6ef70b13672f,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_79295647ced17289,candidate_79295647ced17289,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_cd970a4c0d4145e1,candidate_cd970a4c0d4145e1,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_3acad43563f5d537,candidate_3acad43563f5d537,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_0a40c9df715d9e9a,candidate_0a40c9df715d9e9a,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_b2dc2b8965bc5c20,candidate_b2dc2b8965bc5c20,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_d4cbb4ede7daa63f,candidate_d4cbb4ede7daa63f,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_5a7c9c6857f337a3,candidate_5a7c9c6857f337a3,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_c685e656818a93da,candidate_c685e656818a93da,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_bdd53d4d549d0888,candidate_bdd53d4d549d0888,identity,[],reviewer_D,"Existing same-day match is a road-obstruction roundup, not the fatal Chisapani house landslide."
+add_reconstructed,event_1a72e4e5f68d7d28,candidate_1a72e4e5f68d7d28,identity,[],reviewer_D,"Existing same-day match is a road-obstruction roundup, not the fatal Phidim-1/Sanglabote landslide."
+add_reconstructed,event_d6b671eab1c60f8b,candidate_d6b671eab1c60f8b,identity,[],reviewer_D,"Existing same-day match is a road-obstruction roundup, not the separate Bhote Gaun fatal landslide."
+add_reconstructed,event_d96d08e259a23c27,candidate_d96d08e259a23c27,identity,[],reviewer_D,"Existing same-day match is a road-obstruction roundup, not the separate Majitema fatal landslide."
+add_reconstructed,event_fb79e1b5d61e1256,candidate_fb79e1b5d61e1256,identity,[],reviewer_D,The nearby existing follow-up primarily represents the Baghjhora/Tribhuvan Highway event; Bharyangdanda on Kanti Lokpath is a separate failure.
+add_reconstructed,event_1c691d1078a4a466,candidate_1c691d1078a4a466,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_e6fa14033a6333f6,candidate_e6fa14033a6333f6,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_6d1f21628fc8c0f0,candidate_6d1f21628fc8c0f0,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_f28856d3e33d3323,candidate_f28856d3e33d3323,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_285e166ff665a080,candidate_285e166ff665a080,identity,[],reviewer_D,"Existing record is anchored to Netrawati Dabjong; the Saiswara, Khaniyabas-5 fatal landslide is a separate physical event."
+add_reconstructed,event_ba0c562a58b69de0,candidate_ba0c562a58b69de0,identity,[],reviewer_D,"Existing record is anchored to Netrawati Dabjong; the Chiurikharka, Khaniyabas-4 fatal landslide is separate."
+add_reconstructed,event_30d180800f47659d,candidate_30d180800f47659d,identity,[],reviewer_D,Existing record is anchored to Netrawati Dabjong; the Todke house-damaging failure is separate.
+add_reconstructed,event_bf6209731bfb09f3,candidate_bf6209731bfb09f3,identity,[],reviewer_D,Existing record is anchored to Netrawati Dabjong; the Pakhribote failure is separate.
+add_reconstructed,event_5db2074c0993b8cb,candidate_5db2074c0993b8cb,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_6c1f601b2c363559,candidate_6c1f601b2c363559,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_2fbc844e7afa8e69,candidate_2fbc844e7afa8e69,identity,[],reviewer_D,"Existing July 12 record is anchored to Temkemaiyung; the Basikhora, Ramprasad Rai-7 fatal incident is a separate physical event."
+add_reconstructed,event_37afaff5d299aa60,candidate_37afaff5d299aa60,identity,[],reviewer_D,Same-day Palpa match concerns a different fatal landslide/location; Nagmandir road obstruction is distinct.
+add_reconstructed,event_7f4ced89d14de176,candidate_7f4ced89d14de176,identity,[],reviewer_D,Same-day Palpa match concerns a different fatal landslide/location; the Siddhababa Temple road obstruction is distinct.
+add_reconstructed,event_e82c9e0031b7c240,candidate_e82c9e0031b7c240,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_4026cec2bc3b6104,candidate_4026cec2bc3b6104,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_efa9980169b79d00,candidate_efa9980169b79d00,identity,[],reviewer_D,The Aug. 4 Muglin Bazaar failure is distinct in date/site from the Aug. 3 and Aug. 5 existing road failures.
+add_reconstructed,event_4b1d647e1d7b1bec,candidate_4b1d647e1d7b1bec,identity,[],reviewer_D,The June 9 existing article groups multiple road failures; this candidate is the distinct Nagdi Khola physical failure beginning the previous night.
+add_reconstructed,event_39adb8a2c8608063,candidate_39adb8a2c8608063,identity,[],reviewer_D,The June 9 existing article groups Namsi Bridge and Nagdi Khola failures; retain Namsi Bridge as its own physical event.
+add_reconstructed,event_80c7d63f9d13b2a1,candidate_80c7d63f9d13b2a1,identity,[],reviewer_D,The nearby June 9 record does not specifically identify this separate Kalikhola failure.
+add_reconstructed,event_15749231fb2bd80f,candidate_15749231fb2bd80f,identity,[],reviewer_D,The nearby June 9 record does not specifically identify this separate Ghoptebhir failure.
+add_reconstructed,event_219784bb21fe81b0,candidate_219784bb21fe81b0,identity,[],reviewer_D,June 10 morning Topekhola failure is distinct from the prior-day collision candidates.
+add_reconstructed,event_4e8b7315246d4fa7,candidate_4e8b7315246d4fa7,identity,[],reviewer_D,June 10 Kalikhola failure is distinct from the prior-day collision candidates.
+add_reconstructed,event_c3a50b8689e14db1,candidate_c3a50b8689e14db1,identity,[],reviewer_D,The 9 p.m. June 10 Topekhola failure is a new recurrence after the morning failure was cleared.
+add_reconstructed,event_65c6ac60bebfb517,candidate_65c6ac60bebfb517,identity,[],reviewer_D,June 17 Ghoptebhir failure is distinct from the June 18 Charkilo event.
+add_reconstructed,event_e5ac4e82056c3942,candidate_e5ac4e82056c3942,identity,[],reviewer_D,June 17 Thadokhola failure is distinct from the June 18 Charkilo event.
+add_reconstructed,event_0a5ee36b79f3f4c3,candidate_0a5ee36b79f3f4c3,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_93eb045bef8eb315,candidate_93eb045bef8eb315,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_2b4d8f3b00a5c883,candidate_2b4d8f3b00a5c883,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_29c43171889abe4a,candidate_29c43171889abe4a,identity,[],reviewer_D,Existing Myagdi matches are broader disaster/follow-up records and do not uniquely identify this Rikha/Marang household failure.
+add_reconstructed,event_538401aa0bb8d8a4,candidate_538401aa0bb8d8a4,identity,[],reviewer_D,"Existing matches are in Dhaulagiri or broader Myagdi coverage; the Bim, Malika-7 failure is a separate physical event."
+add_reconstructed,event_1129ecaedd14bd20,candidate_1129ecaedd14bd20,identity,[],reviewer_D,"Existing Aug. 10 article explicitly combines separate Ranchuli, Molpha, and Furke landslides; Ranchuli is retained as its own physical event."
+add_reconstructed,event_77875aec26751186,candidate_77875aec26751186,identity,[],reviewer_D,"Existing Aug. 10 article explicitly combines separate Ranchuli, Molpha, and Furke landslides; Molpha is retained separately."
+add_reconstructed,event_35260bf092a01ac1,candidate_35260bf092a01ac1,identity,[],reviewer_D,"Existing Aug. 10 article explicitly combines separate Ranchuli, Molpha, and Furke landslides; Furke is retained separately."
+add_reconstructed,event_04d97eac51ad0201,candidate_04d97eac51ad0201,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_d22ef4d0d2aef26e,candidate_d22ef4d0d2aef26e,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_4cb4d7de1d00cd6b,candidate_4cb4d7de1d00cd6b,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_1ed741842cd5735f,candidate_1ed741842cd5735f,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_aa69df05570829c2,candidate_aa69df05570829c2,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_acb078b0c0c383f2,candidate_acb078b0c0c383f2,identity,[],reviewer_D,Existing June 14 report aggregates deaths from different Sankhuwasabha landslides; Kalimaya Rai's Numa event is retained separately.
+add_reconstructed,event_b35aeee40f3412ef,candidate_b35aeee40f3412ef,identity,[],reviewer_D,Existing June 14 death roundup does not identify the Dumsimara cliff access-trail failure.
+add_reconstructed,event_b6bb31baebf32239,candidate_b6bb31baebf32239,identity,[],reviewer_D,Existing June 14 death roundup does not identify the separate Bhirkuna cliff access-trail failure.
+add_reconstructed,event_d8acd38d13acb130,candidate_d8acd38d13acb130,identity,[],reviewer_D,Existing June 14 death roundup does not identify the separate Chapleti cliff access-trail failure.
+add_reconstructed,event_d630e63c675c8525,candidate_d630e63c675c8525,identity,[],reviewer_D,The July 27/28 existing road report combines Dalal and Kharkhare failures; Dalal is retained as a separate physical event.
+add_reconstructed,event_2ba9ba4517137ca1,candidate_2ba9ba4517137ca1,identity,[],reviewer_D,The July 27/28 existing road report combines Dalal and Kharkhare failures; Kharkhare is retained as a separate physical event.
+add_reconstructed,event_75ec67d9b4c2bcb9,candidate_75ec67d9b4c2bcb9,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_bbbe16adb4736c5c,candidate_bbbe16adb4736c5c,identity,[],reviewer_D,No existing collision candidate supports the same physical event; retain as a new event.
+add_reconstructed,event_e5bd99c7b5b20ffd,candidate_e5bd99c7b5b20ffd,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_248f97666c36e1fd,candidate_248f97666c36e1fd,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_d63ef2bed9523a85,candidate_d63ef2bed9523a85,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_b9127452af7bbcdb,candidate_b9127452af7bbcdb,identity,[],reviewer_D,Existing reports describe the road being blocked by landslides at two places; this is one of the two distinct Hiyunde Khola failures.
+add_reconstructed,event_3194a0b83f6ff162,candidate_3194a0b83f6ff162,identity,[],reviewer_D,Existing reports describe the road being blocked by landslides at two places; this is the second distinct Hiyunde Khola failure.
+add_reconstructed,event_783ca6226976cf6f,candidate_783ca6226976cf6f,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+add_reconstructed,event_105c6b748dcf57f4,candidate_105c6b748dcf57f4,identity,[],reviewer_D,Only low-tier matches were found; the date/site evidence supports a distinct physical event.
+exclude_existing,event_6700004919a12eb1,CEC-009,true_value,[],reviewer_D,"The headline supports two deaths, but the article body is unavailable and the exact physical-event date cannot be verified."
+exclude_existing,event_211e126957e65889,CEC-016,true_value,[],reviewer_D,"The dry landslide is real and the five missing people were found safe, but the evidence gives no exact event date."
+exclude_existing,event_d4f0e10559968e62,CEC-024,true_value,[],reviewer_D,"The landslide and road blockage are specific, but 'last night at 2:00' does not securely distinguish Sep 14 from early Sep 15."
+exclude_existing,event_2ea916a4f69c9246,CEC-044,true_value,[],reviewer_D,"The Aug 12 report says the Ramche blockage had already lasted about three weeks, but it does not provide an exact onset date."
+exclude_existing,event_969d3482d20d8270,CEC-051,true_value,[],reviewer_D,"The fatal Jhyaaple Khola event is real, but this evidence does not resolve the exact district side of the border or the precise event date."
+exclude_existing,event_f23cbf09165fa0b2,CEC-090,true_value,[],reviewer_D,"The Iku road-blocking landslide is real and in Sindhupalchok, but the article does not state when the physical failure occurred."
+exclude_existing,event_203f295b24255618,CEC-094,true_value,[],reviewer_D,"The Jhyaaple Khola disaster is real and the report supports 35 deaths, but the exact district side and exact slide date remain unresolved in this evidence."
+exclude_existing,event_e2d226f81c58acbd,CEC-099,true_value,[],reviewer_D,"A continuing landslide behind Nibel village is described, but no precise physical-event onset date can be established."
+exclude_existing,event_3e4df10ee82f4788,CEC-109,true_value,[],reviewer_D,"The victim went missing on Asar 9 and was found on June 26, but the evidence does not establish the exact date the landslide buried him."
+exclude_existing,event_ac79484c7f55c67b,CEC-115,true_value,[],reviewer_D,"The slide is placed only at Bhattedanda on the Lalitpur-Makwanpur border, so the physical-event district cannot be resolved from this evidence."
+exclude_existing,event_8403664dc2d71449,CEC-118,true_value,[],reviewer_D,The Korunga slide is an ongoing failure that began roughly a decade earlier; the report does not support a precise event date.
+correct_attributes,event_3f034541ec282a34,CEC-001,true_value,"[""district""]",reviewer_D,"Article places the slide at Chorakhola, Kapurkot-3, Salyan; Surkhet is the dateline."
+correct_attributes,event_203f5a417f05f555,CEC-005,true_value,"[""event_date"",""deaths""]",reviewer_D,July 25 report says the landslide occurred the previous night; property/livestock loss is reported but no human death.
+correct_attributes,event_efffebeea55cde24,CEC-006,true_value,"[""district"",""event_type""]",reviewer_D,"Iku is in Bhotekoshi-2, Sindhupalchok, and the reported event is a landslide blocking the Araniko Highway."
+correct_attributes,event_eb0def4f07b3ccaf,CEC-007,true_value,"[""event_date"",""district""]",reviewer_D,The blockage was at Kerabari on the Narayangadh-Muglin road in Chitwan; the Aug 5 report says traffic had been blocked since about 2 a.m.
+correct_attributes,event_f1f1015d5c02a95f,CEC-008,true_value,"[""event_date"",""deaths""]",reviewer_D,Follow-up coverage says the home was buried Sunday night and four bodies were recovered; Aug 7 was the following Monday.
+correct_attributes,event_0b64b4517a7338ec,CEC-012,true_value,"[""deaths""]",reviewer_D,"Police initially relayed no human loss, but contemporaneous reporting said casualty status was still uncertain."
+correct_attributes,event_b8fcfbcc7245940f,CEC-013,true_value,"[""event_date""]",reviewer_D,The report states the Aarubata landslide blocked the highway from Sunday afternoon; the road reopened July 4.
+correct_attributes,event_0345efea31b98697,CEC-020,true_value,"[""event_date""]",reviewer_D,"The June 30 report says the road had been blocked by the landslide since Thursday afternoon, June 29."
+correct_attributes,event_e6fe800169699e36,CEC-022,true_value,"[""event_date"",""deaths""]",reviewer_D,"The landslide occurred Monday night, September 21, and two bodies were recovered the next morning."
+correct_attributes,event_38de5ca958d663bd,CEC-026,true_value,"[""district""]",reviewer_D,"The article explicitly places Jhakri Danda, where the Kanti Highway was blocked, in Lalitpur district."
+correct_attributes,event_9adb09e859acb696,CEC-031,true_value,"[""district""]",reviewer_D,"The slide occurred at Dhuma, Barekot-6, Jajarkot; the buried couple's survival status was unresolved in the reports."
+correct_attributes,event_d0c94b4147c7a82c,CEC-039,true_value,"[""event_date""]",reviewer_D,"By Sep 25 the Tuinkhola slide had been falling for two days, with another mudslide reported on Sep 24, supporting Sep 23 for the main onset."
+correct_attributes,event_560c90e6c77a6d75,CEC-048,true_value,"[""event_date""]",reviewer_D,The Sep 20 report states the road-blocking Tuin Khola failure struck Friday evening and worsened Saturday morning.
+correct_attributes,event_932147ce268856be,CEC-054,true_value,"[""district"",""event_type""]",reviewer_D,"The failure was at Khursani Khola, Bardaghat-4 in Nawalparasi West (Parasi), and it blocked the highway."
+correct_attributes,event_2d0011fe1c166af9,CEC-060,true_value,"[""event_date"",""event_type""]",reviewer_D,The Aug 22 follow-up says the Ghasikuwa slide fell Wednesday in Byas-12 and blocked the road.
+correct_attributes,event_db72add5ae4b8c8d,CEC-061,true_value,"[""district"",""event_type""]",reviewer_D,"Chumkhola is in Ichchhakamana-3, Chitwan; the dry landslide blocked the Prithvi Highway."
+correct_attributes,event_1715d6e113da5349,CEC-065,true_value,"[""event_date"",""district"",""deaths""]",reviewer_D,"The follow-up identifies a Saturday-night landslide in Kusma, Parbat, with nine deaths reported by Monday."
+correct_attributes,event_af4d629b9a7ddbbc,CEC-068,true_value,"[""event_date"",""district""]",reviewer_D,"The Lidi landslide occurred in Jugal-2, Sindhupalchok on Sawan 30, 2077, corresponding to Aug 14, 2020."
+correct_attributes,event_aa2bd99fea11b47e,CEC-069,true_value,"[""district"",""event_type""]",reviewer_D,"The dry slide was at Barlawa cliff, Kaligandaki-6, Gulmi, and it blocked the Kaligandaki Corridor."
+correct_attributes,event_948eb2d343bf931c,CEC-070,true_value,"[""event_date""]",reviewer_D,"The article says ground movement began on Bhadau 21, 2079, which corresponds to Sep 6, 2022."
+correct_attributes,event_7fcff9549d1fdca0,CEC-071,true_value,"[""event_date""]",reviewer_D,The Aug 14 article says the fatal quarry landslide occurred the previous night.
+correct_attributes,event_76d3a5fa69518547,CEC-076,true_value,"[""district"",""event_type"",""deaths""]",reviewer_D,The Aug 21 slide near Namsi Bridge blocked the Narayangadh-Muglin road in Chitwan; the report states no human loss from the season's slides.
+correct_attributes,event_ea9ab711e3edaded,CEC-089,true_value,"[""event_date"",""event_type"",""deaths""]",reviewer_D,"Both reports describe the new dry slide at Piple, Roshi on Oct 11; it blocked the highway and caused vehicle damage without human casualties."
+correct_attributes,event_f2a800f34a63ebad,CEC-096,true_value,"[""district""]",reviewer_D,"The follow-up places the 2021 landslide at Bagkhor, Hupsekot-5 in Nawalparasi East (Nawalpur), not Parasi."
+correct_attributes,event_1bd0a4616deea2ab,CEC-098,true_value,"[""event_date"",""event_type""]",reviewer_D,"The article states the Upper Siddhababa landslide fell Tuesday morning, June 28, and blocked the Siddhartha Highway."
+correct_attributes,event_dd54c2061facbe30,CEC-105,true_value,"[""event_type""]",reviewer_D,"A rock face collapsed onto an excavator during road widening; this is construction-related rather than a normal landslide event, and the driver's survival was not yet known."
+correct_attributes,event_e11c679d0cb8a4d8,CEC-010,structured_attribute,"[""deaths""]",reviewer_D,Article names three members of the Lama family killed when the landslide buried their shelter.
+correct_attributes,event_ba1fcc3e3957eb54,CEC-011,structured_attribute,"[""deaths""]",reviewer_D,Article reports a mother and her two-year-old daughter died when the landslide hit their house.
+correct_attributes,event_22d687e797bbe1c4,CEC-014,structured_attribute,"[""event_type""]",reviewer_D,Setidobhan landslide blocked both directions of the Narayangadh-Muglin road.
+correct_attributes,event_39a458421a2cc69d,CEC-017,structured_attribute,"[""hazard_type""]",reviewer_D,Article explicitly describes a mud/debris-laden slide (ledosahitko pahiro) blocking the highway.
+correct_attributes,event_891d5fa72ec09f81,CEC-021,structured_attribute,"[""event_type""]",reviewer_D,Rock-and-soil landslide at Lower Siddhababa blocked Siddhartha Highway.
+correct_attributes,event_875c9517869c9c7f,CEC-025,structured_attribute,"[""event_type""]",reviewer_D,Siruwari/Upper Baisari landslide disrupted direct traffic on the Beni-Jomsom road.
+correct_attributes,event_a37e7613984db894,CEC-030,structured_attribute,"[""hazard_type""]",reviewer_D,Evidence explicitly describes mud-laden landslide debris at Jantipahiro blocking the corridor.
+correct_attributes,event_38a4bc616dd6c8c5,CEC-032,structured_attribute,"[""deaths""]",reviewer_D,The motorcycle rider struck by the landslide died at the scene.
+correct_attributes,event_c531efd3d9c26872,CEC-034,structured_attribute,"[""deaths""]",reviewer_D,"Later follow-up reports confirm 11 deaths from the Barekot-4 Sarki village landslide, with one still missing."
+correct_attributes,event_7a197f823424159c,CEC-040,structured_attribute,"[""event_type""]",reviewer_D,Charkilo landslide stopped traffic in both directions on the Narayangadh-Muglin road.
+correct_attributes,event_62e9fa330a3cbba8,CEC-041,structured_attribute,"[""event_type""]",reviewer_D,Mahabhir landslide obstructed the Beni-Jomsom road and stranded vehicles.
+correct_attributes,event_19a6d7f1ee749851,CEC-049,structured_attribute,"[""hazard_type""]",reviewer_D,Both reports describe muddy landslide material (ledo mato) covering the road.
+correct_attributes,event_99273862d8e446e6,CEC-052,structured_attribute,"[""event_type""]",reviewer_D,Chumang Bhir landslide deposited rock and soil on the Koshi Highway and blocked traffic.
+correct_attributes,event_433eeade9426c23a,CEC-075,structured_attribute,"[""event_type""]",reviewer_D,Large Jorte landslide closed the Palpa-Gulmi road and stranded traffic.
+correct_attributes,event_f95dfda03a7226f4,CEC-082,structured_attribute,"[""deaths""]",reviewer_D,All reports confirm the mother and her three-year-old daughter were killed when the house was buried.
+correct_attributes,event_cc857e7d4539306c,CEC-083,structured_attribute,"[""event_type"",""hazard_type""]",reviewer_D,"Evidence describes a dry landslide containing rock debris that blocked the Ridi-Tamghas road, not a distinct rockfall."
+correct_attributes,event_77728e0f7804c9bc,CEC-085,structured_attribute,"[""event_type""]",reviewer_D,Fisling landslide blocked the Prithvi Highway until debris was cleared.
+correct_attributes,event_9feeaedb6b4f0cfd,CEC-086,structured_attribute,"[""event_type""]",reviewer_D,New dry landslide at Tuin Khola fully blocked the Narayangadh-Muglin road.
+correct_attributes,event_714ba2f05bc743c6,CEC-091,structured_attribute,"[""event_type""]",reviewer_D,Dry landslide near Topekhola blocked both directions of the Narayangadh-Muglin road.
+correct_attributes,event_c70c16787404eccc,CEC-092,structured_attribute,"[""event_type"",""hazard_type"",""deaths""]",reviewer_D,Worker was buried by a construction-site soil collapse during foundation excavation and rescued alive.
+correct_attributes,event_c184b68c3ad5a4d8,CEC-097,structured_attribute,"[""hazard_type"",""deaths""]",reviewer_D,A rock falling from the cliff with the slide struck and killed a mother and daughter.
+correct_attributes,event_7686ee3db090be13,CEC-100,structured_attribute,"[""event_type"",""hazard_type""]",reviewer_D,Article explicitly calls the Dalal failure a mudslide and reports that it blocked the Dumre-Besisahar road.
+correct_attributes,event_e4b5d11d55ad24da,CEC-102,structured_attribute,"[""event_type""]",reviewer_D,Bhalupahad landslide fully blocked Siddhartha Highway.
+correct_attributes,event_a6f786e02f7181b9,CEC-103,structured_attribute,"[""event_type""]",reviewer_D,Landslide with large rocks blocked the Besisahar-Chame road and stranded vehicles.
+correct_attributes,event_9e197d5bb586c91f,CEC-111,structured_attribute,"[""deaths""]",reviewer_D,One rescued man later died from injuries sustained when the landslide buried his house.
+correct_attributes,event_eeb01a4cc8b93314,CEC-112,structured_attribute,"[""deaths""]",reviewer_D,The only occupant was reported injured and receiving treatment; no death occurred in the event.
+correct_attributes,event_a2d4a5e1524a6e68,CEC-119,structured_attribute,"[""deaths""]",reviewer_D,The buried car's driver and passengers were all reported safe after rescue.

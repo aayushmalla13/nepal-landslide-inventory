@@ -1,0 +1,10 @@
+{
+  "blocked_validation_sha256": "99fae38453ca1d4602ba504c07b095043a451d1836faa7e9901ce5e078a21cd3",
+  "change": "final_deaths blank/not_reported -> 0",
+  "normalized_rows": [
+    "V9R-097"
+  ],
+  "normalized_sha256": "19ccf66e6fb564bbd3ac3b83de52bdbd180b3dec26537b9532d911582f72e1dd",
+  "status": "one_documented_encoding_normalization_revalidation_required",
+  "submitted_sha256": "6c3ec32f20fa6b20ad4a9b89ddbcd247599894206f35b24742a17afebc54f1eb"
+}

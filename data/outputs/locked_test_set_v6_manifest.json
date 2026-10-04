@@ -1,0 +1,312 @@
+{
+  "design_version": "v6",
+  "created_at": "2026-08-10T08:45:46Z",
+  "seed": 20260814,
+  "frame_table": "raw_articles",
+  "frame_size_after_assisted_exclusion": 8232,
+  "prior_evaluation_urls_found": 2364,
+  "prior_evaluation_urls_in_frame": 2363,
+  "eligible_frame_size": 5869,
+  "sample_size": 388,
+  "target_size": 400,
+  "allocation_shortfall_n": 12,
+  "allocation_shortfall_by_decision": {
+    "dropped_other": 7,
+    "no_extraction": 5
+  },
+  "decision_allocation": {
+    "kept_class1": 130,
+    "kept_class2": 50,
+    "dropped_specificity": 130,
+    "dropped_scope": 70,
+    "dropped_other": 15,
+    "no_extraction": 5
+  },
+  "strata": {
+    "dropped_other|en": {
+      "pipeline_decision": "dropped_other",
+      "route_lang": "en",
+      "population_n": 8,
+      "sampled_n": 8,
+      "inclusion_weight": 1.0
+    },
+    "dropped_scope|en": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "en",
+      "population_n": 57,
+      "sampled_n": 44,
+      "inclusion_weight": 1.295455
+    },
+    "dropped_scope|np": {
+      "pipeline_decision": "dropped_scope",
+      "route_lang": "np",
+      "population_n": 34,
+      "sampled_n": 26,
+      "inclusion_weight": 1.307692
+    },
+    "dropped_specificity|en": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "en",
+      "population_n": 894,
+      "sampled_n": 31,
+      "inclusion_weight": 28.83871
+    },
+    "dropped_specificity|np": {
+      "pipeline_decision": "dropped_specificity",
+      "route_lang": "np",
+      "population_n": 2884,
+      "sampled_n": 99,
+      "inclusion_weight": 29.131313
+    },
+    "kept_class1|en": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "en",
+      "population_n": 587,
+      "sampled_n": 45,
+      "inclusion_weight": 13.044444
+    },
+    "kept_class1|np": {
+      "pipeline_decision": "kept_class1",
+      "route_lang": "np",
+      "population_n": 1091,
+      "sampled_n": 85,
+      "inclusion_weight": 12.835294
+    },
+    "kept_class2|en": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "en",
+      "population_n": 199,
+      "sampled_n": 32,
+      "inclusion_weight": 6.21875
+    },
+    "kept_class2|np": {
+      "pipeline_decision": "kept_class2",
+      "route_lang": "np",
+      "population_n": 115,
+      "sampled_n": 18,
+      "inclusion_weight": 6.388889
+    }
+  },
+  "exclusion_sources": [
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_LABEL_HERE.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 395
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_labels.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_labels_filled.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v1_labels_filled_111.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v2_LABEL_HERE.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 355
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v2_labels.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v2_labels_final.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v3_LABEL_HERE.csv",
+      "rows_seen": 386,
+      "urls_in_file": 386,
+      "new_unique_exclusions": 386
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v3_labels.csv",
+      "rows_seen": 386,
+      "urls_in_file": 386,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v3_labels_final.csv",
+      "rows_seen": 386,
+      "urls_in_file": 386,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v4_LABEL_HERE.csv",
+      "rows_seen": 381,
+      "urls_in_file": 381,
+      "new_unique_exclusions": 381
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v4_labels.csv",
+      "rows_seen": 381,
+      "urls_in_file": 381,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v4_labels_final.csv",
+      "rows_seen": 381,
+      "urls_in_file": 381,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v5_LABEL_HERE.csv",
+      "rows_seen": 383,
+      "urls_in_file": 383,
+      "new_unique_exclusions": 383
+    },
+    {
+      "category": "locked_test",
+      "path": "data/outputs/locked_test_set_v5_labels.csv",
+      "rows_seen": 383,
+      "urls_in_file": 383,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "docs/locked_test_set_v1_labels_final.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "locked_test",
+      "path": "docs/locked_test_set_v1_labels_round1.csv",
+      "rows_seen": 395,
+      "urls_in_file": 395,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "prior_development",
+      "path": "data/outputs/development_set_v1_LABEL_HERE.csv",
+      "rows_seen": 300,
+      "urls_in_file": 300,
+      "new_unique_exclusions": 300
+    },
+    {
+      "category": "prior_development",
+      "path": "data/outputs/development_set_v1_labels.csv",
+      "rows_seen": 300,
+      "urls_in_file": 300,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "prior_development",
+      "path": "data/outputs/development_set_v1_labels_final.csv",
+      "rows_seen": 300,
+      "urls_in_file": 300,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_batch2.csv",
+      "rows_seen": 50,
+      "urls_in_file": 50,
+      "new_unique_exclusions": 43
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample.csv",
+      "rows_seen": 200,
+      "urls_in_file": 200,
+      "new_unique_exclusions": 121
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample_200.csv",
+      "rows_seen": 200,
+      "urls_in_file": 199,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample_pre_batch2_backup.csv",
+      "rows_seen": 150,
+      "urls_in_file": 149,
+      "new_unique_exclusions": 0
+    },
+    {
+      "category": "labelled_manual_evaluation",
+      "path": "data/outputs/manual_verification_sample_refreshed.csv",
+      "rows_seen": 200,
+      "urls_in_file": 200,
+      "new_unique_exclusions": 0
+    }
+  ],
+  "overlap_with_prior_evaluation": 0,
+  "lock_hash": "dec172a52d223e45af5e9a068201749229f9f298f915804c7e7a15350bab480a",
+  "truth_vocabularies": {
+    "is_landslide_event_true": [
+      "yes",
+      "no",
+      "unclear"
+    ],
+    "in_nepal_true": [
+      "yes",
+      "no",
+      "unclear"
+    ],
+    "hazard_type_true": [
+      "landslide",
+      "debris_flow",
+      "rockfall",
+      "avalanche",
+      "flood",
+      "other_hazard",
+      "not_a_hazard",
+      "unclear"
+    ],
+    "event_granularity_true": [
+      "single",
+      "multi",
+      "roundup",
+      "not_applicable",
+      "unclear"
+    ],
+    "article_role_true": [
+      "first_report",
+      "follow_up",
+      "retrospective",
+      "forecast_or_risk",
+      "metaphor_or_nonevent",
+      "unclear"
+    ]
+  },
+  "labels_file": "locked_test_set_v6_labels.csv",
+  "working_labels_file": "locked_test_set_v6_LABEL_HERE.csv",
+  "predictions_file": "locked_test_set_v6_predictions.csv",
+  "labels_sha256": "e63d463549af2ac00952e103bd5da0c81f90809dcda00a396c080984c2a66e55",
+  "predictions_sha256": "7ce7ff67e6640fb05cee8fd44feaed1485b1b1204566a12684446db72f9e44f0",
+  "notes": "Held-out post-development test set. Draw once, label once, never tune against it. Prior evaluation URLs and BIPAD-assisted articles were excluded before sampling. Metrics MUST be weighted by inclusion_weight to describe the inventory rather than the sample."
+}

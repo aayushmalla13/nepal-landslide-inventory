@@ -1,0 +1,49 @@
+{
+  "labelled_district_rows": 123,
+  "labels_unresolved_to_canonical": [],
+  "labelled_urls_absent_from_corpus": 0,
+  "released_baseline_v0.4.0_142_unit_gazetteer": {
+    "labelled_rows": 123,
+    "correct": 100,
+    "wrong_district": 11,
+    "no_district": 12,
+    "accuracy": 0.813,
+    "precision_when_assigned": 0.9009
+  },
+  "variants": {
+    "body_district_first=False,municipality_overrides_district=True": {
+      "labelled_rows": 123,
+      "correct": 106,
+      "wrong_district": 10,
+      "no_district": 7,
+      "accuracy": 0.8618,
+      "precision_when_assigned": 0.9138
+    },
+    "body_district_first=False,municipality_overrides_district=False": {
+      "labelled_rows": 123,
+      "correct": 105,
+      "wrong_district": 11,
+      "no_district": 7,
+      "accuracy": 0.8537,
+      "precision_when_assigned": 0.9052
+    },
+    "body_district_first=True,municipality_overrides_district=True": {
+      "labelled_rows": 123,
+      "correct": 106,
+      "wrong_district": 10,
+      "no_district": 7,
+      "accuracy": 0.8618,
+      "precision_when_assigned": 0.9138
+    },
+    "body_district_first=True,municipality_overrides_district=False": {
+      "labelled_rows": 123,
+      "correct": 106,
+      "wrong_district": 10,
+      "no_district": 7,
+      "accuracy": 0.8618,
+      "precision_when_assigned": 0.9138
+    }
+  },
+  "chosen_configuration": "body_district_first=True,municipality_overrides_district=False",
+  "note": "Development-set diagnostics for rule design only, per docs/DEVELOPMENT_SET.md. These are not held-out performance and must not be reported as such; a newly drawn locked test set is required before any accuracy claim enters the manuscript."
+}

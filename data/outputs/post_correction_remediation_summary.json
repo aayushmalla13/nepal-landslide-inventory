@@ -1,0 +1,84 @@
+{
+  "action_counts": {
+    "correct_date": 27,
+    "correct_deaths": 13,
+    "correct_district": 24,
+    "correct_event_type": 37,
+    "correct_hazard_type": 18,
+    "correct_municipality": 6,
+    "exclude_false_event": 23,
+    "recluster_articles": 11,
+    "review_date": 18,
+    "review_deaths": 11,
+    "review_district": 5,
+    "review_event_existence": 1,
+    "review_event_granularity": 1,
+    "review_event_type": 1,
+    "review_hazard_type": 7,
+    "review_municipality": 2,
+    "split_or_exclude_aggregate": 43
+  },
+  "audit": "post_correction_remediation_queue_v1",
+  "candidate_release": "nepal_landslide_inventory_v0.7.0_candidate_20260916",
+  "certainty_counts": {
+    "confirmed": 99,
+    "mixed_confirmed_and_review": 26,
+    "requires_review": 12
+  },
+  "challenge_flagged_rows": 13,
+  "challenge_rows": 50,
+  "fresh_audit_rows": 150,
+  "fresh_flagged_rows": 124,
+  "fresh_weighted_flagged_share": 0.8405605601281174,
+  "input_sha256": {
+    "post_correction_challenge_COMPLETED.csv": "fb4cb0c618a7eca8a84199df3e8dd41b4e04dc62178db81ec1397707f8281978",
+    "post_correction_challenge_reading_pack.csv": "e9b684289a4f636e609b69db85dac73b1935470b68ee4917cbc74e7950c91ca1",
+    "post_correction_fresh_audit_COMPLETED.csv": "060266bca594690d9ace5df8c851ecee31e0ea987e45f0a93bf162f196667484",
+    "post_correction_fresh_audit_reading_pack.csv": "01e38ece0ddb42c185bff47b8dd744455c492319add23ba24ce93965abe28fd0",
+    "post_correction_fresh_audit_weights.csv": "5056fb7522ba95c14055d3ed23739bfac391a24003c7b120a9e11606293a0fcf",
+    "post_correction_validation_manifest.json": "35f73a08d58dfae15544de6b884d11d53c802b5178327cff8bd3662cb94d10ab",
+    "post_correction_validation_score.json": "93653fe5bc42aaafb7bc15dadfa150441a74bcfe301ad43eeff93fe453f2d17a"
+  },
+  "interpretation": "Fresh and challenge findings are correction leads, not a new validation estimate. Sampling weights apply only to fresh_probability rows.",
+  "priority_counts": {
+    "P0_identity_or_linkage": 106,
+    "P1_attribute": 27,
+    "P2_uncertain": 4
+  },
+  "queue_rows": 137,
+  "readiness_counts": {
+    "requires_article_mapping": 67,
+    "requires_true_value_review": 45,
+    "structured_attribute_candidate": 25
+  },
+  "sample_role_counts": {
+    "correction_challenge": 13,
+    "fresh_probability": 124
+  },
+  "source_domain_counts": {
+    "deshsanchar.com": 13,
+    "english.nepalpress.com": 2,
+    "english.onlinekhabar.com": 6,
+    "kathmandupost.com": 1,
+    "myrepublica.nagariknetwork.com": 18,
+    "nagariknews.nagariknetwork.com": 17,
+    "nepalpress.com": 7,
+    "onlinekhabar.com": 7,
+    "rajdhanidaily.com": 14,
+    "ratopati.com": 1,
+    "risingnepaldaily.com": 1,
+    "setopati.com": 20,
+    "thehimalayantimes.com": 12,
+    "ujyaaloonline.com": 18
+  },
+  "systematic_issue_counts": {
+    "casualty_extraction": 24,
+    "deduplication": 11,
+    "event_date_resolution": 45,
+    "event_granularity": 44,
+    "event_type_classification": 38,
+    "hazard_type_classification": 25,
+    "location_role_resolution": 36,
+    "scope_or_event_specificity": 24
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "note": "Dry run. Nothing was written to the inventory or any release.",
+  "articles_considered": 3738,
+  "recovered_records": 23,
+  "distinct_recovered_district_days": 21,
+  "novel_district_days": 13,
+  "novel_district_days_with_firm_date": 13,
+  "collision_rate_observed": 0.381,
+  "case_days_v0_6_0": 1508,
+  "gain_pct_vs_case_days": 0.86,
+  "gain_pct_firm_only": 0.86,
+  "development_projection_pct": 13.16,
+  "development_projection_ci95": [
+    6.88,
+    20.19
+  ],
+  "development_recall": 0.5294,
+  "date_basis_mix": {
+    "explicit_bs_date": 19,
+    "explicit_ad_date": 4
+  },
+  "articles_by_recovered_count": {
+    "1": 18,
+    "2": 1,
+    "3": 1
+  },
+  "top_districts": {
+    "Sindhupalchok": 7,
+    "Chitwan": 3,
+    "Kaski": 2,
+    "Bajhang": 2,
+    "Parbat": 2,
+    "Jajarkot": 1,
+    "Rasuwa": 1,
+    "Dhading": 1,
+    "Kathmandu": 1,
+    "Baitadi": 1,
+    "Sankhuwasabha": 1,
+    "Myagdi": 1
+  },
+  "top_sources": {
+    "rajdhani": 7,
+    "deshsanchar": 4,
+    "myrepublica": 2,
+    "setopati": 2,
+    "ujyaalo": 2,
+    "kathmandu-post": 1,
+    "nagarik": 1,
+    "nepalpress": 1,
+    "rising-nepal": 1,
+    "online-khabar": 1
+  }
+}

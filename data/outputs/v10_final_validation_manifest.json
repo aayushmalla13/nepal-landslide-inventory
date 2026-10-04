@@ -1,0 +1,260 @@
+{
+  "audit": "v10_final_locked_validation_v1",
+  "blinding": "prior labels, scores, confidence, parser, scope, and correction fields are omitted",
+  "canonical_rows": 2605,
+  "canonical_sha256": "68f2efd27a2c929c0df879974afcde14560ecbd6edf2ce389cc03a18f0857c8a",
+  "eligible_frame_rows": 1557,
+  "evidence_unavailable_article_count": 0,
+  "exclusion_sources": {
+    "canonical_event_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 124,
+      "event_ids": 55
+    },
+    "canonical_event_audit_ADJUDICATE_COMPLETED.csv": {
+      "direct_urls": 126,
+      "event_ids": 46
+    },
+    "canonical_event_audit_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "canonical_event_audit_second_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "canonical_event_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 43,
+      "event_ids": 27
+    },
+    "canonical_event_true_value_REVIEW_COMPLETED.csv": {
+      "direct_urls": 43,
+      "event_ids": 37
+    },
+    "data/outputs/canonical_event_audit_LABEL_HERE.csv": {
+      "all_cluster_urls": 265,
+      "event_ids": 150
+    },
+    "data/outputs/post_correction_challenge_LABEL_HERE.csv": {
+      "all_cluster_urls": 82,
+      "event_ids": 50
+    },
+    "data/outputs/post_correction_fresh_audit_LABEL_HERE.csv": {
+      "all_cluster_urls": 218,
+      "event_ids": 150
+    },
+    "data/outputs/v08_fresh_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 215,
+      "event_ids": 150
+    },
+    "data/outputs/v09_final_validation_LABEL_HERE.csv": {
+      "all_cluster_urls": 209,
+      "event_ids": 150
+    },
+    "dedup_collision_review_BATCH_01_ADJUDICATED.csv": {
+      "direct_urls": 141,
+      "event_ids": 0
+    },
+    "dedup_collision_review_BATCH_01_COMPLETED.csv": {
+      "direct_urls": 141,
+      "event_ids": 0
+    },
+    "granularity_class1_COMPLETED.csv": {
+      "direct_urls": 100,
+      "event_ids": 0
+    },
+    "granularity_development_COMPLETED.csv": {
+      "direct_urls": 120,
+      "event_ids": 0
+    },
+    "locked_test_set_v7_COMPLETED.csv": {
+      "direct_urls": 397,
+      "event_ids": 0
+    },
+    "place_backfill_review_pack_COMPLETED.csv": {
+      "direct_urls": 72,
+      "event_ids": 0
+    },
+    "post_correction_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 67
+    },
+    "post_correction_challenge_COMPLETED.csv": {
+      "direct_urls": 44,
+      "event_ids": 50
+    },
+    "post_correction_fresh_audit_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "post_correction_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 61,
+      "event_ids": 45
+    },
+    "post_correction_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 55,
+      "event_ids": 25
+    },
+    "secondary_locked_v8_COMPLETED.csv": {
+      "direct_urls": 145,
+      "event_ids": 0
+    },
+    "secondary_precision_HUMAN_COMPLETED.csv": {
+      "direct_urls": 136,
+      "event_ids": 0
+    },
+    "secondary_precision_SPOTCHECK_COMPLETED.csv": {
+      "direct_urls": 30,
+      "event_ids": 0
+    },
+    "v08_fresh_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v09_article_mapping_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 0,
+      "event_ids": 54
+    },
+    "v09_article_membership_MAP.csv": {
+      "direct_urls": 78,
+      "event_ids": 54
+    },
+    "v09_final_validation_COMPLETED.csv": {
+      "direct_urls": 150,
+      "event_ids": 150
+    },
+    "v09_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 99,
+      "event_ids": 0
+    },
+    "v09_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": {
+      "direct_urls": 24,
+      "event_ids": 0
+    },
+    "v09_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": {
+      "direct_urls": 44,
+      "event_ids": 33
+    },
+    "v09_structured_attribute_REVIEW_COMPLETED.csv": {
+      "direct_urls": 39,
+      "event_ids": 25
+    },
+    "v09_structured_attribute_REVIEW_SUBMITTED.csv": {
+      "direct_urls": 39,
+      "event_ids": 25
+    }
+  },
+  "inputs": {
+    "data/outputs/canonical_event_article_mapping_DECISIONS_COMPLETED.csv": "0274f248ed67e5404cb5cfbfdc9f746cf9556b3541993ced6a737c89cd8ae163",
+    "data/outputs/canonical_event_audit_ADJUDICATE_COMPLETED.csv": "f947bdd17dfc1a3db0a9f823d943eabb50b99253884d7bcdaec5971109e9deaf",
+    "data/outputs/canonical_event_audit_COMPLETED.csv": "c5cbedb457b999bca3a3cc2ef92e1d62b74f57ed49f8f60417395a80a4f0a5ed",
+    "data/outputs/canonical_event_audit_LABEL_HERE.csv": "786b54256bfdd4a33e0e9cde94413ec89b7cd33da5943be4b70f6ce03a8bcb02",
+    "data/outputs/canonical_event_audit_second_COMPLETED.csv": "f384fada43a7df7ba6218acb5b71dc98a8f9c50100caf9ea43fe34e02f7160d6",
+    "data/outputs/canonical_event_structured_attribute_REVIEW_COMPLETED.csv": "5a6c4b2309359542fcca7b0d2439099e6e1690cb55b4235ae714c83f137ca97c",
+    "data/outputs/canonical_event_true_value_REVIEW_COMPLETED.csv": "2022c31b979eb5b2c20b9092dfe136ac6044e54617d584e953422688a79af5af",
+    "data/outputs/dedup_collision_review_BATCH_01_ADJUDICATED.csv": "c86d3a5725182f37a60cec8f4e8eaf7fa65a22f88f1c05fc1ae762565d9f45dc",
+    "data/outputs/dedup_collision_review_BATCH_01_COMPLETED.csv": "43aadd4e19e17b202c98b722262ccfd9a71f1504e5519db3ed2f270436c2cfdc",
+    "data/outputs/granularity_class1_COMPLETED.csv": "e51d031bdf59364ea7854806b006958e5be0d9ed02f143f169a1e4538c8c78cc",
+    "data/outputs/granularity_development_COMPLETED.csv": "6eca8d46884b299391eca3ed77c8e1b0dd095c1959572181a0ec51180d92a50a",
+    "data/outputs/locked_test_set_v7_COMPLETED.csv": "1ab5f36ca1593259b37e3f8bba865dc018200b05fbaa919d3cf37801f9eab65e",
+    "data/outputs/place_backfill_review_pack_COMPLETED.csv": "c14653c6d0aec2f561ea31388835894cd8ab1c508ba38a7fbe34eaad2270e408",
+    "data/outputs/post_correction_article_mapping_DECISIONS_COMPLETED.csv": "262b7d46ad27cc3da9463a0702c65f00f1c5f4d92397b0de9033cc36bcd99934",
+    "data/outputs/post_correction_challenge_COMPLETED.csv": "fb4cb0c618a7eca8a84199df3e8dd41b4e04dc62178db81ec1397707f8281978",
+    "data/outputs/post_correction_challenge_LABEL_HERE.csv": "9b93ac97152bf458a161bf62272b7d9becc78f26cd625981393488bb5506898e",
+    "data/outputs/post_correction_fresh_audit_COMPLETED.csv": "060266bca594690d9ace5df8c851ecee31e0ea987e45f0a93bf162f196667484",
+    "data/outputs/post_correction_fresh_audit_LABEL_HERE.csv": "0b18e208add792920be119e3cd5644c7284966d278289d1a251d6b7c61b6f14c",
+    "data/outputs/post_correction_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "8016a7f6fdea628b8c2298288a354c90aff46422b0af29abbface4ff91a62d8e",
+    "data/outputs/post_correction_structured_attribute_REVIEW_COMPLETED.csv": "6738e388b3e9cd3c430a5aadf4ce03a1e6d8935ebc7399598fef4fb4e4a6ea18",
+    "data/outputs/secondary_locked_v8_COMPLETED.csv": "c4febfaacaab6e8fc1c60d282055a2fd63e3807d46fe935589cccb173a3d995c",
+    "data/outputs/secondary_precision_HUMAN_COMPLETED.csv": "00c5409285b2608556efecd0fd8705085343794490ee50cd924b1be8a7d55eb7",
+    "data/outputs/secondary_precision_SPOTCHECK_COMPLETED.csv": "e68d6a639cb91edb50aaa69b7e43ad5e12d0c2181d8959d35923dfe3005e7efe",
+    "data/outputs/v08_fresh_validation_COMPLETED.csv": "03a58c6c55ec407e023c3cb05755063eb1f45c7cc012c9426e43914b0ba366c4",
+    "data/outputs/v08_fresh_validation_LABEL_HERE.csv": "52b875e3dab53df855f2cbc7aeeb4615c15e6584d421ddb37bb41c38c198b872",
+    "data/outputs/v09_article_mapping_DECISIONS_COMPLETED.csv": "280796cbc57d037740cd8954a45cb4a8344b80b43bc25e66276b55196cc360f1",
+    "data/outputs/v09_article_membership_MAP.csv": "351e14a6ff95f43f18d2ea897652e64c78e8ab8c5216878a11044fe8108ae93f",
+    "data/outputs/v09_final_validation_COMPLETED.csv": "0ba34e06adc505a15fc151f373c6ac4e220f210fdb2300ec1e89f0bc5a458c44",
+    "data/outputs/v09_final_validation_LABEL_HERE.csv": "71b04753b534b10f7d5e4b3c63949e9c9205ffcf49e88df4660fc52ce0cf9eda",
+    "data/outputs/v09_reconstruction_COLLISION_DECISIONS_COMPLETED.csv": "94d6843d3e4cccca69d3db293a7e8a1ac7687c37b210357b17cd261e4e8866f2",
+    "data/outputs/v09_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv": "b923b3a9ba3e0460c6a88a075c4931eba6700bbdd9a78be78137608be394f0f5",
+    "data/outputs/v09_remediation_BATCH_TRUE_VALUE_REVIEW_COMPLETED.csv": "c0ff3b8a9e8f3ede481615ed4dd26687f287d222efdf70bf87c9267c464882f8",
+    "data/outputs/v09_structured_attribute_REVIEW_COMPLETED.csv": "19ccf66e6fb564bbd3ac3b83de52bdbd180b3dec26537b9532d911582f72e1dd",
+    "data/outputs/v09_structured_attribute_REVIEW_SUBMITTED.csv": "6c3ec32f20fa6b20ad4a9b89ddbcd247599894206f35b24742a17afebc54f1eb",
+    "data/releases/nepal_landslide_inventory_v0.6.0_v7_20260915/canonical_events_final.csv": "3b335babbfcbe0b50d2aad9023e08e55a2ca6e8e0881729615df33e2c9b9d0e8",
+    "data/releases/nepal_landslide_inventory_v0.7.0_candidate_20260916/canonical_events_final.csv": "182071353abd87fed8404d0ae82b172b64d410599bf6e36a532c363cb6fdf663",
+    "data/releases/nepal_landslide_inventory_v0.8.0_candidate_20260923/canonical_events_final.csv": "0822515b56693af22daf2e3cc6e63b178eb41fefa46a8b607a47d6da9efdcd07",
+    "data/releases/nepal_landslide_inventory_v0.9.0_candidate_20260924/canonical_events_final.csv": "9331668017b1ea34709acfbda34ec9a52c4ab5a02bcdc127cab0a58769379f22",
+    "data/releases/nepal_landslide_inventory_v1.0.0_candidate_20260927/canonical_events_final.csv": "68f2efd27a2c929c0df879974afcde14560ecbd6edf2ce389cc03a18f0857c8a",
+    "data/releases/nepal_landslide_inventory_v1.0.0_candidate_20260927/landslide_inventory.sqlite": "aed9e133ee511382f19ea7304168c3a3d7d2e59efb54cdcbc5047ec2117a198d",
+    "data/releases/nepal_landslide_inventory_v1.0.0_candidate_20260927/release_manifest.json": "233e5baabb989cb2616adec4fe4889309136ed6b6338e39139a8a4b86198029b",
+    "scripts/draw_v10_final_validation.py": "3c754bc3531503f4288da8081c0c966d87b048d0ac01d72e0d87e65801458196",
+    "scripts/score_v10_final_validation.py": "fdbc5bdceec57d5cde7e9fbc2fc9bdb8e955a81ce6354d0e3cb6fe571e9d4004"
+  },
+  "inventory_release": "nepal_landslide_inventory_v1.0.0_candidate_20260927",
+  "notes": "Final independent audit of v1.0; all traceable prior reviewed event IDs and article URLs, including collision-review evidence, are excluded. Promotion thresholds are unchanged from the prespecified v0.8 rule.",
+  "outputs": {
+    "v10_final_validation_LABEL_HERE.csv": "cce26b3d075859dc9b253467437391ac1600caa3646bfa0c4e2a5bfb55a5a90b",
+    "v10_final_validation_reading_pack.csv": "d4ea26e46b1d7cef03314cbdaf135cfe38a480f1754b2b0f779de4155ca445c5",
+    "v10_final_validation_weights.csv": "4a6b71b7fdda098fe6cf53a568c2953856bc04e9a50235f180c16e8361e6675a"
+  },
+  "population_by_stratum": {
+    "en|2015-2018|landslide|multi_article": 15,
+    "en|2015-2018|landslide|single_article": 233,
+    "en|2019-2022|landslide|multi_article": 29,
+    "en|2019-2022|landslide|single_article": 129,
+    "en|2023-2026|landslide|multi_article": 22,
+    "en|2023-2026|landslide|single_article": 117,
+    "np|2015-2018|landslide|multi_article": 6,
+    "np|2015-2018|landslide|single_article": 65,
+    "np|2019-2022|landslide|multi_article": 30,
+    "np|2019-2022|landslide|single_article": 332,
+    "np|2023-2026|landslide|multi_article": 68,
+    "np|2023-2026|landslide|single_article": 511
+  },
+  "promotion_rule_prespecified": {
+    "date_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "decision": "promote only if every threshold passes; otherwise retain candidate status",
+    "district_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "event_existence_precision": {
+      "minimum_ci95_lower": 0.85,
+      "minimum_estimate": 0.9
+    },
+    "maximum_event_existence_unclear_fraction": 0.05,
+    "single_event_accuracy": {
+      "minimum_ci95_lower": 0.75,
+      "minimum_estimate": 0.85
+    },
+    "usable_record_precision": {
+      "minimum_ci95_lower": 0.6,
+      "minimum_estimate": 0.7
+    }
+  },
+  "reviewed_article_urls_excluded": 1975,
+  "reviewed_event_ids_excluded": 633,
+  "sample_by_stratum": {
+    "en|2015-2018|landslide|multi_article": 3,
+    "en|2015-2018|landslide|single_article": 22,
+    "en|2019-2022|landslide|multi_article": 3,
+    "en|2019-2022|landslide|single_article": 12,
+    "en|2023-2026|landslide|multi_article": 3,
+    "en|2023-2026|landslide|single_article": 11,
+    "np|2015-2018|landslide|multi_article": 3,
+    "np|2015-2018|landslide|single_article": 5,
+    "np|2019-2022|landslide|multi_article": 3,
+    "np|2019-2022|landslide|single_article": 31,
+    "np|2023-2026|landslide|multi_article": 6,
+    "np|2023-2026|landslide|single_article": 48
+  },
+  "sample_rows": 150,
+  "seed": 20260927,
+  "stratification": [
+    "title_language",
+    "period",
+    "event_type",
+    "article_support"
+  ]
+}
