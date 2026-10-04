@@ -22,11 +22,21 @@ from landslide_inventory.analysis.pipeline import (
     PRIMARY_VARIANT,
     run_rainfall_analysis_stage,
 )
+from landslide_inventory.analysis.release import OUTPUT_FILES
 from landslide_inventory.config import load_config
 
 DISTRICTS = ("Achham", "Baglung", "Chitwan", "Dhading", "Gorkha", "Kaski")
 START = date(2019, 1, 1)
 END = date(2024, 12, 31)
+
+
+def test_rainfall_release_bundles_case_integrity_diagnostics() -> None:
+    assert {
+        "rainfall_case_integrity_audit.csv",
+        "rainfall_case_integrity_audit.json",
+        "rainfall_case_integrity_audit_excludable_case_days.csv",
+        "rainfall_integrity_sensitivity.json",
+    } <= set(OUTPUT_FILES)
 
 
 def _rain_for(district: str, day: date) -> float:
@@ -81,7 +91,7 @@ def _write_events(path: Path) -> None:
                         "event_date_ad": chosen.isoformat(),
                         "district": district,
                         "province": "Test",
-                        "conf_date": "0.88" if counter % 5 else "0.60",
+                        "conf_date": "0.92" if counter % 5 else "0.60",
                         "event_type": "road_obstruction" if counter % 7 == 0 else "landslide",
                         "trigger": "earthquake" if counter % 23 == 0 else "rainfall",
                         "event_granularity": "single",
@@ -152,6 +162,7 @@ def analysis_root(tmp_path_factory) -> Path:
             "antecedent_windows_days": [1, 3, 5],
             "min_date_confidence": 0.78,
             "high_date_confidence": 0.80,
+            "very_high_date_confidence": 0.90,
             "controls_per_event": 3,
             "control_exclusion_buffer_days": 7,
             "development_end": "2022-12-31",
@@ -225,6 +236,9 @@ def test_sensitivity_summary_includes_the_new_prespecified_variants(
     variants = {row["variant"] for row in rows}
     assert "balanced_source_panel" in variants
     assert "strict_matched_sets" in variants
+    assert "very_high_conf_ge_0.90" in variants
+    assert "primary_date_minus_3d" in variants
+    assert "primary_date_plus_3d" in variants
     assert {row["exposure"] for row in rows} == {CONCURRENT, ANTECEDENT}
     assert all(row["development_auc"] for row in rows)
 

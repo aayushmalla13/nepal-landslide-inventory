@@ -32,17 +32,20 @@ CHIRPS download, matched-control design, temporal validation, and outputs.
 
 ## Current results
 
-Analysis release `nepal_landslide_rainfall_v0.2.0_20260814` (bundle lock
-`404ddfe66a11a42fa72a9b341fd1a8817f52d3370b454af87a99b3a68919870c`), linked to
-the frozen inventory release `nepal_landslide_inventory_v0.4.0_v6_20260810`.
+Candidate analysis release `nepal_landslide_rainfall_v0.9.0_20260923` (bundle
+lock `d1baf10abc90973ce16cd73238c6111e608e97dd4c46c0f15c1cb9e968c90845`),
+linked to `nepal_landslide_inventory_v0.8.0_candidate_20260923`. The completed
+150-row fresh audit failed four prespecified promotion checks, so neither
+release is promoted. See
+[`docs/V08_FRESH_VALIDATION_RESULT.md`](docs/V08_FRESH_VALIDATION_RESULT.md).
 
 | | Primary (concurrent) | Co-primary (strictly antecedent) |
 |---|---|---|
 | Window selected in development | 5 days | 3 days |
-| Cutpoint | 45.4 mm | 19.1 mm |
-| Temporal-test AUC | 0.693 (0.657–0.722) | 0.664 (0.628–0.697) |
-| Leave-one-year-out AUC | 0.652 (0.563–0.710) | 0.622 (0.560–0.690) |
-| Odds ratio per 10 mm | 1.23 (1.19–1.26) | 1.22 (1.19–1.26) |
+| Cutpoint | 51.6 mm | 23.7 mm |
+| Temporal-test AUC | 0.677 (0.644–0.705) | 0.651 (0.617–0.678) |
+| Leave-one-year-out AUC | 0.651 (0.566–0.711) | 0.633 (0.575–0.664) |
+| Odds ratio per 10 mm | 1.23 (1.20–1.27) | 1.21 (1.18–1.25) |
 
 Concurrent windows end on and include the reported event day, so they may contain
 rain that fell after failure; the strictly antecedent result bounds the signal
@@ -57,6 +60,7 @@ Key documents:
 - [`docs/RAINFALL_MANUSCRIPT_DRAFT.md`](docs/RAINFALL_MANUSCRIPT_DRAFT.md) — manuscript
 - [`docs/RAINFALL_MANUSCRIPT_TABLES.md`](docs/RAINFALL_MANUSCRIPT_TABLES.md) — tables 1–7
 - [`docs/RAINFALL_CHANGELOG.md`](docs/RAINFALL_CHANGELOG.md) — v0.1.0 versus v0.2.0
+- [`docs/POST_CORRECTION_EXTERNAL_VALIDATION_RESULT.md`](docs/POST_CORRECTION_EXTERNAL_VALIDATION_RESULT.md) — checksummed BIPAD agreement against the v0.8 candidate
 - [`docs/SENIOR_REVIEW_2026-08-14.md`](docs/SENIOR_REVIEW_2026-08-14.md) — independent audit
 - [`docs/PROJECT_COMPLETE_PLAIN_LANGUAGE_GUIDE.md`](docs/PROJECT_COMPLETE_PLAIN_LANGUAGE_GUIDE.md) — non-specialist explanation
 - [`docs/MISSING_DATA_RECOVERY.md`](docs/MISSING_DATA_RECOVERY.md) — gazetteer rebuild (142 → 753 local units) and municipality/ward backfill

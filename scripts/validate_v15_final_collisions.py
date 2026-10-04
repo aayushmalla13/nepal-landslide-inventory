@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+"""Validate final v1.5 candidate-to-candidate collision decisions."""
+
+from __future__ import annotations
+
+import importlib.util
+from pathlib import Path
+
+
+def _load_core():
+    path = Path(__file__).with_name("validate_v09_final_collisions.py")
+    spec = importlib.util.spec_from_file_location("v15_final_collision_validation_core", path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Cannot load final-collision validator core: {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+core = _load_core()
+ROOT = Path(__file__).resolve().parents[1]
+OUTPUT = ROOT / "data/outputs"
+
+
+def configure_core() -> None:
+    core.TEMPLATE = OUTPUT / "v15_reconstruction_FINAL_COLLISION_DECISIONS.csv"
+    core.PAIRS = OUTPUT / "v15_reconstruction_FINAL_COLLISION_PAIRS.csv"
+    core.MANIFEST = OUTPUT / "v15_final_collision_manifest.json"
+    core.DEFAULT_COMPLETED = OUTPUT / "v15_reconstruction_FINAL_COLLISION_DECISIONS_COMPLETED.csv"
+    core.VALIDATION = OUTPUT / "v15_final_collision_validation.json"
+
+
+configure_core()
+validate = core.validate
+
+
+def main() -> int:
+    configure_core()
+    return core.main()
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

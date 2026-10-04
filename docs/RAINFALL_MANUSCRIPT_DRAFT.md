@@ -3,11 +3,11 @@
 **Authors:** [add authors, affiliations, contributions, funding, competing
 interests and any ethics or data-sharing declarations before submission]
 
-**Analysis version:** 0.8.0 (2026-09-15). Supersedes v0.7.0, v0.6.0, v0.5.0,
-v0.4.0, v0.3.0, v0.2.0 and v0.1.0, all preserved as historical baselines.
-Version 0.8.0 is a provenance-only release: it links the unchanged v0.6.0
-numerical analysis to the checksummed human-v7 inventory release whose compact
-SQLite snapshot is generated directly from the canonical CSV.
+**Analysis version:** 0.9.0 (2026-09-23). Supersedes v0.8.0 and all earlier
+versions, which remain preserved as historical baselines. Version 0.9.0 reruns
+the unchanged design against the audit-corrected 2,872-event v0.8 inventory
+candidate. That inventory remains pending fresh locked validation; these results
+therefore describe a candidate analysis and are not yet submission-final.
 Between v0.2.0 and
 v0.5.0 the event inventory was corrected in two independent respects (district
 assignment and casualty extraction) and the rainfall record was extended by one
@@ -25,25 +25,25 @@ the event record. We linked a validated bilingual media-derived inventory of
 landslides in Nepal to daily Climate Hazards Group InfraRed Precipitation with
 Station data (CHIRPS) to test whether antecedent district-scale rainfall
 discriminates reported landslide days from matched non-event days. The source
-inventory contained 2,885 canonical event records reported between March 2015 and
+inventory contained 2,872 canonical event records reported between March 2015 and
 August 2026. Primary cases required date confidence of at least 0.78, excluded
 explicitly earthquake- and anthropogenic-triggered events, and collapsed multiple
 records within a district-day. Daily district-mean rainfall was complete for all
-77 districts from 1 January 2015 to 31 July 2026. We matched each of 1,508
+77 districts from 1 January 2015 to 31 July 2026. We matched each of 1,453
 case-days to up to five control days in the same district, calendar month and
 year, excluding controls within seven days of any reported event. Windows and
 cutpoints were selected using data through 2022 and evaluated without retuning
 from 2023 onward. The development data selected a 5-day accumulation with a
-51.6 mm cutpoint (district-clustered bootstrap 95% CI 33.7–61.7). In the temporal
-test set (669 case-days, 2,577 controls) this produced an area under the ROC
-curve of 0.675 (95% CI 0.640–0.702), sensitivity 0.456 and specificity 0.772.
+51.6 mm cutpoint (district-clustered bootstrap 95% CI 43.9–63.7). In the temporal
+test set (650 case-days, 2,591 controls) this produced an area under the ROC
+curve of 0.677 (95% CI 0.644–0.705), sensitivity 0.458 and specificity 0.776.
 Because windows ending on the reported event day can contain rain that fell after
 failure, we report a co-primary strictly antecedent analysis: a 3-day
-accumulation ending the previous day gave a 23.7 mm cutpoint and test AUC 0.649
-(95% CI 0.615–0.679). Conditional logistic regression within matched sets gave an
-odds ratio of 1.22 per 10 mm of 5-day rainfall (95% CI 1.19–1.25).
-Leave-one-year-out refitting placed held-out AUC at a median of 0.645 (range
-0.565–0.705) and selected cutpoints between 45.3 and 45.5 mm. Results were robust
+accumulation ending the previous day gave a 23.7 mm cutpoint and test AUC 0.651
+(95% CI 0.617–0.678). Conditional logistic regression within matched sets gave an
+odds ratio of 1.23 per 10 mm of 5-day rainfall (95% CI 1.20–1.27).
+Leave-one-year-out refitting placed held-out AUC at a median of 0.651 (range
+0.566–0.711) and selected cutpoints between 45.3 and 45.5 mm. Results were robust
 to date confidence, date shifts, road-obstruction exclusion, restriction to
 continuously reporting publishers, and strictly matched control sampling. We also
 report a direct test of how much the cutpoint depends on the inventory itself: a
@@ -90,19 +90,23 @@ structure of the matched control sample.
 
 ### 2.1 Media-derived landslide inventory
 
-We used release v0.6.0 of the Nepal landslide inventory. It contains 2,885
+We used candidate release v0.8.0 of the Nepal landslide inventory. It contains 2,872
 canonical records from 17 publishers between 7 March 2015 and 9 August 2026,
 spanning 76 of 77 districts; Siraha had no media-derived event but was retained
-in rainfall quality control. The release contains 587 records typed as road
-obstructions caused by landslides, and 926 records carry a municipality.
+in rainfall quality control. The release contains 691 records typed as road
+obstructions caused by landslides, and 1,474 records carry a municipality.
 
 Canonical records are deduplicated *report clusters*, not verified distinct
-physical failures. 754 records share a district-day with at least one other
-record, so the inventory resolves 2,319 distinct district-days. This matters for
+physical failures. 625 records share a district-day with at least one other
+record, so the inventory resolves 2,247 distinct district-days. This matters for
 the count but not for the analysis: the rainfall design collapses records within
 a district-day to a single case-day.
 
-The bilingual article classifier was evaluated on a frozen stratified locked test
+The candidate remains pending a fresh locked event-level validation. The
+following classifier and predecessor-inventory metrics describe the extraction
+system and historical evidence; they must not be interpreted as a precision
+estimate for the corrected v0.8 candidate. The bilingual article classifier was
+evaluated on a frozen stratified locked test
 set of 395 articles (v7), annotated by a human rater and scored once.
 Population-weighted precision was 0.626 (95% CI 0.552–0.701), recall 0.759
 (0.682–0.843) and F1 0.686 (0.624–0.750). District extraction among true headline
@@ -182,7 +186,7 @@ anthropogenic-triggered. Events with unknown trigger were retained, because the
 absence of an explicit rainfall statement in a report does not establish a
 non-rainfall cause. Multiple canonical records on the same district-day were
 collapsed to one case-day while retaining the contributing record IDs and count.
-This produced 1,508 primary case-days with complete rainfall windows.
+This produced 1,453 primary case-days with complete rainfall windows.
 
 We used two exposure definitions throughout:
 
@@ -194,7 +198,7 @@ We used two exposure definitions throughout:
 The distinction is material. CHIRPS reports a 24-hour total and media-derived
 event dates carry no time of day, so a concurrent window can contain rainfall
 that fell after the failure. In the development split, median event-day rainfall
-was 7.40 mm on case-days against 1.19 mm on control days, so the event day
+was 7.60 mm on case-days against 1.22 mm on control days, so the event day
 carries real signal, but part
 of it is unusable for anticipation. The strictly antecedent result bounds what
 could in principle be known beforehand. This is a different question from the
@@ -211,15 +215,15 @@ removing one case cannot redraw controls for unrelated cases.
 This matching removes the broad effects of district, season and year by design,
 without assuming equal baseline rainfall or equal media coverage across Nepal,
 and avoids comparing monsoon event days with arbitrary dry-season controls. It
-yielded 6,164 controls.
+yielded 6,059 controls.
 
 Two structural properties of this scheme are reported rather than concealed.
-First, 200 of the 1,508 cases (13.3%) had no eligible control: these are
+First, 173 of the 1,453 cases (11.9%) had no eligible control: these are
 district-months dense enough with reported events that the ±7-day buffer consumed
 the pool, so they are not missing at random. Second, controls were drawn
-independently per case from a shared stratum pool, so 18.8% of control rows
-repeat a district-day already used by another case (6,164 rows over 5,005
-distinct district-days; one day used eight times). A prespecified
+independently per case from a shared stratum pool, so 19.3% of control rows
+repeat a district-day already used by another case (6,059 rows over 4,889
+distinct district-days; one day used 11 times). A prespecified
 `strict_matched_sets` sensitivity analysis repeats the study on complete strata
 with each control district-day used at most once.
 
@@ -288,14 +292,14 @@ adjusting for confounding.
 
 ### 3.1 Inventory description
 
-Reported events concentrate in the middle hills. Bagmati contributed 1,226
-canonical records (556 primary case-days), Gandaki 618 (311), Lumbini 388 (186),
-Koshi 310 (155), Sudurpashchim 280 (149), Karnali 279 (150) and Madhesh 13 (7).
-Seasonality is strong: 77.6% of records fall in June–September, with July the
+Reported events concentrate in the middle hills. Bagmati contributed 1,174
+canonical records (538 primary case-days), Gandaki 576 (293), Lumbini 332 (173),
+Karnali 272 (151), Koshi 259 (147), Sudurpashchim 245 (141) and Madhesh 14 (10).
+Seasonality is strong: 77.1% of records fall in June–September, with July the
 modal month (Figure 3A).
 
-Reporting effort is not stationary. Across the study period 17.9% of development
-records come from publishers absent from the test period, and 17.0% of test
+Reporting effort is not stationary. Across the study period 19.6% of development
+records come from publishers absent from the test period, and 18.0% of test
 records come from publishers absent from development. The article-level language
 mix shifted from 243 English and 45 Nepali articles in 2015 to 415 English and
 1,282 Nepali in 2024. Annual record counts therefore must not be read as a
@@ -303,41 +307,41 @@ landslide trend, and we do not present them as one.
 
 ### 3.2 Primary and co-primary thresholds
 
-The primary development sample contained 839 case-days and 3,587 matched controls.
-Development AUC values for the concurrent exposure were 0.614, 0.643, 0.646 and
-0.636 for the 1-, 3-, 5- and 7-day windows. The 5-day window was selected, although
+The primary development sample contained 803 case-days and 3,468 matched controls.
+Development AUC values for the concurrent exposure were 0.620, 0.649, 0.652 and
+0.641 for the 1-, 3-, 5- and 7-day windows. The 5-day window was selected, although
 its development AUC exceeded the 3-day value by only 0.003. Its Youden cutpoint
-was 51.6 mm (development bootstrap 95% CI 33.7–61.7), indicating substantial
+was 51.6 mm (development bootstrap 95% CI 43.9–63.7), indicating substantial
 cutpoint uncertainty even where the window-level signal was reproducible.
 
-The temporal test set contained 669 case-days and 2,577 controls. At the frozen
-51.6 mm threshold, 305 cases and 587 controls exceeded the cutpoint while 364
-cases and 1,990 controls did not. Test AUC was 0.675 (95% CI 0.640–0.702),
-sensitivity 0.456 (0.400–0.508), specificity 0.772 (0.739–0.804) and balanced
-accuracy 0.614 (0.584–0.639). Matched-sample precision was 0.342 (0.290–0.396).
+The temporal test set contained 650 case-days and 2,591 controls. At the frozen
+51.6 mm threshold, 298 cases and 581 controls exceeded the cutpoint while 352
+cases and 2,010 controls did not. Test AUC was 0.677 (95% CI 0.644–0.705),
+sensitivity 0.458 (0.404–0.507), specificity 0.776 (0.738–0.804) and balanced
+accuracy 0.617 (0.589–0.641). Matched-sample precision was 0.339 (0.288–0.388).
 
 The co-primary strictly antecedent analysis selected a 3-day window with a 23.7 mm
-cutpoint and gave test AUC 0.649 (95% CI 0.615–0.679), sensitivity 0.511 and
-specificity 0.719. Removing the reported event day therefore costs about 0.03 of
+cutpoint and gave test AUC 0.651 (95% CI 0.617–0.678), sensitivity 0.511 and
+specificity 0.722. Removing the reported event day therefore costs about 0.03 of
 AUC. The concurrent result is a *concurrent* rainfall association; the strictly
 antecedent result is the part of it that could precede a failure.
 
 The 3-day concurrent window produced a slightly higher descriptive test AUC of
-0.678, but it was not substituted post hoc because the 5-day window had been
+0.683, but it was not substituted post hoc because the 5-day window had been
 selected in development data. Across all four concurrent windows, temporal-test
-AUC ranged from 0.635 to 0.678.
+AUC ranged from 0.638 to 0.683.
 
 ### 3.3 Within-matched-set association
 
-Conditional logistic regression across all years gave an odds ratio of 1.220 per
-10 mm of 5-day concurrent rainfall (95% CI 1.190–1.250, district-clustered),
-using the 1,308 strata with at least one control. The strictly antecedent 3-day
-odds ratio was 1.204 (1.173–1.236). Within-stratum concordance was 0.651 in
-development and 0.673 in the temporal test for the concurrent exposure, and 0.618
-and 0.651 for the strictly antecedent exposure.
+Conditional logistic regression across all years gave an odds ratio of 1.233 per
+10 mm of 5-day concurrent rainfall (95% CI 1.198–1.269, district-clustered),
+using the 1,280 strata with at least one control. The strictly antecedent 3-day
+odds ratio was 1.213 (1.175–1.253). Within-stratum concordance was 0.659 in
+development and 0.676 in the temporal test for the concurrent exposure, and 0.625
+and 0.654 for the strictly antecedent exposure.
 
-Within-stratum concordance tracks the pooled AUC closely (0.660 against 0.675 for
-the concurrent exposure; 0.632 against 0.649 for the strictly antecedent one),
+Within-stratum concordance tracks the pooled AUC closely (0.666 against 0.677 for
+the concurrent exposure; 0.637 against 0.651 for the strictly antecedent one),
 which indicates that the pooled ROC is not materially
 distorted by the matched structure. The odds ratio adds what a cutpoint cannot
 express: a graded association rather than a dichotomy.
@@ -357,16 +361,16 @@ district-months (median all-day 5-day accumulation across case strata ≈40 mm i
 so the within-stratum contrast is sharper. Broader reporting in later years
 reaches events in marginal, drier settings where a wet day stands out more.
 
-Leave-one-year-out refitting places held-out AUC at a median of 0.645, range
-0.565–0.705, SD 0.048 for the concurrent exposure (Figure 4A). The prespecified
-temporal-test value of 0.675 sits above that median but within the range, so it
+Leave-one-year-out refitting places held-out AUC at a median of 0.651, range
+0.566–0.711, SD 0.050 for the concurrent exposure (Figure 4A). The prespecified
+temporal-test value of 0.677 sits above that median but within the range, so it
 should be read as a mildly favourable draw rather than as the central estimate.
-Spatial holdout across five district groups is tighter: median 0.656, range
-0.637–0.681, SD 0.016 (Figure 4B), indicating that discrimination transfers
+Spatial holdout across five district groups is tighter: median 0.661, range
+0.638–0.689, SD 0.019 (Figure 4B), indicating that discrimination transfers
 across places more reliably than across years.
 
 Leave-one-year-out refits selected 45.3–45.5 mm and spatial folds selected
-45.3–47.4 mm. These narrow ranges describe the current independently seeded
+45.3–45.5 mm. These narrow ranges describe the current independently seeded
 control design, not universal physical stability. Version 0.6.0 was introduced
 because earlier shared-stream sampling coupled unrelated cases: adding or
 removing one event could redraw later controls and widen or shift cutpoint ranges
@@ -376,22 +380,22 @@ for reasons unrelated to rainfall. The corrected sampler leaves the primary
 ### 3.5 Season stratification
 
 Fitting separately by season shows that the headline figure is a monsoon quantity.
-In June–September the cutpoint was 51.6 mm with test AUC 0.658, sensitivity 0.526
-and specificity 0.687. Outside the monsoon the Youden cutpoint fell to 12.6 mm with
-test AUC 0.722, sensitivity 0.473 and specificity 0.841. A single year-round
+In June–September the cutpoint was 51.6 mm with test AUC 0.666, sensitivity 0.529
+and specificity 0.695. Outside the monsoon the Youden cutpoint fell to 12.6 mm with
+test AUC 0.719, sensitivity 0.469 and specificity 0.833. A single year-round
 national cutpoint is therefore not defensible.
 
 ### 3.6 Sensitivity analyses
 
 The 5-day concurrent window was selected in seven of nine designs. Using all dated
-events gave test AUC 0.672 at 51.6 mm. Requiring date confidence of at least 0.80
-gave 0.665 at a 50.5 mm cutpoint. Shifting event dates one day forward gave
-0.678 at 46.9 mm. Including known non-rainfall triggers reduced AUC to 0.659, as
+events gave test AUC 0.674 at 51.6 mm. Requiring date confidence of at least 0.80
+gave 0.667 at a 50.5 mm cutpoint. Shifting event dates one day forward gave
+0.676 at 46.9 mm. Including known non-rainfall triggers reduced AUC to 0.657, as
 expected. Excluding road-obstruction records retained 0.660 but raised the cutpoint
-to 54.2 mm and reduced sensitivity to 0.418. Restricting to the balanced source
-panel gave 0.667 at 51.6 mm. Strict matched sets gave 0.672 at a 3-day, 31.3 mm
+to 54.2 mm and reduced sensitivity to 0.416. Restricting to the balanced source
+panel gave 0.667 at 51.6 mm. Strict matched sets gave 0.678 at a 3-day, 31.6 mm
 cutpoint. Shifting event dates one day backward selected a 3-day, 21.8 mm threshold
-and gave AUC 0.658.
+and gave AUC 0.656.
 
 These patterns support a rainfall association while showing that reported event
 timing affects the estimated cutpoint, and that neither publisher turnover nor
@@ -400,8 +404,8 @@ control reuse explains the result.
 ### 3.7 District-month association
 
 Across complete district-month observations the Spearman correlation between
-monthly rainfall total and reported case-day count was 0.276. Within the monsoon
-alone it falls to 0.128. Most of the pooled coefficient is therefore the contrast
+monthly rainfall total and reported case-day count was 0.274. Within the monsoon
+alone it falls to 0.126. Most of the pooled coefficient is therefore the contrast
 between wet and dry months rather than a within-season signal, and the remainder
 still reflects zero-event district-months, reporting intensity and spatial
 smoothing. We report it as an aggregate association only.
@@ -481,8 +485,8 @@ markedly less stable to revision of the inventory than to resampling within it.
 
 Three features of the analysis should shape how strongly the result is read.
 
-First, the prespecified temporal-test AUC of 0.675 is a mildly favourable draw.
-The leave-one-year-out distribution puts the honest central estimate near 0.64,
+First, the prespecified temporal-test AUC of 0.677 is a mildly favourable draw.
+The leave-one-year-out distribution puts the honest central estimate near 0.65,
 with year-to-year variation comparable to the width of the bootstrap interval. We
 report both, and would encourage other media-derived threshold studies to report
 a resampled distribution rather than a single split, because a single split can
@@ -535,17 +539,20 @@ road importance, language and publisher presence influence which events appear,
 and the mix of publishers changes over the study period.
 
 Second, canonical records are deduplicated report clusters rather than verified
-distinct physical failures; 566 records share a district-day with another record.
+distinct physical failures; 625 records share a district-day with another record.
 The rainfall analysis is unaffected because it works at district-day resolution,
-but the headline count of 2,885 should be read accordingly.
+but the headline count of 2,872 should be read accordingly.
 
-Third, event-date extraction lacked enough locked-test truth for a reportable
-standalone accuracy estimate. Confidence restrictions and date-shift analyses
-reduce but do not eliminate this uncertainty.
+Third, event-date extraction achieved reportable locked-test coverage, but the
+case-integrity audit still identified 13 case-days dated after article
+publication. Confidence restrictions and date-shift analyses reduce but do not
+eliminate this uncertainty. Removing those violations, or all 60 case-days
+flagged as violations or possible contamination, left all all-years cutpoints
+unchanged and shifted AUC by at most +0.0042.
 
 Fourth, district-mean CHIRPS rainfall smooths local convective extremes and
 topographic gradients; exposure at an individual failure location may differ
-substantially. Only 1,447 of 2,885 records (50.2%) carry a municipality. Municipality geometry
+substantially. Only 1,474 of 2,872 records (51.3%) carry a municipality. Municipality geometry
 is now vendored and checksum-pinned (747 local-unit polygons), so the boundary
 side of a sub-district analysis is solved; what is still missing is gridded
 rainfall, since the project holds district means rather than the underlying
@@ -568,7 +575,7 @@ the case set, and some of them will sit among the controls. Recovering them
 would require extracting several district-days from one article, which the
 current pipeline does not attempt.
 
-Sixth, 12.7% of cases had no eligible control, and these are concentrated in the
+Sixth, 11.9% of cases had no eligible control, and these are concentrated in the
 densest reporting periods rather than being missing at random. They contribute to
 the pooled ROC as unmatched positives; the conditional analyses exclude them, and
 both are reported.
@@ -642,9 +649,9 @@ it possible to state quantitatively.
 A validated media-derived inventory linked to daily satellite rainfall reveals a
 moderate antecedent-rainfall signal for reported landslide occurrence in Nepal. A
 development-selected 5-day accumulation of 51.6 mm achieved a temporal-test AUC of
-0.675, with a leave-one-year-out median of 0.645 and a within-matched-set odds
-ratio of 1.22 per 10 mm. Excluding the reported event day reduces the signal to a
-3-day, 23.7 mm cutpoint at AUC 0.649, which bounds what could be known before
+0.677, with a leave-one-year-out median of 0.651 and a within-matched-set odds
+ratio of 1.23 per 10 mm. Excluding the reported event day reduces the signal to a
+3-day, 23.7 mm cutpoint at AUC 0.651, which bounds what could be known before
 failure. Results were stable under nine prespecified designs, including
 restriction to continuously reporting publishers and to strictly matched controls.
 The workflow demonstrates how web-derived hazard records can support reproducible
@@ -653,9 +660,10 @@ assignment, spatial scale, season and threshold interpretation.
 
 ## Data and code availability
 
-The frozen inventory release is `nepal_landslide_inventory_v0.6.0_v7_20260915`.
-The frozen analysis release is `nepal_landslide_rainfall_v0.8.0_20260915`, which
-supersedes v0.7.0, v0.6.0, v0.5.0, v0.4.0, v0.3.0, v0.2.0 and v0.1.0; all are retained. Rainfall
+The locked inventory candidate is
+`nepal_landslide_inventory_v0.8.0_candidate_20260923`.
+The frozen candidate analysis is `nepal_landslide_rainfall_v0.9.0_20260923`,
+which supersedes v0.8.0 and all earlier versions; all are retained. Rainfall
 acquisition and analysis are implemented in
 `scripts/download_chirps_climateserv.py` and
 `src/landslide_inventory/analysis/`. Configuration, input checksums, tests, joined

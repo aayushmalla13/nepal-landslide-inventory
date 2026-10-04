@@ -34,6 +34,7 @@ from landslide_inventory.unify.dedup_stage import (
 CONFIG = DedupConfig(
     candidate_window_days=3,
     primary_window_days=1,
+    max_cluster_span_days=1,
     headline_sim_threshold=0.80,
     body_sim_threshold=0.85,
     high_body_sim_threshold=0.93,
@@ -139,6 +140,27 @@ def test_records_from_different_articles_still_merge():
     clusters, _ = cluster_events(events, CONFIG)
     assert len(clusters) == 1
     assert len(clusters[0]) == 2
+
+
+def test_cross_language_municipality_alone_does_not_bridge_dates():
+    left = record(
+        'https://example.com/en', 'Chitwan', '2024-07-16',
+        title='Landslide blocks the highway',
+        body='A landslide blocked the Narayangadh Mugling highway.',
+        municipality='Ichchhyakamana Rural Municipality',
+    )
+    right = record(
+        'https://example.com/np', 'Chitwan', '2024-07-17',
+        title='पहिरोले राजमार्ग अवरुद्ध',
+        body='पहिरोले नारायणगढ मुग्लिन राजमार्ग अवरुद्ध भयो।',
+        municipality='Ichchhyakamana Rural Municipality',
+    )
+    left = EventRecord(**{**left.__dict__, 'route_lang': 'en'})
+    right = EventRecord(**{**right.__dict__, 'route_lang': 'np'})
+
+    clusters, _ = cluster_events([left, right], CONFIG)
+
+    assert len(clusters) == 2
 
 
 # ---------------------------------------------------------------------------

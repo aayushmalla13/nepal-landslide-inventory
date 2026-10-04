@@ -30,6 +30,7 @@ dedup:
   high_body_sim_threshold: 0.96
   guard_deaths_delta: 1
   prefer_same_municipality: true
+  reviewed_merge_overrides_path: corrections/dedup_merge_overrides.csv
 geocode:
   district_shapefile_path: /absolute/path/to/ocha_districts.shp
   centroid_cache_path: data/caches/district_centroids.csv

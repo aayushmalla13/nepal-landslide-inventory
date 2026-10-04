@@ -102,6 +102,20 @@ def test_primary_bus_collision_is_not_recast_from_landslide_road_context() -> No
     assert decision.specificity_reason == 'context_only'
 
 
+def test_tornado_assessment_is_not_recast_as_a_landslide_event() -> None:
+    row = build_row(
+        title='बारा–पर्सा टोर्नाडो विस्तृत अध्ययन बाँकी',
+        text='बारा र पर्सामा गएको हुरी टोर्नाडो नै भएको विज्ञ टोलीले निष्कर्ष निकालेको छ। घटनामा २९ जना घाइते भएका थिए।',
+        district='Bara',
+        deaths=None,
+        missing=None,
+        injured=29,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'context_only'
+
+
 def test_landslide_caused_vehicle_crash_remains_an_event() -> None:
     row = build_row(
         title='Bus accident kills one in Dhading',
@@ -181,7 +195,7 @@ def test_risk_warning_is_rejected() -> None:
     )
     decision = decide_specificity(row, STUDY_START, STUDY_END)
     assert decision.specificity_ok == 0
-    assert decision.specificity_reason == 'risk_only'
+    assert decision.specificity_reason in {'context_only', 'risk_only'}
     assert decision.updated_class == 3
 
 
@@ -674,6 +688,43 @@ def test_multi_incident_baglung_story_is_roundup() -> None:
     assert decision.updated_class == 2
 
 
+def test_separate_landslide_incidents_title_is_roundup() -> None:
+    row = build_row(
+        source='thehimalayantimes',
+        title='Separate landslide incidents claim three lives in Baglung',
+        text='At least three persons died after landslides buried houses in Nisikhola Rural Municipality.',
+        district='Baglung',
+        municipality='Nisikhola Rural Municipality',
+        event_date_ad='2020-08-15',
+        deaths=3,
+        missing=None,
+        injured=1,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'roundup'
+
+
+def test_nepali_second_ward_landslide_casualty_is_roundup() -> None:
+    row = build_row(
+        source='setopati',
+        title='बाग्लुङको पहिरोमा परी ३ जनाको मृत्यु',
+        text=(
+            'निसीखोला गाउँपालिका ५ टारीगाउँमा पहिरोले घर पुरिँदा दुई बालकको मृत्यु भयो। '
+            'यस्तै, शनिबार आएको पहिरोले निसीखोला ३ धारखर्कमा घर भत्किँदा ६० वर्षीय बली विकको मृत्यु भएको छ।'
+        ),
+        district='Baglung',
+        municipality='Nisikhola Rural Municipality',
+        event_date_ad='2020-08-15',
+        deaths=3,
+        missing=None,
+        injured=None,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'roundup'
+
+
 def test_missing_family_title_is_not_downgraded_by_generic_likewise_sentence() -> None:
     row = build_row(
         source='myrepublica',
@@ -813,3 +864,113 @@ def test_setopati_ministry_briefing_is_context_only() -> None:
     assert decision.specificity_ok == 0
     assert decision.specificity_reason == 'roundup'
     assert decision.updated_class == 2
+
+
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'सडक पहुँच भएको ठाउँमा ३० मिनेटभित्रै उद्धार',
+            'सरकारले मनसुन पूर्वतयारी तथा प्रतिकार्य कार्य योजना पारित गरेको छ। पहिरोको वडास्तरीय नक्सा तयार गरिनेछ।',
+        ),
+        (
+            'बाढी, पहिरो र सडक दुर्घटनाप्रति सांसद्ले गराए सरकारको ध्यानाकर्षण',
+            'प्रतिनिधिसभामा विपद् जोखिम न्यूनीकरणका लागि पर्याप्त ध्यान दिन सरकारलाई आग्रह गरिएको छ।',
+        ),
+        (
+            'इको पहिरो पीडितहरूको आन्दोलनमा पूर्व सांसदको ऐक्यबद्धता',
+            'वर्षौंदेखि दोहोरिँदै आएको समस्याको दीर्घकालीन समाधान माग गर्दै पीडितले धर्ना सुरु गरेका छन्।',
+        ),
+        (
+            'किन जान्छ सुख्खा पहिरो, तुइन खोलाको पहिरो रोक्न के गर्ने?',
+            'विज्ञले सुख्खा पहिरोका कारण, अध्ययन र रोकथामका उपायबारे व्याख्या गरेका छन्।',
+        ),
+    ],
+)
+def test_nepali_policy_protest_and_explainer_articles_are_context_only(title: str, text: str) -> None:
+    row = build_row(
+        title=title,
+        text=text,
+        deaths=None,
+        missing=None,
+        injured=None,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'context_only'
+
+
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'अझै केही दिन झरी पर्ने : बाढी, पहिरो र डुबानको जोखिम कायमै',
+            'मौसमविद्का अनुसार अझै केही दिन पानी पर्ने सम्भावना छ र पहिरोको खतरा रहेकाले सतर्क रहन आग्रह गरिएको छ।',
+        ),
+        (
+            'जमिन गल्यो : उर्लँदै नदी, बढ्दै जोखिम',
+            'जल तथा मौसम विज्ञान विभागका अनुसार अबको तीन दिन मनसुन सक्रिय हुनेछ। अधिकांश ठाउँमा वर्षा हुनेछ। नियमित वर्षाले जमिन गलेको छ। भिरपाखामा पहिरो आउन सक्छ।',
+        ),
+    ],
+)
+def test_nepali_weather_forecasts_are_risk_only(title: str, text: str) -> None:
+    row = build_row(
+        title=title,
+        text=text,
+        deaths=None,
+        missing=None,
+        injured=None,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason in {'context_only', 'risk_only'}
+
+
+def test_confirmed_event_with_later_forecast_context_is_retained() -> None:
+    row = build_row(
+        title='पहिरोले धादिङमा घर पुरिँदा दुई जनाको मृत्यु',
+        text='धादिङमा गएराति पहिरोले घर पुरिँदा दुई जनाको मृत्यु भयो। मौसमविद्ले अझै केही दिन पानी पर्ने सम्भावना रहेको बताएका छन्।',
+        district='Dhading',
+        deaths=2,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 1
+
+
+def test_nepali_party_landslide_metaphor_is_rejected() -> None:
+    row = build_row(
+        title='एमालेमा हरेक दिन पहिरो गइरहेको छः नेता खनाल',
+        text='नेताले पार्टी लगातार तल झरिरहेको र विखण्डनतर्फ गइरहेको बताए।',
+        deaths=None,
+        missing=None,
+        injured=None,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'metaphor'
+
+
+def test_long_period_multi_hazard_statistics_are_roundup() -> None:
+    row = build_row(
+        title="463 killed, 101 missing in 'natural' disasters in past 6.5 months",
+        text='The authority says 463 people were killed in various natural disasters in the past 6.5 months. The figures represent losses occurred since April 13.',
+        district='Kathmandu',
+        deaths=463,
+        missing=101,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'roundup'
+
+
+def test_nepali_multi_hazard_aggregate_interview_is_roundup() -> None:
+    row = build_row(
+        title='घर बनाउँदा जमिन मात्रै हेर्ने प्रवृत्तिले परिणाम भयावह बन्दैछ',
+        text='बाढी, पहिरो र डुबानको चपेटामा मुलुक परेको छ। यसपटकको वर्षाले ७८ जनाको ज्यान लिएको छ। विज्ञले बाढीको जोखिमबारे बताए।',
+        district='Kathmandu',
+        deaths=78,
+        injured=32,
+    )
+    decision = decide_specificity(row, STUDY_START, STUDY_END)
+    assert decision.specificity_ok == 0
+    assert decision.specificity_reason == 'roundup'

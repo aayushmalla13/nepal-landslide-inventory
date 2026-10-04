@@ -1019,6 +1019,7 @@ def run_rainfall_analysis_stage(config: AppConfig) -> None:
     windows = tuple(int(value) for value in settings.get("antecedent_windows_days", [1, 3, 5, 7]))
     min_confidence = float(settings.get("min_date_confidence", 0.78))
     high_confidence = float(settings.get("high_date_confidence", 0.80))
+    very_high_confidence = float(settings.get("very_high_date_confidence", 0.90))
     controls_per_event = int(settings.get("controls_per_event", 5))
     exclusion_buffer = int(settings.get("control_exclusion_buffer_days", 7))
     seed = int(settings.get("random_seed", 20260813))
@@ -1045,8 +1046,18 @@ def run_rainfall_analysis_stage(config: AppConfig) -> None:
         (PRIMARY_VARIANT, min_confidence, 0, non_rainfall_triggers, frozenset(), None),
         ("all_dated_events", 0.0, 0, non_rainfall_triggers, frozenset(), None),
         ("high_conf_ge_0.80", high_confidence, 0, non_rainfall_triggers, frozenset(), None),
+        (
+            "very_high_conf_ge_0.90",
+            very_high_confidence,
+            0,
+            non_rainfall_triggers,
+            frozenset(),
+            None,
+        ),
         ("primary_date_minus_1d", min_confidence, -1, non_rainfall_triggers, frozenset(), None),
         ("primary_date_plus_1d", min_confidence, 1, non_rainfall_triggers, frozenset(), None),
+        ("primary_date_minus_3d", min_confidence, -3, non_rainfall_triggers, frozenset(), None),
+        ("primary_date_plus_3d", min_confidence, 3, non_rainfall_triggers, frozenset(), None),
         ("include_known_nonrain_triggers", min_confidence, 0, frozenset(), frozenset(), None),
         (
             "exclude_road_obstructions",

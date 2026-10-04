@@ -78,6 +78,56 @@ def test_extract_en_date_fallback_reduces_confidence() -> None:
     assert result['class'] == 2
 
 
+def test_followup_does_not_use_publication_date_as_event_date() -> None:
+    from landslide_inventory.nlp_en.extract import _resolve_event_date
+
+    event_date, confidence = _resolve_event_date(
+        'Relief distributed to landslide victims\nOfficials distributed aid to families.',
+        '2020-08-03',
+        2020,
+    )
+    assert event_date is None
+    assert confidence == 0.0
+
+
+def test_followup_can_use_event_linked_weekday_anchor() -> None:
+    from landslide_inventory.nlp_en.extract import _resolve_event_date
+
+    event_date, confidence = _resolve_event_date(
+        'Death toll reaches four in landslide\nThe landslide occurred on Wednesday night.',
+        '2018-09-13',
+        2018,
+    )
+    assert event_date == '2018-09-12'
+
+
+def test_followup_recovers_event_linked_date_beyond_lead_window() -> None:
+    from landslide_inventory.nlp_en.extract import _resolve_event_date
+
+    boilerplate = 'Navigation and subscription text. ' * 45
+    event_date, confidence = _resolve_event_date(
+        'With two more bodies recovered, death toll in Lidi landslide climbs to 32\n'
+        f'{boilerplate} SINHDUPALCHOWK, Aug 22: The landslide death toll has climbed to 32. '
+        'Search operations have continued since the landslide took place on August 14.',
+        '2020-08-22',
+        2020,
+    )
+    assert event_date == '2020-08-14'
+    assert confidence >= 0.88
+
+
+def test_followup_rejects_inferred_event_date_after_publication() -> None:
+    from landslide_inventory.nlp_en.extract import _resolve_event_date
+
+    event_date, confidence = _resolve_event_date(
+        'Relief announced for landslide victims\nThe landslide occurred on October 30.',
+        '2021-10-20',
+        2021,
+    )
+    assert event_date is None
+    assert confidence == 0.0
+
+
 
 def test_extract_en_uses_year_hint_for_month_day_articles() -> None:
     result = extract_en(

@@ -30,11 +30,13 @@ language_detection:
 dedup:
   candidate_window_days: 7
   primary_window_days: 3
+  max_cluster_span_days: 1
   headline_sim_threshold: 0.82
   body_sim_threshold: 0.88
   high_body_sim_threshold: 0.96
   guard_deaths_delta: 1
   prefer_same_municipality: true
+  reviewed_merge_overrides_path: corrections/dedup_merge_overrides.csv
 
 geocode:
   district_shapefile_path: /absolute/path/to/ocha_districts.shp

@@ -294,6 +294,98 @@ def test_road_lead_with_multiple_failure_sites_is_multi_event(title: str, text: 
     assert classify_event_type(title=title, text=text).event_granularity == GRANULARITY_MULTI
 
 
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'Landslide blocks Madan Bhandari Highway',
+            'A landslide struck Amal Danda this morning. However, another '
+            'landslide struck Sukaura Danda in the afternoon.',
+        ),
+        (
+            'गगनेखोलाको पहिरोले कर्णाली राजमार्ग अवरुद्ध',
+            'शुभकालिका गाउँपालिका–१ स्थित एसमोड र गगनेखोलामा पहिरो खस्दा '
+            'सडक पूर्ण रूपमा अवरुद्ध भएको हो।',
+        ),
+        (
+            'नारायणगढ–मुग्लिन सडकको पहिरो पन्छाउन दिनभर लाग्ने',
+            'सडक खण्डमा खसेका दुई ठूला पहिरो पन्छाउन दिनभर लाग्ने भएको छ।',
+        ),
+        (
+            'इलाममा पहिरो : दुई घरका ११ जनाको मृत्यु',
+            'इलाम नगरपालिका–६ र माइजोगमाइ मानेभञ्ज्याङमा पहिरो जाँदा '
+            '११ जनाको मृत्यु भएको छ।',
+        ),
+    ],
+)
+def test_sentence_level_distinct_failures_override_singular_summary_title(
+    title: str, text: str,
+) -> None:
+    assert classify_event_type(title=title, text=text).event_granularity == GRANULARITY_MULTI
+
+
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'Landslide obstructs road in Panch Pokhari',
+            'A landslide blocked the access road. Landslides along the '
+            'Melamchi-Bhotang road also obstructed vehicular movement.',
+        ),
+        (
+            'Food distributed to landslide victims',
+            'Food was supplied to landslide-hit areas where people had died '
+            'and families were displaced due to landslides.',
+        ),
+        (
+            'प्रवासीद्वारा पहिरोपीडितका घर पुनःनिर्माण',
+            'धवलागिरि गाउँपालिकामा १४ र मालिका गाउँपालिकामा १० घर बनाइएका छन्।',
+        ),
+    ],
+)
+def test_multi_site_response_and_secondary_failure_reports_are_not_single(
+    title: str, text: str,
+) -> None:
+    assert classify_event_type(title=title, text=text).event_granularity != GRANULARITY_SINGLE
+
+
+def test_single_site_reconstruction_followup_stays_single() -> None:
+    typing = classify_event_type(
+        title='पहिरोपीडितको घर पुनःनिर्माण',
+        text='जुगल गाउँपालिकामा लिदी पहिरोपीडितको एउटै घर पुनःनिर्माण भएको छ।',
+    )
+    assert typing.event_granularity == GRANULARITY_SINGLE
+
+
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'डुम्रे-बेँसीसहर सडक अवरुद्ध',
+            'देउराली डाँडामा पहिरोले सडक अवरुद्ध बनाएको छ। '
+            'रिठ्ठेबगरमा लेदो आएर वैकल्पिक सडक पनि अवरुद्ध बनेको छ।',
+        ),
+        (
+            'बेनिघाट–लार्के सडकको पहिरो हटाइयो',
+            'खानीबेँसीमा पहिरो हटाएर सडक खुलेको छ। तातोपानी र दोभानको '
+            'बीचमा झरेको पहिरो भने अझै हटाउन सकिएको छैन।',
+        ),
+        (
+            'अव्यवस्थित प्लटिङमा पहिरो (फोटो फिचर)',
+            'फोटो फिचरमा उपत्यकाभर सबैजसो प्लटिङ पहिरोले बगाएको देखिन्छ।',
+        ),
+        (
+            'फालेलुङको पहिरोले लाखौँको क्षति',
+            'माङ्लेबुङ, ताङ्लेपा र विकेट क्षेत्रमा गएको पहिरोले क्षति गरेको छ।',
+        ),
+    ],
+)
+def test_diffuse_and_multi_site_reports_are_not_single(
+    title: str, text: str,
+) -> None:
+    assert classify_event_type(title=title, text=text).event_granularity != GRANULARITY_SINGLE
+
+
 def test_road_lead_with_incidental_plural_context_stays_single() -> None:
     typing = classify_event_type(
         title='Landslide obstructs Daldale-Bulingtar road section',
@@ -303,6 +395,30 @@ def test_road_lead_with_incidental_plural_context_stays_single() -> None:
         ),
     )
     assert typing.event_granularity == GRANULARITY_SINGLE
+
+
+@pytest.mark.parametrize(
+    ('title', 'text'),
+    [
+        (
+            'Landslides adding to woes of commuters',
+            'Failures were reported at Kharidhunga and Boch.',
+        ),
+        (
+            'तनहुँमा पहिरोले दर्जन ठाउँमा सडक अवरुद्ध',
+            'प्रहरीले विभिन्न स्थानमा सडक बन्द भएको जनाएको छ।',
+        ),
+        (
+            'Landslide obstructs the highway',
+            ('Officials inspected the road after heavy rain. ' * 12)
+            + 'Landslides at several locations blocked the corridor.',
+        ),
+    ],
+)
+def test_audit_multiplicity_signals_are_not_lost_after_dateline_or_lead(
+    title: str, text: str
+) -> None:
+    assert classify_event_type(title=title, text=text).event_granularity == GRANULARITY_MULTI
 
 
 def test_nepali_multi_month_disaster_total_is_roundup() -> None:
@@ -350,6 +466,20 @@ def test_article_role_keeps_specific_followup_but_excludes_pure_forecast() -> No
     assert followup.in_headline_counts is True
     assert forecast.article_role == ROLE_FORECAST_OR_RISK
     assert forecast.in_headline_counts is False
+
+
+@pytest.mark.parametrize(
+    'title',
+    [
+        'Death toll in Lamjung landslide reaches four',
+        'Landslide victims provided financial aid',
+        'पहिरो पन्छाउने काम बिहानैदेखि सुरु',
+        'पहिरोपीडितका घर पुनःनिर्माण',
+        'पहिरोमा पुरिएका सवारीको पुनः खोजी गरिँदै',
+    ],
+)
+def test_response_and_status_titles_are_followups(title: str) -> None:
+    assert classify_event_type(title=title, text=LONG_BODY).article_role == ROLE_FOLLOW_UP
 
 
 def test_summarize_keeps_road_as_a_subtype_of_headline_landslide() -> None:

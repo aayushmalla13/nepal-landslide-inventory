@@ -1,13 +1,14 @@
 # Rainfall-threshold analysis protocol
 
-This is the second phase of the project. The frozen v0.6.0 human-v7 media
-inventory is the event source; the analysis does not alter its 2,885 canonical
-records.
+This is the second phase of the project. The event-detection-validated v1.5
+inventory release is the event source; the analysis does not alter its 2,122
+canonical records.
 
-Analysis version 0.8.0 (2026-09-15). Versions 0.1.0 through 0.7.0 remain on disk
-as historical baselines. Version 0.8.0 preserves the v0.6.0 numerical results
-and links them to the internally consistent canonical-only inventory snapshot.
-See `RAINFALL_CHANGELOG.md`.
+Analysis version 1.0.0 (2026-10-04). Versions 0.1.0 through 0.9.0 remain on disk
+as historical baselines. Version 1.0.0 reruns the design against the exact
+v1.5 canonical hash and adds confidence >=0.90 and +/-3-day date sensitivities.
+The linked inventory is validated for event detection and district assignment,
+not for full-record or exact-date accuracy. See `RAINFALL_CHANGELOG.md`.
 
 ## Inputs and provenance
 
@@ -21,10 +22,10 @@ See `RAINFALL_CHANGELOG.md`.
   `data/reference/nepal_districts_77.geojson`; downloaded from
   https://localboundries.oknp.org/data/district/nepal.geojson and pinned with
   SHA-256 `2c77e563c9df54270744f2e2b19a69f91dc5ca0ce7800025c0323d8b01c00c2f`.
-- Canonical events: `data/outputs/canonical_events_final.csv`, generated from
-  the active pipeline and frozen separately in the v0.6.0/v7
-  release. Its SHA-256 must match the inventory release manifest before a
-  rainfall release can be created.
+- Canonical events:
+  `data/releases/nepal_landslide_inventory_v1.5.0_event_detection_validated_20261004/canonical_events_final.csv`,
+  frozen in the event-detection-validated research release. Its SHA-256 must match the inventory
+  release manifest before a rainfall release can be created.
 
 `rainfall_analysis_report.json` records both inputs as repository-relative paths
 together with their SHA-256 digests, so a release can be verified on any
@@ -137,8 +138,8 @@ split cannot be mistaken for the whole picture.
 
 ## Sensitivity and secondary analyses
 
-Prespecified variants: all dated events; date confidence at least 0.80; event
-dates shifted by −1 or +1 day; inclusion of known non-rainfall triggers;
+Prespecified variants: all dated events; date confidence at least 0.80 and 0.90;
+event dates shifted by -1, +1, -3, or +3 days; inclusion of known non-rainfall triggers;
 exclusion of road-obstruction events; a **balanced source panel**; and **strict
 matched sets**. Each variant selects its own window and cutpoint in development
 years before temporal testing, under both exposure definitions.
@@ -189,6 +190,9 @@ Core analysis
 - `rainfall_season_stratified.csv`: monsoon and non-monsoon results
 - `rainfall_case_control_distributions.csv`: rainfall distributions by period
 - `rainfall_analysis_report.json` and `.md`: machine-readable and concise reports
+- `rainfall_case_integrity_audit.csv` and `.json`: diagnostic invariant findings
+- `rainfall_case_integrity_audit_excludable_case_days.csv`: sensitivity exclusions
+- `rainfall_integrity_sensitivity.json`: effect of flagged case-days on results
 
 Inventory description
 

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import json
 import csv
+import json
 from datetime import date
 from pathlib import Path
 
@@ -245,6 +245,12 @@ def test_external_match_stage_writes_gaps_and_groups_coolr(config_file: Path) ->
     assert agreement["comparison_end"] == "2024-08-20"
     assert agreement["layer2_overlap"]["news_total"] == 1
     assert agreement["canonical_input"]["path"] == "data/outputs/canonical_events_final.csv"
+    snapshot = output_dir / "external_bipad_input_snapshot.csv"
+    assert len(snapshot.read_text(encoding="utf-8").splitlines()) == 4
+    assert agreement["bipad_input"]["path"] == "data/outputs/external_bipad_input_snapshot.csv"
+    assert len(agreement["bipad_input"]["sha256"]) == 64
+    assert agreement["bipad_input"]["rows"] == 3
+    assert "Normalized BIPAD snapshot SHA-256:" in report
 
 
 def test_external_match_stage_is_registered() -> None:

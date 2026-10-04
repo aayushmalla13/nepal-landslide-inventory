@@ -32,6 +32,10 @@ OUTPUT_FILES = [
     "inventory_month_summary.csv",
     "rainfall_analysis_report.json",
     "rainfall_analysis_report.md",
+    "rainfall_case_integrity_audit.csv",
+    "rainfall_case_integrity_audit.json",
+    "rainfall_case_integrity_audit_excludable_case_days.csv",
+    "rainfall_integrity_sensitivity.json",
     "rainfall_results_figure.svg",
     "inventory_map_figure.svg",
     "rainfall_distributions_figure.svg",
@@ -39,10 +43,10 @@ OUTPUT_FILES = [
 ]
 DOCUMENT_FILES = [
     "RAINFALL_ANALYSIS.md",
-    "RAINFALL_MANUSCRIPT_DRAFT.md",
+    "RAINFALL_MANUSCRIPT_DRAFT_V15.md",
     "RAINFALL_MANUSCRIPT_TABLES.md",
     "RAINFALL_CHANGELOG.md",
-    "SENIOR_REVIEW_2026-08-14.md",
+    "V15_PAPER_SUMMARY.md",
 ]
 
 
@@ -113,6 +117,7 @@ def run_rainfall_release_stage(config: AppConfig) -> None:
     quality = json.loads((output_dir / "rainfall_daily_quality.json").read_text(encoding="utf-8"))
     report = json.loads((output_dir / "rainfall_analysis_report.json").read_text(encoding="utf-8"))
     inventory = json.loads(inventory_manifest.read_text(encoding="utf-8"))
+    inventory_status = str(inventory.get("status", "unknown"))
     inventory_canonical_hash = inventory.get("canonical_summary", {}).get("sha256")
     analysis_canonical_hash = report.get("canonical_input_sha256")
     if not inventory_canonical_hash or inventory_canonical_hash != analysis_canonical_hash:
@@ -126,8 +131,13 @@ def run_rainfall_release_stage(config: AppConfig) -> None:
     manifest = {
         "release_id": release_id,
         "generated_at": utc_now_iso(),
-        "status": "analysis_complete_manuscript_draft",
+        "status": (
+            "analysis_complete_inventory_event_detection_validated"
+            if inventory_status == "validated_event_detection_only"
+            else "analysis_complete_inventory_candidate_pending_validation"
+        ),
         "inventory_release": inventory_release_id,
+        "inventory_validation_status": inventory_status,
         "rainfall_product": settings.get("rainfall_product", "UCSB CHIRPS v2.0 Final"),
         "analysis_period": {"start": quality["start"], "end": quality["end"]},
         "rainfall_rows": quality["rows"],
@@ -164,6 +174,12 @@ def run_rainfall_release_stage(config: AppConfig) -> None:
                 for row in report.get("conditional_models", [])
             ),
             "inventory_canonical_hash_matches": True,
+            "inventory_fresh_event_detection_validation_complete": inventory.get(
+                "checks", {}
+            ).get("fresh_locked_event_detection_validation_complete", False),
+            "inventory_fresh_full_record_validation_complete": inventory.get(
+                "checks", {}
+            ).get("fresh_locked_full_record_validation_complete", False),
         },
         "files": files,
         "bundle_lock_hash": bundle_lock,
@@ -174,6 +190,8 @@ def run_rainfall_release_stage(config: AppConfig) -> None:
             "strictly antecedent co-primary result bounds the signal available "
             "before failure. Read the single temporal-test AUC against the "
             "leave-one-year-out distribution in resampled_validation."
+            " Exact-date accuracy did not pass the inventory validation threshold; "
+            "interpret results with the confidence and +/-1/+/-3-day sensitivities."
         ),
     }
     (release_dir / "release_manifest.json").write_text(

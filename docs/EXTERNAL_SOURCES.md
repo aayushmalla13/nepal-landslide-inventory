@@ -57,6 +57,8 @@ the input path and SHA-256 are recorded in the outputs. It writes:
 - `external_match_report.md`: compact input and candidate-overlap summary.
 - `external_agreement.json`: six-layer harmonisation, tiered overlap,
   chance-corrected, capture-recapture, aggregate, and unmatched-sample report.
+- `external_bipad_input_snapshot.csv`: normalized in-window BIPAD rows used by
+  the comparison; its SHA-256 is recorded in the JSON and Markdown reports.
 - `external_bipad_match_candidates.csv`: all Tier A/B/C candidate pairs.
 - `external_search_seeds.csv`: BIPAD clusters without a strong A/B link,
   ordered with unmatched fatal incidents first. Tier C remains a weak lead.

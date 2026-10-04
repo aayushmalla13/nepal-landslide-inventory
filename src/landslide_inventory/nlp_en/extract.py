@@ -11,6 +11,7 @@ from ..gazetteer import district_to_province, normalize_district
 from ..gazetteer_municipality import municipality_to_district, normalize_municipality
 from ..nlp_attribution import is_person_attribution
 from ..nlp_counts import explicit_zero_is_safe
+from ..unify.event_typing import ROLE_FIRST_REPORT, classify_article_role
 from .places import EN_DISTRICT_ALIASES_PATTERN, extract_place_en
 
 MONTH_NAMES = (
@@ -655,7 +656,7 @@ def _event_anchored_municipality_district(
     municipality_normalizer: GazetteerFunc,
     municipality_mapper: GazetteerFunc,
 ) -> str | None:
-    """Prefer a road-failure municipality over a Kathmandu desk dateline.
+    """Prefer an event-anchored municipality over a conflicting district.
 
     This is deliberately narrower than a generic municipality override. Route
     destinations and traveller residences frequently occur in road stories, so
@@ -663,10 +664,10 @@ def _event_anchored_municipality_district(
     follow destination phrasing.
     """
 
-    if municipality is None or explicit_district != 'Kathmandu':
+    if municipality is None or explicit_district is None:
         return None
     mapped = municipality_mapper(municipality)
-    if mapped is None or mapped == explicit_district or not _is_road_disruption_title(title):
+    if mapped is None or mapped == explicit_district:
         return None
     if re.search(r'\b(?:landslides?|mudslides?|rockfalls?)\b', title, re.IGNORECASE) is None:
         return None
@@ -689,7 +690,8 @@ def _event_anchored_municipality_district(
             continue
         context = lead[max(0, match.start() - 140) : match.end() + 140]
         if re.search(
-            r'\b(?:block|blocked|obstruct|obstructed|halt|halted|landslide|mudslide|rockfall)\w*\b',
+            r'\b(?:block|blocked|obstruct|obstructed|halt|halted|landslide|mudslide|'
+            r'rockfall|buried|killed|injured|damaged|destroyed|swept)\w*\b',
             context,
             re.IGNORECASE,
         ):
@@ -791,6 +793,16 @@ def _resolve_event_date(
     published_year_hint: int | None,
 ) -> tuple[str | None, float]:
     lead_window = _lead_window(text, limit=900)
+    title = text.splitlines()[0] if text else ''
+    article_role = classify_article_role(title, text)
+    if article_role != ROLE_FIRST_REPORT:
+        historical_date, historical_conf = _extract_event_linked_absolute_date_en(
+            text,
+            published_date_ad,
+            published_year_hint,
+        )
+        if historical_date is not None and historical_date != published_date_ad:
+            return historical_date, historical_conf
     anchor_value, anchor_conf = _extract_absolute_anchor_date(lead_window, published_date_ad, published_year_hint)
     if anchor_value is None and published_date_ad:
         anchor_value, anchor_conf = published_date_ad, 0.6
@@ -799,6 +811,54 @@ def _resolve_event_date(
     try:
         anchor_date = date.fromisoformat(anchor_value)
     except ValueError:
+        return None, 0.0
+    if published_date_ad:
+        try:
+            published_date = date.fromisoformat(published_date_ad)
+        except ValueError:
+            published_date = None
+        if published_date is not None and anchor_date > published_date:
+            anchor_date = published_date
+            anchor_value = published_date_ad
+            anchor_conf = 0.6
+
+    # Publisher datelines are often parsed as high-confidence absolute dates.
+    # Equality with the known publication date, not confidence, identifies the
+    # unsafe fallback for follow-up and retrospective stories.
+    publication_fallback = bool(
+        published_date_ad and anchor_value == published_date_ad
+    )
+
+    if publication_fallback and article_role != ROLE_FIRST_REPORT:
+        for sentence in re.split(r'(?<=[.!?])\s+', lead_window):
+            if (
+                SAME_DAY_PATTERN.search(sentence)
+                and re.search(r'\b(?:landslide|mudslide|rockfall)s?\b', sentence, re.IGNORECASE)
+                and re.search(
+                    r'\b(?:occurred|hit|struck|fell|collapsed|buried|killed|damaged|'
+                    r'blocked|obstructed)\b',
+                    sentence,
+                    re.IGNORECASE,
+                )
+            ):
+                return anchor_date.isoformat(), max(anchor_conf, 0.8)
+        weekday_name = _event_weekday_name(lead_window)
+        if weekday_name:
+            inferred = _infer_weekday_date(anchor_date, weekday_name)
+            if inferred is not None and inferred != anchor_date:
+                return inferred.isoformat(), max(anchor_conf, 0.78)
+        event_previous = re.search(
+            r'(?:landslide|mudslide|rockfall)[^.]{0,100}'
+            r'(?:occurred|hit|struck|fell|collapsed)[^.]{0,80}'
+            r'(?:yesterday|last night|previous night|overnight)'
+            r'|(?:yesterday|last night|previous night|overnight)[^.]{0,80}'
+            r'(?:landslide|mudslide|rockfall)[^.]{0,100}'
+            r'(?:occurred|hit|struck|fell|collapsed)',
+            lead_window,
+            re.IGNORECASE,
+        )
+        if event_previous:
+            return (anchor_date - timedelta(days=1)).isoformat(), max(anchor_conf, 0.82)
         return None, 0.0
 
     if SAME_DAY_PATTERN.search(lead_window):
@@ -1391,4 +1451,39 @@ def _extract_absolute_anchor_date(
                 return datetime.strptime(value, fmt).date().isoformat(), 0.88
             except ValueError:
                 continue
+    return None, 0.0
+
+
+def _extract_event_linked_absolute_date_en(
+    text: str,
+    published_date_ad: str | None,
+    published_year_hint: int | None,
+) -> tuple[str | None, float]:
+    """Recover historical dates from event sentences in follow-up articles."""
+
+    for sentence in re.split(r'(?<=[.!?])\s+|\n+', text):
+        if re.search(r'\b(?:landslide|mudslide|rockfall)s?\b', sentence, re.IGNORECASE) is None:
+            continue
+        if re.search(
+            r'\b(?:took place|occurred|hit|struck|fell|collapsed|buried|killed|damaged)\b',
+            sentence,
+            re.IGNORECASE,
+        ) is None:
+            continue
+        anchor_value, anchor_conf = _extract_absolute_anchor_date(
+            sentence,
+            published_date_ad,
+            published_year_hint,
+        )
+        # Continue past publisher datelines and same-day status sentences so a
+        # later, explicitly historical event sentence can supply the date.
+        if anchor_value is None or anchor_value == published_date_ad:
+            continue
+        if published_date_ad is not None:
+            try:
+                if date.fromisoformat(anchor_value) > date.fromisoformat(published_date_ad):
+                    continue
+            except ValueError:
+                continue
+        return anchor_value, max(anchor_conf, 0.88)
     return None, 0.0

@@ -158,6 +158,9 @@ SCHEMA_STATEMENTS = (
         reason TEXT NOT NULL,
         published_date_ad TEXT,
         event_date_ad TEXT,
+        district TEXT,
+        province TEXT,
+        municipality TEXT,
         in_nepal INTEGER,
         exclude_from_canonical INTEGER NOT NULL DEFAULT 0,
         scope_reason TEXT,
@@ -356,6 +359,12 @@ REQUIRED_EXTERNAL_NEWS_CANDIDATE_COLUMNS = {
     'ingest_error': 'TEXT',
 }
 
+REQUIRED_REVIEWED_CORRECTION_COLUMNS = {
+    'district': 'TEXT',
+    'province': 'TEXT',
+    'municipality': 'TEXT',
+}
+
 
 def connect_sqlite(database_path: Path) -> sqlite3.Connection:
     """Create a SQLite connection with row access enabled."""
@@ -376,6 +385,7 @@ def initialize_sqlite(database_path: Path) -> None:
         _migrate_article_events(connection)
         _migrate_canonical_events(connection)
         _migrate_cluster_summary(connection)
+        _migrate_reviewed_article_corrections(connection)
         _migrate_external_news_candidates(connection)
         connection.commit()
 
@@ -447,6 +457,22 @@ def _migrate_cluster_summary(connection: sqlite3.Connection) -> None:
         if column in columns:
             continue
         connection.execute(f'ALTER TABLE cluster_summary ADD COLUMN {column} {definition}')
+
+
+def _migrate_reviewed_article_corrections(connection: sqlite3.Connection) -> None:
+    """Add reviewed location fields to an older corrections table."""
+
+    columns = {
+        str(row['name'])
+        for row in connection.execute(
+            'PRAGMA table_info(reviewed_article_corrections)'
+        ).fetchall()
+    }
+    for column, definition in REQUIRED_REVIEWED_CORRECTION_COLUMNS.items():
+        if column not in columns:
+            connection.execute(
+                f'ALTER TABLE reviewed_article_corrections ADD COLUMN {column} {definition}'
+            )
 
 
 def _migrate_external_news_candidates(connection: sqlite3.Connection) -> None:

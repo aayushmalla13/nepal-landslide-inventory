@@ -25,7 +25,8 @@ LOGGER = logging.getLogger(__name__)
 
 OUTPUT_COLUMNS = [
     'url', 'reviewed_at', 'reviewed_by', 'evidence_url', 'correction_action',
-    'reason', 'published_date_ad', 'event_date_ad', 'in_nepal',
+    'reason', 'published_date_ad', 'event_date_ad', 'district', 'province',
+    'municipality', 'in_nepal',
     'exclude_from_canonical', 'scope_reason', 'before_json', 'after_json',
     'corrections_sha256', 'applied_at',
 ]
@@ -74,6 +75,10 @@ def load_reviewed_corrections(path: Path) -> list[dict[str, Any]]:
     seen: set[str] = set()
     parsed: list[dict[str, Any]] = []
     for row_number, row in enumerate(rows, start=2):
+        if row.get(None):
+            raise ValueError(
+                f'Correction row {row_number}: unexpected extra CSV fields {row[None]!r}'
+            )
         url = (row.get('url') or '').strip()
         if not url:
             raise ValueError(f'Correction row {row_number}: url is required')
@@ -103,6 +108,9 @@ def load_reviewed_corrections(path: Path) -> list[dict[str, Any]]:
                 'event_date_ad': _optional_iso(
                     row.get('event_date_ad') or '', 'event_date_ad', row_number
                 ),
+                'district': (row.get('district') or '').strip() or None,
+                'province': (row.get('province') or '').strip() or None,
+                'municipality': (row.get('municipality') or '').strip() or None,
                 'in_nepal': _optional_bool(
                     row.get('in_nepal') or '', 'in_nepal', row_number
                 ),
@@ -122,7 +130,8 @@ def _snapshot(connection, url: str) -> dict[str, Any] | None:
         """
         SELECT r.published_date_ad AS raw_published_date_ad,
                e.published_date_ad AS event_published_date_ad,
-               e.event_date_ad, e.in_nepal, e.scope_reason
+               e.event_date_ad, e.district, e.province, e.municipality,
+               e.in_nepal, e.scope_reason
         FROM raw_articles AS r
         LEFT JOIN article_events AS e ON e.url = r.url
         WHERE r.url = ?
@@ -170,7 +179,10 @@ def apply_reviewed_corrections(config: AppConfig) -> dict[str, Any]:
                     (item['published_date_ad'], item['url']),
                 )
             updates: dict[str, Any] = {}
-            for field in ('event_date_ad', 'in_nepal', 'scope_reason'):
+            for field in (
+                'event_date_ad', 'district', 'province', 'municipality',
+                'in_nepal', 'scope_reason',
+            ):
                 if item[field] is not None:
                     updates[field] = item[field]
             if updates:
@@ -185,9 +197,10 @@ def apply_reviewed_corrections(config: AppConfig) -> dict[str, Any]:
                 INSERT INTO reviewed_article_corrections (
                     url, reviewed_at, reviewed_by, evidence_url,
                     correction_action, reason, published_date_ad, event_date_ad,
-                    in_nepal, exclude_from_canonical, scope_reason, before_json,
+                    district, province, municipality, in_nepal,
+                    exclude_from_canonical, scope_reason, before_json,
                     after_json, corrections_sha256, applied_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(url) DO UPDATE SET
                     reviewed_at=excluded.reviewed_at,
                     reviewed_by=excluded.reviewed_by,
@@ -196,6 +209,9 @@ def apply_reviewed_corrections(config: AppConfig) -> dict[str, Any]:
                     reason=excluded.reason,
                     published_date_ad=excluded.published_date_ad,
                     event_date_ad=excluded.event_date_ad,
+                    district=excluded.district,
+                    province=excluded.province,
+                    municipality=excluded.municipality,
                     in_nepal=excluded.in_nepal,
                     exclude_from_canonical=excluded.exclude_from_canonical,
                     scope_reason=excluded.scope_reason,
@@ -206,7 +222,8 @@ def apply_reviewed_corrections(config: AppConfig) -> dict[str, Any]:
                 (
                     item['url'], item['reviewed_at'], item['reviewed_by'],
                     item['evidence_url'], item['correction_action'], item['reason'],
-                    item['published_date_ad'], item['event_date_ad'], item['in_nepal'],
+                    item['published_date_ad'], item['event_date_ad'],
+                    item['district'], item['province'], item['municipality'], item['in_nepal'],
                     item['exclude_from_canonical'], item['scope_reason'],
                     json.dumps(original_before, ensure_ascii=False, sort_keys=True),
                     json.dumps(after, ensure_ascii=False, sort_keys=True),

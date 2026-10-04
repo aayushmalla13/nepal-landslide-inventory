@@ -22,6 +22,7 @@ import argparse
 import csv
 import gzip
 import json
+import sqlite3
 import sys
 from datetime import date
 from pathlib import Path
@@ -43,6 +44,23 @@ def read_corpus(path: Path) -> dict[str, dict[str, str]]:
         return {row["url"]: row for row in csv.DictReader(handle)}
 
 
+def read_corpus_from_sqlite(path: Path) -> dict[str, dict[str, str]]:
+    """Read the same evidence fields from the live article store.
+
+    The historical corpus CSV is no longer produced, but ``raw_articles`` is
+    the authoritative source from which it was built. Keeping this fallback in
+    the audit prevents a missing intermediate export from leaving stale
+    diagnostics in a later rainfall release.
+    """
+
+    with sqlite3.connect(path) as connection:
+        connection.row_factory = sqlite3.Row
+        rows = connection.execute(
+            "SELECT url, title, text, published_date_ad FROM raw_articles"
+        ).fetchall()
+    return {str(row["url"]): dict(row) for row in rows}
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -50,6 +68,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--canonical", default="data/outputs/canonical_events_final.csv")
     parser.add_argument("--articles", default="data/outputs/article_events.csv")
     parser.add_argument("--corpus", default="data/corpus/corpus_for_extraction.csv.gz")
+    parser.add_argument("--sqlite", default="data/raw_sqlite/landslide_inventory.sqlite")
     parser.add_argument("--cases", default="data/outputs/event_antecedent_rainfall.csv")
     parser.add_argument("--study-start", default="2015-01-01")
     parser.add_argument("--study-end", default="2026-08-14")
@@ -78,7 +97,16 @@ def main() -> int:
 
     canonical = read_csv(ROOT / args.canonical)
     articles = {row["url"]: row for row in read_csv(ROOT / args.articles)}
-    corpus = read_corpus(ROOT / args.corpus)
+    corpus_path = ROOT / args.corpus
+    if corpus_path.exists():
+        corpus = read_corpus(corpus_path)
+    else:
+        sqlite_path = ROOT / args.sqlite
+        if not sqlite_path.exists():
+            raise FileNotFoundError(
+                f"neither corpus CSV nor article SQLite exists: {corpus_path}, {sqlite_path}"
+            )
+        corpus = read_corpus_from_sqlite(sqlite_path)
     case_days = {
         (row["district"], row["date"])
         for row in read_csv(ROOT / args.cases)
@@ -104,7 +132,11 @@ def main() -> int:
 
         for finding in (
             ci.check_event_precedes_publication(
-                district, event_date_ad, article.get("published_date_ad"), url, title
+                district,
+                event_date_ad,
+                article.get("published_date_ad") or entry.get("published_date_ad"),
+                url,
+                title,
             ),
             ci.check_within_study_period(
                 district, event_date_ad, study_start, study_end, url, title

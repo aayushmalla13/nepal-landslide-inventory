@@ -16,6 +16,7 @@ import pytest
 
 from landslide_inventory.export import (
     FINAL_COLUMNS,
+    assert_event_typing_complete,
     build_final_rows,
     verify_export_matches,
     write_final_csv,
@@ -141,3 +142,22 @@ def test_verify_reports_rows_present_on_only_one_side(tmp_path: Path) -> None:
     )
     assert result['identical'] is False
     assert result['only_in_generated'] == ['e2']
+
+
+def test_final_export_gate_rejects_missing_event_typing(connection) -> None:
+    with pytest.raises(RuntimeError, match='event_typing'):
+        assert_event_typing_complete(connection)
+
+    for column in ('event_type', 'hazard_type', 'event_granularity', 'article_role'):
+        connection.execute(f'ALTER TABLE canonical_events ADD COLUMN {column} TEXT')
+    with pytest.raises(RuntimeError, match='1 canonical events'):
+        assert_event_typing_complete(connection)
+
+    connection.execute(
+        """
+        UPDATE canonical_events
+        SET event_type='landslide', hazard_type='landslide',
+            event_granularity='single', article_role='first_report'
+        """
+    )
+    assert_event_typing_complete(connection)

@@ -142,6 +142,12 @@ TITLE_ONLY_BODY_CHARS = 200
 # road-obstruction false negatives in the adjudicated audit.
 IMPACT_LEAD_CHARS = 600
 
+# Multi-event evidence often follows a publisher dateline and a short summary.
+# The former 250-character window ended before the first list of failure sites
+# in many road bulletins.  Keep this well below the full article so unrelated
+# background incidents near the end do not redefine the observation unit.
+GRANULARITY_LEAD_CHARS = 1200
+
 # AGGREGATE REPORTS -- articles that state a running total, not an event.
 #
 # These are the single largest source of error in the casualty field. Before
@@ -174,7 +180,8 @@ PERIOD_TOTAL_PATTERN = re.compile(
 MULTI_HAZARD_PATTERN = re.compile(
     r'\bfloods?\s+and\s+landslides?\b|\blandslides?\s+and\s+floods?\b'
     r'|\bfloods?,\s*landslides?\b|\blandslides?,\s*floods?\b'
-    r'|बाढी\s*[–—-]?\s*पहिरो|पहिरो\s*[–—-]?\s*बाढी|बाढीपहिरो|प्राकृतिक विपद',
+    r'|बाढी\s*[–—-]?\s*पहिरो|पहिरो\s*[–—-]?\s*बाढी'
+    r'|बाढीपहिरो|प्राकृतिक विपद',
     re.IGNORECASE,
 )
 
@@ -213,6 +220,7 @@ MULTI_EVENT_PATTERN = re.compile(
     r'|\blandslides\s*:\s*[^\n]{0,80}\b(?:dead|killed|missing|injured)\b'
     r'|\bmore\s+than\s+\d+\s+(?:places|locations|sites)\b'
     r'|ठाउँठाउँ|ठाउँ-ठाउँ|विभिन्न\s*(?:स्थान|ठाउँ|गाउँ|जिल्ला|वडा|भाग)'
+    r'|(?:दर्जनौँ|दर्जनौं|दर्जन|धेरै)\s*(?:स्थान|ठाउँ|गाउँ|जिल्ला|वडा)'
     r'|(?:दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|[२-९2-9])\s*'
     r'(?:वटा\s*)?(?:स्थान|ठाउँ|गाउँ|जिल्ला|वडा|आयोजना)'
     r'|[०-९\d]+\s*भन्दा\s*बढी\s*(?:स्थान|ठाउँ|गाउँ|वडा)'
@@ -232,6 +240,8 @@ EXPLICIT_MULTI_FAILURE_TITLE_PATTERN = re.compile(
     r'|(?:^|\s)(?:यी|ती)\s+(?:सडक|राजमार्ग)'
     r'|(?:देशका\s+)?विभिन्न\s+क्षेत्रमा[^।\n]{0,50}(?:सडक|राजमार्ग)'
     r'|\bseparate\s+incident(?:s)?\s+of\s+landslides?\b'
+    r'|\blandslide(?:s)?[- ]related\s+incidents\b'
+    r'|बाढी\s*(?:र|,)\s*पहिरो|पहिरो\s*(?:र|,)\s*बाढी'
     r'|\blandslides\b[^\n]{0,80}'
     r'\b(?:block|blocks|blocked|obstruct|obstructs|obstructed|halt|halts|halted|'
     r'disrupt|disrupts|disrupted)\b'
@@ -239,7 +249,8 @@ EXPLICIT_MULTI_FAILURE_TITLE_PATTERN = re.compile(
     r'disrupt|disrupts|disrupted)\b[^\n]{0,80}\blandslides\b'
     r'|\S+(?:मा)?\s+र\s+\S+मा\s+पहिरो[^।\n]{0,80}'
     r'(?:सडक|राजमार्ग|लोकपथ|मार्ग|अवरुद्ध|बन्द)'
-    r'|(?:का|काे|को)\s+मुख्य\s+सडक(?:हरू)?\s+(?:अवरुद्ध|ठप्प|बन्द)',
+    r'|(?:का|काे|को)\s+मुख्य\s+सडक(?:हरू)?\s+(?:अवरुद्ध|ठप्प|बन्द)'
+    r'|\S+का\s+मुख्य\s+राजमार्ग\s+(?:अवरुद्ध|ठप्प|बन्द)',
     re.IGNORECASE,
 )
 
@@ -261,11 +272,126 @@ MULTI_FAILURE_SITE_PATTERN = re.compile(
 )
 
 MULTI_ADMIN_PATTERN = re.compile(
-    r'\b(?:municipality|rural municipality|vdc|ward)\b[^.\n]{0,140}'
-    r'\b(?:and|similarly|likewise)\b[^.\n]{0,140}'
-    r'\b(?:municipality|rural municipality|vdc|ward)\b'
-    r'|(?:नगरपालिका|गाउँपालिका|वडा)[^।\n]{0,140}'
-    r'(?:त्यसैगरी|यस्तै|र)[^।\n]{0,140}(?:नगरपालिका|गाउँपालिका|वडा)',
+    r'\b(?:municipality|rural municipality|vdc|ward)\b[^.\n]{0,100}'
+    r'\b(?:landslides?|mudslides?|rockfalls?)\b[^.\n]{0,100}'
+    r'\b(?:and|similarly|likewise|meanwhile)\b[^.\n]{0,100}'
+    r'\b(?:municipality|rural municipality|vdc|ward)\b[^.\n]{0,100}'
+    r'\b(?:landslides?|mudslides?|rockfalls?)\b'
+    r'|(?:नगरपालिका|गाउँपालिका|वडा)[^।\n]{0,100}'
+    r'(?:पहिरो|भूस्खलन|ढिस्को)[^।\n]{0,100}'
+    r'(?:त्यसैगरी|यस्तै|यसैगरी|र)[^।\n]{0,100}'
+    r'(?:नगरपालिका|गाउँपालिका|वडा)[^।\n]{0,100}'
+    r'(?:पहिरो|भूस्खलन|ढिस्को)',
+    re.IGNORECASE,
+)
+
+# Sentence-level multiplicity evidence. Headlines are often singular summaries
+# even when the lead enumerates distinct physical failures (for example, one
+# slide at each of two named road points). These patterns deliberately require
+# a second incident marker or coordinated event sites; a list of destinations,
+# affected villages, or casualties alone is not enough.
+SECOND_EVENT_TRANSITION_PATTERN = re.compile(
+    r'\banother\s+(?:landslides?|mudslides?|rockfalls?)\b'
+    r'|\b(?:elsewhere|meanwhile|similarly|likewise)\b[^.\n]{0,180}'
+    r'\b(?:landslides?|mudslides?|rockfalls?)\b[^.\n]{0,80}'
+    r'\b(?:at|in|near|occurred|struck|blocked|obstructed)\b'
+    r'|(?:यस्तै|त्यस्तै|यसैगरी|त्यसैगरी|उता|अर्को)'
+    r'[^।\n]{0,120}(?:मा|स्थित)[^।\n]{0,80}'
+    r'(?:पहिरो|भूस्खलन|ढिस्को)[^।\n]{0,40}'
+    r'(?:गयो|गएको|जाँदा|खस्यो|खसेको|खस्दा|आयो|आएको)'
+    r'|(?:यस्तै|त्यस्तै|यसैगरी|त्यसैगरी|उता|अर्को)[^।\n]{0,40}'
+    r'(?:पहिरो|भूस्खलन|ढिस्को)[^।\n]{0,100}'
+    r'(?:महानगर|नगरपालिका|गाउँपालिका|वडा|[\u0900-\u097f]+-[०-९\d]+)'
+    r'|(?:यस्तै|त्यस्तै|यसैगरी|त्यसैगरी|उता|अर्को)[^।\n]{0,120}'
+    r'(?:महानगर|नगरपालिका|गाउँपालिका|वडा|[\u0900-\u097f]+-[०-९\d]+)'
+    r'[^।\n]{0,120}(?:पहिरो|भूस्खलन|ढिस्को)[^।\n]{0,50}'
+    r'(?:भत्क|पुरि|पुरि|बगा|मृत्यु|बेपत्ता|घाइते)'
+    r'|(?:यस्तै|त्यस्तै|यसैगरी|त्यसैगरी|उता)[^।\n]{0,60}'
+    r'(?:पहिरो|भूस्खलन|ढिस्को)[^।\n]{0,30}'
+    r'(?:गयो|गएको|जाँदा|खस्यो|खसेको|खस्दा|आयो|आएको)',
+    re.IGNORECASE,
+)
+
+COORDINATED_FAILURE_SITE_PATTERN = re.compile(
+    r'\blandslides\b\s+(?:(?:occurred|struck|reported|fell|slid)\s+)?'
+    r'(?:at|in|along)\b'
+    r'[^.\n]{1,100}\b(?:and|as well as)\b[^.\n]{1,100}'
+    r'|\blandslide\b[^.\n]{0,50}\b(?:occurred|struck|took\s+place)\b'
+    r'[^.\n]{0,30}\bat\b[^.\n]{1,80}\band\b[^.\n]{1,80}'
+    r'\b(?:areas?|villages?|wards?|municipalities)\b'
+    r'|\blandslide\b[^.\n]{0,50}\b(?:occurred|struck|took\s+place)\b'
+    r'[^.\n]{0,30}\b(?:at|in)\b(?![^.\n]{0,100}\bborder\b)'
+    r'[^.\n]{0,100}\b\w+-\d+\b'
+    r'[^.\n]{0,80}\band\b[^.\n]{0,50}\b\w+-\d+\b'
+    r'|[\w\u0900-\u097f–-]{2,}\s+र\s+'
+    r'[\w\u0900-\u097f–-]{2,}मा[^।\n]{0,100}'
+    r'(?:पहिरो|भूस्खलन|ढिस्को)[^।\n]{0,40}'
+    r'(?:गयो|गएको|जाँदा|खस्यो|खसेको|खस्दा|आयो|आएको)',
+    re.IGNORECASE,
+)
+
+COUNTED_FAILURE_PATTERN = re.compile(
+    r'\b(?:two|three|four|five|six|seven|eight|nine|ten|\d+)\s+'
+    r'(?:large\s+|major\s+)?(?:landslides?|mudslides?|rockfalls?)\b'
+    r'|(?:दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|[२-९2-9])\s*'
+    r'(?:वटा\s*)?(?:ठूला?\s*)?(?:पहिरो|भूस्खलन|ढिस्को)',
+    re.IGNORECASE,
+)
+
+DISTRIBUTED_FAILURE_PATTERN = re.compile(
+    r'\b(?:landslides?|mudslides?|rockfalls?)\b[^.\n]{0,100}'
+    r'\b(?:multiple|several|various|different)\s+(?:places|locations|sites|points)\b'
+    r'|\b(?:multiple|several|various|different)\s+(?:places|locations|sites|points)\b'
+    r'[^.\n]{0,100}\b(?:landslides?|mudslides?|rockfalls?)\b'
+    r'|(?:ठाउँ\s*[–—-]?\s*ठाउँ|विभिन्न\s*(?:स्थान|ठाउँ))मा?'
+    r'[^।\n]{0,100}(?:पहिरो|भूस्खलन|ढिस्को)'
+    r'|(?:पहिरो|भूस्खलन|ढिस्को)[^।\n]{0,100}'
+    r'(?:ठाउँ\s*[–—-]?\s*ठाउँ|विभिन्न\s*(?:स्थान|ठाउँ))मा?'
+    r'|\b(?:landslides|mudslides)\b[^.\n]{0,80}'
+    r'\b(?:from\s+all\s+sides|throughout|across)\b'
+    r'|\b(?:landslides|mudslides)\b[^.\n]{0,80}\bentire\s+village\b'
+    r'|\b(?:landslides|mudslides)\b[^.\n]{0,60}\balso\b[^.\n]{0,60}'
+    r'\b(?:blocked|obstructed|struck|damaged)\b'
+    r'|\bfloods?\s+and\s+landslides\b|\blandslides\s+and\s+floods?\b',
+    re.IGNORECASE,
+)
+
+CONTRASTING_SECOND_FAILURE_PATTERN = re.compile(
+    r'(?:पहिरो|भूस्खलन|लेदो|ढिस्को)\s*भने[^।\n]{0,100}'
+    r'(?:हटाउन|पन्छाउन|खुलाउन)[^।\n]{0,50}(?:सकिएको छैन|नसक)',
+    re.IGNORECASE,
+)
+
+MIXED_FAILURE_OBSTRUCTION_PATTERN = re.compile(
+    r'(?:पहिरो|पहिराे|पहिराले|भूस्खलन)[^।\n]{0,100}'
+    r'(?:सडक|बाटो)[^।\n]{0,60}'
+    r'(?:अवरुद्ध|बन्द|ठप्प)[\s\S]{0,500}'
+    r'लेदो[^।\n]{0,100}(?:सडक|बाटो)[^।\n]{0,60}(?:अवरुद्ध|बन्द|ठप्प)'
+    r'|लेदो[^।\n]{0,100}(?:सडक|बाटो)[^।\n]{0,60}'
+    r'(?:अवरुद्ध|बन्द|ठप्प)[\s\S]{0,500}'
+    r'(?:पहिरो|पहिराे|पहिराले|भूस्खलन)[^।\n]{0,100}'
+    r'(?:सडक|बाटो)[^।\n]{0,60}'
+    r'(?:अवरुद्ध|बन्द|ठप्प)',
+    re.IGNORECASE,
+)
+
+MULTI_SITE_LIST_PATTERN = re.compile(
+    r'[\u0900-\u097f–-]{2,}\s*,\s*[\u0900-\u097f–-]{2,}\s+र\s+'
+    r'[\u0900-\u097f–-]{2,}\s+क्षेत्रमा[^।\n]{0,100}'
+    r'(?:पहिरो|भूस्खलन|ढिस्को)',
+    re.IGNORECASE,
+)
+
+DIFFUSE_PHOTO_REPORT_PATTERN = re.compile(
+    r'(?:फोटो\s*फिचर|photo\s*feature)[\s\S]{0,800}'
+    r'(?:सबैजसो|उपत्यकाभर|throughout|across)[^।.\n]{0,100}'
+    r'(?:प्लटिङ|plot|पहिरो|landslide)',
+    re.IGNORECASE,
+)
+
+GENERIC_DISTRICT_CONTEXT_PATTERN = re.compile(
+    r'\b(?:likewise|similarly)\b[^.\n]{0,100}\blandslides?\b'
+    r'[^.\n]{0,100}\bdifferent\s+places\s+in\s+the\s+district\b',
     re.IGNORECASE,
 )
 
@@ -276,11 +402,14 @@ REPEATED_EVENT_PATTERN = re.compile(
 )
 
 FOLLOW_UP_TITLE_PATTERN = re.compile(
-    r'\b(?:update|death toll (?:reaches|rises|climbs)|bodies? recovered|'
+    r'\b(?:update|death toll[^\n]{0,100}(?:reaches|rises|climbs)|bodies? recovered|'
     r'identified|reopens?|reopened|resumes?|resumed|relief|compensation|'
-    r'inspection|search continues?)\b'
+    r'inspection|search continues?|financial aid|aid distributed|food (?:distributed|supplied)|'
+    r'victims? (?:given|provided))\b'
     r'|अपडेट|मृतकको संख्या|मृत्यु हुनेको संख्या|पहिचान खुल्यो|सनाखत|'
-    r'खुल्यो|खुलेको|सञ्चालनमा|निरीक्षण|राहत|क्षतिपूर्ति|शव\s*(?:फेला|भेटियो)',
+    r'खुल्यो|खुलेको|अझै खुलेन|सञ्चालनमा|निरीक्षण|राहत|क्षतिपूर्ति|'
+    r'शव\s*(?:फेला|भेटियो)|पुनः\s*खोजी|खोजी\s*गरिँदै|पन्छाउने\s*काम|'
+    r'पहिरो\s*पन्छा|दाहसंस्कार|पुनःनिर्माण|मर्मतसम्भार|रोकिएन',
     re.IGNORECASE,
 )
 
@@ -360,7 +489,8 @@ OBSTRUCTION_TERMS_PATTERN = re.compile(
     # Prithvi Highway") far more than the past. Matching only 'blocked' missed
     # the commonest form entirely.
     r'\b(?:block|blocks|blocked|blocking|obstruct|obstructs|obstructed|'
-    r'disrupt|disrupts|disrupted|disruption|close|closes|closed|shut|shuts|'
+    r'disrupt|disrupts|disrupted|disruption|disturb|disturbs|disturbed|disturbing|'
+    r'close|closes|closed|shut|shuts|'
     r'halt|halts|halted|strand|strands|stranded|clear|clears|cleared|clearing|'
     r'reopen|reopens|reopened|resume|resumes|resumed|one-way|traffic)\b'
     r'|अवरुद्ध|अवरूद्ध|अवरोध|ठप्प|बन्द|हटाइयो|पन्छाइयो|पन्छाएपछि|सुचारु|'
@@ -502,10 +632,74 @@ def classify_event_granularity(title: str | None, text: str | None) -> str:
 
     heading = (title or '').strip()
     body = (text or '').strip()
-    lead = body[:250]
+    lead = body[:GRANULARITY_LEAD_CHARS]
     combined = f'{heading}\n{lead}'
+    lead_patterns = (
+        MULTI_FAILURE_SITE_PATTERN,
+        SECOND_EVENT_TRANSITION_PATTERN,
+        COORDINATED_FAILURE_SITE_PATTERN,
+        COUNTED_FAILURE_PATTERN,
+        DISTRIBUTED_FAILURE_PATTERN,
+        CONTRASTING_SECOND_FAILURE_PATTERN,
+        MIXED_FAILURE_OBSTRUCTION_PATTERN,
+        MULTI_SITE_LIST_PATTERN,
+    )
+    strong_matches = [
+        match
+        for pattern in lead_patterns
+        if (match := pattern.search(lead)) is not None
+    ]
+    if diffuse_match := DIFFUSE_PHOTO_REPORT_PATTERN.search(combined):
+        strong_matches.append(diffuse_match)
+    strong_lead_multiplicity = strong_matches[0] if strong_matches else None
+    generic_context = GENERIC_DISTRICT_CONTEXT_PATTERN.search(lead)
+    if (
+        DIRECT_INCIDENT_TITLE_PATTERN.search(heading)
+        and generic_context
+        and strong_matches
+        and all(
+            generic_context.start() <= match.start()
+            and match.end() <= generic_context.end()
+            for match in strong_matches
+        )
+    ):
+        strong_lead_multiplicity = None
+    strong_road_multiplicity = (
+        strong_lead_multiplicity or MULTI_ADMIN_PATTERN.search(lead)
+    )
+    response_admin_sites = set(
+        re.findall(
+            r'[\w\u0900-\u097f–-]+\s+(?:गाउँपालिका|नगरपालिका)मा',
+            lead,
+            re.IGNORECASE,
+        )
+    )
+    response_summary = FOLLOW_UP_TITLE_PATTERN.search(heading) and (
+        (
+            re.search(r'\blandslides\b', lead, re.IGNORECASE)
+            and re.search(r'\b(?:areas|communities|villages)\b', lead, re.IGNORECASE)
+        )
+        or (
+            len(response_admin_sites) >= 2
+            and re.search(r'पुनःनिर्माण|पुनर्वास|राहत|क्षतिपूर्ति', heading)
+        )
+    )
+    if response_summary:
+        return GRANULARITY_ROUNDUP
     if is_aggregate_report(heading):
         return GRANULARITY_ROUNDUP
+    one_site_plural_road = (
+        ROAD_TERMS_PATTERN.search(heading)
+        and OBSTRUCTION_TERMS_PATTERN.search(heading)
+        and re.search(r'\blandslides\s+at\s+[^.\n]{1,100}', body, re.IGNORECASE)
+        and len(re.findall(r'\blandslides?\b', body, re.IGNORECASE)) == 1
+        and MULTI_FAILURE_SITE_PATTERN.search(lead) is None
+        and MULTI_EVENT_PATTERN.search(lead) is None
+        and MULTI_ADMIN_PATTERN.search(lead) is None
+        and strong_road_multiplicity is None
+    )
+    if one_site_plural_road:
+        return GRANULARITY_SINGLE
     if (
         MULTI_EVENT_PATTERN.search(heading)
         or MULTI_ADMIN_PATTERN.search(heading)
@@ -521,18 +715,21 @@ def classify_event_granularity(title: str | None, text: str | None) -> str:
         )
     ):
         return GRANULARITY_MULTI
+    # "Again" or "fresh" in the headline establishes one newly observed
+    # occurrence even if the body calls it "another landslide" relative to an
+    # earlier event outside this article's observation unit.
+    if REPEATED_EVENT_PATTERN.search(heading):
+        return GRANULARITY_SINGLE
     # Road reports use the blockage as their observation unit. Later prose
     # often lists other unstable spots along the corridor as context; that
     # does not turn the reported blockage into a roundup.
     if ROAD_TERMS_PATTERN.search(heading) and OBSTRUCTION_TERMS_PATTERN.search(heading):
-        if MULTI_FAILURE_SITE_PATTERN.search(body[:400]):
+        if strong_road_multiplicity:
             return GRANULARITY_MULTI
         return GRANULARITY_SINGLE
     # "Again"/"fresh" describes a newly observed occurrence, not multiple
     # events inside this article.
-    if REPEATED_EVENT_PATTERN.search(heading):
-        return GRANULARITY_SINGLE
-    if MULTI_EVENT_PATTERN.search(lead) or MULTI_ADMIN_PATTERN.search(lead):
+    if strong_lead_multiplicity:
         return GRANULARITY_MULTI
     # A singular, direct-incident headline remains the unit of analysis even
     # when the final paragraph mentions other affected places as context.
@@ -541,6 +738,10 @@ def classify_event_granularity(title: str | None, text: str | None) -> str:
         and re.search(r'\blandslides\b', heading, re.IGNORECASE) is None
     ):
         return GRANULARITY_SINGLE
+    if re.search(r'\blandslides\b', heading, re.IGNORECASE):
+        return GRANULARITY_MULTI
+    if MULTI_EVENT_PATTERN.search(lead) or MULTI_ADMIN_PATTERN.search(lead):
+        return GRANULARITY_MULTI
     if (
         MULTI_EVENT_PATTERN.search(combined)
         or MULTI_ADMIN_PATTERN.search(combined)

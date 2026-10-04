@@ -131,6 +131,134 @@ def test_extract_np_followup_title_uses_full_text_anchor_date() -> None:
     assert result['event_date_ad'] == '2024-09-28'
 
 
+def test_nepali_reopening_followup_does_not_use_publication_date() -> None:
+    from landslide_inventory.nlp_np.extract import _resolve_event_date
+
+    event_date, confidence = _resolve_event_date(
+        'पहिरोले अवरुद्ध सडक खुल्यो\nसडक सञ्चालनमा आएको प्रहरीले जनाएको छ।',
+        '2024-07-07',
+        2024,
+    )
+    assert event_date is None
+    assert confidence == 0.0
+
+
+def test_followup_recovers_reverse_grammar_weekday_event_date() -> None:
+    result = extract_np(
+        'रामेछाप : पहिरोमा हराइरहेका चारमध्ये एक जनाको शव फेला',
+        'रामेछापको दोरम्बा शैलुङ्ग गाउँपालिका–३ लेखर्कमा शनिवार राति गएको पहिरोमा परी चार जना हराएका थिए ।',
+        '2024-08-26',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['event_date_ad'] == '2024-08-24'
+
+
+def test_followup_recovers_previous_night_when_action_precedes_landslide() -> None:
+    result = extract_np(
+        'गुल्मीमा एकै घरका ५ जना पहिरोमा पुरिए, ३ जनाको शव भेटियो',
+        'गएराति घर माथिबाट खसेको पहिरोले एकै परिवारका पाँच जनालाई पुरेको थियो ।',
+        '2024-06-30',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['event_date_ad'] == '2024-06-29'
+
+
+def test_followup_last_weekday_on_same_weekday_backshifts_one_week() -> None:
+    result = extract_np(
+        'ताप्लेजुङ पहिरो: बेपत्ता नभेटिएपछि आफन्तले गरे दाहसंस्कार',
+        'गत शुक्रबार राती ताप्लेजुङ सिदिङ्वा गाउँपालिका–६ मेहेलेमा गएको पहिरोमा परी बेपत्ता भएकाहरू अझै भेटिएका छैनन्।',
+        '2023-06-23',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['event_date_ad'] == '2023-06-16'
+
+
+def test_followup_recovers_event_linked_date_after_kathmandu_dateline() -> None:
+    result = extract_np(
+        'झ्याप्ले खोला पहिरोमा मृत्यु भएका ३५ जनाको सनाखत',
+        (
+            '१७ असोज, काठमाडौं । पहिरोमा मृत्यु भएका ३५ जनाको सनाखत भएको छ । '
+            'यही असोज १२ गते धादिङको धुनीबेसी नगरपालिका ९ झ्याप्लेखोलामा '
+            'यात्रुसहित तीन वटा गाडी पुरिएका थिए ।'
+        ),
+        '2024-10-03',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2024,
+    )
+    assert result['event_date_ad'] == '2024-09-28'
+
+
+def test_followup_rejects_inferred_event_date_after_publication() -> None:
+    from landslide_inventory.nlp_np.extract import _resolve_event_date
+
+    event_date, confidence = _resolve_event_date(
+        'पहिरोपीडितलाई राहत\nकात्तिक १३ गते पहिरो खसेको थियो ।',
+        '2021-10-20',
+        2021,
+    )
+    assert event_date is None
+    assert confidence == 0.0
+
+
+def test_charchare_event_site_overrides_kathmandu_dateline() -> None:
+    result = extract_np(
+        'सिद्वार्थ राजमार्गको बुटवल-तानसेन सडकमा पहिरो जाँदा पाँच घण्टा अवरुद्ध, हाल एकतर्फी सञ्चालनमा',
+        (
+            'काठमाडौं । सिद्वार्थ राजमार्गको बुटवल-तानसेन सडकमा पहिरो जाँदा '
+            'यातायात अवरुद्ध भएको छ । शुक्रबार यो सडकखण्डस्थित चरचरेमा पहिरो '
+            'खसेर यातायात अवरुद्ध बनेको हो ।'
+        ),
+        '2023-05-05',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] == 'Palpa'
+    assert result['event_date_ad'] == '2023-05-05'
+
+
+def test_extract_np_does_not_use_kathmandu_dateline_for_ambiguous_trekking_route() -> None:
+    result = extract_np(
+        'हराएका आठ पदयात्री सम्पर्कमा, हिमपात र पहिरोबाट जोगिन सफल',
+        (
+            'काठमाडौं । राराबाट डोल्पा हुँदै जोमसोम जाने टोली सम्पर्कविहीन भएको थियो। '
+            'भारी हिमपात र पहिरो आएपछि उनीहरू ज्यान जोगाएर मुस्ताङ पुगेका छन्।'
+        ),
+        '2021-10-23',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] is None
+    assert result['class'] == 2
+
+
+def test_extract_np_uses_single_body_district_over_kathmandu_dateline() -> None:
+    result = extract_np(
+        'पहिरोले राजमार्ग अवरुद्ध',
+        'काठमाडौं । धादिङमा पहिरो खस्दा पृथ्वी राजमार्ग अवरुद्ध भएको छ।',
+        '2021-10-23',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] == 'Dhading'
+    assert result['class'] == 1
+
+
+def test_extract_np_keeps_kathmandu_when_dateline_is_the_only_district() -> None:
+    result = extract_np(
+        'काठमाडौंमा पहिरोले घर पुरिँदा एक जनाको मृत्यु',
+        'काठमाडौं । काठमाडौंमा पहिरोले घर पुरिँदा एक जनाको मृत्यु भएको छ।',
+        '2021-10-23',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['district'] == 'Kathmandu'
+    assert result['class'] == 1
+
+
 
 def test_extract_np_prefers_same_day_when_today_and_last_night_both_appear() -> None:
     result = extract_np(
@@ -141,6 +269,36 @@ def test_extract_np_prefers_same_day_when_today_and_last_night_both_appear() -> 
         KEYWORDS_CFG,
     )
     assert result['event_date_ad'] == '2017-08-04'
+
+
+def test_fresh_same_day_event_overrides_background_explicit_date() -> None:
+    result = extract_np(
+        'पहिरोले डुम्रे–बेँसीसहर सडक पुनः अवरुद्ध',
+        (
+            'बेँसीसहर नगरपालिका–१ दलालमा आज बिहान पहिरो खस्दा सडक अवरुद्ध भयो। '
+            'यसअघि यही असार ४ गते पनि पहिरो खस्दा सडक अवरुद्ध भएको थियो।'
+        ),
+        '2024-06-23',
+        None,
+        KEYWORDS_CFG,
+        published_year_hint=2024,
+    )
+    assert result['event_date_ad'] == '2024-06-23'
+
+
+def test_fresh_event_does_not_inherit_background_casualties() -> None:
+    result = extract_np(
+        'कालिखोलामा फेरि पहिरो, नारायणगढ-मुग्लिन राजमार्ग अवरुद्ध',
+        (
+            'आइतबार अपरान्ह फेरि पहिरो गएपछि राजमार्ग अवरुद्ध भएको छ। '
+            'बिहीबार राति अर्को पहिरोमा गाडी पुरिएको थियो। '
+            'दुईजनाको शव शुक्रबार बिहान फेला परेको थियो।'
+        ),
+        '2017-06-25',
+        None,
+        KEYWORDS_CFG,
+    )
+    assert result['deaths'] is None
 
 
 

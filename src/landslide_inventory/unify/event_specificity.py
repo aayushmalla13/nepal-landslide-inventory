@@ -80,6 +80,12 @@ NON_EVENT_PURPOSE_PATTERN = re.compile(
     r'|\bdozer\s+use\s+causing\s+landslides?\b'
     r'|विपद्?\s*व्यवस्थापन(?:को)?\s*(?:योजना|तयारी|प्रयास)'
     r'|मनसुन(?:जन्य)?\s*विपद्?\s*(?:कार्ययोजना|तयारी)'
+    r'|मनसुन[^\n]{0,35}(?:पूर्वतयारी|प्रतिकार्य)[^\n]{0,35}(?:कार्य\s*योजना|योजना)'
+    r'|प्रतिकार्य\s+कार्य\s*योजना'
+    r'|(?:बाढी[^\n]{0,20})?पहिरो[^\n]{0,40}सडक\s+दुर्घटना[^\n]{0,100}ध्यानाकर्षण'
+    r'|पहिरो\s*पीडित[^\n]{0,60}(?:आन्दोलन|धर्ना|ऐक्यबद्धता)'
+    r'|(?:किन\s+जान्छ|किन\s+जान्छन्)[^\n]{0,40}पहिरो'
+    r'|पहिरो[^\n]{0,50}(?:रोक्न\s+के\s+गर्ने|यसको\s+उदाहरण\s+हो)'
     r'|(?:बाढी\s*[/–—-]?\s*)?पहिरो[^\n]{0,40}(?:असर|प्रभाव)[^\n]{0,40}न्यूनीकरणका\s+उपाय',
     re.IGNORECASE,
 )
@@ -97,6 +103,11 @@ PRIMARY_NON_LANDSLIDE_INCIDENT_PATTERN = re.compile(
     r'\b(?:bus|truck|vehicle|jeep|car)\b[^\n]{0,60}\b(?:crash|collision|accident)\b'
     r'|\b(?:crash|collision|accident)\b[^\n]{0,60}\b(?:bus|truck|vehicle|jeep|car)\b'
     r'|बसको\s+ठक्कर|सवारी\s+दुर्घटना|चितुवाको\s+आक्रमण|सर्पदंश',
+    re.IGNORECASE,
+)
+PRIMARY_NON_LANDSLIDE_HAZARD_PATTERN = re.compile(
+    r'\b(?:tornado|cyclone|hurricane|wildfire|earthquake)\b'
+    r'|टोर्नाडो|हुरी(?:बतास)?|चक्रवात|आगलागी|भूकम्प',
     re.IGNORECASE,
 )
 LANDSLIDE_CAUSED_INCIDENT_PATTERN = re.compile(
@@ -166,6 +177,11 @@ METAPHOR_ELECTORAL_PATTERN = re.compile(
     r'|\b(?:vote|votes|voted|ballot|poll|polls|candidate|candidates|elect|elected|election)\b[^.\n]{0,60}\bconstituenc(?:y|ies)\b',
     re.IGNORECASE,
 )
+METAPHOR_PARTY_PATTERN = re.compile(
+    r'(?:पार्टी|एमाले|कांग्रेस|माओवादी)[^।\n]{0,45}पहिरो\s+(?:गइरहेको|गएको|जाने|नथामिने)'
+    r'|पहिरो\s+(?:गइरहेको|गएको|जाने|नथामिने)[^।\n]{0,45}(?:पार्टी|एमाले|कांग्रेस|माओवादी)',
+    re.IGNORECASE,
+)
 FOREIGN_TERMS = (
     'india', 'china', 'pakistan', 'turkey', 'indonesia', 'bangladesh', 'afghanistan', 'myanmar', 'japan',
     'philippines', 'thailand', 'tibet', 'uttarakhand', 'himachal', 'himachal pradesh', 'sikkim', 'delhi', 'beijing', 'istanbul', 'california', 'sierra leone', 'hong kong',
@@ -229,8 +245,56 @@ FOLLOWUP_DELAY_PATTERN = re.compile(r'(?:\bafter\s+\d+\s+days\b|\b\d+\s+days\s+l
 NP_COUNT_REACHED_PATTERN = re.compile(r'(?:मृतकको संख्या|ज्यान गुमाउनेको संख्या|मृत्यु हुनेको संख्या)\s*[०-९\d]+\s*पुग्यो')
 NP_PERIOD_SUMMARY_PATTERN = re.compile(r'(?:एक|दुई|तीन|चार|पाँच|छ|सात|आठ|नौ|दश|एघार|बाह्र|तेह्र|चौध|पन्ध्र|सोह्र|सत्र|अठार|उन्नाइस|बीस|[०-९]+)\s*(?:साता|हप्ता|महिना|वर्ष|दिन)(?:को\s+अवधिमा|मा)')
 NP_LONG_RUNNING_DISRUPTION_PATTERN = re.compile(r'[०-९\d]+\s*दिनदेखि[^.]{0,80}(?:यातायात|सडक|राजमार्ग).{0,40}अवरुद्ध')
+LONG_PERIOD_DISASTER_SUMMARY_PATTERN = re.compile(
+    r'\b(?:killed|dead|missing|injured|fatalities|deaths?)\b[^.\n]{0,100}'
+    r'\b(?:natural\s+)?disasters?\b[^.\n]{0,100}'
+    r'\b(?:in|over|during)\s+(?:the\s+)?(?:past|last)\s+'
+    r'(?:\d+(?:\.\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)'
+    r'(?:\s+and\s+a\s+half)?\s+(?:days?|weeks?|months?|years?)\b'
+    r'|\bfigures\s+represent\s+the\s+losses\s+occurred\s+since\b',
+    re.IGNORECASE,
+)
+NP_MULTI_HAZARD_AGGREGATE_PATTERN = re.compile(
+    r'(?:बाढी[^।\n]{0,20}पहिरो|पहिरो[^।\n]{0,20}बाढी)[^।\n]{0,30}(?:डुबान|विपद्|प्रकोप)'
+    r'[^।\n]{0,180}(?:\d+|[०-९]+)\s*जनाको\s+(?:ज्यान|मृत्यु)'
+    r'|(?:यसपटक|यो\s+वर्ष)[^।\n]{0,80}(?:वर्षा|प्रकोप|विपद्)[^।\n]{0,80}'
+    r'(?:\d+|[०-९]+)\s*जनाको\s+(?:ज्यान|मृत्यु)',
+    re.IGNORECASE,
+)
+FORECAST_ONLY_PATTERN = re.compile(
+    r'(?:अझै\s+केही\s+दिन|अबको\s+(?:तीन|चार|[०-९\d]+)\s+दिन)[^।\n]{0,100}'
+    r'(?:वर्षा|झरी|पानी)[^।\n]{0,140}(?:सम्भावना|जोखिम|खतरा|सतर्क)'
+    r'|(?:मौसमविद्|मौसम\s+विज्ञान\s+विभाग)[^।\n]{0,180}'
+    r'(?:पहिरो\s+(?:आउन|जान)\s*सक्छ|पहिरोको\s+(?:सम्भावना|जोखिम|खतरा))'
+    r'|\b(?:weather\s+(?:forecast|department)|meteorologists?)\b[^.\n]{0,180}'
+    r'\b(?:landslides?\s+(?:may|might|could)|risk\s+of\s+landslides?)\b',
+    re.IGNORECASE,
+)
+FORECAST_AUTHORITY_PATTERN = re.compile(
+    r'मौसमविद्|मौसम\s+विज्ञान\s+विभाग|जल\s+तथा\s+मौसम\s+विज्ञान\s+विभाग'
+    r'|\bweather\s+(?:forecast|department)\b|\bmeteorologists?\b',
+    re.IGNORECASE,
+)
+FUTURE_HAZARD_PATTERN = re.compile(
+    r'पहिरो\s+(?:आउन|जान)\s*सक्छ|पहिरोको\s+(?:सम्भावना|जोखिम|खतरा)'
+    r'|(?:बाढी|पहिरो|डुबान|कटान)को\s+सम्भावना'
+    r'|\blandslides?\s+(?:may|might|could)\b|\brisk\s+of\s+landslides?\b',
+    re.IGNORECASE,
+)
 ROUNDUP_CONNECTOR_PATTERN = re.compile(
     r'\b(?:likewise|similarly),[^.]{0,220}\b(?:killed|missing|dead|injured|lost\s+his\s+life|lost\s+her\s+life|lost\s+their\s+life|lost\s+their\s+lives)\b[^.]{0,220}\b(?:at|in)\s+[^.]{0,120}\b(?:municipality|rural\s+municipality|metropolitan\s+city|sub-metropolitan\s+city|district|ward|-\d)\b',
+    re.IGNORECASE,
+)
+DISTINCT_INCIDENT_CONNECTOR_PATTERN = re.compile(
+    r'\bseparate\s+landslide\s+incidents?\b'
+    r'|\b(?:likewise|similarly),[^.\n]{0,220}'
+    r'(?:municipality|rural\s+municipality|ward|-\d)[^.\n]{0,180}'
+    r'(?:\blandslide\b[^.\n]{0,140}\b(?:killed|dead|died|missing|injured)\b'
+    r'|\b(?:killed|dead|died|missing|injured)\b[^.\n]{0,140}\blandslide\b)'
+    r'|(?:यस्तै|त्यस्तै|त्यसैगरी),?'
+    r'(?=[^।\n]{0,280}(?:[-–]?\s*[०-९\d]+))'
+    r'(?=[^।\n]{0,280}(?:पहिरो|भूस्खलन))'
+    r'[^।\n]{0,300}(?:मृत्यु|ज्यान|बेपत्ता|घाइते)',
     re.IGNORECASE,
 )
 REGIONAL_BREAKDOWN_PATTERN = re.compile(
@@ -293,10 +357,8 @@ def run_event_specificity_stage(config: AppConfig) -> int:
         ensure_decisions_table(connection)
         for row in rows:
             decision = decide_specificity(row, study_start, study_end, exclude_terms)
-            # Log the decision AND the extractor's field values BEFORE the
-            # UPDATE below nulls them. Without this, a demoted row's original
-            # district/date/casualties are unrecoverable except by re-running
-            # spaCy over the whole corpus (review section 2.2).
+            # Keep an immutable decision-time snapshot even though filtering
+            # now preserves extracted evidence in article_events.
             record_decision(
                 connection,
                 url=row.url,
@@ -328,51 +390,17 @@ def run_event_specificity_stage(config: AppConfig) -> int:
                     specificity_score = ?,
                     class = COALESCE(?, class),
                     event_class = COALESCE(?, event_class),
-                    event_date_ad = CASE WHEN ? = 3 THEN NULL ELSE event_date_ad END,
-                    district = CASE WHEN ? = 3 THEN NULL ELSE district END,
-                    province = CASE WHEN ? = 3 THEN NULL ELSE province END,
-                    municipality = CASE WHEN ? = 3 THEN NULL ELSE municipality END,
-                    ward = CASE WHEN ? = 3 THEN NULL ELSE ward END,
-                    place_admin_level = CASE WHEN ? = 3 THEN NULL ELSE place_admin_level END,
-                    place_name_raw = CASE WHEN ? = 3 THEN NULL ELSE place_name_raw END,
-                    place_candidates_json = CASE WHEN ? = 3 THEN NULL ELSE place_candidates_json END,
-                    deaths = CASE WHEN ? = 3 THEN NULL ELSE deaths END,
-                    missing = CASE WHEN ? = 3 THEN NULL ELSE missing END,
-                    injured = CASE WHEN ? = 3 THEN NULL ELSE injured END,
-                    trigger = CASE WHEN ? = 3 THEN NULL ELSE trigger END,
                     conf_class = CASE
                         WHEN ? IS NULL THEN conf_class
                         WHEN ? = 3 THEN MAX(COALESCE(conf_class, 0.0), 0.95)
                         ELSE MAX(COALESCE(conf_class, 0.0), 0.8)
-                    END,
-                    conf_date = CASE WHEN ? = 3 THEN 0.0 ELSE conf_date END,
-                    conf_district = CASE WHEN ? = 3 THEN 0.0 ELSE conf_district END,
-                    conf_place = CASE WHEN ? = 3 THEN 0.0 ELSE conf_place END,
-                    conf_fatalities = CASE WHEN ? = 3 THEN 0.0 ELSE conf_fatalities END,
-                    conf_trigger = CASE WHEN ? = 3 THEN 0.0 ELSE conf_trigger END
+                    END
                 WHERE url = ?
                 """,
                 (
                     decision.specificity_ok,
                     decision.specificity_reason,
                     decision.specificity_score,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
-                    decision.updated_class,
                     decision.updated_class,
                     decision.updated_class,
                     decision.updated_class,
@@ -424,6 +452,10 @@ def decide_specificity(
         PRIMARY_NON_LANDSLIDE_INCIDENT_PATTERN.search(title) is not None
         and LANDSLIDE_CAUSED_INCIDENT_PATTERN.search(primary_incident_text) is None
     )
+    unrelated_primary_hazard = (
+        PRIMARY_NON_LANDSLIDE_HAZARD_PATTERN.search(title) is not None
+        and TITLE_HAZARD_PATTERN.search(title) is None
+    )
     has_out_of_country = _has_out_of_country_signal(row, combined_cf)
     has_metaphor = _has_metaphor_signal(combined_cf, extra_exclude_terms)
     has_relative_date_phrase = bool(DATE_PHRASE_PATTERN.search(combined) or NP_DATE_PHRASE_PATTERN.search(combined))
@@ -432,10 +464,19 @@ def decide_specificity(
     granularity = classify_event_granularity(title, text)
     article_role = classify_article_role(title, text)
     direct_event_title = _has_direct_event_title(title_cf)
+    forecast_lead = f'{title}\n{text[:900]}'
+    has_forecast_only = not direct_event_title and (
+        FORECAST_ONLY_PATTERN.search(forecast_lead) is not None
+        or (
+            FORECAST_AUTHORITY_PATTERN.search(forecast_lead) is not None
+            and FUTURE_HAZARD_PATTERN.search(forecast_lead) is not None
+        )
+    )
+    has_risk_only = has_risk_only or has_forecast_only
     if has_roundup and direct_event_title and has_location_anchor and (has_valid_date or has_relative_date_phrase or has_casualty_signal):
-        if not REGIONAL_BREAKDOWN_PATTERN.search(combined_cf) and not NATIONWIDE_ROUNDUP_PATTERN.search(combined_cf) and 'separate incident' not in combined_cf and ROUNDUP_CONNECTOR_PATTERN.search(combined_cf) is None:
+        if not REGIONAL_BREAKDOWN_PATTERN.search(combined_cf) and not NATIONWIDE_ROUNDUP_PATTERN.search(combined_cf) and 'separate incident' not in combined_cf and ROUNDUP_CONNECTOR_PATTERN.search(combined_cf) is None and DISTINCT_INCIDENT_CONNECTOR_PATTERN.search(combined_cf) is None:
             has_roundup = False
-    if has_risk_only and has_location_anchor and (has_valid_date or has_relative_date_phrase) and (
+    if has_risk_only and not has_forecast_only and has_location_anchor and (has_valid_date or has_relative_date_phrase) and (
         has_casualty_signal
         or direct_event_title
         or CONFIRMED_IMPACT_PATTERN.search(combined) is not None
@@ -503,7 +544,7 @@ def decide_specificity(
         return SpecificityDecision(0, 'out_of_country', score, _downgraded_class(row.event_class, 'out_of_country'))
     if has_metaphor:
         return SpecificityDecision(0, 'metaphor', score, _downgraded_class(row.event_class, 'metaphor'))
-    if has_non_event_purpose or unrelated_primary_incident:
+    if has_non_event_purpose or unrelated_primary_incident or unrelated_primary_hazard:
         return SpecificityDecision(0, 'context_only', score, _downgraded_class(row.event_class, 'context_only'))
     if (
         has_context_only
@@ -645,9 +686,15 @@ def _has_roundup_signal(text_casefold: str) -> bool:
         return True
     if NP_COUNT_REACHED_PATTERN.search(text_casefold) is not None or NP_PERIOD_SUMMARY_PATTERN.search(text_casefold) is not None:
         return True
+    if LONG_PERIOD_DISASTER_SUMMARY_PATTERN.search(text_casefold) is not None:
+        return True
+    if NP_MULTI_HAZARD_AGGREGATE_PATTERN.search(text_casefold) is not None:
+        return True
     if MULTI_DISTRICT_PATTERN.search(text_casefold) is not None or NATIONWIDE_ROUNDUP_PATTERN.search(text_casefold) is not None:
         return True
     if 'in a separate incident' in text_casefold or 'separate incidents of landslides' in text_casefold:
+        return True
+    if DISTINCT_INCIDENT_CONNECTOR_PATTERN.search(text_casefold) is not None:
         return True
     if ROUNDUP_CONNECTOR_PATTERN.search(text_casefold) is not None:
         return True
@@ -698,7 +745,10 @@ def _has_metaphor_signal(text_casefold: str, extra_terms: Sequence[str] = ()) ->
         return True
     if any(pattern.casefold() in text_casefold for pattern in METAPHOR_PATTERNS):
         return True
-    return METAPHOR_ELECTORAL_PATTERN.search(text_casefold) is not None
+    return (
+        METAPHOR_ELECTORAL_PATTERN.search(text_casefold) is not None
+        or METAPHOR_PARTY_PATTERN.search(text_casefold) is not None
+    )
 
 
 def metaphor_exclude_terms(config: AppConfig) -> tuple[str, ...]:

@@ -18,6 +18,7 @@ from ..nlp_counts import (
 )
 from ..gazetteer_municipality import municipality_to_district, normalize_municipality
 from ..preprocess.dates import bs_to_ad, detect_bs_date, devanagari_to_ascii_digits
+from ..unify.event_typing import ROLE_FIRST_REPORT, classify_article_role
 from .places import extract_place_np
 
 NP_WARD_CAPTURE_PATTERN = re.compile(r'(?:वडा\s*नं\.?\s*([०-९0-9]+)|([०-९0-9]+)\s*वडा)')
@@ -35,6 +36,14 @@ NP_DIRECT_EVENT_TITLE_PATTERN = re.compile(
 NP_PREVIOUS_DAY_PATTERN = re.compile(r'(?:गएराति(?!देखि)|गए राति(?!देखि)|हिजो|अघिल्लो राति)')
 NP_PREVIOUS_EVENT_SINCE_PATTERN = re.compile(r'(?:गएरातिदेखि|गए रातिदेखि)[^.]{0,100}(?:अवरुद्ध|बन्द|ठप्प|सञ्चालनमा रोक|सवारी अलपत्र)')
 NP_SAME_DAY_PATTERN = re.compile(r'(?:आज|आज बिहान|आज दिउँसो|आज राति)')
+NP_SAME_DAY_EVENT_PATTERN = re.compile(
+    r'आज\s*(?:बिहान|दिउँसो|बेलुकी|राति)?[^।\n]{0,80}'
+    r'(?:पहिरो|भूस्खलन|लेदो|ढिस्को)[^।\n]{0,50}'
+    r'(?:खस|गयो|आयो|पुरि|बगायो|अवरुद्ध)'
+    r'|(?:पहिरो|भूस्खलन|लेदो|ढिस्को)[^।\n]{0,50}'
+    r'(?:खस|गयो|आयो|पुरि|बगायो|अवरुद्ध)[^।\n]{0,80}'
+    r'आज\s*(?:बिहान|दिउँसो|बेलुकी|राति)?'
+)
 NP_WEEKDAY_NAMES = ('सोमबार', 'मंगलबार', 'मङ्गलबार', 'बुधबार', 'बुधवार', 'बिहीबार', 'बिहिबार', 'शुक्रबार', 'शनिबार', 'शनिवार', 'आइतबार', 'आइतवार')
 NP_WEEKDAY_INDEX = {name: idx for idx, name in enumerate(('सोमबार', 'मंगलबार', 'बुधबार', 'बिहीबार', 'शुक्रबार', 'शनिबार', 'आइतबार'))}
 NP_WEEKDAY_INDEX.update({
@@ -50,11 +59,27 @@ NP_EXPLICIT_TIME_PATTERN = re.compile(
     r'(?:साढे\s*)?[०-९0-9]{1,2}(?:\s*[:ः]\s*[०-९0-9]{1,2})?\s*बजे(?:तिर|देखि(?:नै)?|सम्म)?)'
 )
 NP_FOLLOWUP_TITLE_PATTERN = re.compile(r'(अघि|नियन्त्रण|राहत|सहयोग|अस्थायी आवास|शव फेला|उपचार|पुनःस्थापन|वितरण)')
+NP_FRESH_EVENT_TITLE_PATTERN = re.compile(
+    r'फेरि[^\n]{0,80}(?:पहिरो|भूस्खलन|अवरुद्ध|बन्द)'
+    r'|(?:पहिरो|भूस्खलन)[^\n]{0,80}फेरि'
+    r'|पुनः[^\n]{0,80}(?:अवरुद्ध|बन्द|ठप्प)'
+)
 NP_DAY_MONTH_NO_YEAR_PATTERN = re.compile(
     r'(?<!\d)([०-९0-9]{1,2})\s*(बैशाख|वैशाख|जेठ|असार|साउन|भदौ|असोज|कात्तिक|कार्तिक|मंसिर|पुष|पुस|माघ|फागुन|चैत)(?=(?:,|\s|$))'
 )
 NP_MONTH_DAY_NO_YEAR_PATTERN = re.compile(
     r'(बैशाख|वैशाख|जेठ|असार|साउन|भदौ|असोज|कात्तिक|कार्तिक|मंसिर|पुष|पुस|माघ|फागुन|चैत)\s*([०-९0-9]{1,2})(?:\s*गते)?'
+)
+NP_KATHMANDU_DATELINE_PATTERN = re.compile(
+    r'(?:^|\n)\s*(?:[०-९0-9]{1,2}\s+[^,।\n]{1,20},\s*)?'
+    r'(?:काठमाडौं|काठमाडौँ|काठमाण्डौ)\s*[।:—,-]',
+    re.MULTILINE,
+)
+NP_EVENT_SITE_DISTRICTS: tuple[tuple[re.Pattern[str], str], ...] = (
+    # Charchare is in Tinau-5, Palpa. Keep event-site aliases separate from
+    # district aliases: the place name is evidence for a district, but is not
+    # itself an alternate district name.
+    (re.compile(r'चर(?:चरे|ाचरे|्चरे)'), 'Palpa'),
 )
 
 
@@ -130,7 +155,11 @@ def extract_np(
         place_admin_level = 'ward'
 
     event_date_ad, conf_date = _resolve_event_date(combined, published_date_ad, published_year_hint)
-    deaths, missing, injured, conf_fatalities = _extract_casualties(combined, keyword_bundle['casualty_terms'])
+    deaths, missing, injured, conf_fatalities = _extract_casualties(
+        combined,
+        keyword_bundle['casualty_terms'],
+        allow_full_body=NP_FRESH_EVENT_TITLE_PATTERN.search(title) is None,
+    )
     trigger, conf_trigger = _extract_trigger(combined, keyword_bundle['trigger_terms'])
     event_class, conf_class = _classify_event(
         combined=combined,
@@ -217,10 +246,8 @@ def _event_anchored_municipalities_np(
     """Return a unanimous district from municipalities in failure context."""
 
     if (
-        explicit_district != 'Kathmandu'
-        or re.search(r'पहिरो|भूस्खलन|बाढीपहिरो', title) is None
-        or re.search(r'सडक|राजमार्ग|लोकमार्ग|मार्ग|करिडोर', title) is None
-        or re.search(r'अवरुद्ध|अवरूद्ध|बन्द|ठप्प|सञ्चालन', title) is None
+        explicit_district is None
+        or re.search(r'पहिरो|भूस्खलन|बाढीपहिरो|लेदो|ढिस्को', title) is None
     ):
         return None, []
     lead = _lead_window(text, limit=1000)
@@ -278,9 +305,17 @@ def _find_explicit_district_np(text: str, district_normalizer: GazetteerFunc) ->
         if is_person_attribution(text, match.start(1), match.end(1), 'np'):
             continue
         return normalized
+    event_site_district = _find_event_site_district_np(text)
+    if event_site_district is not None:
+        return event_site_district
     place = extract_place_np(text)
     if place.place_admin_level == 'district' and place.district is not None:
         if place.district == 'Kathmandu':
+            alternatives = _non_dateline_district_candidates_np(text, place, district_normalizer)
+            if len(alternatives) == 1:
+                return next(iter(alternatives))
+            if len(alternatives) > 1:
+                return None
             for municipality_match in NP_MUNICIPALITY_PATTERN.finditer(_lead_window(text)):
                 municipality = normalize_municipality(municipality_match.group(1), 'np')
                 mapped_district = municipality_to_district(municipality) if municipality is not None else None
@@ -288,6 +323,43 @@ def _find_explicit_district_np(text: str, district_normalizer: GazetteerFunc) ->
                     return mapped_district
         return place.district
     return None
+
+
+def _find_event_site_district_np(text: str) -> str | None:
+    """Resolve a small set of audited event sites that lack admin wording."""
+
+    lead = _lead_window(text, limit=1000)
+    for pattern, district in NP_EVENT_SITE_DISTRICTS:
+        for match in pattern.finditer(lead):
+            context = lead[max(0, match.start() - 120) : match.end() + 120]
+            if re.search(r'पहिरो|भूस्खलन|लेदो|ढिस्को', context) and re.search(
+                r'खस|गए|आयो|पुरि|बगायो|अवरुद्ध', context
+            ):
+                return district
+    return None
+
+
+def _non_dateline_district_candidates_np(
+    text: str,
+    place: Any,
+    district_normalizer: GazetteerFunc,
+) -> set[str]:
+    """Return body districts only when Kathmandu is clearly a filing dateline."""
+
+    if NP_KATHMANDU_DATELINE_PATTERN.search(text) is None:
+        return set()
+    try:
+        raw_candidates = json.loads(place.place_candidates_json)
+    except Exception:
+        return set()
+    districts: set[str] = set()
+    for candidate in raw_candidates:
+        if not isinstance(candidate, str):
+            continue
+        normalized = district_normalizer(candidate)
+        if normalized and normalized != 'Kathmandu':
+            districts.add(normalized)
+    return districts
 
 
 def _find_explicit_municipality_np(text: str, municipality_normalizer: GazetteerFunc) -> str | None:
@@ -376,6 +448,20 @@ def _resolve_event_date(
     published_year_hint: int | None,
 ) -> tuple[str | None, float]:
     lead_window = _lead_window(text, limit=1000)
+    title = text.splitlines()[0] if text else ''
+    article_role = classify_article_role(title, text)
+    if published_date_ad:
+        for sentence in re.split(r'(?<=[।!?])\s+', lead_window):
+            if NP_SAME_DAY_EVENT_PATTERN.search(sentence):
+                return published_date_ad, 0.88
+    if article_role != ROLE_FIRST_REPORT:
+        historical_date, historical_conf = _extract_event_linked_explicit_date_np(
+            text,
+            published_year_hint,
+            published_date_ad,
+        )
+        if historical_date is not None and historical_date != published_date_ad:
+            return historical_date, historical_conf
     anchor_value, anchor_conf = _extract_explicit_anchor_date(lead_window, published_year_hint)
     if anchor_value is None and _should_search_full_text_for_anchor(text):
         anchor_value, anchor_conf = _extract_explicit_anchor_date(text, published_year_hint)
@@ -387,13 +473,66 @@ def _resolve_event_date(
         anchor_date = date.fromisoformat(anchor_value)
     except ValueError:
         return None, 0.0
+    if published_date_ad:
+        try:
+            published_date = date.fromisoformat(published_date_ad)
+        except ValueError:
+            published_date = None
+        if published_date is not None and anchor_date > published_date:
+            anchor_date = published_date
+            anchor_value = published_date_ad
+            anchor_conf = 0.6
+
+    # A page dateline can look like an explicit high-confidence BS date.  If it
+    # resolves to the known publication day, it is still not evidence of the
+    # event day in a follow-up or retrospective article.
+    publication_fallback = bool(
+        published_date_ad and anchor_value == published_date_ad
+    )
 
     same_day_match = NP_SAME_DAY_PATTERN.search(lead_window)
     previous_day_match = NP_PREVIOUS_DAY_PATTERN.search(lead_window)
     previous_event_since_match = NP_PREVIOUS_EVENT_SINCE_PATTERN.search(lead_window)
     direct_event_signal = NP_DIRECT_EVENT_TITLE_PATTERN.search(lead_window) is not None
 
-    if same_day_match and (not previous_day_match or direct_event_signal):
+    if publication_fallback and article_role != ROLE_FIRST_REPORT:
+        for sentence in re.split(r'(?<=[।!?])\s+', lead_window):
+            if (
+                NP_SAME_DAY_PATTERN.search(sentence)
+                and re.search(r'पहिरो|भूस्खलन|लेदो|ढिस्को', sentence)
+                and re.search(r'खस|गयो|आयो|पुरि|बगायो|अवरुद्ध|क्षति', sentence)
+            ):
+                return anchor_date.isoformat(), max(anchor_conf, 0.8)
+        event_weekday = None
+        for sentence in re.split(r'(?<=[।!?])\s+', lead_window):
+            weekday = NP_WEEKDAY_PATTERN.search(sentence)
+            if (
+                weekday
+                and re.search(r'पहिरो|भूस्खलन|लेदो|ढिस्को', sentence)
+                and re.search(r'खस|गए|गयो|आयो|पुरि|बगायो|अवरुद्ध', sentence)
+            ):
+                event_weekday = weekday.group(1)
+                previous_weekday = re.search(r'गत\s*$', sentence[:weekday.start()]) is not None
+                break
+        if event_weekday:
+            inferred = _infer_weekday_date(anchor_date, event_weekday)
+            if inferred is not None:
+                if previous_weekday and inferred == anchor_date:
+                    inferred -= timedelta(days=7)
+                return inferred.isoformat(), max(anchor_conf, 0.78)
+        for sentence in re.split(r'(?<=[।!?])\s+', lead_window):
+            if (
+                re.search(r'हिजो|गएराति|गए राति|अघिल्लो रात', sentence)
+                and re.search(r'पहिरो|भूस्खलन|लेदो|ढिस्को', sentence)
+                and re.search(r'खस|गए|गयो|आयो|पुरि|बगायो', sentence)
+            ):
+                return (anchor_date - timedelta(days=1)).isoformat(), max(anchor_conf, 0.82)
+        return None, 0.0
+
+    if (
+        same_day_match
+        and (not previous_day_match or direct_event_signal)
+    ):
         return anchor_date.isoformat(), max(anchor_conf, 0.8)
     if previous_day_match:
         return (anchor_date - timedelta(days=1)).isoformat(), max(anchor_conf, 0.82)
@@ -476,9 +615,40 @@ def _casualty_scope(text: str, lead_chars: int = 400) -> str:
     return '\n'.join(lines[:2])[:lead_chars] or text[:lead_chars]
 
 
-def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tuple[int | None, int | None, int | None, float]:
+def _fresh_event_casualty_scope(text: str) -> str:
+    """Keep a renewed event's toll separate from older incidents in its body."""
+
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if not lines:
+        return ''
+    title = lines[0]
+    body = ' '.join(lines[1:])
+    for sentence in re.split(r'(?<=[।!?])\s+', body):
+        if (
+            re.search(r'पहिरो|भूस्खलन|लेदो|ढिस्को', sentence)
+            and re.search(r'खस|गयो|आयो|पुरि|बगायो|अवरुद्ध|बन्द|ठप्प', sentence)
+        ):
+            return f'{title}\n{sentence}'
+    return title
+
+
+def _extract_casualties(
+    text: str,
+    casualty_terms: dict[str, list[str]],
+    *,
+    allow_full_body: bool = True,
+) -> tuple[int | None, int | None, int | None, float]:
     normalized_text = devanagari_to_ascii_digits(text)
-    casualty_scope = _casualty_scope(normalized_text)
+    casualty_scope = (
+        _casualty_scope(normalized_text)
+        if allow_full_body
+        else _fresh_event_casualty_scope(normalized_text)
+    )
+    search_scopes = (
+        (casualty_scope, normalized_text)
+        if allow_full_body
+        else (casualty_scope,)
+    )
     values = {
         'deaths': None,
         'missing': None,
@@ -516,7 +686,7 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         best_conf = 0.0
         # See the English extractor: lead first, full body only as a fallback,
         # first match rather than largest, running totals vetoed.
-        for search_text in (casualty_scope, normalized_text):
+        for search_text in search_scopes:
             if best_value is not None:
                 break
             for pattern in patterns:
@@ -542,7 +712,10 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         confidence = max(confidence, best_conf)
 
     if values['deaths'] is None:
-        recovered, recovered_conf = _deaths_from_body_recovery(normalized_text, casualty_scope)
+        recovered, recovered_conf = _deaths_from_body_recovery(
+            normalized_text if allow_full_body else casualty_scope,
+            casualty_scope,
+        )
         if recovered is not None:
             values['deaths'] = recovered
             confidence = max(confidence, recovered_conf)
@@ -553,7 +726,7 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
         kinship_pair_death = re.search(
             r'(?:आमा\s*[-–—]?\s*छोरी|बाबु\s*[-–—]?\s*छोरा|'
             r'आमा\s*[-–—]?\s*छोरा|बाबु\s*[-–—]?\s*छोरी)को\s*मृत्यु',
-            normalized_text,
+            normalized_text if allow_full_body else casualty_scope,
         )
         if kinship_pair_death is not None:
             values['deaths'] = 2
@@ -573,7 +746,11 @@ def _extract_casualties(text: str, casualty_terms: dict[str, list[str]]) -> tupl
     if not any(value is not None for value in values.values()):
         # Only now, with nothing counted anywhere, may an explicit statement
         # that nobody was harmed be recorded as a zero. See nlp_counts.
-        if explicit_zero_is_safe(text, 'np', extracted_any_count=False):
+        if explicit_zero_is_safe(
+            text if allow_full_body else casualty_scope,
+            'np',
+            extracted_any_count=False,
+        ):
             return 0, None, None, 0.88
         confidence = 0.0
     return values['deaths'], values['missing'], values['injured'], confidence
@@ -736,6 +913,39 @@ def _extract_explicit_anchor_date(
         hinted = _infer_bs_no_year_date(text, published_year_hint)
         if hinted is not None:
             return hinted, 0.88
+    return None, 0.0
+
+
+def _extract_event_linked_explicit_date_np(
+    text: str,
+    published_year_hint: int | None,
+    published_date_ad: str | None = None,
+) -> tuple[str | None, float]:
+    """Find a historical date in the sentence that describes the event."""
+
+    for sentence in re.split(r'(?<=[।!?])\s+|\n+', text):
+        anchor_value, anchor_conf = _extract_explicit_anchor_date(
+            sentence,
+            published_year_hint,
+        )
+        if anchor_value is None:
+            continue
+        if published_date_ad is not None:
+            try:
+                if date.fromisoformat(anchor_value) > date.fromisoformat(published_date_ad):
+                    continue
+            except ValueError:
+                continue
+        hazard_action = bool(
+            re.search(r'पहिरो|भूस्खलन|लेदो|ढिस्को', sentence)
+            and re.search(r'खस|गए|गयो|आयो|पुरि|बगायो|क्षति|मृत्यु', sentence)
+        )
+        direct_impact = re.search(
+            r'(?:यात्रु|गाडी|घर|व्यक्ति|जन)[^।]{0,80}(?:पुरि|बगायो|मृत्यु)',
+            sentence,
+        )
+        if hazard_action or direct_impact:
+            return anchor_value, max(anchor_conf, 0.88)
     return None, 0.0
 
 

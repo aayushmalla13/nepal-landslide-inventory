@@ -153,8 +153,8 @@ def run_filter_scope_stage(config: AppConfig) -> int:
         ensure_decisions_table(connection)
         for row in rows:
             decision = decide_scope(row, devanagari_threshold)
-            # See event_specificity: preserve the pre-mutation snapshot before
-            # the demotion UPDATE below discards it.
+            # Keep an immutable decision-time snapshot while preserving the
+            # extractor's evidence fields for reproducible reruns and audits.
             record_decision(
                 connection,
                 url=row.url,
@@ -186,46 +186,12 @@ def run_filter_scope_stage(config: AppConfig) -> int:
                     scope_reason = ?,
                     class = COALESCE(?, class),
                     event_class = COALESCE(?, event_class),
-                    event_date_ad = CASE WHEN ? = 3 THEN NULL ELSE event_date_ad END,
-                    district = CASE WHEN ? = 3 THEN NULL ELSE district END,
-                    province = CASE WHEN ? = 3 THEN NULL ELSE province END,
-                    municipality = CASE WHEN ? = 3 THEN NULL ELSE municipality END,
-                    ward = CASE WHEN ? = 3 THEN NULL ELSE ward END,
-                    place_admin_level = CASE WHEN ? = 3 THEN NULL ELSE place_admin_level END,
-                    place_name_raw = CASE WHEN ? = 3 THEN NULL ELSE place_name_raw END,
-                    place_candidates_json = CASE WHEN ? = 3 THEN NULL ELSE place_candidates_json END,
-                    deaths = CASE WHEN ? = 3 THEN NULL ELSE deaths END,
-                    missing = CASE WHEN ? = 3 THEN NULL ELSE missing END,
-                    injured = CASE WHEN ? = 3 THEN NULL ELSE injured END,
-                    trigger = CASE WHEN ? = 3 THEN NULL ELSE trigger END,
-                    conf_class = CASE WHEN ? IS NULL THEN conf_class ELSE MAX(COALESCE(conf_class, 0.0), 0.95) END,
-                    conf_date = CASE WHEN ? = 3 THEN 0.0 ELSE conf_date END,
-                    conf_district = CASE WHEN ? = 3 THEN 0.0 ELSE conf_district END,
-                    conf_place = CASE WHEN ? = 3 THEN 0.0 ELSE conf_place END,
-                    conf_fatalities = CASE WHEN ? = 3 THEN 0.0 ELSE conf_fatalities END,
-                    conf_trigger = CASE WHEN ? = 3 THEN 0.0 ELSE conf_trigger END
+                    conf_class = CASE WHEN ? IS NULL THEN conf_class ELSE MAX(COALESCE(conf_class, 0.0), 0.95) END
                 WHERE url = ?
                 """,
                 (
                     decision.in_nepal,
                     decision.scope_reason,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
-                    updated_class,
                     updated_class,
                     updated_class,
                     updated_class,

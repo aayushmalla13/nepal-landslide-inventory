@@ -13,6 +13,7 @@ from landslide_inventory.unify.dedup_stage import (
     load_dedup_events,
     run_dedup_stage,
 )
+from landslide_inventory.unify.similarity import TfidfIndex
 
 
 def _insert_raw_article(connection: sqlite3.Connection, url: str, source: str, title: str, text: str) -> None:
@@ -40,6 +41,8 @@ def _insert_article_event(
     deaths: int | None = None,
     ward: str | None = None,
     place_name_raw: str | None = None,
+    specificity_ok: int = 1,
+    specificity_reason: str = 'event_specific',
 ) -> None:
     connection.execute(
         """
@@ -49,9 +52,10 @@ def _insert_article_event(
             district, province, municipality, ward, place_admin_level,
             place_name_raw, place_candidates_json, deaths, missing, injured,
             trigger, conf_class, conf_date, conf_district, conf_place,
-            conf_fatalities, conf_trigger, extracted_at, in_nepal, scope_reason
+            conf_fatalities, conf_trigger, extracted_at, in_nepal, scope_reason,
+            specificity_ok, specificity_reason
         ) VALUES (?, ?, ?, ?, ?, ?, ?, 'en', 0, ?, ?, ?, ?, ?, ?, 'municipality', ?, '[]', ?, NULL, NULL,
-                  'rainfall', 0.95, 0.95, 0.9, 0.88, 0.9, 0.9, '2024-07-16T00:00:00+00:00', ?, 'district_match')
+                  'rainfall', 0.95, 0.95, 0.9, 0.88, 0.9, 0.9, '2024-07-16T00:00:00+00:00', ?, 'district_match', ?, ?)
         ON CONFLICT(url) DO UPDATE SET
             source = excluded.source,
             title = excluded.title,
@@ -64,12 +68,15 @@ def _insert_article_event(
             place_name_raw = excluded.place_name_raw,
             deaths = excluded.deaths,
             in_nepal = excluded.in_nepal,
-            scope_reason = excluded.scope_reason
+            scope_reason = excluded.scope_reason,
+            specificity_ok = excluded.specificity_ok,
+            specificity_reason = excluded.specificity_reason
         """,
         (
             f'extract-{url}', url, event_class, '{}',
             url, source, title, event_class, event_date_ad, district,
             'Bagmati' if district else None, municipality, ward, place_name_raw or municipality or title, deaths, in_nepal,
+            specificity_ok, specificity_reason,
         ),
     )
 
@@ -93,6 +100,106 @@ def test_duplicates_across_sources_merge(config_file: Path) -> None:
     assert canonical_count == 1
     assert [row[0] for row in cluster_sizes] == [2]
     assert unclustered == 0
+
+
+def test_similar_reports_cannot_chain_beyond_maximum_cluster_span(config_file: Path) -> None:
+    config = load_config(config_file)
+    initialize_sqlite(config.sqlite_path)
+    with connect_sqlite(config.sqlite_path) as connection:
+        for day in (16, 17, 18):
+            url = f'https://chain.test/{day}'
+            title = 'Dhading landslide kills 3'
+            body = 'A landslide in Dhading district killed 3 people after heavy rain.'
+            _insert_raw_article(connection, url, 'source-a', title, body)
+            _insert_article_event(
+                connection, url=url, source='source-a', title=title,
+                event_class=1, in_nepal=1, event_date_ad=f'2024-07-{day}',
+                district='Dhading', municipality='Nilkantha Municipality', deaths=3,
+            )
+        connection.commit()
+
+    events = load_dedup_events(config.sqlite_path)
+    clusters, _ = cluster_events(events, build_dedup_config(config))
+
+    assert sorted(len(cluster) for cluster in clusters) == [1, 2]
+    assert all(
+        (max(event.event_date for event in cluster) - min(event.event_date for event in cluster)).days <= 1
+        for cluster in clusters
+    )
+
+
+def test_cross_date_text_similarity_without_factual_match_does_not_merge(config_file: Path) -> None:
+    config = load_config(config_file)
+    initialize_sqlite(config.sqlite_path)
+    with connect_sqlite(config.sqlite_path) as connection:
+        first = 'A landslide blocked the Narayangadh Mugling road after overnight rain.'
+        second = 'After heavy rain, another landslide blocked traffic on the Narayangadh Mugling road.'
+        _insert_raw_article(connection, 'https://road.test/1', 'source-a', 'Road blocked by landslide', first)
+        _insert_raw_article(connection, 'https://road.test/2', 'source-a', 'Landslide blocks the road again', second)
+        _insert_article_event(
+            connection, url='https://road.test/1', source='source-a',
+            title='Road blocked by landslide', event_class=1, in_nepal=1,
+            event_date_ad='2024-07-16', district='Chitwan', municipality=None,
+        )
+        _insert_article_event(
+            connection, url='https://road.test/2', source='source-a',
+            title='Landslide blocks the road again', event_class=1, in_nepal=1,
+            event_date_ad='2024-07-17', district='Chitwan', municipality=None,
+        )
+        connection.commit()
+
+    events = load_dedup_events(config.sqlite_path)
+    clusters, _ = cluster_events(events, build_dedup_config(config))
+
+    assert len(clusters) == 2
+
+
+def test_conflicting_casualties_veto_an_otherwise_identical_merge(config_file: Path) -> None:
+    config = load_config(config_file)
+    initialize_sqlite(config.sqlite_path)
+    with connect_sqlite(config.sqlite_path) as connection:
+        for suffix, deaths in (('a', 1), ('b', 4)):
+            url = f'https://casualty.test/{suffix}'
+            title = 'Fatal landslide in Nilkantha'
+            body = 'A fatal landslide struck Nilkantha Municipality after heavy rain.'
+            _insert_raw_article(connection, url, f'source-{suffix}', title, body)
+            _insert_article_event(
+                connection, url=url, source=f'source-{suffix}', title=title,
+                event_class=1, in_nepal=1, event_date_ad='2024-07-16',
+                district='Dhading', municipality='Nilkantha Municipality', deaths=deaths,
+            )
+        connection.commit()
+
+    events = load_dedup_events(config.sqlite_path)
+    clusters, _ = cluster_events(events, build_dedup_config(config))
+
+    assert len(clusters) == 2
+
+
+def test_same_day_factual_evidence_recovers_a_textual_miss(config_file: Path) -> None:
+    config = load_config(config_file)
+    initialize_sqlite(config.sqlite_path)
+    with connect_sqlite(config.sqlite_path) as connection:
+        rows = (
+            ('https://recovery.test/a', 'Rescuers locate family after Nilkantha landslide',
+             'Emergency crews reached the damaged Nilkantha home.', 'source-a'),
+            ('https://recovery.test/b', 'Two fatalities confirmed in Dhading landslide',
+             'Police confirmed the victims at the Nilkantha home late Tuesday.', 'source-b'),
+        )
+        for url, title, body, source in rows:
+            _insert_raw_article(connection, url, source, title, body)
+            _insert_article_event(
+                connection, url=url, source=source, title=title,
+                event_class=1, in_nepal=1, event_date_ad='2024-07-16',
+                district='Dhading', municipality='Nilkantha Municipality', deaths=2,
+            )
+        connection.commit()
+
+    events = load_dedup_events(config.sqlite_path)
+    tfidf = TfidfIndex(event.body_text for event in events)
+    clusters, _ = cluster_events(events, build_dedup_config(config), tfidf)
+
+    assert len(clusters) == 1
 
 
 def test_same_district_close_dates_different_municipalities_do_not_merge(config_file: Path) -> None:
@@ -167,6 +274,35 @@ def test_cluster_events_includes_typed_single_class_two_road_rows(config_file: P
     assert events[0].event_class == 2
     assert events[0].event_type == 'road_obstruction'
     assert len(clusters) == 1
+
+
+def test_specificity_rejected_class_two_row_is_excluded_from_dedup(config_file: Path) -> None:
+    config = load_config(config_file)
+    initialize_sqlite(config.sqlite_path)
+    with connect_sqlite(config.sqlite_path) as connection:
+        _insert_raw_article(
+            connection,
+            'https://a.test/roundup',
+            'source-a',
+            'Landslides block roads in several districts',
+            'Separate landslides blocked roads in several districts after rain.',
+        )
+        _insert_article_event(
+            connection,
+            url='https://a.test/roundup',
+            source='source-a',
+            title='Landslides block roads in several districts',
+            event_class=2,
+            in_nepal=1,
+            event_date_ad='2024-07-16',
+            district='Dhading',
+            municipality=None,
+            specificity_ok=0,
+            specificity_reason='roundup',
+        )
+        connection.commit()
+
+    assert load_dedup_events(config.sqlite_path) == []
 
 
 def test_cluster_events_excludes_multi_event_class_two_rows(config_file: Path) -> None:

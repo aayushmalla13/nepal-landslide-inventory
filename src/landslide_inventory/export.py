@@ -66,6 +66,34 @@ FINAL_COLUMNS = [
 DEFAULT_FILENAME = 'canonical_events_final.csv'
 
 
+def assert_event_typing_complete(connection) -> None:
+    """Refuse a paper-facing export when the downstream typing stage was skipped."""
+
+    columns = {
+        str(row[1]) for row in connection.execute('PRAGMA table_info(canonical_events)')
+    }
+    required = {'event_type', 'hazard_type', 'event_granularity', 'article_role'}
+    if not required.issubset(columns):
+        raise RuntimeError(
+            'Canonical event typing columns are absent; run --stage event_typing '
+            'before --stage export_final.'
+        )
+    incomplete = connection.execute(
+        """
+        SELECT COUNT(*) FROM canonical_events
+        WHERE event_type IS NULL OR TRIM(event_type) = ''
+           OR hazard_type IS NULL OR TRIM(hazard_type) = ''
+           OR event_granularity IS NULL OR TRIM(event_granularity) = ''
+           OR article_role IS NULL OR TRIM(article_role) = ''
+        """
+    ).fetchone()[0]
+    if incomplete:
+        raise RuntimeError(
+            f'{incomplete} canonical events lack completed event typing; run '
+            '--stage event_typing before --stage export_final.'
+        )
+
+
 def _compact_json(raw: str | None) -> str | None:
     """Re-serialize a JSON column with compact separators.
 
@@ -255,6 +283,7 @@ def run_export_final_stage(config: AppConfig) -> dict[str, Any]:
     target = outputs_dir / DEFAULT_FILENAME
 
     with connect_sqlite(config.sqlite_path) as connection:
+        assert_event_typing_complete(connection)
         rows = build_final_rows(connection)
 
     if not rows:

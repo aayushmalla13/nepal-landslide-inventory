@@ -1,5 +1,59 @@
 # Rainfall analysis changelog
 
+## v1.0.0 - 2026-10-04
+
+Supersedes `nepal_landslide_rainfall_v0.9.0_20260923`. The canonical input is
+the 2,122-event `nepal_landslide_inventory_v1.5.0_event_detection_validated_20261004`
+release (SHA-256
+`313745c27218be7989764cc9614b71cc69a9549ff05c483247a6c89bd276ae19`).
+The inventory has locked event-existence precision 0.958 (95% CI 0.923-0.986)
+and district accuracy 0.910, but exact-date accuracy 0.753 did not pass its
+prespecified threshold.
+
+Primary case-days decreased from 1,453 to 1,278 and controls from 6,059 to
+5,460. The development-selected concurrent result moved from R5 at 51.6 mm to
+R3 at 31.7 mm; temporal-test AUC is 0.686 (95% CI 0.647-0.722). The strictly
+antecedent co-primary is R3 at 21.0 mm with test AUC 0.646 (0.604-0.682).
+
+Because exact dates remain a known limitation, v1.0.0 adds date shifts of -3
+and +3 days to the existing +/-1-day checks and adds a confidence >=0.90
+subset. The latter contains only 17 cases and is too sparse for a stable
+temporal estimate. Across the deliberate date shifts, the selected concurrent
+threshold ranges from 15.4 to 87.9 mm and the selected window from R3 to R7;
+the result must therefore be presented as an empirical association, not an
+operational threshold.
+
+The case-integrity audit was regenerated from the v1.5 canonical CSV and live
+article evidence. It found no logically impossible case-days and three
+potentially excludable contamination days (0.23%). Removing them changes the
+R3 all-years AUC by 0.0000 and the cutpoint by 0.0 mm.
+
+## v0.9.0 — 2026-09-23
+
+Supersedes `nepal_landslide_rainfall_v0.8.0_20260915`. The rainfall product,
+analysis design, seeds and estimators are unchanged. The sole scientific input
+change is replacement of the 2,885-row v0.6 inventory by the audit-corrected,
+2,872-row v0.8 candidate (canonical SHA-256
+`0822515b56693af22daf2e3cc6e63b178eb41fefa46a8b607a47d6da9efdcd07`).
+
+Primary case-days decreased from 1,508 to 1,453 and controls from 6,164 to
+6,059. The development-selected windows and cutpoints did not move: concurrent
+R5 remains 51.6 mm and strictly antecedent R3 remains 23.7 mm. Concurrent
+temporal-test AUC changed from 0.675 to 0.677; strictly antecedent AUC changed
+from 0.649 to 0.651. These small shifts support the stability of the association
+under the reviewed inventory corrections.
+
+A case-integrity audit flagged 60 of 1,453 case-days (4.13%) as logical
+violations or possible contamination, including 13 event dates after article
+publication. These flags report uncertainty and do not silently alter the
+inventory. A prespecified sensitivity analysis removed each flagged case with
+its matched controls: all R1/R3/R5/R7 all-years cutpoints were unchanged and
+AUC shifts ranged from +0.0015 to +0.0042. The audit, exclusions and sensitivity
+result are now checksummed release artifacts.
+
+The linked inventory remains `pending_fresh_validation`. Rainfall v0.9.0 is
+therefore an analysis of a candidate inventory, not a promoted final result.
+
 ## v0.8.0 — 2026-09-15
 
 Supersedes `nepal_landslide_rainfall_v0.7.0_20260915`. Numerical outputs are

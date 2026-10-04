@@ -110,7 +110,7 @@ def test_the_manuscript_identifies_and_summarizes_the_current_release() -> None:
 
     import yaml
 
-    draft_path = ROOT / "docs" / "RAINFALL_MANUSCRIPT_DRAFT.md"
+    draft_path = ROOT / "docs" / "RAINFALL_MANUSCRIPT_DRAFT_V15.md"
     if not draft_path.exists():
         pytest.skip("manuscript draft absent in this checkout")
     draft = draft_path.read_text(encoding="utf-8")

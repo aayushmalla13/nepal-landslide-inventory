@@ -235,6 +235,48 @@ def _write_csv(path: Path, fieldnames: list[str], rows: Iterable[dict[str, Any]]
     return len(materialized)
 
 
+def write_bipad_input_snapshot(
+    path: Path,
+    events: list[InventoryEvent],
+    details: dict[str, EventDetail],
+) -> int:
+    """Freeze the normalized BIPAD rows that actually enter the comparison."""
+
+    rows = []
+    for event in sorted(
+        events, key=lambda item: (item.event_date, item.district, item.event_id)
+    ):
+        detail = details.get(event.event_id, EventDetail())
+        rows.append(
+            {
+                "bipad_id": event.event_id,
+                "event_date": event.event_date.isoformat(),
+                "district": event.district,
+                "municipality": event.municipality or "",
+                "deaths": "" if event.deaths is None else event.deaths,
+                "missing": "" if detail.missing is None else detail.missing,
+                "injured": "" if detail.injured is None else detail.injured,
+                "title": detail.title or "",
+                "source_url": detail.url or "",
+            }
+        )
+    return _write_csv(
+        path,
+        [
+            "bipad_id",
+            "event_date",
+            "district",
+            "municipality",
+            "deaths",
+            "missing",
+            "injured",
+            "title",
+            "source_url",
+        ],
+        rows,
+    )
+
+
 def write_match_candidates(
     path: Path,
     matches: list[Match],
@@ -463,6 +505,8 @@ def write_summary_report(
     generated_at: str,
     canonical_path: Path,
     canonical_sha256: str,
+    bipad_snapshot_path: Path,
+    bipad_snapshot_sha256: str,
     comparison_end: date,
     news_count: int,
     bipad_raw_count: int,
@@ -484,6 +528,8 @@ def write_summary_report(
         "## Inputs",
         f"- Frozen canonical CSV: {canonical_path}",
         f"- Frozen canonical CSV SHA-256: {canonical_sha256}",
+        f"- Normalized BIPAD input snapshot: {bipad_snapshot_path}",
+        f"- Normalized BIPAD snapshot SHA-256: {bipad_snapshot_sha256}",
         f"- Canonical news events: {news_count}",
         f"- BIPAD rows in the study window: {bipad_raw_count}",
         f"- Harmonized BIPAD incident clusters: {bipad_cluster_count}",
@@ -526,6 +572,9 @@ def run_external_match_stage(config: AppConfig) -> None:
     bipad, bipad_details = load_external_bipad(config.sqlite_path, study_start, study_end)
     if not bipad:
         raise RuntimeError("No in-window BIPAD external records found; run external_collect first.")
+    bipad_snapshot_path = output_dir / "external_bipad_input_snapshot.csv"
+    write_bipad_input_snapshot(bipad_snapshot_path, bipad, bipad_details)
+    bipad_snapshot_sha256 = hashlib.sha256(bipad_snapshot_path.read_bytes()).hexdigest()
     comparison_end = min(study_end, max(event.event_date for event in bipad))
     canonical_value = config.raw.get("analysis", {}).get("canonical_events_path")
     if not canonical_value:
@@ -556,6 +605,11 @@ def run_external_match_stage(config: AppConfig) -> None:
         "canonical_input": {
             "path": str(canonical_reference),
             "sha256": canonical_sha256,
+        },
+        "bipad_input": {
+            "path": str(bipad_snapshot_path.relative_to(config.config_path.parent)),
+            "sha256": bipad_snapshot_sha256,
+            "rows": len(bipad),
         },
         "external_sources": ["bipad", "nasa-coolr"],
         **agreement,
@@ -588,6 +642,8 @@ def run_external_match_stage(config: AppConfig) -> None:
         generated_at=generated_at,
         canonical_path=canonical_reference,
         canonical_sha256=canonical_sha256,
+        bipad_snapshot_path=bipad_snapshot_path.relative_to(config.config_path.parent),
+        bipad_snapshot_sha256=bipad_snapshot_sha256,
         comparison_end=comparison_end,
         news_count=len(news),
         bipad_raw_count=len(bipad),
